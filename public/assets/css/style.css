@@ -23,6 +23,16 @@ html,body{
     margin-bottom: var(--spacing-sm);
 }
 
+.logo-container a {
+    text-decoration: none;
+    display: block;
+}
+
+.logo-link {
+    display: block;
+    text-decoration: none;
+}
+
 
 .main-nav {
     width: 100%;
