@@ -17,6 +17,7 @@
         <img src="assets/img/Logo final.png" alt="Logo Impulsa.me" />
       </object>
     </div>
+    
     <nav class="main-nav">
       <ul class="nav__list">
         <li class="nav__list__item">
@@ -25,7 +26,7 @@
             <span>Inicio</span>
           </a>
         </li>
-        <li class="item">
+        <li class="nav__list__item">
           <a href="./explore.html" class="nav-btn">
             <iconify-icon icon="ic:round-trending-up"></iconify-icon>
             <span>Explorar</span>
@@ -33,11 +34,47 @@
         </li>
       </ul>
     </nav>
+    
     <div class="header-actions">
       <a href="#" class="btn btn--primary">Registrarse</a>
       <a href="#" class="btn btn--secondary">Iniciar Sesión</a>
     </div>
+    
+    <!-- Botón hamburguesa (solo visible en móvil) -->
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+      <iconify-icon icon="ic:round-menu" width="24" height="24"></iconify-icon>
+    </button>
   </header>
+
+  <!-- Overlay para oscurecer el fondo -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Menú lateral que se despliega -->
+  <nav class="side-menu" id="sideMenu">
+    <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">
+      <iconify-icon icon="ic:round-close"></iconify-icon>
+    </button>
+    
+    <div class="menu-content">
+      <!-- Navegación principal -->
+      <div class="menu-section">
+        <h3>Navegación</h3>
+        <ul class="menu-nav-list">
+          <li><a href="#" class="menu-link">Inicio</a></li>
+          <li><a href="./explore.html" class="menu-link">Explorar</a></li>
+        </ul>
+      </div>
+      
+      <!-- Acciones del header -->
+      <div class="menu-section">
+        <h3>Cuenta</h3>
+        <div class="menu-actions">
+          <a href="#" class="btn btn--primary menu-btn">Registrarse</a>
+          <a href="#" class="btn btn--secondary menu-btn">Iniciar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </nav>
 
   <main class="main-content">
     <!-- El contenido principal de tu página irá aquí -->
@@ -98,8 +135,8 @@
     </div>
   </footer>
 
-
   <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  <script src="assets/js/menu.js"></script>
 </body>
 
 </html>
