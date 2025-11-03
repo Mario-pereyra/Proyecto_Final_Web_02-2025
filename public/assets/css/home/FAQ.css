@@ -1,0 +1,15 @@
+.FAQ{
+    display: flex;
+    flex-direction: column;
+    justify-content:center ;
+    align-items: center;
+}
+.FAQ-description,.FAQ-title{
+ text-align: center;
+}
+.container-FAQ-questions{
+
+}
+.FAQ_questions{
+
+}
