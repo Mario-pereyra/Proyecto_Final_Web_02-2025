@@ -38,4 +38,20 @@
     --border-radius-sm: 0.25rem;
     --border-radius-md: 0.5rem;
     --border-radius-lg: 0.75rem;
+    --border-radius: 0.5rem; /* Para compatibilidad con estilos existentes */
+    
+    /* Colores de texto (alias para compatibilidad) */
+    --text-primary: #0A0A0A;
+    --text-secondary: #717182;
+    
+    /* Colores de fondo */
+    --background-color: #E7E7E9;
+    --card-background: #ffffff;
+    
+    /* Colores de borde */
+    --border-color: #ECECF0;
+    
+    /* Colores de estado */
+    --error-color: #e74c3c;
+    --success-color: #27ae60;
 }

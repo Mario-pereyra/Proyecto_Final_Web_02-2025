@@ -55,7 +55,7 @@
     display: flex;
     justify-content: center;
 }
-@media (min-width:425px) and(max-width: 768px) {
+@media (min-width:425px) and (max-width: 768px) {
     
     .container-project-features-item {
         flex-direction: row;

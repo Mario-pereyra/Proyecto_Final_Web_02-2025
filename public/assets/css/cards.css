@@ -1,18 +1,71 @@
+/* Contenedor para las imágenes con aspecto fijo */
+.container-project-img {
+    width: 100%;
+    height: 200px; /* Altura fija para todas las imágenes */
+    overflow: hidden;
+    position: relative;
+}
+
 .project-img{
     width: 100%;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover; /* Cubre el contenedor manteniendo proporción */
+    transition: transform 0.3s ease;
 }
+
+.project-img:hover {
+    transform: scale(1.05);
+}
+
 .project {
   display: flex;
   flex-direction: column;
   border-radius:0.5rem;
   border: 0.5px solid ;
+  height: 500px; /* Altura fija para todas las cards */
+  overflow: hidden;
 }
+
 .project-content{
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    
+    flex: 1; /* El contenido ocupa el espacio restante */
+    overflow: hidden;
+}
+
+.content-container-title {
+    margin-bottom: 0.75rem;
+}
+
+.content-container-title h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    height: 2.6em; /* Altura fija para el título (2 líneas) */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.content-container-title p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    height: 4.2em; /* Altura fija para la descripción (3 líneas) */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.content-finacial {
+    margin-top: auto; /* Empuja este sección hacia abajo */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .content-financial-goal{
@@ -21,36 +74,109 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.content-financial-goal h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.content-financial-goal p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
 .financial-goal-container-progressbar{
     width: 100%;
 }
+
 .meta_project__progressbar{
     width: 100%;
+    height: 8px;
 }
+
+.financial-goal-container-progressbar + p {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+}
+
 .container-owner-project,.container-date-project{
     display: flex;
     align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
 
+.container-owner-project iconify-icon,
+.container-date-project iconify-icon {
+    flex-shrink: 0;
 }
-.owner-project,.date-project,.container-date-project{
-    gap: 1rem;
+
+.project-content button {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
+.project-content button:hover {
+    background-color: var(--btn-primary-hover);
+}
+
 .container-project-features-ver-proyectos{
     display: flex;
     justify-content: center;
 }
-@media (min-width:425px) and(max-width: 768px) {
+
+/* Media queries para responsive */
+@media (max-width: 767px) {
+    .project {
+        width: 90%;
+        height: 480px; /* Altura ligeramente menor en móvil */
+    }
     
+    .container-project-img {
+        height: 180px; /* Altura de imagen menor en móvil */
+    }
     
-    .project{
-        width: 45%;
+    .content-container-title h3 {
+        font-size: 1rem;
+    }
+    
+    .content-container-title p {
+        font-size: 0.85rem;
+        height: 3.6em; /* 3 líneas en móvil */
+        -webkit-line-clamp: 3;
     }
 }
-@media (min-width: 1024px) {
 
+@media (min-width: 768px) and (max-width: 1023px) {
+    .project{
+        width: 45%;
+        height: 490px; /* Altura para tablet */
+    }
     
-   
+    .container-project-img {
+        height: 190px; /* Altura de imagen para tablet */
+    }
+}
+
+@media (min-width: 1024px) {
     .project{
         width: 30%;
+        height: 500px; /* Altura para desktop */
+    }
+    
+    .container-project-img {
+        height: 200px; /* Altura de imagen para desktop */
     }
 }
