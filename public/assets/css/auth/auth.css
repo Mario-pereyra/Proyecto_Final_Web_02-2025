@@ -62,7 +62,7 @@ header {
 .auth-main {
     flex: 1;
     display: flex;
-    justify-content: a;
+    justify-content: center;
     align-items: center;
     padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
     margin-top: 60px;
@@ -71,6 +71,7 @@ header {
 .auth-container {
     width: 100%;
     max-width: 450px;
+    ;
     background-color: var(--card-background);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -80,6 +81,8 @@ header {
 /* Logo y descripción */
 .logo-container {
     padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
     text-align: center;
     border-bottom: 1px solid var(--border-color);
 }
