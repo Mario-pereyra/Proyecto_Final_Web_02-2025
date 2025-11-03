@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="assets/css/buttons.css" />
   <link rel="stylesheet" href="assets/css/header.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/cards.css" />
   <link rel="stylesheet" href="./assets/css/explore/explore.css">
 </head>
 
@@ -183,6 +184,11 @@
           <div class="container-project-img">
             <a href="#"><img src="./assets/img/SmartWatch Revolucionario.png" alt="SmartWatch Revolucionario"
                 class="project-img" /></a>
+            <div class="project-category">Tecnología</div>
+            <button class="project-like-btn" data-liked="false">
+              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none;"></iconify-icon>
+            </button>
           </div>
           <div class="project-content">
             <div class="content-container-title">
@@ -218,6 +224,11 @@
           <div class="container-project-img">
             <a href="#"><img src="./assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
                 class="project-img" /></a>
+            <div class="project-category">Música</div>
+            <button class="project-like-btn" data-liked="false">
+              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none;"></iconify-icon>
+            </button>
           </div>
           <div class="project-content">
             <div class="content-container-title">
@@ -253,6 +264,11 @@
           <div class="container-project-img">
             <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png" alt="SmartWatch Revolucionario"
                 class="project-img" /></a>
+            <div class="project-category">Arte</div>
+            <button class="project-like-btn" data-liked="false">
+              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none;"></iconify-icon>
+            </button>
           </div>
           <div class="project-content">
             <div class="content-container-title">
@@ -288,6 +304,11 @@
           <div class="container-project-img">
             <a href="#"><img src="./assets/img/SmartWatch Revolucionario.png" alt="SmartWatch Revolucionario"
                 class="project-img" /></a>
+            <div class="project-category">Tecnología</div>
+            <button class="project-like-btn" data-liked="false">
+              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none;"></iconify-icon>
+            </button>
           </div>
           <div class="project-content">
             <div class="content-container-title">
@@ -323,6 +344,11 @@
           <div class="container-project-img">
             <a href="#"><img src="./assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
                 class="project-img" /></a>
+            <div class="project-category">Música</div>
+            <button class="project-like-btn" data-liked="false">
+              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none;"></iconify-icon>
+            </button>
           </div>
           <div class="project-content">
             <div class="content-container-title">
@@ -358,6 +384,11 @@
           <div class="container-project-img">
             <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png" alt="SmartWatch Revolucionario"
                 class="project-img" /></a>
+            <div class="project-category">Arte</div>
+            <button class="project-like-btn" data-liked="false">
+              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none;"></iconify-icon>
+            </button>
           </div>
           <div class="project-content">
             <div class="content-container-title">
@@ -473,6 +504,30 @@
       if (e.key === 'Escape' && filtersMenu.classList.contains('active')) {
         closeFiltersMenu();
       }
+    });
+    
+    // Funcionalidad para los botones de like/corazón
+    const likeButtons = document.querySelectorAll('.project-like-btn');
+    
+    likeButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const isLiked = this.getAttribute('data-liked') === 'true';
+        
+        // Cambiar el estado del atributo data-liked
+        this.setAttribute('data-liked', !isLiked);
+        
+        // Animación del corazón
+        const heartIcon = isLiked ?
+          this.querySelector('.heart-icon-empty') :
+          this.querySelector('.heart-icon-filled');
+        
+        if (heartIcon) {
+          heartIcon.style.transform = 'scale(1.3)';
+          setTimeout(() => {
+            heartIcon.style.transform = 'scale(1)';
+          }, 200);
+        }
+      });
     });
   </script>
 </body>

@@ -1,3 +1,21 @@
+/* Estilos unificados para las cards de proyectos */
+
+/* Contenedor principal para las cards */
+.project-features {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-project-features-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
 /* Contenedor para las imágenes con aspecto fijo */
 .container-project-img {
     width: 100%;
@@ -6,7 +24,7 @@
     position: relative;
 }
 
-.project-img{
+.project-img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Cubre el contenedor manteniendo proporción */
@@ -17,32 +35,101 @@
     transform: scale(1.05);
 }
 
-.project {
-  display: flex;
-  flex-direction: column;
-  border-radius:0.5rem;
-  border: 0.5px solid ;
-  height: 500px; /* Altura fija para todas las cards */
-  overflow: hidden;
+/* Etiqueta de categoría del proyecto */
+.project-category {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ECEEF2;
+    color: #030213;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.project-content{
+/* Botón de like/corazón */
+.project-like-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.project-like-btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: scale(1.1);
+}
+
+.project-like-btn iconify-icon {
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.heart-icon-empty {
+    color: #666;
+}
+
+.heart-icon-filled {
+    color: #e74c3c; /* Color rojito para el corazón lleno */
+}
+
+.project-like-btn[data-liked="true"] .heart-icon-empty {
+    display: none;
+}
+
+.project-like-btn[data-liked="true"] .heart-icon-filled {
+    display: block;
+}
+
+.project-like-btn[data-liked="false"] .heart-icon-empty {
+    display: block;
+}
+
+.project-like-btn[data-liked="false"] .heart-icon-filled {
+    display: none;
+}
+
+/* Card principal */
+.project {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 0.5px solid;
+    height: 510px; /* Altura reducida para mejor compactación */
+    box-shadow: var(--shadow-md);
+}
+
+.project-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem; /* Reducido padding */
     flex: 1; /* El contenido ocupa el espacio restante */
     overflow: hidden;
 }
 
 .content-container-title {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem; /* Reducido margen */
 }
 
 .content-container-title h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.1rem;
-    line-height: 1.3;
-    height: 2.6em; /* Altura fija para el título (2 líneas) */
+    margin: 0 0 0.3rem 0; /* Reducido margen */
+    font-size: 1.05rem; /* Ligeramente reducido */
+    line-height: 1.2;
+    height: 2.4em; /* Altura ajustada para el título */
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -51,10 +138,10 @@
 
 .content-container-title p {
     margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.4;
+    font-size: 0.85rem; /* Reducido tamaño de fuente */
+    line-height: 1.3;
     color: var(--text-secondary);
-    height: 4.2em; /* Altura fija para la descripción (3 líneas) */
+    height: 3.9em; /* Altura ajustada para la descripción */
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -65,10 +152,10 @@
     margin-top: auto; /* Empuja este sección hacia abajo */
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem; /* Reducido gap */
 }
 
-.content-financial-goal{
+.content-financial-goal {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -77,106 +164,132 @@
 
 .content-financial-goal h4 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.95rem; /* Reducido tamaño */
     font-weight: 600;
 }
 
 .content-financial-goal p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.85rem; /* Reducido tamaño */
     color: var(--text-secondary);
 }
 
-.financial-goal-container-progressbar{
+.financial-goal-container-progressbar {
     width: 100%;
 }
 
-.meta_project__progressbar{
+.meta_project__progressbar {
     width: 100%;
-    height: 8px;
+    height: 6px; /* Reducido altura */
 }
 
 .financial-goal-container-progressbar + p {
-    margin: 0.25rem 0 0 0;
-    font-size: 0.85rem;
+    margin: 0.15rem 0 0 0; /* Reducido margen */
+    font-size: 0.8rem; /* Reducido tamaño */
     font-weight: 500;
     text-align: center;
 }
 
-.container-owner-project,.container-date-project{
+.container-owner-project, .container-date-project {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
+    gap: 0.4rem; /* Reducido gap */
+    font-size: 0.8rem; /* Reducido tamaño */
     color: var(--text-secondary);
 }
 
 .container-owner-project iconify-icon,
 .container-date-project iconify-icon {
     flex-shrink: 0;
+    width: 18px; /* Reducido tamaño de iconos */
+    height: 18px;
 }
 
 .project-content button {
-    margin-top: 0.75rem;
-    padding: 0.5rem 1rem;
+    margin-top: 0.5rem; /* Reducido margen */
+    padding: 0.4rem 0.8rem; /* Reducido padding */
     border: none;
     border-radius: var(--border-radius);
     background-color: var(--secondary-color);
     color: white;
     font-weight: 500;
+    font-size: 0.85rem; /* Reducido tamaño */
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .project-content button:hover {
-    background-color: var(--btn-primary-hover);
+    background-color: var(--primary-color);
 }
 
-.container-project-features-ver-proyectos{
+.container-project-features-ver-proyectos {
     display: flex;
     justify-content: center;
 }
 
-/* Media queries para responsive */
+/* Media queries para responsive - ajustado para 1 columna en móvil, 2 en tablet, 3 en PC */
 @media (max-width: 767px) {
     .project {
         width: 90%;
-        height: 480px; /* Altura ligeramente menor en móvil */
+        height: 460px; /* Altura reducida en móvil */
     }
     
     .container-project-img {
-        height: 180px; /* Altura de imagen menor en móvil */
+        height: 170px; /* Altura de imagen reducida en móvil */
     }
     
     .content-container-title h3 {
-        font-size: 1rem;
+        font-size: 0.95rem; /* Reducido tamaño */
     }
     
     .content-container-title p {
-        font-size: 0.85rem;
+        font-size: 0.8rem; /* Reducido tamaño */
         height: 3.6em; /* 3 líneas en móvil */
         -webkit-line-clamp: 3;
+    }
+    
+    .project-content {
+        padding: 0.6rem; /* Padding reducido en móvil */
     }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-    .project{
+    .container-project-features-item {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem; /* Reducido gap */
+    }
+    
+    .project {
         width: 45%;
-        height: 490px; /* Altura para tablet */
+        height: 470px; /* Altura reducida para tablet */
     }
     
     .container-project-img {
-        height: 190px; /* Altura de imagen para tablet */
+        height: 180px; /* Altura de imagen reducida para tablet */
     }
 }
 
 @media (min-width: 1024px) {
-    .project{
+    .project-features {
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .container-project-features-item {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem; /* Reducido gap */
+    }
+    
+    .project {
         width: 30%;
-        height: 500px; /* Altura para desktop */
+        height: 510px; /* Altura reducida para desktop */
     }
     
     .container-project-img {
-        height: 200px; /* Altura de imagen para desktop */
+        height: 190px; /* Altura de imagen reducida para desktop */
     }
 }
