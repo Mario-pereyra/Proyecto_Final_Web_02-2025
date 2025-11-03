@@ -1,0 +1,23 @@
+
+
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin: 0.5rem auto ;
+    text-decoration: none;
+}
+.btn--primary{
+    
+    background-color: #030213;
+    color: #ffff;
+    
+} 
+.btn--secondary{
+    color:#030213 ;
+    background-color: #ffff;
+
+}

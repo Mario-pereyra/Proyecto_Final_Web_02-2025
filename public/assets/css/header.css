@@ -98,7 +98,7 @@
 }
 
 /* Mobile (max-width: 425px) */
-@media (max-width: 425px) {
+@media (max-width: 426px) {
     .main-header .hamburger-btn {
         display: flex !important;
         order: 3;
@@ -123,39 +123,7 @@
     }
 }
 
-/* Tablet (min-width: 426px) */
-@media (min-width: 426px) {
-    .main-header {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: var(--spacing-sm) var(--spacing-md);
-    }
-    
-    .logo-container {
-        margin-bottom: 0;
-        order: 1;
-    }
-    
-    .main-nav {
-        order: 2;
-        width: auto;
-    }
-    
-    .main-nav .nav__list {
-        gap: var(--spacing-lg);
-    }
-    
-    .header-actions {
-        order: 3;
-        width: auto;
-        gap: var(--spacing-md);
-    }
-    
-    .logo-img {
-        height: 32px;
-        max-width: 160px;
-    }
-}
+
 
 /* Desktop (min-width: 769px) */
 @media (min-width: 769px) {

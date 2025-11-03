@@ -18,12 +18,24 @@ h2,
 h3 {
     color: #0A0A0A;
 }
-
+ button{
+    padding: 0.5rem;
+    background-color:  #030213;
+    border-radius: 0.5rem;
+    
+    color: #FFF;
+ }
 /* main */
 .main-content {
     padding: var(--spacing-lg);
     min-height: calc(100vh - 200px);
     /* Ajuste para que el footer quede abajo */
+}
+
+/* Clase para secciones con background completo */
+.full-width-section {
+    margin: 0 calc(var(--spacing-lg) * -1);
+    padding: 2rem var(--spacing-lg);
 }
 
 /* footer */
