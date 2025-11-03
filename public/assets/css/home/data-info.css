@@ -1,0 +1,11 @@
+.data-info{
+    background-color: #F9F9FB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.data-info-container{
+    display: flex;
+    text-align: center;
+    gap: 2rem;
+}

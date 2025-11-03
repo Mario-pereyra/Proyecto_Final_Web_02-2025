@@ -1,0 +1,28 @@
+.hero-banner{
+    width: 100%;
+    margin: 0;
+    
+}
+.hero-banner__img{
+    width: 100%;
+    object-fit: contain;
+    opacity: 0.45;
+}
+.banner-content{
+background-color: #ECECF0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    p{
+        color: #717182;
+    }
+}
+.banner-content-container__buttons{
+    display: flex;
+    flex-direction: column;
+
+
+}

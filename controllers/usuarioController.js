@@ -1,0 +1,29 @@
+const usuarioRepository = require('../repositories/usuarioRepository');
+
+exports.login = async (req, res) => {
+
+    const { username, password } = req.body;
+
+    /*
+        const username = req.body.username;
+        const password = req.body.password;
+    */
+
+    try {
+        const user = await usuarioRepository.getUsuarioByUsername(username);
+
+        if (!user) {
+            return res.status(401).json('Usuario o contraseña incorrectos');
+        }
+        if(user.password !== password){
+            return res.status(401).json('Usuario o contraseña incorrectos');
+        }
+        delete user.password;
+
+        res.json(user);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json('Hubo un error al realizar el login');
+    }
+}
