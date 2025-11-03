@@ -1,11 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explorar - Impulsa.me</title>
+  <link rel="stylesheet" href="assets/css/colors.css" />
+  <link rel="stylesheet" href="assets/css/buttons.css" />
+  <link rel="stylesheet" href="assets/css/header.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="./assets/css/explore/explore.css">
 </head>
+
 <body>
-  <p>  EXPLORAR</p>
+  <header class="main-header">
+    <div class="logo-container">
+      <figure class="logo-figure">
+        <a href="index.html" class="logo-link">
+          <img src="assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-img" />
+        </a>
+        <figcaption class="logo-caption">Impulsa.me - Inicio</figcaption>
+      </figure>
+    </div>
+
+    <nav class="main-nav">
+      <ul class="nav__list">
+        <li class="nav__list__item">
+          <a href="#" class="btn btn--primary">
+            <iconify-icon icon="ic:round-home"></iconify-icon>
+            <span>Inicio</span>
+          </a>
+        </li>
+        <li class="nav__list__item">
+          <a href="./explore.html" class="btn btn--secondary">
+            <iconify-icon icon="ic:round-trending-up"></iconify-icon>
+            <span>Explorar</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a href="./auth.html" class="btn btn--primary">Registrarse</a>
+      <a href="./auth.html" class="btn btn--secondary">Iniciar Sesión</a>
+    </div>
+    <!-- ------------------------------------------------------------------------------------------------------------------- -->
+    <!-- Botón hamburguesa (solo visible en móvil) -->
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+      <iconify-icon icon="ic:round-menu" width="24" height="24"></iconify-icon>
+    </button>
+  </header>
+
+  <!-- Overlay para oscurecer el fondo -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Menú lateral que se despliega -->
+  <nav class="side-menu" id="sideMenu">
+    <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">
+      <iconify-icon icon="ic:round-close"></iconify-icon>
+    </button>
+
+    <div class="menu-content">
+      <div class="menu-section">
+        <h3>Navegación</h3>
+        <ul class="menu-nav-list">
+          <li><a href="./index.html" class="menu-link">Inicio</a></li>
+          <li><a href="./explore.html" class="menu-link">Explorar</a></li>
+        </ul>
+      </div>
+
+      <div class="menu-section">
+        <h3>Cuenta</h3>
+        <div class="menu-actions">
+          <a href="./auth.html" class="btn btn--primary menu-btn">Registrarse</a>
+          <a href="./auth.html" class="btn btn--secondary menu-btn">Iniciar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="main-content">
+    <p> EXPLORAR</p>
+    <section class="explore">
+      <h1>Explorar Proyectos</h1>
+      <p>Descubre proyectos innovadores que necesitan tu apoyo</p>
+      <div class="container-input">
+        <input type="text" id="nombre_completo" name="Nombre Completo" placeholder="Tu nombre completo" />
+        
+      </div>
+      <select name="categoria" id="categoria">
+        <option value="todas">Todas</option>
+        <option value="tecnologia">Tecnología</option>
+        <option value="musica">Música</option>
+        <option value="arte">Arte</option>
+        <option value="cine">Cine</option>
+        <option value="educacion">Educación</option>
+        <option value="comunidad">Comunidad</option>
+        <option value="salud">Salud</option>
+        <option value="diseno">Diseño</option>
+      </select>
+
+      <select name="orden" id="orden">
+        <option value="mas_recientes">Más recientes</option>
+        <option value="mas_populares">Más populares</option>
+        <option value="proximos_a_finalizar">Próximos a finalizar</option>
+        <option value="meta_mayor">Meta mayor</option>
+        <option value="meta_menor">Meta menor</option>
+      </select>
+      <div class="container-project-features-item">
+        <article class="project">
+          <div class="container-project-img">
+            <a href="#"><img src="./assets/img/SmartWatch Revolucionario.png" alt="SmartWatch Revolucionario"
+                class="project-img" /></a>
+          </div>
+          <div class="project-content">
+            <div class="content-container-title">
+              <h3>SmartWatch Revolucionario</h3>
+              <p>
+                Un smartchwatch con tecnologia innovadora que monitorea tu
+                salud 24/7
+              </p>
+            </div>
+            <div class="content-finacial">
+              <div class="content-financial-goal">
+                <h4>37.500Bs</h4>
+                <p>de 50.000Bs</p>
+              </div>
+              <div class="financial-goal-container-progressbar">
+                <progress class="meta_project__progressbar" max="100" value="100" class="progres"
+                  class="financial-goal-progressbar"></progress>
+              </div>
+              <p>100% Financiado</p>
+            </div>
+            <div class="container-owner-project">
+              <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+              <p class="owner-project">Por Ana garcia</p>
+            </div>
+            <div class="container-date-project">
+              <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+              <p class="date-project">101 dias restantes</p>
+            </div>
+            <button type="button" onclick="">Ver detalles</button>
+          </div>
+        </article>
+        <article class="project">
+          <div class="container-project-img">
+            <a href="#"><img src="./assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
+                class="project-img" /></a>
+          </div>
+          <div class="project-content">
+            <div class="content-container-title">
+              <h3>Álbum "Sonidos del Futuro"</h3>
+              <p>
+                Un álbum conceptual que fusiona música electrónica con
+                sonidos naturales
+              </p>
+            </div>
+            <div class="content-finacial">
+              <div class="content-financial-goal">
+                <h4>8750Bs</h4>
+                <p>de 15.000 Bs</p>
+              </div>
+              <div class="financial-goal-container-progressbar">
+                <progress class="meta_project__progressbar" max="100" value="58" class="progres"
+                  class="financial-goal-progressbar"></progress>
+              </div>
+              <p>58% financiado</p>
+            </div>
+            <div class="container-owner-project">
+              <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+              <p class="owner-project">por Carlos López</p>
+            </div>
+            <div class="container-date-project">
+              <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+              <p class="date-project">70 días restantes</p>
+            </div>
+            <button type="button" onclick="">Ver detalles</button>
+          </div>
+        </article>
+        <article class="project">
+          <div class="container-project-img">
+            <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png" alt="SmartWatch Revolucionario"
+                class="project-img" /></a>
+          </div>
+          <div class="project-content">
+            <div class="content-container-title">
+              <h3>Instalación de Arte Interactivo</h3>
+              <p>
+                Una experiencia artística inmersiva que responde a las
+                emociones del espectador
+              </p>
+            </div>
+            <div class="content-finacial">
+              <div class="content-financial-goal">
+                <h4>12.300Bs</h4>
+                <p>de 25.000Bs</p>
+              </div>
+              <div class="financial-goal-container-progressbar">
+                <progress class="meta_project__progressbar" max="100" value="49" class="progres"
+                  class="financial-goal-progressbar"></progress>
+              </div>
+              <p>49% financiado</p>
+            </div>
+            <div class="container-owner-project">
+              <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+              <p class="owner-project">Por Ana garcia</p>
+            </div>
+            <div class="container-date-project">
+              <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+              <p class="date-project">24 dias restantes</p>
+            </div>
+            <button type="button" onclick="">Ver detalles</button>
+          </div>
+        </article>
+      </div>
+
+    </section>
+  </main>
+
+
+
+
+
+
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-icons"></div>
+      <div class="footer-text">
+        <p>&copy; 2023 Impulsa.me. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  <script src="assets/js/home/menu.js"></script>
 </body>
+
 </html>

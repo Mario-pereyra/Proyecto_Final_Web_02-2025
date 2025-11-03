@@ -62,7 +62,7 @@ header {
 .auth-main {
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: a;
     align-items: center;
     padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
     margin-top: 60px;
