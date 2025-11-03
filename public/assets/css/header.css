@@ -59,9 +59,10 @@
 .header-actions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     flex-wrap: wrap;
     width: 100%;
+    gap: var(--spacing-sm);
 }
 
 /* Logo responsive */
@@ -125,23 +126,115 @@
 
 
 
-/* Desktop (min-width: 769px) */
-@media (min-width: 769px) {
+/* Tablet (426px to 768px) */
+@media (min-width: 426px) and (max-width: 768px) {
     .main-header {
-        padding: var(--spacing-md) var(--spacing-lg);
+        padding: var(--spacing-sm) var(--spacing-md);
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo-container {
+        margin-bottom: 0;
+    }
+    
+    .main-nav {
+        width: auto;
+        flex: 1;
+        justify-content: center;
     }
     
     .main-nav .nav__list {
-        gap: var(--spacing-xl);
+        gap: var(--spacing-sm);
     }
     
     .header-actions {
-        gap: var(--spacing-lg);
+        gap: var(--spacing-xs);
+        width: auto;
+    }
+    
+    .logo-img {
+        height: 32px;
+        max-width: 160px;
+    }
+    
+    /* Estilos específicos para botones del header */
+    .header-actions .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+    
+    .header-actions .btn iconify-icon {
+        font-size: 16px;
+    }
+    
+    /* Estilos para botones de navegación principal */
+    .main-nav .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+    
+    .main-nav .btn iconify-icon {
+        font-size: 16px;
+    }
+}
+
+/* Desktop (min-width: 769px) */
+@media (min-width: 769px) {
+    .main-header {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo-container {
+        margin-bottom: 0;
+    }
+    
+    .main-nav {
+        width: auto;
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .main-nav .nav__list {
+        gap: var(--spacing-md);
+    }
+    
+    .header-actions {
+        gap: var(--spacing-sm);
+        width: auto;
     }
     
     .logo-img {
         height: 40px;
         max-width: 200px;
+    }
+    
+    /* Estilos específicos para botones del header */
+    .header-actions .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+    
+    .header-actions .btn iconify-icon {
+        font-size: 16px;
+    }
+    
+    /* Estilos para botones de navegación principal */
+    .main-nav .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+    
+    .main-nav .btn iconify-icon {
+        font-size: 16px;
     }
 }
 

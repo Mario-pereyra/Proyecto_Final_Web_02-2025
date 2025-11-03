@@ -55,3 +55,27 @@
     display: flex;
     justify-content: center;
 }
+@media (min-width:425px) and(max-width: 768px) {
+    
+    .container-project-features-item {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .project{
+        width: 45%;
+    }
+}
+@media (min-width: 1024px) {
+    .project-features {
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .container-project-features-item {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    .project{
+        width: 30%;
+    }
+}

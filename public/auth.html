@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth</title>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/auth/auth.css">
+    <link rel="stylesheet" href="./assets/css/buttons.css">
+</head>
+
+<body>
+    <header>
+        <nav class="main-nav">
+            <button onclick="window.location.href='index.html'">
+                <iconify-icon icon="ic:round-arrow-back"></iconify-icon>
+                <span>Volver</span>
+            </button>
+        </nav>
+    </header>
+    <main>
+        <div class="logo-container">
+            <figure class="logo-figure">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-img" />
+                </a>
+
+            </figure>
+        </div> 
+        <p>Unete a la comunidad de financiacion colectiva</p>
+        <section id="Identificarse">
+        <div class="tabs">
+            <button class="tablinks  " data-tab="Registrarse">Registro</button>
+            <button class="tablinks  active" data-tab="Login">Login</button>
+        </div>
+
+        
+            <section id="Registrarse" class="tabcontent">
+                <form id="form__registrarse" class="auth-form">
+                    <label for="email">Correo Electronico</label>
+                    <div class="container-input">
+                        <input type="email" id="email" name="Email" placeholder="tu@gmail.com" />
+                    </div>
+    
+                    <label for="contrasena">Contraseña</label>
+                    <div class="container-input">
+                        <input type="password" id="contrasena" name="Contrasena" placeholder="Tu contraseña" />
+                    </div>
+    
+                    <label for="confirmar__contrasena">Contraseña</label>
+                    <div class="container-input">
+                        <input type="password" id="confirmar__contrasena" name="Confirmar Contrasena"
+                            placeholder="Tu contraseña" />
+                    </div>
+    
+                    <button type="submit">Registrarse</button>
+                </form>
+            </section>
+    
+            <section id="Login" class="tabcontent active">
+                <form action="" id="form_login" class="auth-form">
+                    <label for="login__email" class="form-label">Nombre completo</label>
+                    <div class="container-input">
+                        <input type="email" id="login__email" name="Email" placeholder="tu@gmail.com" />
+                    </div>
+                    <label for="login__contrasena">Contraseña</label>
+                    <div class="container-input">
+                        <input type="password" id="login__contrasena" name="Contrasena" placeholder="Tu contraseña" />
+                    </div>
+                    <button type="submit">Registrarse</button>
+                </form>
+            </section>
+        </div class="container-content-tab">
+        </section>
+    </main>
+
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <script src="./assets/js/auth/auth.js"></script>
+</body>
+
+</html>
