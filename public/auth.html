@@ -1,124 +1,208 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Autenticación - Impulsa.me</title>
 
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/buttons.css">
-    <link rel="stylesheet" href="./assets/css/auth/auth.css">
-</head>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/buttons.css" />
+    <link rel="stylesheet" href="./assets/css/auth/auth.css" />
+  </head>
 
-<body>
+  <body>
     <header>
-        <nav class="auth-nav">
-            <button onclick="window.location.href='index.html'" class="btn btn--secondary">
-                <iconify-icon icon="ic:round-arrow-back"></iconify-icon>
-                <span>Volver</span>
-            </button>
-        </nav>
+      <nav class="auth-nav">
+        <button
+          onclick="window.location.href='index.html'"
+          class="btn btn--secondary"
+        >
+          <iconify-icon icon="ic:round-arrow-back"></iconify-icon>
+          <span>Volver</span>
+        </button>
+      </nav>
     </header>
-    
+
     <main class="auth-main">
-        <div class="auth-container">
-            <div class="logo-container">
-                <figure class="logo-figure">
-                    <a href="index.html" class="logo-link">
-                        <img src="assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-img" />
-                    </a>
-                </figure>
-                <p class="auth-description">Únete a la comunidad de financiación colectiva</p>
-            </div>
-            
-            <section class="auth-section">
-                <div class="tabs">
-                    <button class="tablinks" data-tab="Registrarse">Registro</button>
-                    <button class="tablinks active" data-tab="Login">Iniciar Sesión</button>
+      <div class="auth-container">
+        <div class="logo-container">
+          <figure class="logo-figure">
+            <a href="index.html" class="logo-link">
+              <img
+                src="assets/img/Logo final.png"
+                alt="Logo Impulsa.me"
+                class="logo-img"
+              />
+            </a>
+          </figure>
+          <p class="auth-description">
+            Únete a la comunidad de financiación colectiva
+          </p>
+        </div>
+
+        <section class="auth-section">
+          <div class="tabs">
+            <button class="tablinks" data-tab="Registrarse">Registro</button>
+            <button class="tablinks active" data-tab="Login">
+              Iniciar Sesión
+            </button>
+          </div>
+
+          <div class="tab-content-container">
+            <section id="Registrarse" class="tabcontent">
+              <form id="form__registrarse" class="auth-form">
+                <div class="form-group">
+                  <label for="nombre_completo">
+                    <iconify-icon
+                      icon="ic:round-person"
+                      width="20"
+                      height="20"
+                    ></iconify-icon>
+                    Nombre Completo
+                  </label>
+                  <div class="container-input">
+                    <input
+                      type="text"
+                      id="nombre_completo"
+                      name="Nombre Completo"
+                      placeholder="Tu nombre completo"
+                    />
+                    <p class="error-message" id="nombre_completo-error"></p>
+                  </div>
                 </div>
 
-                <div class="tab-content-container">
-                    <section id="Registrarse" class="tabcontent">
-                        <form id="form__registrarse" class="auth-form">
-                            <div class="form-group">
-                                <label for="email">
-                                    <iconify-icon icon="ic:round-email" width="20" height="20"></iconify-icon>
-                                    Correo Electrónico
-                                </label>
-                                <div class="container-input">
-                                    <input type="email" id="email" name="Email" placeholder="tu@gmail.com" />
-                                    <p class="error-message" id="email-error"></p>
-                                </div>
-                            </div>
-            
-                            <div class="form-group">
-                                <label for="contrasena">
-                                    <iconify-icon icon="ic:round-password" width="20" height="20"></iconify-icon>
-                                    Contraseña
-                                </label>
-                                <div class="container-input">
-                                    <input type="password" id="contrasena" name="Contrasena" placeholder="Tu contraseña" />
-                                    <p class="error-message" id="contrasena-error"></p>
-                                </div>
-                            </div>
-            
-                            <div class="form-group">
-                                <label for="confirmar__contrasena">
-                                    <iconify-icon icon="ic:round-password" width="20" height="20"></iconify-icon>
-                                    Confirmar Contraseña
-                                </label>
-                                <div class="container-input">
-                                    <input type="password" id="confirmar__contrasena" name="Confirmar Contrasena"
-                                        placeholder="Confirma tu contraseña" />
-                                    <p class="error-message" id="confirmar__contrasena-error"></p>
-                                </div>
-                            </div>
-            
-                            <button type="submit" class="btn btn--primary btn--full">
-                                <iconify-icon icon="ic:round-add-circle" width="20" height="20"></iconify-icon>
-                                Registrarse
-                            </button>
-                        </form>
-                    </section>
-            
-                    <section id="Login" class="tabcontent active">
-                        <form id="form_login" class="auth-form">
-                            <div class="form-group">
-                                <label for="login__email">
-                                    <iconify-icon icon="ic:round-email" width="20" height="20"></iconify-icon>
-                                    Correo Electrónico
-                                </label>
-                                <div class="container-input">
-                                    <input type="email" id="login__email" name="Email" placeholder="tu@gmail.com" />
-                                    <p class="error-message" id="login__email-error"></p>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="login__contrasena">
-                                    <iconify-icon icon="ic:round-password" width="20" height="20"></iconify-icon>
-                                    Contraseña
-                                </label>
-                                <div class="container-input">
-                                    <input type="password" id="login__contrasena" name="Contrasena" placeholder="Tu contraseña" />
-                                    <p class="error-message" id="login__contrasena-error"></p>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn--primary btn--full">
-                                <iconify-icon icon="ic:round-vpn-key" width="20" height="20"></iconify-icon>
-                                Iniciar Sesión
-                            </button>
-                        </form>
-                    </section>
+                <div class="form-group">
+                  <label for="email">
+                    <iconify-icon
+                      icon="ic:round-email"
+                      width="20"
+                      height="20"
+                    ></iconify-icon>
+                    Correo Electrónico
+                  </label>
+                  <div class="container-input">
+                    <input
+                      type="email"
+                      id="email"
+                      name="Email"
+                      placeholder="tu@gmail.com"
+                    />
+                    <p class="error-message" id="email-error"></p>
+                  </div>
                 </div>
+
+                <div class="form-group">
+                  <label for="contrasena">
+                    <iconify-icon
+                      icon="ic:round-password"
+                      width="20"
+                      height="20"
+                    ></iconify-icon>
+                    Contraseña
+                  </label>
+                  <div class="container-input">
+                    <input
+                      type="password"
+                      id="contrasena"
+                      name="Contrasena"
+                      placeholder="Tu contraseña"
+                    />
+                    <p class="error-message" id="contrasena-error"></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="confirmar__contrasena">
+                    <iconify-icon
+                      icon="ic:round-password"
+                      width="20"
+                      height="20"
+                    ></iconify-icon>
+                    Confirmar Contraseña
+                  </label>
+                  <div class="container-input">
+                    <input
+                      type="password"
+                      id="confirmar__contrasena"
+                      name="Confirmar Contrasena"
+                      placeholder="Confirma tu contraseña"
+                    />
+                    <p
+                      class="error-message"
+                      id="confirmar__contrasena-error"
+                    ></p>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full">
+                  <iconify-icon
+                    icon="ic:round-add-circle"
+                    width="20"
+                    height="20"
+                  ></iconify-icon>
+                  Registrarse
+                </button>
+              </form>
             </section>
-        </div>
+
+            <section id="Login" class="tabcontent active">
+              <form id="form_login" class="auth-form">
+                <div class="form-group">
+                  <label for="login__email">
+                    <iconify-icon
+                      icon="ic:round-email"
+                      width="20"
+                      height="20"
+                    ></iconify-icon>
+                    Correo Electrónico
+                  </label>
+                  <div class="container-input">
+                    <input
+                      type="email"
+                      id="login__email"
+                      name="Email"
+                      placeholder="tu@gmail.com"
+                    />
+                    <p class="error-message" id="login__email-error"></p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="login__contrasena">
+                    <iconify-icon
+                      icon="ic:round-password"
+                      width="20"
+                      height="20"
+                    ></iconify-icon>
+                    Contraseña
+                  </label>
+                  <div class="container-input">
+                    <input
+                      type="password"
+                      id="login__contrasena"
+                      name="Contrasena"
+                      placeholder="Tu contraseña"
+                    />
+                    <p class="error-message" id="login__contrasena-error"></p>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full">
+                  <iconify-icon
+                    icon="ic:round-vpn-key"
+                    width="20"
+                    height="20"
+                  ></iconify-icon>
+                  Iniciar Sesión
+                </button>
+              </form>
+            </section>
+          </div>
+        </section>
+      </div>
     </main>
 
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
     <script src="./assets/js/auth/auth.js"></script>
-</body>
-
+  </body>
 </html>

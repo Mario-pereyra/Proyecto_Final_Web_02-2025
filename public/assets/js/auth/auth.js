@@ -13,27 +13,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ocultar todos los paneles de contenido
     tabPanels.forEach((panel) => {
       panel.classList.remove("active");
-      panel.setAttribute("aria-hidden", "true");
     });
 
     // Quitar la clase 'active' de todos los botones
     tabButtons.forEach((btn) => {
       btn.classList.remove("active");
-      btn.setAttribute("aria-selected", "false");
     });
 
     // Activar el botón que se ha hecho clic
     const targetButton = document.querySelector(`[data-tab="${targetTab}"]`);
     if (targetButton) {
       targetButton.classList.add("active");
-      targetButton.setAttribute("aria-selected", "true");
     }
 
     // Mostrar el panel de contenido correspondiente
     const panelToShow = document.getElementById(targetTab);
     if (panelToShow) {
       panelToShow.classList.add("active");
-      panelToShow.setAttribute("aria-hidden", "false");
       
       // Enfocar el primer input del formulario activo
       const firstInput = panelToShow.querySelector('input');
@@ -48,15 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", () => {
       const tabId = button.getAttribute("data-tab");
       switchTab(tabId);
-    });
-
-    // Soporte para navegación con teclado
-    button.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        const tabId = button.getAttribute("data-tab");
-        switchTab(tabId);
-      }
     });
   });
 
@@ -164,6 +151,56 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
+  function validateNameField(input) {
+    // Guard clause: si está vacío, mostrar error y salir
+    if (!input.value.trim()) {
+      showError(input, "El nombre completo es obligatorio");
+      return false;
+    }
+    
+    // Guard clause: si no tiene al menos 3 caracteres, mostrar error y salir
+    if (input.value.trim().length < 3) {
+      showError(input, "El nombre debe tener al menos 3 caracteres");
+      return false;
+    }
+    
+    // Guard clause: si contiene caracteres no válidos, mostrar error y salir
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!nameRegex.test(input.value.trim())) {
+      showError(input, "El nombre solo puede contener letras y espacios");
+      return false;
+    }
+    
+    // Si pasa todas las validaciones, mostrar éxito
+    showSuccess(input);
+    return true;
+  }
+
+  function validateNameFieldRealTime(input) {
+    // Guard clause: si está vacío, limpiar y salir
+    if (!input.value.trim()) {
+      clearError(input);
+      return false;
+    }
+    
+    // Guard clause: si no tiene al menos 3 caracteres, mostrar error y salir
+    if (input.value.trim().length < 3) {
+      showError(input, "El nombre debe tener al menos 3 caracteres");
+      return false;
+    }
+    
+    // Guard clause: si contiene caracteres no válidos, mostrar error y salir
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!nameRegex.test(input.value.trim())) {
+      showError(input, "El nombre solo puede contener letras y espacios");
+      return false;
+    }
+    
+    // Si pasa todas las validaciones, mostrar éxito
+    showSuccess(input);
+    return true;
+  }
+
   function validateEmailFieldRealTime(input) {
     // Guard clause: si está vacío, limpiar y salir
     if (!input.value.trim()) {
@@ -223,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     registerForm.addEventListener("submit", (e) => {
       e.preventDefault();
       
+      const nombre = document.getElementById("nombre_completo");
       const email = document.getElementById("email");
       const password = document.getElementById("contrasena");
       const confirmPassword = document.getElementById("confirmar__contrasena");
@@ -230,19 +268,21 @@ document.addEventListener("DOMContentLoaded", () => {
       let isValid = true;
       
       // Limpiar errores anteriores
-      [email, password, confirmPassword].forEach(input => clearError(input));
+      [nombre, email, password, confirmPassword].forEach(input => clearError(input));
       
       // Validar usando guard clauses
+      const isNombreValid = validateNameField(nombre);
       const isEmailValid = validateEmailField(email);
       const isPasswordValid = validatePasswordField(password);
       const isConfirmPasswordValid = validateConfirmPasswordField(confirmPassword, password);
       
       // El formulario es válido solo si todas las validaciones pasan
-      isValid = isEmailValid && isPasswordValid && isConfirmPasswordValid;
+      isValid = isNombreValid && isEmailValid && isPasswordValid && isConfirmPasswordValid;
       
       if (isValid) {
         // Simular envío del formulario
         console.log("Formulario de registro válido", {
+          nombre: nombre.value,
           email: email.value,
           password: password.value
         });
@@ -298,6 +338,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Validación en tiempo real usando guard clauses
   function setupRealTimeValidation() {
+    // Validación para nombre de registro
+    const nombreInput = document.getElementById("nombre_completo");
+    if (nombreInput) {
+      nombreInput.addEventListener("blur", () => {
+        validateNameFieldRealTime(nombreInput);
+      });
+    }
+
     // Validación para email de registro
     const emailInput = document.getElementById("email");
     if (emailInput) {
@@ -341,43 +389,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Configurar validación en tiempo real
   setupRealTimeValidation();
-
-  // Inicializar atributos ARIA para accesibilidad
-  tabButtons.forEach((button, index) => {
-    button.setAttribute("role", "tab");
-    button.setAttribute("aria-selected", index === 1 ? "true" : "false");
-    button.setAttribute("tabindex", index === 1 ? "0" : "-1");
-  });
-
-  tabPanels.forEach((panel, index) => {
-    panel.setAttribute("role", "tabpanel");
-    panel.setAttribute("aria-hidden", index === 1 ? "false" : "true");
-    panel.setAttribute("aria-labelledby", `tab-${index}`);
-  });
-
-  // Navegación entre pestañas con flechas del teclado
-  let currentTab = 1; // Login está activo por defecto
-  
-  document.addEventListener("keydown", (e) => {
-    if (e.target.classList.contains("tablinks")) {
-      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-        e.preventDefault();
-        
-        if (e.key === "ArrowLeft") {
-          currentTab = currentTab === 0 ? 1 : 0;
-        } else {
-          currentTab = currentTab === 0 ? 1 : 0;
-        }
-        
-        const tabs = ["Registrarse", "Login"];
-        switchTab(tabs[currentTab]);
-        
-        // Enfocar el botón activo
-        const activeButton = document.querySelector(".tablinks.active");
-        if (activeButton) {
-          activeButton.focus();
-        }
-      }
-    }
-  });
 });
