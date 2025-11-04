@@ -1,7 +1,7 @@
 :root{
     /* Colores principales */
     --primary-color: #030213;  /* iconos y ui */
-    --secondary-color: #6366F1; /* color secundario para acentos */
+    --secondary-color: #030213; /* color secundario para acentos */
     
     /* Colores neutros */
     --white-primary: #FFFFFF;

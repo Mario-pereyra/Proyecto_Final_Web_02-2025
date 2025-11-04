@@ -231,7 +231,7 @@
 @media (max-width: 767px) {
     .project {
         width: 90%;
-        height: 460px; /* Altura reducida en móvil */
+        height: 510px; /* Altura reducida en móvil */
     }
     
     .container-project-img {
@@ -263,7 +263,7 @@
     
     .project {
         width: 45%;
-        height: 470px; /* Altura reducida para tablet */
+        height: 510px; /* Altura reducida para tablet */
     }
     
     .container-project-img {
