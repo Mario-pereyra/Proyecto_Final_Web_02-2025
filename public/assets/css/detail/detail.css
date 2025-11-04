@@ -41,7 +41,8 @@ body {
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  /* usa Google Sans (asegúrate de cargarla con @font-face o en otro archivo) */
+  font-family: 'ProductSans', sans-serif;
   color: var(--text);
   background: var(--bg);
   line-height: 1.5;
@@ -117,11 +118,11 @@ body {
 }
 
 .accent {
-  color: var(--success);
+  color: var(--muted);
 }
 
 .purple {
-  color: var(--purple);
+  color: var(--muted);
 }
 
 /* -------- LADO PRINCIPAL -------- */

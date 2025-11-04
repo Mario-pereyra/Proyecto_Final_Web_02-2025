@@ -27,13 +27,13 @@
     <nav class="main-nav">
       <ul class="nav__list">
         <li class="nav__list__item">
-          <a href="#" class="btn btn--primary">
+          <a href="#" class="btn btn--secundary">
             <iconify-icon icon="ic:round-home"></iconify-icon>
             <span>Inicio</span>
           </a>
         </li>
         <li class="nav__list__item">
-          <a href="./explore.html" class="btn btn--secondary">
+          <a href="./explore.html" class="btn btn--primary">
             <iconify-icon icon="ic:round-trending-up"></iconify-icon>
             <span>Explorar</span>
           </a>
@@ -80,11 +80,11 @@
     </div>
   </nav>
   <main class="main-content">
-   
+
     <section class="explore">
       <h1>Explorar Proyectos</h1>
       <p>Descubre proyectos innovadores que necesitan tu apoyo</p>
-      
+
       <!-- Formulario de filtros -->
       <form id="filtersForm" class="filters-form">
         <!-- Filtros principales visibles -->
@@ -96,7 +96,7 @@
               <input type="text" id="busqueda" name="busqueda" placeholder="Buscar proyectos..." />
             </div>
           </div>
-          
+
           <!-- Contenedor para los filtros -->
           <div class="filters-container">
             <select name="categoria" id="categoria" class="filter-select">
@@ -118,7 +118,7 @@
               <option value="meta_mayor">Meta mayor</option>
               <option value="meta_menor">Meta menor</option>
             </select>
-            
+
             <!-- Botón para abrir menú de filtros avanzados -->
             <button type="button" id="filterToggleBtn" class="btn btn--secondary filter-toggle-btn">
               <iconify-icon icon="ic:round-filter-list" width="20" height="20"></iconify-icon>
@@ -127,7 +127,7 @@
           </div>
         </div>
       </form>
-      
+
       <!-- Menú desplegable de filtros avanzados -->
       <div class="filters-overlay" id="filtersOverlay"></div>
       <aside class="filters-menu" id="filtersMenu">
@@ -137,13 +137,14 @@
             <iconify-icon icon="ic:round-close"></iconify-icon>
           </button>
         </div>
-        
+
         <div class="filters-content">
           <!-- Meta de financiación -->
           <div class="filter-section">
             <h4>Meta de financiación</h4>
             <div class="range-container">
-              <input type="range" id="metaFinanciacion" name="metaFinanciacion" min="0" max="100000" value="100000" class="range-slider">
+              <input type="range" id="metaFinanciacion" name="metaFinanciacion" min="0" max="100000" value="100000"
+                class="range-slider">
               <div class="range-labels">
                 <span>0</span>
                 <span>100000</span>
@@ -153,7 +154,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Progreso de financiación -->
           <div class="filter-section">
             <h4>Progreso de financiación</h4>
@@ -165,7 +166,7 @@
               <option value="completamente">Completamente financiado</option>
             </select>
           </div>
-          
+
           <!-- Botones de acción -->
           <div class="filter-actions">
             <button type="button" id="clearFiltersBtn" class="btn btn--secondary clear-filters-btn">
@@ -182,8 +183,8 @@
       <div class="container-project-features-item">
         <article class="project">
           <div class="container-project-img">
-            <a href="./detail.html"><img src="./assets/img/SmartWatch Revolucionario.png" alt="SmartWatch Revolucionario"
-                class="project-img" /></a>
+            <a href="./detail.html"><img src="./assets/img/SmartWatch Revolucionario.png"
+                alt="SmartWatch Revolucionario" class="project-img" /></a>
             <div class="project-category">Tecnología</div>
             <button class="project-like-btn" data-liked="false">
               <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
@@ -442,94 +443,7 @@
 
   <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
   <script src="assets/js/home/menu.js"></script>
-  
-  <!-- Script para el menú de filtros -->
-  <script>
-    // Obtener elementos del DOM para filtros
-    const filterToggleBtn = document.getElementById('filterToggleBtn');
-    const closeFiltersBtn = document.getElementById('closeFiltersBtn');
-    const filtersMenu = document.getElementById('filtersMenu');
-    const filtersOverlay = document.getElementById('filtersOverlay');
-    const clearFiltersBtn = document.getElementById('clearFiltersBtn');
-    const applyFiltersBtn = document.getElementById('applyFiltersBtn');
-    const metaFinanciacionSlider = document.getElementById('metaFinanciacion');
-    const metaValue = document.getElementById('metaValue');
-    
-    
-    // Función para abrir el menú de filtros
-    function openFiltersMenu() {
-      filtersMenu.classList.add('active');
-      filtersOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    
-    // Función para cerrar el menú de filtros
-    function closeFiltersMenu() {
-      filtersMenu.classList.remove('active');
-      filtersOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-    
-    // Función para limpiar filtros
-    function clearFilters() {
-      document.getElementById('busqueda').value = '';
-      document.getElementById('categoria').value = 'todas';
-      document.getElementById('orden').value = 'mas_recientes';
-      document.getElementById('metaFinanciacion').value = '100000';
-      document.getElementById('metaValue').textContent = '100000';
-      document.getElementById('progresoFinanciacion').value = 'todos';
-    }
-    
-    // Función para aplicar filtros
-    function applyFilters() {
-      // Aquí se puede agregar la lógica para aplicar los filtros
-      // Por ahora, solo cerramos el menú
-      closeFiltersMenu();
-    }
-    
-    // Actualizar valor del slider
-    metaFinanciacionSlider.addEventListener('input', function() {
-      metaValue.textContent = this.value;
-    });
-    
-    // Event listeners
-    filterToggleBtn.addEventListener('click', openFiltersMenu);
-    closeFiltersBtn.addEventListener('click', closeFiltersMenu);
-    filtersOverlay.addEventListener('click', closeFiltersMenu);
-    clearFiltersBtn.addEventListener('click', clearFilters);
-    applyFiltersBtn.addEventListener('click', applyFilters);
-    
-    // Cerrar menú con tecla Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && filtersMenu.classList.contains('active')) {
-        closeFiltersMenu();
-      }
-    });
-    
-    // Funcionalidad para los botones de like/corazón
-    const likeButtons = document.querySelectorAll('.project-like-btn');
-    
-    likeButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const isLiked = this.getAttribute('data-liked') === 'true';
-        
-        // Cambiar el estado del atributo data-liked
-        this.setAttribute('data-liked', !isLiked);
-        
-        // Animación del corazón
-        const heartIcon = isLiked ?
-          this.querySelector('.heart-icon-empty') :
-          this.querySelector('.heart-icon-filled');
-        
-        if (heartIcon) {
-          heartIcon.style.transform = 'scale(1.3)';
-          setTimeout(() => {
-            heartIcon.style.transform = 'scale(1)';
-          }, 200);
-        }
-      });
-    });
-  </script>
+  <script src="assets/js/explore/explore.js"></script>
 </body>
 
 </html>
