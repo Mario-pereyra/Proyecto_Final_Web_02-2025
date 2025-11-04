@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Navegación a Pestañas de Autenticación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .demo-section h2 {
+            color: #030213;
+            margin-top: 0;
+        }
+        .link-list {
+            list-style: none;
+            padding: 0;
+        }
+        .link-list li {
+            margin-bottom: 10px;
+        }
+        .link-list a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #030213;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .link-list a:hover {
+            background-color: #1a1a3a;
+        }
+        .code-example {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        .note {
+            background-color: #e7f3fe;
+            border-left: 4px solid #2196F3;
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Demo: Navegación a Pestañas de Autenticación</h1>
+        
+        <div class="demo-section">
+            <h2>Enlaces Directos a Pestañas</h2>
+            <p>Estos enlaces te llevarán directamente a una pestaña específica en la página de autenticación:</p>
+            <ul class="link-list">
+                <li><a href="public/auth.html#registro">Ir a la pestaña de Registro</a></li>
+                <li><a href="public/auth.html#login">Ir a la pestaña de Iniciar Sesión</a></li>
+            </ul>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Variantes de Hash</h2>
+            <p>El sistema también reconoce estas variantes de hash:</p>
+            <ul class="link-list">
+                <li><a href="public/auth.html#registrarse">Ir a Registro (variante "registrarse")</a></li>
+                <li><a href="public/auth.html#iniciar-sesion">Ir a Login (variante "iniciar-sesion")</a></li>
+            </ul>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Cómo Implementar en Tu Sitio</h2>
+            <p>Puedes usar estos formatos de enlace en cualquier parte de tu sitio:</p>
+            
+            <h3>Para la pestaña de Registro:</h3>
+            <div class="code-example">
+                <a href="public/auth.html#registro">Crear cuenta</a><br>
+                <a href="public/auth.html#registrarse">Registrarse</a>
+            </div>
+            
+            <h3>Para la pestaña de Login:</h3>
+            <div class="code-example">
+                <a href="public/auth.html#login">Iniciar sesión</a><br>
+                <a href="public/auth.html#iniciar-sesion">Entrar</a>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Funcionalidad Implementada</h2>
+            <ul>
+                <li><strong>Deep-linking:</strong> Navegación directa a pestañas específicas mediante URL</li>
+                <li><strong>Actualización de URL:</strong> El hash se actualiza automáticamente al cambiar de pestaña</li>
+                <li><strong>Historial de navegación:</strong> Compatible con el botón atrás/adelante del navegador</li>
+                <li><strong>Enfoque automático:</strong> El primer campo del formulario se enfoca automáticamente</li>
+            </ul>
+        </div>
+        
+        <div class="note">
+            <strong>Nota:</strong> La funcionalidad de deep-linking se ha implementado en el archivo <code>public/assets/js/auth/auth.js</code> sin modificar el diseño visual ni la estructura HTML existente.
+        </div>
+    </div>
+</body>
+</html>

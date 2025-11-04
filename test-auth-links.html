@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Enlaces a Auth</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .link-list {
+            list-style: none;
+            padding: 0;
+        }
+        .link-list li {
+            margin-bottom: 10px;
+        }
+        .link-list a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #030213;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .link-list a:hover {
+            background-color: #1a1a3a;
+        }
+        .note {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prueba de Enlaces a Pestañas de Autenticación</h1>
+    
+    <div class="test-section">
+        <h2>Enlaces con mayúsculas (como en index.html)</h2>
+        <ul class="link-list">
+            <li><a href="public/auth.html#Registrarse">Ir a Registro (#Registrarse)</a></li>
+            <li><a href="public/auth.html#Login">Ir a Login (#Login)</a></li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Enlaces con minúsculas (como genera el JavaScript)</h2>
+        <ul class="link-list">
+            <li><a href="public/auth.html#registro">Ir a Registro (#registro)</a></li>
+            <li><a href="public/auth.html#login">Ir a Login (#login)</a></li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Otras variantes</h2>
+        <ul class="link-list">
+            <li><a href="public/auth.html#registrarse">Ir a Registro (#registrarse)</a></li>
+            <li><a href="public/auth.html#iniciar-sesion">Ir a Login (#iniciar-sesion)</a></li>
+        </ul>
+    </div>
+    
+    <div class="note">
+        <h3>Instrucciones de prueba:</h3>
+        <ol>
+            <li>Haz clic en cada enlace</li>
+            <li>Verifica que se abra la página de autenticación</li>
+            <li>Confirma que la pestaña correcta esté activa</li>
+            <li>Verifica que el hash en la URL sea el correcto</li>
+            <li>Prueba el botón atrás/adelante del navegador</li>
+        </ol>
+        
+        <h3>Comportamiento esperado:</h3>
+        <ul>
+            <li>Al hacer clic en enlaces de Registro → debe activarse la pestaña de Registro</li>
+            <li>Al hacer clic en enlaces de Login → debe activarse la pestaña de Login</li>
+            <li>El primer campo del formulario debe enfocarse automáticamente</li>
+            <li>La URL debe mostrar el hash correspondiente</li>
+        </ul>
+    </div>
+</body>
+</html>

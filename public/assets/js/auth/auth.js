@@ -37,6 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => firstInput.focus(), 100);
       }
     }
+    
+    // Actualizar el hash en la URL según la pestaña activa
+    if (targetTab === 'Registrarse') {
+      window.history.pushState(null, null, '#registro');
+    } else if (targetTab === 'Login') {
+      window.history.pushState(null, null, '#login');
+    }
   }
 
   // 3. Agregar un evento de clic a cada botón
@@ -46,6 +53,20 @@ document.addEventListener("DOMContentLoaded", () => {
       switchTab(tabId);
     });
   });
+
+  // Función para activar pestaña desde el hash de la URL
+  function activateTabFromHash() {
+    const hash = window.location.hash.substring(1); // Eliminar el #
+    
+    if (hash === 'registro' || hash === 'registrarse' || hash === 'Registrarse') {
+      switchTab('Registrarse');
+    } else if (hash === 'login' || hash === 'iniciar-sesion' || hash === 'Login') {
+      switchTab('Login');
+    }
+  }
+
+  // Llamar a la función para activar pestaña desde hash al cargar la página
+  activateTabFromHash();
 
   // Validación de formularios
   function validateEmail(email) {
