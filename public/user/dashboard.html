@@ -5,9 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/css/dashboard/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/header.css">
+    <link rel="stylesheet" href="../assets/css/buttons.css">
 </head>
 <body>
     <div class="page">
+      <header class="main-header">
+      <div class="logo-container">
+        <figure class="logo-figure">
+          <a href="./index.html" class="logo-link">
+            <img
+              src="../assets/img/Logo final.png"
+              alt="Logo Impulsa.me"
+              class="logo-img"
+            />
+          </a>
+          <figcaption class="logo-caption">Impulsa.me - Inicio</figcaption>
+        </figure>
+      </div>
+
+      <nav class="main-nav">
+        <ul class="nav__list">
+          <li class="nav__list__item">
+            <a href="#" class="btn btn--primary">
+              <iconify-icon icon="ic:round-home"></iconify-icon>
+              <span>Inicio</span>
+            </a>
+          </li>
+          <li class="nav__list__item">
+            <a href="./explore.html" class="btn btn--secondary">
+              <iconify-icon icon="ic:round-trending-up"></iconify-icon>
+              <span>Explorar</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="./auth.html" class="btn btn--secundary">
+          <iconify-icon
+            icon="ic:round-assessment"
+            width="24"
+            height="24"
+          ></iconify-icon>
+          <p>Mis Proyectos</p>
+        </a>
+        <a href="./auth.html" class="btn btn--secondary">
+          <iconify-icon
+            icon="ic:round-add-circle"
+            width="24"
+            height="24"
+          ></iconify-icon>
+          <p>Crear Proyecto</p>
+        </a>
+        <a href="./auth.html" class="btn btn--secondary">
+          <iconify-icon
+            icon="ic:round-favorite"
+            width="24"
+            height="24"
+          ></iconify-icon>
+          <p>Favoritos</p>
+        </a>
+        <a href="./auth.html" class="btn btn--secondary">
+          <iconify-icon
+            icon="ic:round-add-circle"
+            width="24"
+            height="24"
+          ></iconify-icon>
+          <p>Mis Aportes</p>
+        </a>
+        <a href="./auth.html" class="btn btn--primary">
+          <iconify-icon
+            icon="ic:round-person"
+            width="24"
+            height="24"
+          ></iconify-icon>
+          <p>Mi Cuenta</p>
+        </a>
+      </div>
+      <!-- ------------------------------------------------------------------------------------------------------------------- -->
+      <!-- Botón hamburguesa (solo visible en móvil) -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+        <iconify-icon
+          icon="ic:round-menu"
+          width="24"
+          height="24"
+        ></iconify-icon>
+      </button>
+    </header>
+
+    <!-- Overlay para oscurecer el fondo -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Menú lateral que se despliega -->
+    <nav class="side-menu" id="sideMenu">
+      <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">
+        <iconify-icon icon="ic:round-close"></iconify-icon>
+      </button>
+
+      <div class="menu-content">
+        <div class="menu-section">
+          <h3>Navegación</h3>
+          <ul class="menu-nav-list">
+            <li>
+              <a href="./index.html" class="menu-link btn--primary">Inicio</a>
+            </li>
+            <li><a href="./explore.html" class="menu-link">Explorar</a></li>
+          </ul>
+        </div>
+
+        <div class="menu-section">
+          <h3>Cuenta</h3>
+          <div class="menu-actions">
+            <a href="./dashboard.html" class="btn btn--secondary menu-btn"
+              >Mis Proyectos</a
+            >
+            <a href="./dashboard.html" class="btn btn--secondary menu-btn"
+              >Crear Proyecto</a
+            >
+            <a href="./auth.html" class="btn btn--secondary menu-btn"
+              >Favoritos</a
+            >
+            <a href="./auth.html" class="btn btn--secondary menu-btn"
+              >Mis Aportes</a
+            >
+            <a href="./auth.html" class="btn btn--secondary menu-btn"
+              >Mi Cuenta</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
     <main class="shell">
       <!-- Header -->
       <header class="dash-header">
@@ -16,8 +144,7 @@
           <p class="dash-subtitle">Gestiona tus proyectos y revisa tu actividad</p>
         </div>
 
-        <h2 class="dash-banner">USUARIO : MIS APORTES</h2>
-
+        
         <button class="btn btn--primary btn--icon" type="button" onclick="alert('Pressed!')">
           <img
             class="icon icon--lg"
@@ -85,58 +212,167 @@
 
       <!-- Tabs -->
       <nav class="tabs" aria-label="Filtro de contenido">
-        <button class="tab" type="button">Mis Proyectos</button>
-        <button class="tab tab--active" type="button" aria-current="page">Mis Aportes</button>
-        <button class="tab" type="button">Favoritos</button>
+        <button class="tab" type="button" data-tab="proyectos">Mis Proyectos</button>
+        <button class="tab tab--active" type="button" data-tab="aportes" aria-current="page">Mis Aportes</button>
+        <button class="tab" type="button" data-tab="favoritos">Favoritos</button>
       </nav>
 
-      <!-- Historial -->
-      <section class="card">
-        <h2 class="card__title">Historial de Aportes</h2>
+      <!-- Contenido de las pestañas -->
+      <div class="tab-content-container">
+        <!-- Mis Proyectos -->
+        <section id="proyectos" class="tabcontent">
+          <div class="card">
+            <h2 class="card__title">Mis Proyectos</h2>
+            
+            <div class="projects-grid">
+              <article class="project-card">
+                <div class="project-card__header">
+                  <img class="project-card__image" src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/72dshkp1_expires_30_days.png" alt="SmartWatch Revolucionario" />
+                  <div class="project-card__status project-card__status--active">Activo</div>
+                </div>
+                <div class="project-card__content">
+                  <h3 class="project-card__title">SmartWatch Revolucionario</h3>
+                  <p class="project-card__description">Un smartwatch con tecnología innovadora que monitorea salud y conectividad.</p>
+                  <div class="project-card__progress">
+                    <div class="progress-bar">
+                      <div class="progress-bar__fill" style="width: 65%"></div>
+                    </div>
+                    <div class="project-card__stats">
+                      <span class="project-card__amount">6.500&nbsp;€</span>
+                      <span class="project-card__goal">de 10.000&nbsp;€</span>
+                    </div>
+                  </div>
+                  <div class="project-card__footer">
+                    <span class="project-card__date">15 días restantes</span>
+                    <button class="btn btn--primary btn--small">Editar</button>
+                  </div>
+                </div>
+              </article>
 
-        <ul class="donations">
-          <li class="donation">
-            <div class="donation__left">
-              <img
-                class="donation__thumb"
-                src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/72dshkp1_expires_30_days.png"
-                alt="SmartWatch Revolucionario"
-                width="48" height="48"
-              />
-              <div class="donation__meta">
-                <div class="donation__title">SmartWatch Revolucionario</div>
-                <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
-                <p class="donation__comment">“Me parece un proyecto muy interesante. ¡Éxito!”</p>
-              </div>
+              <article class="project-card">
+                <div class="project-card__header">
+                  <img class="project-card__image" src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/v85and2w_expires_30_days.png" alt="Álbum Sonidos del Futuro" />
+                  <div class="project-card__status project-card__status--completed">Completado</div>
+                </div>
+                <div class="project-card__content">
+                  <h3 class="project-card__title">Álbum "Sonidos del Futuro"</h3>
+                  <p class="project-card__description">Un álbum musical experimental que fusiona tecnología y creatividad.</p>
+                  <div class="project-card__progress">
+                    <div class="progress-bar">
+                      <div class="progress-bar__fill" style="width: 100%"></div>
+                    </div>
+                    <div class="project-card__stats">
+                      <span class="project-card__amount">5.000&nbsp;€</span>
+                      <span class="project-card__goal">de 5.000&nbsp;€</span>
+                    </div>
+                  </div>
+                  <div class="project-card__footer">
+                    <span class="project-card__date">Proyecto finalizado</span>
+                    <button class="btn btn--secondary btn--small">Ver detalles</button>
+                  </div>
+                </div>
+              </article>
             </div>
-            <div class="donation__right">
-              <div class="donation__amount">150&nbsp;€</div>
-              <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver Proyecto</a>
-            </div>
-          </li>
+          </div>
+        </section>
 
-          <li class="donation">
-            <div class="donation__left">
-              <img
-                class="donation__thumb"
-                src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/v85and2w_expires_30_days.png"
-                alt="Álbum Sonidos del Futuro"
-                width="48" height="48"
-              />
-              <div class="donation__meta">
-                <div class="donation__title">Álbum “Sonidos del Futuro”</div>
-                <time class="donation__date" datetime="2025-02-17">17/2/2025</time>
-                <p class="donation__comment">“Apoyo este tipo de iniciativas creativas”</p>
-              </div>
+        <!-- Mis Aportes -->
+        <section id="aportes" class="tabcontent active">
+          <div class="card">
+            <h2 class="card__title">Historial de Aportes</h2>
+
+            <ul class="donations">
+              <li class="donation">
+                <div class="donation__left">
+                  <img
+                    class="donation__thumb"
+                    src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/72dshkp1_expires_30_days.png"
+                    alt="SmartWatch Revolucionario"
+                    width="48" height="48"
+                  />
+                  <div class="donation__meta">
+                    <div class="donation__title">SmartWatch Revolucionario</div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">"Me parece un proyecto muy interesante. ¡Éxito!"</p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver Proyecto</a>
+                </div>
+              </li>
+
+              <li class="donation">
+                <div class="donation__left">
+                  <img
+                    class="donation__thumb"
+                    src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/v85and2w_expires_30_days.png"
+                    alt="Álbum Sonidos del Futuro"
+                    width="48" height="48"
+                  />
+                  <div class="donation__meta">
+                    <div class="donation__title">Álbum "Sonidos del Futuro"</div>
+                    <time class="donation__date" datetime="2025-02-17">17/2/2025</time>
+                    <p class="donation__comment">"Apoyo este tipo de iniciativas creativas"</p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">75&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto Álbum Sonidos del Futuro">Ver Proyecto</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Favoritos -->
+        <section id="favoritos" class="tabcontent">
+          <div class="card">
+            <h2 class="card__title">Proyectos Favoritos</h2>
+            
+            <div class="favorites-grid">
+              <article class="favorite-card">
+                <img class="favorite-card__image" src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/mom80z4x_expires_30_days.png" alt="Instalación de Arte Interactivo" />
+                <div class="favorite-card__content">
+                  <h3 class="favorite-card__title">Instalación de Arte Interactivo</h3>
+                  <p class="favorite-card__description">Una experiencia inmersiva que combina arte y tecnología.</p>
+                  <div class="favorite-card__stats">
+                    <span class="favorite-card__amount">8.200&nbsp;€</span>
+                    <span class="favorite-card__goal">de 15.000&nbsp;€</span>
+                  </div>
+                  <div class="favorite-card__footer">
+                    <button class="btn btn--primary btn--small">Aportar</button>
+                    <button class="btn btn--secondary btn--small btn--icon">
+                      <img class="icon" src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/m0fx6pvx_expires_30_days.png" alt="Corazón" />
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="favorite-card">
+                <img class="favorite-card__image" src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/mybt549s_expires_30_days.png" alt="Proyecto Educativo Rural" />
+                <div class="favorite-card__content">
+                  <h3 class="favorite-card__title">Proyecto Educativo Rural</h3>
+                  <p class="favorite-card__description">Llevando educación de calidad a zonas rurales desatendidas.</p>
+                  <div class="favorite-card__stats">
+                    <span class="favorite-card__amount">12.500&nbsp;€</span>
+                    <span class="favorite-card__goal">de 20.000&nbsp;€</span>
+                  </div>
+                  <div class="favorite-card__footer">
+                    <button class="btn btn--primary btn--small">Aportar</button>
+                    <button class="btn btn--secondary btn--small btn--icon">
+                      <img class="icon" src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/m0fx6pvx_expires_30_days.png" alt="Corazón" />
+                    </button>
+                  </div>
+                </div>
+              </article>
             </div>
-            <div class="donation__right">
-              <div class="donation__amount">75&nbsp;€</div>
-              <a class="donation__link" href="#" aria-label="Ver proyecto Álbum Sonidos del Futuro">Ver Proyecto</a>
-            </div>
-          </li>
-        </ul>
-      </section>
+          </div>
+        </section>
+      </div>
     </main>
   </div>
+  <script src="../assets/js/dashboard/dashboard.js"></script>
+  <script src="../assets/js/home/menu.js"></script>
 </body>
 </html>

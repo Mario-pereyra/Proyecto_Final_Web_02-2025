@@ -146,6 +146,165 @@ body{
   background: #fff;
 }
 
+/* ===== Contenido de pestañas ===== */
+.tab-content-container {
+  width: 100%;
+}
+
+.tabcontent {
+  display: none;
+  width: 100%;
+}
+
+.tabcontent.active {
+  display: block;
+}
+
+/* ===== Grid de proyectos ===== */
+.projects-grid,
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-5);
+}
+
+/* ===== Tarjeta de proyecto ===== */
+.project-card,
+.favorite-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover,
+.favorite-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.project-card__header {
+  position: relative;
+}
+
+.project-card__image,
+.favorite-card__image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.project-card__status {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.project-card__status--active {
+  background: #28a745;
+}
+
+.project-card__status--completed {
+  background: #6c757d;
+}
+
+.project-card__content,
+.favorite-card__content {
+  padding: var(--space-5);
+}
+
+.project-card__title,
+.favorite-card__title {
+  margin: 0 0 var(--space-2);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.project-card__description,
+.favorite-card__description {
+  margin: 0 0 var(--space-4);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.project-card__progress {
+  margin-bottom: var(--space-4);
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--chip);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: var(--brand);
+  transition: width 0.3s ease;
+}
+
+.project-card__stats,
+.favorite-card__stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: var(--space-4);
+}
+
+.project-card__amount,
+.favorite-card__amount {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.project-card__goal,
+.favorite-card__goal {
+  color: var(--muted);
+}
+
+.project-card__footer,
+.favorite-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-card__date,
+.favorite-card__date {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.btn--small {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.btn--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===== Responsive para tarjetas ===== */
+@media (max-width: 768px) {
+  .projects-grid,
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ===== Lista de donaciones ===== */
 .donations{
   list-style: none;
