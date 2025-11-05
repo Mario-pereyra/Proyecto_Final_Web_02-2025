@@ -1,28 +1,20 @@
-/* Variables de colores para consistencia */
+/* Importar tokens de diseño unificados */
+@import url('../tokens.css');
+
+/* Variables específicas del auth que no están en tokens */
 :root {
-    --primary-color: #030213;
-    --secondary-color: #ffffff;
-    --background-color: #E7E7E9;
-    --card-background: #ffffff;
-    --text-primary: #0A0A0A;
-    --text-secondary: #717182;
-    --border-color: #ECECF0;
-    --error-color: #e74c3c;
-    --success-color: #27ae60;
-    --border-radius: 0.5rem;
-    --spacing-xs: 0.5rem;
-    --spacing-sm: 1rem;
-    --spacing-md: 1.5rem;
-    --spacing-lg: 2rem;
-    --spacing-xl: 3rem;
+    /* Mantener compatibilidad con código existente */
+    --secondary-color: var(--color-white);
+    --background-color: var(--bg-secondary);
+    --card-background: var(--bg-primary);
 }
 
-/* Reset y estilos base */
+/* Reset y estilos base con variables unificadas */
 body {
     margin: 0;
     padding: 0;
-    font-family: 'ProductSans', sans-serif;
-    background-color: var(--background-color);
+    font-family: var(--font-family-primary);
+    background-color: var(--bg-secondary);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -42,20 +34,20 @@ header {
 .auth-nav button {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border: 1px solid var(--primary-color);
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    border-radius: var(--border-radius);
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    border-radius: var(--radius-button);
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.875rem;
+    transition: var(--transition-normal);
+    font-size: var(--text-sm);
 }
 
 .auth-nav button:hover {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
 
 /* Contenedor principal */
@@ -64,23 +56,22 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-8) var(--spacing-4) var(--spacing-6);
     margin-top: 60px;
 }
 
 .auth-container {
     width: 100%;
     max-width: 450px;
-    ;
-    background-color: var(--card-background);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
 }
 
 /* Logo y descripción */
 .logo-container {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-6);
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -95,7 +86,7 @@ header {
 .logo-link {
     display: inline-block;
     text-decoration: none;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-2);
 }
 
 .logo-img {
@@ -106,14 +97,14 @@ header {
 
 .auth-description {
     color: var(--text-secondary);
-    font-size: 1rem;
-    margin: var(--spacing-sm) 0 0 0;
-    line-height: 1.5;
+    font-size: var(--text-base);
+    margin: var(--spacing-2) 0 0 0;
+    line-height: var(--leading-normal);
 }
 
 /* Sección de autenticación */
 .auth-section {
-    padding: var(--spacing-xl) var(--spacing-lg);
+    padding: var(--spacing-8) var(--spacing-6);
 }
 
 /* Tabs */

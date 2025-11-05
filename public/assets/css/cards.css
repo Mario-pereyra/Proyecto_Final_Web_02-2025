@@ -1,3 +1,6 @@
+/* Importar tokens de diseño unificados */
+@import url('./tokens.css');
+
 /* Estilos unificados para las cards de proyectos */
 
 /* Contenedor principal para las cards */
@@ -13,7 +16,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: var(--spacing-8);
 }
 
 /* Contenedor para las imágenes con aspecto fijo */
@@ -28,7 +31,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover; /* Cubre el contenedor manteniendo proporción */
-    transition: transform 0.3s ease;
+    transition: var(--transition-normal);
 }
 
 .project-img:hover {
@@ -38,26 +41,26 @@
 /* Etiqueta de categoría del proyecto */
 .project-category {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: #ECEEF2;
-    color: #030213;
-    padding: 4px 10px;
-    border-radius: 16px;
-    font-size: 0.75rem;
-    font-weight: 600;
+    top: var(--spacing-3);
+    left: var(--spacing-3);
+    background-color: var(--color-gray-300);
+    color: var(--color-primary);
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
     z-index: 2;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Botón de like/corazón */
 .project-like-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
     background: rgba(255, 255, 255, 0.8);
     border: none;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     width: 36px;
     height: 36px;
     display: flex;
@@ -65,7 +68,7 @@
     justify-content: center;
     cursor: pointer;
     z-index: 2;
-    transition: all 0.3s ease;
+    transition: var(--transition-normal);
     backdrop-filter: blur(4px);
 }
 
@@ -76,15 +79,15 @@
 
 .project-like-btn iconify-icon {
     font-size: 20px;
-    transition: all 0.3s ease;
+    transition: var(--transition-normal);
 }
 
 .heart-icon-empty {
-    color: #666;
+    color: var(--color-gray-600);
 }
 
 .heart-icon-filled {
-    color: #e74c3c; /* Color rojito para el corazón lleno */
+    color: var(--color-error); /* Color rojito para el corazón lleno */
 }
 
 .project-like-btn[data-liked="true"] .heart-icon-empty {
@@ -107,8 +110,8 @@
 .project {
     display: flex;
     flex-direction: column;
-    border-radius: 0.5rem;
-    border: 0.5px solid;
+    border-radius: var(--radius-button);
+    border: 0.5px solid var(--border-color);
     height: 510px; /* Altura reducida para mejor compactación */
     box-shadow: var(--shadow-md);
 }
@@ -116,19 +119,19 @@
 .project-content {
     display: flex;
     flex-direction: column;
-    padding: 0.75rem; /* Reducido padding */
+    padding: var(--spacing-3); /* Reducido padding */
     flex: 1; /* El contenido ocupa el espacio restante */
     overflow: hidden;
 }
 
 .content-container-title {
-    margin-bottom: 0.5rem; /* Reducido margen */
+    margin-bottom: var(--spacing-2); /* Reducido margen */
 }
 
 .content-container-title h3 {
-    margin: 0 0 0.3rem 0; /* Reducido margen */
-    font-size: 1.05rem; /* Ligeramente reducido */
-    line-height: 1.2;
+    margin: 0 0 var(--spacing-1) 0; /* Reducido margen */
+    font-size: var(--text-lg); /* Ligeramente reducido */
+    line-height: var(--leading-tight);
     height: 2.4em; /* Altura ajustada para el título */
     overflow: hidden;
     display: -webkit-box;
@@ -138,8 +141,8 @@
 
 .content-container-title p {
     margin: 0;
-    font-size: 0.85rem; /* Reducido tamaño de fuente */
-    line-height: 1.3;
+    font-size: var(--text-sm); /* Reducido tamaño de fuente */
+    line-height: var(--leading-tight);
     color: var(--text-secondary);
     height: 3.9em; /* Altura ajustada para la descripción */
     overflow: hidden;
@@ -152,7 +155,7 @@
     margin-top: auto; /* Empuja este sección hacia abajo */
     display: flex;
     flex-direction: column;
-    gap: 0.5rem; /* Reducido gap */
+    gap: var(--spacing-2); /* Reducido gap */
 }
 
 .content-financial-goal {
@@ -164,13 +167,13 @@
 
 .content-financial-goal h4 {
     margin: 0;
-    font-size: 0.95rem; /* Reducido tamaño */
-    font-weight: 600;
+    font-size: var(--text-base); /* Reducido tamaño */
+    font-weight: var(--font-semibold);
 }
 
 .content-financial-goal p {
     margin: 0;
-    font-size: 0.85rem; /* Reducido tamaño */
+    font-size: var(--text-sm); /* Reducido tamaño */
     color: var(--text-secondary);
 }
 
@@ -180,21 +183,21 @@
 
 .meta_project__progressbar {
     width: 100%;
-    height: 6px; /* Reducido altura */
+    height: var(--progress-height); /* Reducido altura */
 }
 
 .financial-goal-container-progressbar + p {
-    margin: 0.15rem 0 0 0; /* Reducido margen */
-    font-size: 0.8rem; /* Reducido tamaño */
-    font-weight: 500;
+    margin: var(--spacing-1) 0 0 0; /* Reducido margen */
+    font-size: var(--text-xs); /* Reducido tamaño */
+    font-weight: var(--font-medium);
     text-align: center;
 }
 
 .container-owner-project, .container-date-project {
     display: flex;
     align-items: center;
-    gap: 0.4rem; /* Reducido gap */
-    font-size: 0.8rem; /* Reducido tamaño */
+    gap: var(--spacing-1); /* Reducido gap */
+    font-size: var(--text-sm); /* Reducido tamaño */
     color: var(--text-secondary);
 }
 
@@ -206,20 +209,20 @@
 }
 
 .project-content button {
-    margin-top: 0.5rem; /* Reducido margen */
-    padding: 0.4rem 0.8rem; /* Reducido padding */
+    margin-top: var(--spacing-2); /* Reducido margen */
+    padding: var(--spacing-2) var(--spacing-3); /* Reducido padding */
     border: none;
-    border-radius: var(--border-radius);
-    background-color: var(--secondary-color);
-    color: white;
-    font-weight: 500;
-    font-size: 0.85rem; /* Reducido tamaño */
+    border-radius: var(--radius-button);
+    background-color: var(--color-primary);
+    color: var(--text-white);
+    font-weight: var(--font-medium);
+    font-size: var(--text-sm); /* Reducido tamaño */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: var(--transition-normal);
 }
 
 .project-content button:hover {
-    background-color: var(--primary-color);
+    background-color: var(--color-primary);
 }
 
 .container-project-features-ver-proyectos {
