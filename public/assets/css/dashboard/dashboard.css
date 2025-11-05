@@ -8,6 +8,11 @@
   --chip: #ECEEF2;
   --pill: #ECECF0;
   --brand: #D4183D;
+  --track: #E3E3E7;
+
+  /* Warning colors */
+  --warn-outline: #FFDF20;
+  --warn-text: #D08700;
 
   /* Tipografía y espaciados */
   --radius-lg: 14px;
@@ -70,34 +75,109 @@ body{
   text-align: center;
 }
 
-/* ===== Botón primario ===== */
+/* ===== Utilidades ===== */
 .icon{ width: 16px; height: 16px; display: inline-block; }
 .icon--lg{ width: 24px; height: 16px; }
+.icon--md{ width: 20px; height: 16px; }
+.muted{ color: var(--muted); }
+.small{ font-size: 12px; color: var(--text); }
 
-.btn{
+/* ===== Botón primario ===== */
+
+/* Estilos de botones con mayor especificidad para el dashboard */
+.page .btn,
+.shell .btn{
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 6px 11px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--ink);
+  border: 1px solid var(--border);
   background: #fff;
   color: var(--text);
   cursor: pointer;
   text-decoration: none;
-  border: none;
+  font-size: 13px;
+  transition: all 0.2s ease;
 }
-.btn--primary{
+.btn:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.page .btn--icon .icon,
+.shell .btn--icon .icon{ margin-right: 2px; }
+
+.page .btn--primary,
+.shell .btn--primary{
   background: var(--ink);
   color: #fff;
+  border: 1px solid var(--ink);
 }
-.btn--secondary{
+.page .btn--primary:hover,
+.shell .btn--primary:hover {
+  background: #1a1a2e;
+  border-color: #1a1a2e;
+}
+.page .btn--primary:focus,
+.shell .btn--primary:focus {
+  outline-color: var(--brand);
+}
+
+.page .btn--secondary,
+.shell .btn--secondary{
   background: transparent;
   color: var(--text);
   border: 1px solid var(--border);
 }
-.btn--secondary:hover{
+.page .btn--secondary:hover,
+.shell .btn--secondary:hover{
   background: var(--chip);
+  border-color: var(--border);
+}
+.page .btn--secondary:focus,
+.shell .btn--secondary:focus {
+  outline-color: var(--brand);
+}
+
+.page .btn--ghost,
+.shell .btn--ghost{
+  background: #fff;
+  border: 1px solid var(--border);
+}
+.page .btn--ghost:hover,
+.shell .btn--ghost:hover{
+  background: var(--chip);
+  border-color: var(--border);
+}
+.page .btn--ghost:focus,
+.shell .btn--ghost:focus {
+  outline-color: var(--brand);
+}
+
+.page .btn--outline-warning,
+.shell .btn--outline-warning{
+  background: #fff;
+  color: var(--warn-text);
+  border: 1px solid var(--warn-outline);
+}
+.page .btn--outline-warning:hover,
+.shell .btn--outline-warning:hover {
+  background: var(--warn-outline);
+  color: var(--warn-text);
+  opacity: 0.8;
+}
+.page .btn--outline-warning:focus,
+.shell .btn--outline-warning:focus {
+  outline-color: var(--warn-outline);
+}
+
+.page .btn--small,
+.shell .btn--small {
+  padding: 6px 12px;
+  font-size: 13px;
 }
 
 /* ===== Card base ===== */
@@ -149,9 +229,18 @@ body{
   font-size: 13px;
   color: var(--text);
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+.tab:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+.tab:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }
 .tab--active{
   background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* ===== Contenido de pestañas ===== */
@@ -374,5 +463,254 @@ body{
   }
   .donation__right{
     justify-items: start;
+  }
+}
+
+/* ===== Estilos adicionales para la nueva estructura de proyectos ===== */
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 16px;
+}
+
+/* Tarjeta de proyecto basada en contenidoABasar */
+.proj-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.proj-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.proj-card__media {
+  margin: 0;
+}
+
+.proj-card__thumb {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.proj-card__body {
+  display: grid;
+  gap: 8px;
+}
+
+.proj-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.proj-card__titlewrap {
+  flex: 1;
+}
+
+.proj-card__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.proj-card__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.proj-card__status {
+  display: grid;
+  gap: 4px;
+}
+
+.proj-card__status--stack {
+  display: grid;
+  gap: 4px;
+}
+
+/* Chips de estado */
+.chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  line-height: 1.6;
+  transition: all 0.2s ease;
+}
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chip--muted {
+  background: var(--chip);
+  color: var(--ink);
+  border: 0;
+}
+
+.chip--outline-warning {
+  background: #fff;
+  color: var(--warn-text);
+  border: 1px solid var(--warn-outline);
+}
+
+.chip--dark {
+  background: var(--ink);
+  color: #fff;
+  border: 0;
+}
+
+/* Stats y progreso */
+.proj-card__stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress {
+  width: 100%;
+  height: 16px;
+  background: var(--track);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress--thin {
+  height: 8px;
+}
+
+.progress__bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--progress, 0%);
+  background: var(--ink);
+}
+
+/* Metadatos adicionales */
+.proj-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.proj-card__owner,
+.proj-card__date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Acciones */
+.proj-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+
+/* Responsive para las nuevas tarjetas */
+@media (max-width: 720px) {
+  .proj-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .proj-card__media {
+    order: 0;
+    margin-bottom: 4px;
+  }
+  
+  .proj-card__thumb {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .proj-card__head {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  
+  .proj-card__status {
+    align-self: flex-start;
+  }
+  
+  .proj-card__actions {
+    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .proj-card__actions .btn {
+    justify-content: center;
+  }
+  
+  .proj-card__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+}
+
+/* Mejoras adicionales para tablets */
+@media (min-width: 721px) and (max-width: 1024px) {
+  .proj-card {
+    gap: 12px;
+  }
+  
+  .proj-card__thumb {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .proj-card__actions {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .proj-card__actions .btn {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+/* Ajustes para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .shell {
+    padding: var(--space-4);
+  }
+  
+  .dash-title {
+    font-size: 24px;
+  }
+  
+  .kpis {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .tabs {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .tab {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
   }
 }

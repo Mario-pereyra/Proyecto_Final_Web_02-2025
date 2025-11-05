@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test de Funcionalidad de Tabs del Dashboard</title>
+    <link rel="stylesheet" href="./public/assets/css/dashboard/dashboard.css" />
+    <link rel="stylesheet" href="./public/assets/css/buttons.css" />
+    <link rel="stylesheet" href="./public/assets/css/cards.css" />
+    <link rel="stylesheet" href="./public/assets/css/header.css" />
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <main class="shell">
+        <!-- Header con banner -->
+        <header class="dash-header">
+          <div class="dash-header__left">
+            <h1 class="dash-title">Mi Dashboard</h1>
+            <p class="dash-subtitle">
+              Gestiona tus proyectos y revisa tu actividad
+            </p>
+            <!-- Banner que faltaba en el HTML original -->
+            <div class="dash-banner">USUARIO : MIS APORTES</div>
+          </div>
+          <button class="btn btn--primary btn--icon" type="button">
+            <iconify-icon
+              icon="ic:round-add-circle"
+              class="icon icon--lg"
+            ></iconify-icon>
+            <span>Nuevo Proyecto</span>
+          </button>
+        </header>
+
+        <!-- Tabs -->
+        <nav class="tabs" aria-label="Filtro de contenido">
+          <button class="tab" type="button" data-tab="proyectos">
+            Mis Proyectos
+          </button>
+          <button
+            class="tab tab--active"
+            type="button"
+            data-tab="aportes"
+            aria-current="page"
+          >
+            Mis Aportes
+          </button>
+          <button class="tab" type="button" data-tab="favoritos">
+            Favoritos
+          </button>
+        </nav>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content-container">
+          <!-- Mis Proyectos -->
+          <section id="proyectos" class="tabcontent">
+            <div class="card"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

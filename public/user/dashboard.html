@@ -175,256 +175,385 @@
           <div class="card">
             <h2 class="card__title">Mis Proyectos</h2>
 
-            <div class="container-project-features-item">
-              <article class="project">
-                <div class="container-project-img">
-                  <a href="../detail.html"><img src="../assets/img/SmartWatch Revolucionario.png"
-                      alt="SmartWatch Revolucionario" class="project-img" /></a>
-                  <div class="project-category">Tecnología</div>
-                  <button class="project-like-btn" data-liked="false">
-                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                      style="display: none"></iconify-icon>
-                  </button>
-                </div>
-                <div class="project-content">
-                  <div class="content-container-title">
-                    <h3>SmartWatch Revolucionario</h3>
-                    <p>
-                      Un smartchwatch con tecnologia innovadora que monitorea tu
-                      salud 24/7
-                    </p>
-                  </div>
-                  <div class="content-finacial">
-                    <div class="content-financial-goal">
-                      <h4>37.500Bs</h4>
-                      <p>de 50.000Bs</p>
+            <ul class="project-list">
+              <!-- Proyecto 1: SmartWatch Revolucionario -->
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img
+                    class="proj-card__thumb"
+                    src="../assets/img/SmartWatch Revolucionario.png"
+                    alt="SmartWatch Revolucionario"
+                    width="96" height="96"
+                  />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">SmartWatch Revolucionario</h2>
+                      <p class="proj-card__subtitle muted">Un smartwatch con tecnología innovadora que monitorea tu salud 24/7</p>
                     </div>
-                    <div class="financial-goal-container-progressbar">
-                      <progress class="meta_project__progressbar" max="100" value="100" class="progres"
-                        class="financial-goal-progressbar"></progress>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">100% Financiado</span>
                     </div>
-                    <p>100% Financiado</p>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">37.500&nbsp;Bs recaudado</span>
+                    <span class="small">100% de 50.000&nbsp;Bs</span>
                   </div>
-                  <div class="container-owner-project">
-                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-                    <p class="owner-project">Por Ana garcia</p>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+                    <div class="progress__bar" style="--progress: 100%"></div>
                   </div>
-                  <div class="container-date-project">
-                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-                    <p class="date-project">101 dias restantes</p>
-                  </div>
-                  <button type="button" onclick="window.location.href='../detail.html'">
-                    Ver detalles
-                  </button>
-                </div>
-              </article>
-              <article class="project">
-                <div class="container-project-img">
-                  <a href="#"><img src="../assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
-                      class="project-img" /></a>
-                  <div class="project-category">Música</div>
-                  <button class="project-like-btn" data-liked="false">
-                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                      style="display: none"></iconify-icon>
-                  </button>
-                </div>
-                <div class="project-content">
-                  <div class="content-container-title">
-                    <h3>Álbum "Sonidos del Futuro"</h3>
-                    <p>
-                      Un álbum conceptual que fusiona música electrónica con sonidos
-                      naturales
-                    </p>
-                  </div>
-                  <div class="content-finacial">
-                    <div class="content-financial-goal">
-                      <h4>8750Bs</h4>
-                      <p>de 15.000 Bs</p>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Ana Garcia</span>
                     </div>
-                    <div class="financial-goal-container-progressbar">
-                      <progress class="meta_project__progressbar" max="100" value="58" class="progres"
-                        class="financial-goal-progressbar"></progress>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">101 días restantes</span>
                     </div>
-                    <p>58% financiado</p>
                   </div>
-                  <div class="container-owner-project">
-                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-                    <p class="owner-project">por Carlos López</p>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="window.location.href='../detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
                   </div>
-                  <div class="container-date-project">
-                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-                    <p class="date-project">70 días restantes</p>
-                  </div>
-                  <button type="button" onclick="">Ver detalles</button>
                 </div>
-              </article>
-              <article class="project">
-                <div class="container-project-img">
-                  <a href="#"><img src="../assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
-                      class="project-img" /></a>
-                  <div class="project-category">Música</div>
-                  <button class="project-like-btn" data-liked="false">
-                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                      style="display: none"></iconify-icon>
-                  </button>
-                </div>
-                <div class="project-content">
-                  <div class="content-container-title">
-                    <h3>Álbum "Sonidos del Futuro"</h3>
-                    <p>
-                      Un álbum conceptual que fusiona música electrónica con sonidos
-                      naturales
-                    </p>
-                  </div>
-                  <div class="content-finacial">
-                    <div class="content-financial-goal">
-                      <h4>8750Bs</h4>
-                      <p>de 15.000 Bs</p>
+              </li>
+
+              <!-- Proyecto 2: Álbum "Sonidos del Futuro" -->
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img
+                    class="proj-card__thumb"
+                    src="../assets/img/Álbum _Sonidos del Futuro_.png"
+                    alt="Álbum Sonidos del Futuro"
+                    width="96" height="96"
+                  />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">Álbum "Sonidos del Futuro"</h2>
+                      <p class="proj-card__subtitle muted">Un álbum conceptual que fusiona música electrónica con sonidos naturales</p>
                     </div>
-                    <div class="financial-goal-container-progressbar">
-                      <progress class="meta_project__progressbar" max="100" value="58" class="progres"
-                        class="financial-goal-progressbar"></progress>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">58% financiado</span>
                     </div>
-                    <p>58% financiado</p>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">8.750&nbsp;Bs recaudado</span>
+                    <span class="small">58% de 15.000&nbsp;Bs</span>
                   </div>
-                  <div class="container-owner-project">
-                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-                    <p class="owner-project">por Carlos López</p>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                    <div class="progress__bar" style="--progress: 58%"></div>
                   </div>
-                  <div class="container-date-project">
-                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-                    <p class="date-project">70 días restantes</p>
-                  </div>
-                  <button type="button" onclick="">Ver detalles</button>
-                </div>
-              </article>
-              <article class="project">
-                <div class="container-project-img">
-                  <a href="#"><img src="../assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
-                      class="project-img" /></a>
-                  <div class="project-category">Música</div>
-                  <button class="project-like-btn" data-liked="false">
-                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                      style="display: none"></iconify-icon>
-                  </button>
-                </div>
-                <div class="project-content">
-                  <div class="content-container-title">
-                    <h3>Álbum "Sonidos del Futuro"</h3>
-                    <p>
-                      Un álbum conceptual que fusiona música electrónica con sonidos
-                      naturales
-                    </p>
-                  </div>
-                  <div class="content-finacial">
-                    <div class="content-financial-goal">
-                      <h4>8750Bs</h4>
-                      <p>de 15.000 Bs</p>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Carlos López</span>
                     </div>
-                    <div class="financial-goal-container-progressbar">
-                      <progress class="meta_project__progressbar" max="100" value="58" class="progres"
-                        class="financial-goal-progressbar"></progress>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">70 días restantes</span>
                     </div>
-                    <p>58% financiado</p>
                   </div>
-                  <div class="container-owner-project">
-                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-                    <p class="owner-project">por Carlos López</p>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="window.location.href='../detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
                   </div>
-                  <div class="container-date-project">
-                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-                    <p class="date-project">70 días restantes</p>
-                  </div>
-                  <button type="button" onclick="">Ver detalles</button>
                 </div>
-              </article>
-              <article class="project">
-                <div class="container-project-img">
-                  <a href="#"><img src="../assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
-                      class="project-img" /></a>
-                  <div class="project-category">Música</div>
-                  <button class="project-like-btn" data-liked="false">
-                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                      style="display: none"></iconify-icon>
-                  </button>
-                </div>
-                <div class="project-content">
-                  <div class="content-container-title">
-                    <h3>Álbum "Sonidos del Futuro"</h3>
-                    <p>
-                      Un álbum conceptual que fusiona música electrónica con sonidos
-                      naturales
-                    </p>
-                  </div>
-                  <div class="content-finacial">
-                    <div class="content-financial-goal">
-                      <h4>8750Bs</h4>
-                      <p>de 15.000 Bs</p>
+              </li>
+
+              <!-- Proyecto 3: Álbum "Sonidos del Futuro" (Copia 2) -->
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img
+                    class="proj-card__thumb"
+                    src="../assets/img/Álbum _Sonidos del Futuro_.png"
+                    alt="Álbum Sonidos del Futuro"
+                    width="96" height="96"
+                  />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">Álbum "Sonidos del Futuro"</h2>
+                      <p class="proj-card__subtitle muted">Un álbum conceptual que fusiona música electrónica con sonidos naturales</p>
                     </div>
-                    <div class="financial-goal-container-progressbar">
-                      <progress class="meta_project__progressbar" max="100" value="58" class="progres"
-                        class="financial-goal-progressbar"></progress>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">58% financiado</span>
                     </div>
-                    <p>58% financiado</p>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">8.750&nbsp;Bs recaudado</span>
+                    <span class="small">58% de 15.000&nbsp;Bs</span>
                   </div>
-                  <div class="container-owner-project">
-                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-                    <p class="owner-project">por Carlos López</p>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                    <div class="progress__bar" style="--progress: 58%"></div>
                   </div>
-                  <div class="container-date-project">
-                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-                    <p class="date-project">70 días restantes</p>
-                  </div>
-                  <button type="button" onclick="">Ver detalles</button>
-                </div>
-              </article>
-              <article class="project">
-                <div class="container-project-img">
-                  <a href="#"><img src="../assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
-                      class="project-img" /></a>
-                  <div class="project-category">Música</div>
-                  <button class="project-like-btn" data-liked="false">
-                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                      style="display: none"></iconify-icon>
-                  </button>
-                </div>
-                <div class="project-content">
-                  <div class="content-container-title">
-                    <h3>Álbum "Sonidos del Futuro"</h3>
-                    <p>
-                      Un álbum conceptual que fusiona música electrónica con sonidos
-                      naturales
-                    </p>
-                  </div>
-                  <div class="content-finacial">
-                    <div class="content-financial-goal">
-                      <h4>8750Bs</h4>
-                      <p>de 15.000 Bs</p>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Carlos López</span>
                     </div>
-                    <div class="financial-goal-container-progressbar">
-                      <progress class="meta_project__progressbar" max="100" value="58" class="progres"
-                        class="financial-goal-progressbar"></progress>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">70 días restantes</span>
                     </div>
-                    <p>58% financiado</p>
                   </div>
-                  <div class="container-owner-project">
-                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-                    <p class="owner-project">por Carlos López</p>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="window.location.href='../detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
                   </div>
-                  <div class="container-date-project">
-                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-                    <p class="date-project">70 días restantes</p>
-                  </div>
-                  <button type="button" onclick="">Ver detalles</button>
                 </div>
-              </article>
-            </div>
+              </li>
+
+              <!-- Proyecto 4: Álbum "Sonidos del Futuro" (Copia 3) -->
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img
+                    class="proj-card__thumb"
+                    src="../assets/img/Álbum _Sonidos del Futuro_.png"
+                    alt="Álbum Sonidos del Futuro"
+                    width="96" height="96"
+                  />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">Álbum "Sonidos del Futuro"</h2>
+                      <p class="proj-card__subtitle muted">Un álbum conceptual que fusiona música electrónica con sonidos naturales</p>
+                    </div>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">58% financiado</span>
+                    </div>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">8.750&nbsp;Bs recaudado</span>
+                    <span class="small">58% de 15.000&nbsp;Bs</span>
+                  </div>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                    <div class="progress__bar" style="--progress: 58%"></div>
+                  </div>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Carlos López</span>
+                    </div>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">70 días restantes</span>
+                    </div>
+                  </div>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="window.location.href='../detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+
+              <!-- Proyecto 5: Álbum "Sonidos del Futuro" (Copia 4) -->
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img
+                    class="proj-card__thumb"
+                    src="../assets/img/Álbum _Sonidos del Futuro_.png"
+                    alt="Álbum Sonidos del Futuro"
+                    width="96" height="96"
+                  />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">Álbum "Sonidos del Futuro"</h2>
+                      <p class="proj-card__subtitle muted">Un álbum conceptual que fusiona música electrónica con sonidos naturales</p>
+                    </div>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">58% financiado</span>
+                    </div>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">8.750&nbsp;Bs recaudado</span>
+                    <span class="small">58% de 15.000&nbsp;Bs</span>
+                  </div>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                    <div class="progress__bar" style="--progress: 58%"></div>
+                  </div>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Carlos López</span>
+                    </div>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">70 días restantes</span>
+                    </div>
+                  </div>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="window.location.href='../detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+
+              <!-- Proyecto 6: Álbum "Sonidos del Futuro" (Copia 5) -->
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img
+                    class="proj-card__thumb"
+                    src="../assets/img/Álbum _Sonidos del Futuro_.png"
+                    alt="Álbum Sonidos del Futuro"
+                    width="96" height="96"
+                  />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">Álbum "Sonidos del Futuro"</h2>
+                      <p class="proj-card__subtitle muted">Un álbum conceptual que fusiona música electrónica con sonidos naturales</p>
+                    </div>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">58% financiado</span>
+                    </div>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">8.750&nbsp;Bs recaudado</span>
+                    <span class="small">58% de 15.000&nbsp;Bs</span>
+                  </div>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación" aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                    <div class="progress__bar" style="--progress: 58%"></div>
+                  </div>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Carlos López</span>
+                    </div>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">70 días restantes</span>
+                    </div>
+                  </div>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="window.location.href='../detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button" onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -448,6 +577,7 @@
                   <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
                     Proyecto</a>
                 </div>
+                
               </li>
 
               <li class="donation">
@@ -463,6 +593,54 @@
                   <div class="donation__amount">75&nbsp;€</div>
                   <a class="donation__link" href="#" aria-label="Ver proyecto Álbum Sonidos del Futuro">Ver Proyecto</a>
                 </div>
+              </li>
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-devices" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">SmartWatch Revolucionario</div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">"Me parece un proyecto muy interesante. ¡Éxito!"</p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
+                    Proyecto</a>
+                </div>
+                
+              </li>
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-devices" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">SmartWatch Revolucionario</div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">"Me parece un proyecto muy interesante. ¡Éxito!"</p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
+                    Proyecto</a>
+                </div>
+                
+              </li>
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-devices" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">SmartWatch Revolucionario</div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">"Me parece un proyecto muy interesante. ¡Éxito!"</p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
+                    Proyecto</a>
+                </div>
+                
               </li>
             </ul>
           </div>
