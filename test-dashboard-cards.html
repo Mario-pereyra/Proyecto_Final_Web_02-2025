@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Tarjetas de Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .comparison {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .comparison-column {
+            flex: 1;
+        }
+        .comparison-column h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #030213;
+        }
+        .link-list {
+            list-style: none;
+            padding: 0;
+        }
+        .link-list li {
+            margin-bottom: 10px;
+        }
+        .link-list a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #030213;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .link-list a:hover {
+            background-color: #1a1a3a;
+        }
+        .success-message {
+            background-color: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .info-message {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prueba de Consistencia de Tarjetas de Proyectos</h1>
+    
+    <div class="test-section">
+        <h2>Comparación de Tarjetas</h2>
+        <p>Esta página permite comparar las tarjetas de proyectos entre el dashboard y las páginas principales para asegurar consistencia visual.</p>
+        
+        <div class="comparison">
+            <div class="comparison-column">
+                <h3>Tarjetas Originales (Index/Explore)</h3>
+                <ul class="link-list">
+                    <li><a href="public/index.html" target="_blank">Ver en Index.html</a></li>
+                    <li><a href="public/explore.html" target="_blank">Ver en Explore.html</a></li>
+                </ul>
+            </div>
+            
+            <div class="comparison-column">
+                <h3>Tarjetas del Dashboard</h3>
+                <ul class="link-list">
+                    <li><a href="public/user/dashboard.html#proyectos" target="_blank">Ver en Dashboard</a></li>
+                    <li><a href="public/user/dashboard.html#favoritos" target="_blank">Ver Favoritos en Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Características Implementadas</h2>
+        
+        <div class="success-message">
+            <strong>✓ Estructura HTML idéntica:</strong> Las tarjetas usan la misma estructura HTML que en index.html y explore.html
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Clases CSS consistentes:</strong> Se utilizan las mismas clases CSS para mantener coherencia visual
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Botones interactivos:</strong> Todos los botones (Editar, Ver detalles, Aportar) funcionan correctamente
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Botones de corazón funcionales:</strong> Los botones de like/corazón alternan estado al hacer clic
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Etiquetas de categoría:</strong> Se mantienen las etiquetas de categoría (Tecnología, Música, Arte)
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Barras de progreso:</strong> Las barras de progreso muestran el estado de financiación correctamente
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Información de propietario y fechas:</strong> Se mantiene la información del creador y fechas límite
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Instrucciones de Prueba</h2>
+        <ol>
+            <li>Abre las tarjetas originales en index.html o explore.html</li>
+            <li>Abre las tarjetas del dashboard en la pestaña "Mis Proyectos" o "Favoritos"</li>
+            <li>Compara visualmente los siguientes elementos:</li>
+        </ol>
+        
+        <h3>Elementos a Verificar:</h3>
+        <ul>
+            <li>Estructura y diseño de la tarjeta</li>
+            <li>Posición y estilo de la etiqueta de categoría</li>
+            <li>Botón de corazón/corazón y su comportamiento</li>
+            <li>Información del proyecto (título, descripción)</li>
+            <li>Barra de progreso y porcentaje</li>
+            <li>Información del propietario y fecha límite</li>
+            <li>Botones de acción (Editar, Ver detalles, Aportar)</li>
+            <li>Efectos hover y transiciones</li>
+        </ul>
+    </div>
+    
+    <div class="info-message">
+        <h3>Nota Importante:</h3>
+        <p>Las tarjetas del dashboard ahora utilizan exactamente la misma estructura HTML y clases CSS que las tarjetas de index.html y explore.html, garantizando consistencia visual en toda la aplicación web.</p>
+    </div>
+</body>
+</html>

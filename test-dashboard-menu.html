@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prueba de Menú Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      .test-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .test-section h2 {
+        margin-top: 0;
+        color: #333;
+      }
+      .link-list {
+        list-style: none;
+        padding: 0;
+      }
+      .link-list li {
+        margin-bottom: 10px;
+      }
+      .link-list a {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #030213;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 10px;
+      }
+      .link-list a:hover {
+        background-color: #1a1a3a;
+      }
+      .fixed-section {
+        background-color: #f0f0f0;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+      .issue {
+        background-color: #ffebee;
+        border-left: 4px solid #f44336;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      .resolved {
+        background-color: #e8f5e8;
+        border-left: 4px solid #4caf50;
+        padding: 10px;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prueba de Correcciones del Dashboard</h1>
+
+    <div class="test-section">
+      <h2>Enlaces Corregidos del Header</h2>
+      <p>
+        Estos enlaces ahora apuntan correctamente a las secciones del dashboard
+        con deep-linking:
+      </p>
+      <ul class="link-list">
+        <li>
+          <a href="public/user/dashboard.html#proyectos">Mis Proyectos</a>
+        </li>
+        <li><a href="public/user/dashboard.html#aportes">Mis Aportes</a></li>
+        <li><a href="public/user/dashboard.html#favoritos">Favoritos</a></li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h2>Enlaces del Menú Desplegable</h2>
+      <p>
+        Enlaces corregidos del menú lateral para que funcionen con el sistema de
+        pestañas:
+      </p>
+      <ul class="link-list">
+        <li>
+          <a href="public/user/dashboard.html#proyectos"
+            >Mis Proyectos (menú)</a
+          >
+        </li>
+        <li>
+          <a href="public/user/dashboard.html#aportes">Mis Aportes (menú)</a>
+        </li>
+        <li>
+          <a href="public/user/dashboard.html#favoritos">Favoritos (menú)</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fixed-section">
+      <h3>Inconsistencias Corregidas:</h3>
+
+      <div class="resolved">
+        <strong>✓ Error tipográfico corregido:</strong> "btn--secundary" →
+        "btn--secondary"
+      </div>
+
+      <div class="resolved">
+        <strong>✓ Enlaces del header corregidos:</strong> Ahora apuntan a las
+        secciones correctas del dashboard con deep-linking
+      </div>
+
+      <div class="resolved">
+        <strong>✓ Enlaces del menú desplegable corregidos:</strong> Todos los
+        enlaces ahora usan las rutas correctas con hashes
+      </div>
+
+      <div class="resolved">
+        <strong>✓ Colores consistentes:</strong> Los botones ahora usan la
+        paleta de colores del dashboard de forma consistente
+      </div>
+
+      <div class="resolved">
+        <strong>✓ Iconos correctos:</strong> Se han asignado los iconos
+        apropiados para cada función
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h2>Instrucciones de Prueba</h2>
+      <ol>
+        <li>Abre el dashboard desde los enlaces de arriba</li>
+        <li>Verifica que la pestaña correcta se active automáticamente</li>
+        <li>Prueba el menú hamburguesa en dispositivos móviles</li>
+        <li>Verifica que los colores sean consistentes en todo el dashboard</li>
+        <li>Confirma que todos los enlaces funcionen correctamente</li>
+      </ol>
+
+      <h3>Comportamiento Esperado:</h3>
+      <ul>
+        <li>
+          Los enlaces deben llevar directamente a la pestaña correspondiente
+        </li>
+        <li>Los colores deben ser consistentes con el diseño del dashboard</li>
+        <li>El menú desplegable debe funcionar correctamente en móvil</li>
+        <li>No debe haber errores de JavaScript en la consola</li>
+      </ul>
+    </div>
+  </body>
+</html>

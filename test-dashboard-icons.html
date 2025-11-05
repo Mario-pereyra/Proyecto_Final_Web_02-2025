@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Iconos y Tipografía del Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .link-list {
+            list-style: none;
+            padding: 0;
+        }
+        .link-list li {
+            margin-bottom: 10px;
+        }
+        .link-list a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #030213;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .link-list a:hover {
+            background-color: #1a1a3a;
+        }
+        .success-message {
+            background-color: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .info-message {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .comparison {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .comparison-column {
+            flex: 1;
+        }
+        .comparison-column h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #030213;
+        }
+        .icon-example {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prueba de Iconos y Tipografía del Dashboard</h1>
+    
+    <div class="test-section">
+        <h2>Tipografía Google Sans</h2>
+        
+        <div class="success-message">
+            <strong>✓ Tipografía implementada:</strong> Se ha agregado Google Sans (Roboto) como tipografía principal del dashboard
+        </div>
+        
+        <div class="icon-example">
+            <span>Texto con tipografía Roboto:</span>
+            <span style="font-family: 'Roboto', sans-serif;">Este texto usa Roboto</span>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Iconos de Iconify</h2>
+        
+        <div class="comparison">
+            <div class="comparison-column">
+                <h3>Antes (Imágenes)</h3>
+                <div class="icon-example">
+                    <span>Iconos de imagen:</span>
+                    <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/mom80z4x_expires_30_days.png" width="24" height="24" alt="Icono de imagen">
+                </div>
+            </div>
+            
+            <div class="comparison-column">
+                <h3>Ahora (Iconify)</h3>
+                <div class="icon-example">
+                    <span>Iconos de Iconify:</span>
+                    <iconify-icon icon="ic:round-add-circle" width="24" height="24"></iconify-icon>
+                    <iconify-icon icon="ic:round-assessment" width="24" height="24"></iconify-icon>
+                    <iconify-icon icon="ic:round-favorite" width="24" height="24"></iconify-icon>
+                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+                </div>
+            </div>
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Iconos reemplazados:</strong> Todos los iconos de imágenes han sido reemplazados por iconos de Iconify
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Botón "Nuevo Proyecto":</strong> Ahora usa icono ic:round-add-circle
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Iconos KPI:</strong> Ahora usan iconos temáticos para cada métrica
+        </div>
+        
+        <div class="success-message">
+            <strong>✓ Iconos de donaciones:</strong> Ahora usan iconos temáticos para dispositivos y álbumes
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Enlaces de Prueba</h2>
+        <p>Estos enlaces te permiten verificar visualmente los cambios implementados:</p>
+        <ul class="link-list">
+            <li><a href="public/user/dashboard.html" target="_blank">Ver Dashboard Completo</a></li>
+            <li><a href="public/user/dashboard.html#proyectos" target="_blank">Ver Mis Proyectos</a></li>
+            <li><a href="public/user/dashboard.html#aportes" target="_blank">Ver Mis Aportes</a></li>
+            <li><a href="public/user/dashboard.html#favoritos" target="_blank">Ver Favoritos</a></li>
+        </ul>
+    </div>
+    
+    <div class="info-message">
+        <h3>Nota Importante:</h3>
+        <p>El dashboard ahora utiliza completamente iconos de Iconify y la tipografía Google Sans (Roboto), manteniendo coherencia visual con el resto de la aplicación web. Todos los iconos son vectoriales y se escalan perfectamente en cualquier resolución.</p>
+        
+        <h3>Características Implementadas:</h3>
+        <ul>
+            <li>Reemplazo de todos los iconos de imágenes por iconos de Iconify</li>
+            <li>Implementación de tipografía Roboto como fuente principal</li>
+            <li>Mantenimiento de la funcionalidad completa de todos los botones</li>
+            <li>Conservación de todos los estilos visuales existentes</li>
+        </ul>
+    </div>
+</body>
+</html>

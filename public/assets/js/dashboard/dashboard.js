@@ -108,11 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Funcionalidad para botones de "Editar" en la sección de proyectos
-  const editButtons = document.querySelectorAll('.project-card .btn--primary');
+  const editButtons = document.querySelectorAll('.project .btn--primary');
   editButtons.forEach(button => {
     if (button.textContent.trim() === 'Editar') {
       button.addEventListener('click', () => {
-        const projectTitle = button.closest('.project-card').querySelector('.project-card__title').textContent;
+        const projectTitle = button.closest('.project').querySelector('.content-container-title h3').textContent;
         console.log(`Editando proyecto: ${projectTitle}`);
         // Aquí podrías abrir un modal de edición o redirigir a una página de edición
       });
@@ -120,33 +120,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Funcionalidad para botones de "Aportar" en la sección de favoritos
-  const contributeButtons = document.querySelectorAll('.favorite-card .btn--primary');
+  const contributeButtons = document.querySelectorAll('.project .btn--primary');
   contributeButtons.forEach(button => {
     if (button.textContent.trim() === 'Aportar') {
       button.addEventListener('click', () => {
-        const projectTitle = button.closest('.favorite-card').querySelector('.favorite-card__title').textContent;
+        const projectTitle = button.closest('.project').querySelector('.content-container-title h3').textContent;
         console.log(`Aportando al proyecto: ${projectTitle}`);
         // Aquí podrías redirigir a la página de detalles para aportar
       });
     }
   });
 
-  // Funcionalidad para botones de corazón en favoritos
-  const heartButtons = document.querySelectorAll('.favorite-card .btn--icon');
+  // Funcionalidad para botones de corazón en todas las secciones
+  const heartButtons = document.querySelectorAll('.project-like-btn');
   heartButtons.forEach(button => {
     button.addEventListener('click', () => {
-      const projectTitle = button.closest('.favorite-card').querySelector('.favorite-card__title').textContent;
-      const icon = button.querySelector('img');
+      const projectTitle = button.closest('.project').querySelector('.content-container-title h3').textContent;
+      const isLiked = button.getAttribute('data-liked') === 'true';
       
       // Alternar estado de favorito
-      if (icon.alt === 'Corazón') {
-        icon.alt = 'Corazón lleno';
-        icon.src = 'https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/hjqpl7jk_expires_30_days.png';
-        console.log(`Proyecto marcado como favorito: ${projectTitle}`);
-      } else {
-        icon.alt = 'Corazón';
-        icon.src = 'https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/m0fx6pvx_expires_30_days.png';
+      if (isLiked) {
+        button.setAttribute('data-liked', 'false');
+        button.querySelector('.heart-icon-filled').style.display = 'none';
+        button.querySelector('.heart-icon-empty').style.display = 'block';
         console.log(`Proyecto eliminado de favoritos: ${projectTitle}`);
+      } else {
+        button.setAttribute('data-liked', 'true');
+        button.querySelector('.heart-icon-filled').style.display = 'block';
+        button.querySelector('.heart-icon-empty').style.display = 'none';
+        console.log(`Proyecto marcado como favorito: ${projectTitle}`);
       }
     });
   });

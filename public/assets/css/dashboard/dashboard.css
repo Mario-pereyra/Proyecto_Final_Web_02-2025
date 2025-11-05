@@ -82,7 +82,7 @@ body{
   border-radius: var(--radius-sm);
   border: 1px solid var(--ink);
   background: #fff;
-  color: #fff;
+  color: var(--text);
   cursor: pointer;
   text-decoration: none;
   border: none;
@@ -90,6 +90,14 @@ body{
 .btn--primary{
   background: var(--ink);
   color: #fff;
+}
+.btn--secondary{
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn--secondary:hover{
+  background: var(--chip);
 }
 
 /* ===== Card base ===== */
