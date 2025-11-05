@@ -4,8 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../assets/css/dashboard/dashboard.css">
 </head>
 <body>
-    
+    <div class="page">
+    <main class="shell">
+      <!-- Header -->
+      <header class="dash-header">
+        <div class="dash-header__left">
+          <h1 class="dash-title">Mi Dashboard</h1>
+          <p class="dash-subtitle">Gestiona tus proyectos y revisa tu actividad</p>
+        </div>
+
+        <h2 class="dash-banner">USUARIO : MIS APORTES</h2>
+
+        <button class="btn btn--primary btn--icon" type="button" onclick="alert('Pressed!')">
+          <img
+            class="icon icon--lg"
+            src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/mom80z4x_expires_30_days.png"
+            alt=""
+          />
+          <span>Nuevo Proyecto</span>
+        </button>
+      </header>
+
+      <!-- KPIs -->
+      <section class="kpis" aria-label="Indicadores">
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Proyectos Totales</span>
+            <span class="kpi__value">4</span>
+          </div>
+          <img
+            class="kpi__icon"
+            src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/z6opxno0_expires_30_days.png"
+            alt=""
+            width="32" height="32"
+          />
+        </article>
+
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Campañas Activas</span>
+            <span class="kpi__value">0</span>
+          </div>
+          <img
+            class="kpi__icon"
+            src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/hjqpl7jk_expires_30_days.png"
+            alt=""
+            width="32" height="32"
+          />
+        </article>
+
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Total Recaudado</span>
+            <span class="kpi__value">0&nbsp;€</span>
+          </div>
+          <img
+            class="kpi__icon"
+            src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/mybt549s_expires_30_days.png"
+            alt=""
+            width="32" height="32"
+          />
+        </article>
+
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Total Donado</span>
+            <span class="kpi__value">225&nbsp;€</span>
+          </div>
+          <img
+            class="kpi__icon"
+            src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/m0fx6pvx_expires_30_days.png"
+            alt=""
+            width="32" height="32"
+          />
+        </article>
+      </section>
+
+      <!-- Tabs -->
+      <nav class="tabs" aria-label="Filtro de contenido">
+        <button class="tab" type="button">Mis Proyectos</button>
+        <button class="tab tab--active" type="button" aria-current="page">Mis Aportes</button>
+        <button class="tab" type="button">Favoritos</button>
+      </nav>
+
+      <!-- Historial -->
+      <section class="card">
+        <h2 class="card__title">Historial de Aportes</h2>
+
+        <ul class="donations">
+          <li class="donation">
+            <div class="donation__left">
+              <img
+                class="donation__thumb"
+                src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/72dshkp1_expires_30_days.png"
+                alt="SmartWatch Revolucionario"
+                width="48" height="48"
+              />
+              <div class="donation__meta">
+                <div class="donation__title">SmartWatch Revolucionario</div>
+                <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                <p class="donation__comment">“Me parece un proyecto muy interesante. ¡Éxito!”</p>
+              </div>
+            </div>
+            <div class="donation__right">
+              <div class="donation__amount">150&nbsp;€</div>
+              <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver Proyecto</a>
+            </div>
+          </li>
+
+          <li class="donation">
+            <div class="donation__left">
+              <img
+                class="donation__thumb"
+                src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/tnALkbB2kW/v85and2w_expires_30_days.png"
+                alt="Álbum Sonidos del Futuro"
+                width="48" height="48"
+              />
+              <div class="donation__meta">
+                <div class="donation__title">Álbum “Sonidos del Futuro”</div>
+                <time class="donation__date" datetime="2025-02-17">17/2/2025</time>
+                <p class="donation__comment">“Apoyo este tipo de iniciativas creativas”</p>
+              </div>
+            </div>
+            <div class="donation__right">
+              <div class="donation__amount">75&nbsp;€</div>
+              <a class="donation__link" href="#" aria-label="Ver proyecto Álbum Sonidos del Futuro">Ver Proyecto</a>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
