@@ -301,7 +301,7 @@
   .admin-form-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .admin-submit-btn {
     grid-column: span 2;
   }
@@ -312,7 +312,7 @@
     grid-template-columns: repeat(4, 1fr) auto;
     align-items: end;
   }
-  
+
   .admin-submit-btn {
     grid-column: auto;
     width: 274px;
