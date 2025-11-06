@@ -232,6 +232,7 @@
   .container-project-features-item {
     flex-direction: column;
     gap: var(--spacing-4);
+    padding: 0; /* Aseguramos que no haya padding adicional */
   }
 }
 

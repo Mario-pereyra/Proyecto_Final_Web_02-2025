@@ -1,14 +1,13 @@
 /* Importar tokens de diseño unificados */
 @import url('./tokens.css');
 
-/* Estilos unificados para las cards de proyectos */
-
-/* Contenedor principal para las cards */
+/* Contenedor principal de la sección de características de proyectos */    
 .project-features {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    padding: var(--spacing-8) 0; /* Añadimos padding vertical consistente */
 }
 
 .container-project-features-item {
@@ -16,7 +15,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: var(--spacing-6);
-    padding: 0 var(--spacing-4);
+    padding: 0; /* Eliminamos padding para usar el del main-content */
 }
 
 /* Contenedor para grid de proyectos en dashboard */
@@ -377,13 +376,18 @@
 
 /* Media queries para responsive unificadas */
 @media (max-width: 767px) {
+    /* Ajustes para sección project-features en móvil */
+    .project-features {
+        padding: var(--spacing-6) 0;
+    }
+    
     /* Grid unificado para móvil */
     .container-project-features-item,
     .projects-grid,
     .favorites-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-4);
-        padding: 0 var(--spacing-3);
+        padding: 0; /* Eliminamos padding para usar el del main-content */
     }
     
     /* Tarjetas unificadas para móvil */
@@ -441,13 +445,18 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+    /* Ajustes para sección project-features en tablet */
+    .project-features {
+        padding: var(--spacing-7) 0;
+    }
+    
     /* Grid unificado para tablet */
     .container-project-features-item,
     .projects-grid,
     .favorites-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-5);
-        padding: 0 var(--spacing-4);
+        padding: 0; /* Eliminamos padding para usar el del main-content */
     }
     
     /* Tarjetas unificadas para tablet */
@@ -484,13 +493,20 @@
 }
 
 @media (min-width: 1024px) {
+    /* Ajustes para sección project-features en desktop */
+    .project-features {
+        padding: var(--spacing-8) 0;
+        
+    }
+    
     /* Grid unificado para desktop */
     .container-project-features-item,
     .projects-grid,
     .favorites-grid {
         grid-template-columns: repeat(3, 1fr);
+        
         gap: var(--spacing-6);
-        padding: 0 var(--spacing-4);
+        padding: 0; /* Eliminamos padding para usar el del main-content */
     }
     
     /* Tarjetas unificadas para desktop */
@@ -522,11 +538,16 @@
 }
 
 @media (min-width: 1280px) {
+    /* Ajustes para sección project-features en pantallas grandes */
+    .project-features {
+        padding: var(--spacing-10) 0;
+    }
+    
     /* Grid para pantallas grandes */
     .container-project-features-item,
     .projects-grid,
     .favorites-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         max-width: 1400px;
         margin: 0 auto;
     }
