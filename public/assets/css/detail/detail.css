@@ -4,8 +4,6 @@
 /* Variables específicas del detail que no están en tokens */
 :root {
   /* Colores específicos del detail */
-  --soft: #ECEBEF80;
-  --soft-2: #ECEBEF4D;
   --success: #00A63D;
   --warn-bg: #FFF7EC80;
   --warn-border: #FFD6A7;
@@ -57,7 +55,7 @@ body {
 
 .back-button iconify-icon {
   font-size: 20px;
-  color: var(--text);
+  color: var(--text-primary);
 }
 
 .page {
@@ -88,24 +86,24 @@ body {
 
 .badge {
   display: inline-block;
-  background: var(--chip);
+  background: var(--color-gray-200);
   border-radius: var(--radius-sm);
   padding: 4px 13px;
   font-size: 13px;
-  color: var(--ink);
+  color: var(--text-primary);
 }
 
 .muted {
-  color: var(--muted);
+  color: var(--text-secondary);
   font-size: 12px;
 }
 
 .accent {
-  color: var(--muted);
+  color: var(--text-secondary);
 }
 
 .purple {
-  color: var(--muted);
+  color: var(--text-secondary);
 }
 
 /* -------- LADO PRINCIPAL -------- */
@@ -129,7 +127,7 @@ body {
 }
 
 .meta__text {
-  color: var(--muted);
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -149,8 +147,8 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 999px;
-  background: #ECECF0;
-  color: var(--text);
+  background: var(--border-color);
+  color: var(--text-primary);
   display: grid;
   place-items: center;
   font-weight: 600;
@@ -172,7 +170,7 @@ body {
 
 .author__role {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--text-secondary);
 }
 
 .hero {
@@ -200,18 +198,18 @@ body {
   gap: 12px;
   padding: 14px 16px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: #fff;
+  border: 1px solid var(--border-color);
+  background: var(--color-white);
   font-size: 13px;
   cursor: pointer;
   text-decoration: none;
-  color: var(--text);
+  color: var(--text-primary);
 }
 
 .btn--primary {
-  background: var(--ink);
-  color: #fff;
-  border-color: var(--ink);
+  background: var(--color-primary);
+  color: var(--text-white);
+  border-color: var(--color-primary);
 }
 
 .btn--ghost {
@@ -250,7 +248,7 @@ body {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 16px;
-  background: var(--soft-2);
+  background: var(--bg-soft-2);
   border-radius: var(--radius-md);
   padding: 16px;
 }
@@ -276,33 +274,33 @@ body {
 }
 
 .contrib__msg {
-  color: var(--muted);
+  color: var(--text-secondary);
   font-size: 12px;
   margin: 0;
 }
 
 .contrib__date {
-  color: var(--muted);
+  color: var(--text-secondary);
   font-size: 11px;
 }
 
 /* Chips */
 .chip {
   display: inline-block;
-  background: var(--chip);
+  background: var(--color-gray-200);
   border-radius: var(--radius-sm);
   padding: 2px 9px;
   font-size: 10px;
-  color: var(--ink);
+  color: var(--text-primary);
 }
 
 .chip--light {
-  background: var(--chip);
+  background: var(--color-gray-200);
 }
 
 .chip--verified {
-  background: var(--verified-bg);
-  color: var(--verified-text);
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
 }
 
 .chip--location {
@@ -324,7 +322,7 @@ body {
 .funding__amount {
   font-size: 27px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--text-primary);
 }
 
 .progress {
@@ -366,30 +364,30 @@ body {
 }
 
 .stat {
-  background: var(--soft);
+  background: var(--bg-soft);
   border-radius: var(--radius-md);
   padding: 12px;
 }
 
 .stat--soft {
-  background: var(--soft);
+  background: var(--bg-soft);
 }
 
 .stat__val {
   font-weight: 700;
   font-size: 16px;
-  color: var(--ink);
+  color: var(--text-primary);
 }
 
 .stat__label {
   font-size: 11px;
-  color: var(--muted);
+  color: var(--text-secondary);
 }
 
 /* Timeline */
 .section-title {
   font-size: 13px;
-  color: var(--text);
+  color: var(--text-primary);
   margin: 0 0 12px;
 }
 
@@ -419,7 +417,7 @@ body {
 }
 
 .note {
-  background: var(--soft-2);
+  background: var(--bg-soft-2);
   border-radius: var(--radius-md);
   padding: 12px;
 }
@@ -441,7 +439,7 @@ body {
 }
 
 .creator__bio {
-  color: var(--muted);
+  color: var(--text-secondary);
   font-size: 13px;
   margin: 0;
 }
@@ -458,7 +456,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: var(--soft-2);
+  background: var(--bg-soft-2);
   border-radius: var(--radius-md);
   padding: 12px;
 }
@@ -477,7 +475,7 @@ body {
 .divider {
   border: 0;
   height: 1px;
-  background: var(--border);
+  background: var(--border-color);
   margin: 16px 0;
 }
 

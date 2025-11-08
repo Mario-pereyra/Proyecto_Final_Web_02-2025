@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Explorar - Impulsa.me</title>
     <link rel="stylesheet" href="assets/css/colors.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
     <link rel="stylesheet" href="assets/css/buttons.css" />
     <link rel="stylesheet" href="assets/css/header.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
@@ -30,7 +31,7 @@
       <nav class="main-nav">
         <ul class="nav__list">
           <li class="nav__list__item">
-            <a href="./index.html" class="btn btn--secundary">
+            <a href="./index.html" class="btn btn--secondary">
               <iconify-icon icon="ic:round-home"></iconify-icon>
               <span>Inicio</span>
             </a>
@@ -50,7 +51,7 @@
       </div>
       <!-- ------------------------------------------------------------------------------------------------------------------- -->
       <!-- Botón hamburguesa (solo visible en móvil) -->
-      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="sideMenu">
         <iconify-icon
           icon="ic:round-menu"
           width="24"
@@ -241,7 +242,7 @@
           </div>
         </aside>
         <div class="container-project-features-item">
-          <article class="project">
+          <article class="project-card">
             <div class="container-project-img">
               <a href="./detail.html"
                 ><img
@@ -250,7 +251,7 @@
                   class="project-img"
               /></a>
               <div class="project-category">Tecnología</div>
-              <button class="project-like-btn" data-liked="false">
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
                   class="heart-icon-empty"
@@ -262,31 +263,25 @@
                 ></iconify-icon>
               </button>
             </div>
-            <div class="project-content">
-              <div class="content-container-title">
+            <div class="project-card__content">
+              <div class="project-card__title-container">
                 <h3>SmartWatch Revolucionario</h3>
                 <p>
                   Un smartchwatch con tecnologia innovadora que monitorea tu
                   salud 24/7
                 </p>
               </div>
-              <div class="content-finacial">
-                <div class="content-financial-goal">
+              <div class="project-card__progress">
+                <div class="project-card__stats">
                   <h4>37.500Bs</h4>
                   <p>de 50.000Bs</p>
                 </div>
-                <div class="financial-goal-container-progressbar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="100"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="100"></progress>
                 </div>
                 <p>100% Financiado</p>
               </div>
-              <div class="container-owner-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-person"
                   width="24"
@@ -294,7 +289,7 @@
                 ></iconify-icon>
                 <p class="owner-project">Por Ana garcia</p>
               </div>
-              <div class="container-date-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-calendar-today"
                   width="24"
@@ -302,15 +297,17 @@
                 ></iconify-icon>
                 <p class="date-project">101 dias restantes</p>
               </div>
-              <button
-                type="button"
-                onclick="window.location.href='./detail.html'"
-              >
+              <div class="project-card__footer">
+                <button
+                  type="button"
+                  onclick="window.location.href='./detail.html'"
+                  class="btn"
+                >
                 Ver detalles
               </button>
             </div>
           </article>
-          <article class="project">
+          <article class="project-card">
             <div class="container-project-img">
               <a href="#"
                 ><img
@@ -319,7 +316,7 @@
                   class="project-img"
               /></a>
               <div class="project-category">Música</div>
-              <button class="project-like-btn" data-liked="false">
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
                   class="heart-icon-empty"
@@ -331,31 +328,25 @@
                 ></iconify-icon>
               </button>
             </div>
-            <div class="project-content">
-              <div class="content-container-title">
+            <div class="project-card__content">
+              <div class="project-card__title-container">
                 <h3>Álbum "Sonidos del Futuro"</h3>
                 <p>
                   Un álbum conceptual que fusiona música electrónica con sonidos
                   naturales
                 </p>
               </div>
-              <div class="content-finacial">
-                <div class="content-financial-goal">
+              <div class="project-card__progress">
+                <div class="project-card__stats">
                   <h4>8750Bs</h4>
                   <p>de 15.000 Bs</p>
                 </div>
-                <div class="financial-goal-container-progressbar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="58"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="58"></progress>
                 </div>
                 <p>58% financiado</p>
               </div>
-              <div class="container-owner-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-person"
                   width="24"
@@ -363,7 +354,7 @@
                 ></iconify-icon>
                 <p class="owner-project">por Carlos López</p>
               </div>
-              <div class="container-date-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-calendar-today"
                   width="24"
@@ -371,7 +362,9 @@
                 ></iconify-icon>
                 <p class="date-project">70 días restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
           <article class="project">
@@ -438,7 +431,7 @@
               <button type="button" onclick="">Ver detalles</button>
             </div>
           </article>
-          <article class="project">
+          <article class="project-card">
             <div class="container-project-img">
               <a href="#"
                 ><img
@@ -447,7 +440,7 @@
                   class="project-img"
               /></a>
               <div class="project-category">Tecnología</div>
-              <button class="project-like-btn" data-liked="false">
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
                   class="heart-icon-empty"
@@ -459,31 +452,25 @@
                 ></iconify-icon>
               </button>
             </div>
-            <div class="project-content">
-              <div class="content-container-title">
+            <div class="project-card__content">
+              <div class="project-card__title-container">
                 <h3>SmartWatch Revolucionario</h3>
                 <p>
                   Un smartchwatch con tecnologia innovadora que monitorea tu
                   salud 24/7
                 </p>
               </div>
-              <div class="content-finacial">
-                <div class="content-financial-goal">
+              <div class="project-card__progress">
+                <div class="project-card__stats">
                   <h4>37.500Bs</h4>
                   <p>de 50.000Bs</p>
                 </div>
-                <div class="financial-goal-container-progressbar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="100"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="100"></progress>
                 </div>
                 <p>100% Financiado</p>
               </div>
-              <div class="container-owner-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-person"
                   width="24"
@@ -491,7 +478,7 @@
                 ></iconify-icon>
                 <p class="owner-project">Por Ana garcia</p>
               </div>
-              <div class="container-date-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-calendar-today"
                   width="24"
@@ -499,10 +486,12 @@
                 ></iconify-icon>
                 <p class="date-project">101 dias restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
-          <article class="project">
+          <article class="project-card">
             <div class="container-project-img">
               <a href="#"
                 ><img
@@ -511,7 +500,7 @@
                   class="project-img"
               /></a>
               <div class="project-category">Música</div>
-              <button class="project-like-btn" data-liked="false">
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
                   class="heart-icon-empty"
@@ -523,31 +512,25 @@
                 ></iconify-icon>
               </button>
             </div>
-            <div class="project-content">
-              <div class="content-container-title">
+            <div class="project-card__content">
+              <div class="project-card__title-container">
                 <h3>Álbum "Sonidos del Futuro"</h3>
                 <p>
                   Un álbum conceptual que fusiona música electrónica con sonidos
                   naturales
                 </p>
               </div>
-              <div class="content-finacial">
-                <div class="content-financial-goal">
+              <div class="project-card__progress">
+                <div class="project-card__stats">
                   <h4>8750Bs</h4>
                   <p>de 15.000 Bs</p>
                 </div>
-                <div class="financial-goal-container-progressbar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="58"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="58"></progress>
                 </div>
                 <p>58% financiado</p>
               </div>
-              <div class="container-owner-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-person"
                   width="24"
@@ -555,7 +538,7 @@
                 ></iconify-icon>
                 <p class="owner-project">por Carlos López</p>
               </div>
-              <div class="container-date-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-calendar-today"
                   width="24"
@@ -563,10 +546,12 @@
                 ></iconify-icon>
                 <p class="date-project">70 días restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
-          <article class="project">
+          <article class="project-card">
             <div class="container-project-img">
               <a href="#"
                 ><img
@@ -575,7 +560,7 @@
                   class="project-img"
               /></a>
               <div class="project-category">Arte</div>
-              <button class="project-like-btn" data-liked="false">
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
                   class="heart-icon-empty"
@@ -587,31 +572,25 @@
                 ></iconify-icon>
               </button>
             </div>
-            <div class="project-content">
-              <div class="content-container-title">
+            <div class="project-card__content">
+              <div class="project-card__title-container">
                 <h3>Instalación de Arte Interactivo</h3>
                 <p>
                   Una experiencia artística inmersiva que responde a las
                   emociones del espectador
                 </p>
               </div>
-              <div class="content-finacial">
-                <div class="content-financial-goal">
+              <div class="project-card__progress">
+                <div class="project-card__stats">
                   <h4>12.300Bs</h4>
                   <p>de 25.000Bs</p>
                 </div>
-                <div class="financial-goal-container-progressbar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="49"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="49"></progress>
                 </div>
                 <p>49% financiado</p>
               </div>
-              <div class="container-owner-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-person"
                   width="24"
@@ -619,7 +598,7 @@
                 ></iconify-icon>
                 <p class="owner-project">Por Ana garcia</p>
               </div>
-              <div class="container-date-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-calendar-today"
                   width="24"
@@ -627,7 +606,9 @@
                 ></iconify-icon>
                 <p class="date-project">24 dias restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
         </div>
@@ -645,6 +626,7 @@
 
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
     <script src="assets/js/home/menu.js"></script>
+    <script src="assets/js/components/like-button.js"></script>
     <script src="assets/js/explore/explore.js"></script>
   </body>
 </html>

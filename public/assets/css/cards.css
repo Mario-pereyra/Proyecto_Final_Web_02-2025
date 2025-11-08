@@ -115,10 +115,7 @@
 }
 
 /* Card principal unificado */
-.project,
-.proj-card,
-.project-card,
-.favorite-card {
+.project-card {
     display: flex;
     flex-direction: column;
     border-radius: var(--radius-card);
@@ -132,19 +129,13 @@
 }
 
 /* Efecto hover unificado para todas las tarjetas */
-.project:hover,
-.proj-card:hover,
-.project-card:hover,
-.favorite-card:hover {
+.project-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
 }
 
 /* Contenedor de contenido unificado */
-.project-content,
-.proj-card__body,
-.project-card__content,
-.favorite-card__content {
+.project-card__content {
     display: flex;
     flex-direction: column;
     padding: var(--spacing-4);
@@ -154,30 +145,21 @@
 }
 
 /* Contenedor de imagen unificado */
-.container-project-img,
-.proj-card__media,
-.project-card__header,
-.favorite-card__header {
+.project-card__header {
     position: relative;
     width: 100%;
     height: 220px;
     overflow: hidden;
 }
 
-.project-img,
-.proj-card__thumb,
-.project-card__image,
-.favorite-card__image {
+.project-card__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform var(--transition-normal);
 }
 
-.project-img:hover,
-.proj-card__thumb:hover,
-.project-card__image:hover,
-.favorite-card__image:hover {
+.project-card__image:hover {
     transform: scale(1.05);
 }
 
@@ -209,20 +191,14 @@
 }
 
 /* Sección financiera unificada */
-.content-finacial,
-.proj-card__stats,
-.project-card__progress,
-.favorite-card__progress {
+.project-card__progress {
     margin-top: auto;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-3);
 }
 
-.content-financial-goal,
-.proj-card__stats,
-.project-card__stats,
-.favorite-card__stats {
+.project-card__stats {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -230,29 +206,21 @@
     gap: var(--spacing-2);
 }
 
-.content-financial-goal h4,
-.proj-card__amount,
-.project-card__amount,
-.favorite-card__amount {
+.project-card__amount {
     margin: 0;
     font-size: var(--text-base);
     font-weight: var(--font-semibold);
     color: var(--text-primary);
 }
 
-.content-financial-goal p,
-.proj-card__goal,
-.project-card__goal,
-.favorite-card__goal {
+.project-card__goal {
     margin: 0;
     font-size: var(--text-sm);
     color: var(--text-secondary);
 }
 
 /* Barra de progreso unificada */
-.financial-goal-container-progressbar,
-.progress-bar,
-.progress {
+.project-card__progress-bar {
     width: 100%;
     height: var(--progress-height);
     background-color: var(--color-gray-400);
@@ -261,18 +229,14 @@
     position: relative;
 }
 
-.meta_project__progressbar,
-.progress-bar__fill,
-.progress__bar {
+.project-card__progress-bar-fill {
     height: 100%;
     background-color: var(--color-primary);
     border-radius: var(--radius-full);
     transition: width var(--transition-normal);
 }
 
-.financial-goal-container-progressbar + p,
-.progress-bar + p,
-.progress + p {
+.project-card__progress-bar + p {
     margin: var(--spacing-2) 0 0 0;
     font-size: var(--text-xs);
     font-weight: var(--font-medium);
@@ -281,12 +245,7 @@
 }
 
 /* Metadatos unificados */
-.container-owner-project,
-.container-date-project,
-.proj-card__owner,
-.proj-card__date,
-.project-card__footer,
-.favorite-card__footer {
+.project-card__meta {
     display: flex;
     align-items: center;
     gap: var(--spacing-2);
@@ -295,12 +254,7 @@
     margin-top: var(--spacing-2);
 }
 
-.container-owner-project iconify-icon,
-.container-date-project iconify-icon,
-.proj-card__owner iconify-icon,
-.proj-card__date iconify-icon,
-.project-card__footer iconify-icon,
-.favorite-card__footer iconify-icon {
+.project-card__meta iconify-icon {
     flex-shrink: 0;
     width: 18px;
     height: 18px;
@@ -308,9 +262,7 @@
 }
 
 /* Contenedor de acciones para dashboard */
-.proj-card__actions,
-.project-card__footer,
-.favorite-card__footer {
+.project-card__footer {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-2);
@@ -320,10 +272,7 @@
 }
 
 /* Botón "Ver detalles" unificado y mejorado */
-.project-content button,
-.proj-card__actions .btn,
-.project-card__footer .btn,
-.favorite-card__footer .btn {
+.project-card__footer .btn {
     margin-top: auto;
     padding: var(--spacing-3) var(--spacing-4);
     border: none;
@@ -345,27 +294,18 @@
 }
 
 /* Estados del botón "Ver detalles" */
-.project-content button:hover,
-.proj-card__actions .btn:hover,
-.project-card__footer .btn:hover,
-.favorite-card__footer .btn:hover {
+.project-card__footer .btn:hover {
     background-color: var(--color-primary-hover);
     transform: translateY(-1px);
     box-shadow: var(--shadow-button);
 }
 
-.project-content button:focus,
-.proj-card__actions .btn:focus,
-.project-card__footer .btn:focus,
-.favorite-card__footer .btn:focus {
+.project-card__footer .btn:focus {
     outline: 2px solid var(--border-focus);
     outline-offset: 2px;
 }
 
-.project-content button:active,
-.proj-card__actions .btn:active,
-.project-card__footer .btn:active,
-.favorite-card__footer .btn:active {
+.project-card__footer .btn:active {
     transform: translateY(0);
 }
 
@@ -391,54 +331,36 @@
     }
     
     /* Tarjetas unificadas para móvil */
-    .project,
-    .proj-card,
-    .project-card,
-    .favorite-card {
+    .project-card {
         min-height: 480px;
         width: 100%;
     }
     
     /* Imágenes unificadas para móvil */
-    .container-project-img,
-    .proj-card__media,
-    .project-card__header,
-    .favorite-card__header {
+    .project-card__header {
         height: 180px;
     }
     
     /* Contenido unificado para móvil */
-    .project-content,
-    .proj-card__body,
-    .project-card__content,
-    .favorite-card__content {
+    .project-card__content {
         padding: var(--spacing-3);
     }
     
     /* Títulos unificados para móvil */
-    .content-container-title h3,
-    .proj-card__title,
-    .project-card__title,
-    .favorite-card__title {
+    .project-card__title {
         font-size: var(--text-base);
         height: 2.2em;
     }
     
     /* Descripciones unificadas para móvil */
-    .content-container-title p,
-    .proj-card__subtitle,
-    .project-card__description,
-    .favorite-card__description {
+    .project-card__description {
         font-size: var(--text-sm);
         height: 3.6em;
         -webkit-line-clamp: 3;
     }
     
     /* Botones unificados para móvil */
-    .project-content button,
-    .proj-card__actions .btn,
-    .project-card__footer .btn,
-    .favorite-card__footer .btn {
+    .project-card__footer .btn {
         padding: var(--spacing-2) var(--spacing-3);
         font-size: var(--text-sm);
     }
@@ -460,35 +382,13 @@
     }
     
     /* Tarjetas unificadas para tablet */
-    .project,
-    .project-card,
-    .favorite-card {
+    .project-card {
         min-height: 500px;
     }
     
     /* Imágenes unificadas para tablet */
-    .container-project-img,
-    .project-card__header,
-    .favorite-card__header {
+    .project-card__header {
         height: 200px;
-    }
-    
-    /* Layout especial para proj-card en tablet (dashboard) */
-    .proj-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: var(--spacing-3);
-        min-height: 160px;
-    }
-    
-    .proj-card__media {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .proj-card__body {
-        display: grid;
-        gap: var(--spacing-2);
     }
 }
 
@@ -510,30 +410,13 @@
     }
     
     /* Tarjetas unificadas para desktop */
-    .project,
-    .project-card,
-    .favorite-card {
+    .project-card {
         min-height: 520px;
     }
     
     /* Imágenes unificadas para desktop */
-    .container-project-img,
-    .project-card__header,
-    .favorite-card__header {
+    .project-card__header {
         height: 220px;
-    }
-    
-    /* Mantener layout especial para proj-card en desktop (dashboard) */
-    .proj-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: var(--spacing-4);
-        min-height: 180px;
-    }
-    
-    .proj-card__media {
-        width: 140px;
-        height: 140px;
     }
 }
 

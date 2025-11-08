@@ -1,57 +1,37 @@
-:root{
-    /* Colores principales */
-    --primary-color: #030213;  /* iconos y ui */
-    --secondary-color: #030213; /* color secundario para acentos */
+/* ===================================
+   COLORS.CSS - VARIABLES DE COMPATIBILIDAD
+   Solo contiene variables que no están en tokens.css
+   =================================== */
+
+:root {
+    /* Variables de compatibilidad para código existente */
+    --primary-color: var(--color-primary);
+    --secondary-color: var(--color-primary);
     
-    /* Colores neutros */
-    --white-primary: #FFFFFF;
-    --grey-primary: #EDEDEE;
-    --grey-secondary: #ECECF0;
-    --grey-tertiary: #9CA3AF;
+    /* Colores neutros (alias para compatibilidad) */
+    --white-primary: var(--color-white);
+    --grey-primary: var(--color-gray-100);
+    --grey-secondary: var(--border-color);
+    --grey-tertiary: var(--color-gray-700);
     
-    /* Colores para texto */
-    --font-primary: #0A0A0A;    /* texto <h1>,<h2>,<h3> */
-    --font-secondary: #717182;  /* texto secundario */
-    --font-tertiary: #9CA3AF;   /* texto terciario <p> */
-    --font-white: #FFFFFF;
+    /* Colores para texto (alias para compatibilidad) */
+    --font-primary: var(--text-primary);
+    --font-secondary: var(--text-secondary);
+    --font-tertiary: var(--text-tertiary);
+    --font-white: var(--text-white);
     
-    /* Colores para botones */
+    /* Colores para botones (alias para compatibilidad) */
     --btn-primary-bg: var(--color-primary);
     --btn-primary-hover: var(--color-primary-hover);
     --btn-secondary-bg: transparent;
     --btn-secondary-border: var(--color-primary);
     --btn-secondary-hover: var(--color-gray-100);
     
-    /* Sombras */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    /* Colores de fondo (alias para compatibilidad) */
+    --background-color: var(--bg-secondary);
+    --card-background: var(--bg-primary);
     
-    /* Espaciado */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    
-    /* Bordes */
-    --border-radius-sm: 0.25rem;
-    --border-radius-md: 0.5rem;
-    --border-radius-lg: 0.75rem;
-    --border-radius: 0.5rem; /* Para compatibilidad con estilos existentes */
-    
-    /* Colores de texto (alias para compatibilidad) */
-    --text-primary: #0A0A0A;
-    --text-secondary: #717182;
-    
-    /* Colores de fondo */
-    --background-color: #E7E7E9;
-    --card-background: #ffffff;
-    
-    /* Colores de borde */
-    --border-color: #ECECF0;
-    
-    /* Colores de estado */
-    --error-color: #e74c3c;
-    --success-color: #27ae60;
+    /* Colores de estado (alias para compatibilidad) */
+    --error-color: var(--color-error);
+    --success-color: var(--color-success);
 }
