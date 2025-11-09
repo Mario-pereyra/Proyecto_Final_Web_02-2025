@@ -15,7 +15,9 @@
     height: 2.4em;
     overflow: hidden;
     display: -webkit-box;
+    display: flex;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -27,7 +29,9 @@
     height: 3.9em;
     overflow: hidden;
     display: -webkit-box;
+    display: flex;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 

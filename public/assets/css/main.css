@@ -50,8 +50,11 @@ body {
   line-height: var(--leading-normal);
   color: var(--text-primary);
   background-color: var(--bg-primary);
+  /* Suavizado de fuentes para navegadores modernos */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-smooth: always; /* Propiedad estándar futura */
+  text-rendering: optimizeLegibility; /* Mejora renderizado general */
 }
 
 /* Enlaces */
