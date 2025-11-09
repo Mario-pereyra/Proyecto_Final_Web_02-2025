@@ -22,7 +22,7 @@
 
 /* -------- LISTA DE COLABORADORES -------- */
 .contributors-list {
-  max-height: 400px;
+  max-height: 600px;
   overflow-y: auto;
   padding-right: var(--spacing-2);
   display: grid;

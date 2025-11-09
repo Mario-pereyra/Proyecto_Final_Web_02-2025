@@ -59,10 +59,6 @@
               Inicia sesión para apoyar este Proyecto
             </a>
 
-            <button class="btn btn--ghost" type="button" onclick="scrollToColaboradores()">
-              <iconify-icon icon="ic:round-people" class="icon"></iconify-icon>
-              <span>Ver Donadores</span>
-            </button>
 
             <button class="btn btn--ghost" type="button">
               <iconify-icon
@@ -503,16 +499,5 @@
       </main>
     </div>
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
-    <script>
-      function scrollToColaboradores() {
-        const colaboradoresSection = document.getElementById('colaboradores');
-        if (colaboradoresSection) {
-          colaboradoresSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      }
-    </script>
   </body>
 </html>

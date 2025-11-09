@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../assets/css/header.css" />
     <link rel="stylesheet" href="../assets/css/cards.css" />
     <link rel="stylesheet" href="../assets/css/detail/detail.css" />
+    <link rel="stylesheet" href="../assets/css/detail/contributors.css" />
   </head>
   <body>
     <a
@@ -109,41 +110,174 @@
             </p>
           </section>
 
-          <section class="card" aria-labelledby="contributors-title">
+          <section class="card" id="colaboradores" aria-labelledby="contributors-title">
             <h2 id="contributors-title" class="card__title">Principales Colaboradores</h2>
+            
+            <div class="contributors-layout">
+              <!-- Lista de colaboradores con scroll -->
+              <div class="contributors-list">
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">C</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Carlos López</span>
+                      <span class="chip chip--gold">500&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "¡Excelente proyecto! Espero que tenga mucho éxito."
+                    </p>
+                    <time class="contrib__date" datetime="2025-02-14">
+                      14 de febrero de 2025
+                    </time>
+                  </div>
+                </article>
 
-            <article class="contrib">
-              <div class="avatar avatar--sm" aria-hidden="true">C</div>
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">M</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">María Rodríguez</span>
+                      <span class="chip chip--silver">250&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Feliz de apoyar innovación tecnológica."
+                    </p>
+                    <time class="contrib__date" datetime="2025-02-15">
+                      15 de febrero de 2025
+                    </time>
+                  </div>
+                </article>
 
-              <div class="contrib__body">
-                <div class="contrib__top">
-                  <span class="contrib__name">Carlos López</span>
-                  <span class="chip chip--light" aria-label="Donación: 500 euros">500&nbsp;€</span>
-                </div>
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">J</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Juan Martínez</span>
+                      <span class="chip chip--gold">750&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Como médico, veo un potencial increíble en este dispositivo."
+                    </p>
+                    <time class="contrib__date" datetime="2025-02-10">
+                      10 de febrero de 2025
+                    </time>
+                  </div>
+                </article>
 
-                <p class="contrib__msg">
-                  "¡Excelente proyecto! Espero que tenga mucho éxito."
-                </p>
-                <time class="contrib__date" datetime="2025-02-14">
-                  14 de febrero de 2025
-                </time>
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">A</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Ana Sánchez</span>
+                      <span class="chip chip--silver">150&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Mi padre podría beneficiarse mucho de esta tecnología."
+                    </p>
+                    <time class="contrib__date" datetime="2025-02-08">
+                      8 de febrero de 2025
+                    </time>
+                  </div>
+                </article>
+
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">L</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Luis Gómez</span>
+                      <span class="chip chip--bronze">50&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Pequeña contribución para un gran cambio."
+                    </p>
+                    <time class="contrib__date" datetime="2025-02-05">
+                      5 de febrero de 2025
+                    </time>
+                  </div>
+                </article>
+
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">P</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Patricia Fernández</span>
+                      <span class="chip chip--gold">1.000&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Invertir en salud es siempre una buena decisión."
+                    </p>
+                    <time class="contrib__date" datetime="2025-02-01">
+                      1 de febrero de 2025
+                    </time>
+                  </div>
+                </article>
+
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">R</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Roberto Díaz</span>
+                      <span class="chip chip--silver">300&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "La innovación tecnológica en el campo médico es fundamental."
+                    </p>
+                    <time class="contrib__date" datetime="2025-01-28">
+                      28 de enero de 2025
+                    </time>
+                  </div>
+                </article>
+
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">S</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Sofía Herrera</span>
+                      <span class="chip chip--bronze">75&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Contenta de apoyar proyectos que marcan la diferencia."
+                    </p>
+                    <time class="contrib__date" datetime="2025-01-25">
+                      25 de enero de 2025
+                    </time>
+                  </div>
+                </article>
+
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">D</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">David Morales</span>
+                      <span class="chip chip--silver">200&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Como ingeniero, admiro la integración de IA en dispositivos."
+                    </p>
+                    <time class="contrib__date" datetime="2025-01-22">
+                      22 de enero de 2025
+                    </time>
+                  </div>
+                </article>
+
+                <article class="contrib">
+                  <div class="avatar avatar--sm" aria-hidden="true">E</div>
+                  <div class="contrib__body">
+                    <div class="contrib__top">
+                      <span class="contrib__name">Elena Vargas</span>
+                      <span class="chip chip--bronze">25&nbsp;€</span>
+                    </div>
+                    <p class="contrib__msg">
+                      "Cada pequeña contribución cuenta para el futuro."
+                    </p>
+                    <time class="contrib__date" datetime="2025-01-20">
+                      20 de enero de 2025
+                    </time>
+                  </div>
+                </article>
               </div>
-            </article>
 
-            <article class="contrib">
-              <div class="avatar avatar--sm" aria-hidden="true">M</div>
-
-              <div class="contrib__body">
-                <div class="contrib__top">
-                  <span class="contrib__name">María Rodríguez</span>
-                  <span class="chip chip--light" aria-label="Donación: 250 euros">250&nbsp;€</span>
-                </div>
-
-                <time class="contrib__date" datetime="2025-02-15">
-                  15 de febrero de 2025
-                </time>
-              </div>
-            </article>
+            </div>
           </section>
         </article>
 
@@ -313,6 +447,49 @@
                 <div class="stat__val">105%</div>
                 <div class="stat__label">Ritmo de progreso</div>
               </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2 class="card__title">Niveles de Donación</h2>
+            
+            <div class="level-card level-card--gold">
+              <div class="level-header">
+                <iconify-icon icon="ic:round-star" class="level-icon"></iconify-icon>
+                <h4 class="level-name">Donador Oro</h4>
+                <span class="level-amount">500€ o más</span>
+              </div>
+              <ul class="level-benefits">
+                <li>Mención especial en el proyecto</li>
+                <li>Acceso anticipado a actualizaciones</li>
+                <li>Descuento especial en el producto</li>
+              </ul>
+            </div>
+
+            <div class="level-card level-card--silver">
+              <div class="level-header">
+                <iconify-icon icon="ic:round-star" class="level-icon"></iconify-icon>
+                <h4 class="level-name">Donador Plata</h4>
+                <span class="level-amount">100€ - 499€</span>
+              </div>
+              <ul class="level-benefits">
+                <li>Mención en la web del proyecto</li>
+                <li>Acceso a actualizaciones exclusivas</li>
+                <li>Agradecimiento personalizado</li>
+              </ul>
+            </div>
+
+            <div class="level-card level-card--bronze">
+              <div class="level-header">
+                <iconify-icon icon="ic:round-star" class="level-icon"></iconify-icon>
+                <h4 class="level-name">Donador Bronce</h4>
+                <span class="level-amount">Menos de 100€</span>
+              </div>
+              <ul class="level-benefits">
+                <li>Agradecimiento en la web</li>
+                <li>Acceso a actualizaciones generales</li>
+                <li>Participación en la comunidad</li>
+              </ul>
             </div>
           </section>
 
