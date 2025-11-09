@@ -310,14 +310,12 @@
     border-radius: 3px;
     background: var(--border-color);
     outline: none;
-    -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
 }
 
-/* Estilos estándar para sliders en todos los navegadores */
+/* Estilos para sliders - optimizado para Chrome */
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 20px;
@@ -327,39 +325,7 @@ input[type="range"]::-webkit-slider-thumb {
   transition: background-color 0.3s ease;
 }
 
-input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-input[type="range"]::-ms-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
 .range-slider::-webkit-slider-thumb:hover {
-    background-color: var(--color-primary-hover);
-}
-
-.range-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--color-primary);
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease;
-}
-
-.range-slider::-moz-range-thumb:hover {
     background-color: var(--color-primary-hover);
 }
 
