@@ -52,6 +52,13 @@ body {
   background-color: var(--bg-primary);
   /* Suavizado de fuentes - los navegadores modernos lo aplican automáticamente */
   text-rendering: optimizeLegibility; /* Mejora renderizado general */
+  
+  /* Layout principal con flexbox para footer sticky */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  width: 100%;
 }
 
 /* Enlaces */
@@ -116,6 +123,7 @@ h6 {
 
 /* Párrafos */
 p {
+  color: var(--text-secondary);
   margin-bottom: var(--spacing-4);
   line-height: var(--leading-normal);
 }
@@ -384,4 +392,104 @@ th {
 
 .rounded-full {
   border-radius: var(--radius-full);
+}
+
+/* ===== LAYOUT ESPECÍFICO ===== */
+/* Contenedor wrapper para todo el contenido excepto header y footer */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* main */
+.main-content {
+  padding: var(--spacing-8);
+  flex: 1;
+}
+
+/* Clase para secciones con background completo */
+.full-width-section {
+  margin: 0 calc(var(--spacing-8) * -1);
+  padding: var(--spacing-8) var(--spacing-8);
+}
+
+/* footer */
+.main-footer {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: var(--spacing-8) var(--spacing-6);
+  margin-top: auto;
+  font-family: var(--font-family-primary);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-icons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-6);
+}
+
+.footer-icons iconify-icon {
+  color: var(--text-secondary);
+  transition: color var(--transition-normal);
+  cursor: pointer;
+  font-size: var(--text-xl);
+}
+
+.footer-icons iconify-icon:hover {
+  color: var(--color-primary);
+}
+
+.footer-text {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Responsive adjustments para footer */
+@media (max-width: 425px) {
+  .main-content {
+    padding: var(--spacing-6);
+  }
+  
+  .full-width-section {
+    margin: 0 calc(var(--spacing-6) * -1);
+    padding: var(--spacing-6) var(--spacing-6);
+  }
+  
+  .main-footer {
+    padding: var(--spacing-6) var(--spacing-4);
+  }
+  
+  .footer-icons {
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+  }
+  
+  .footer-icons iconify-icon {
+    font-size: var(--text-lg);
+  }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+  .main-content {
+    padding: var(--spacing-7);
+  }
+  
+  .full-width-section {
+    margin: 0 calc(var(--spacing-7) * -1);
+    padding: var(--spacing-7) var(--spacing-7);
+  }
+  
+  .main-footer {
+    padding: var(--spacing-7) var(--spacing-5);
+  }
 }

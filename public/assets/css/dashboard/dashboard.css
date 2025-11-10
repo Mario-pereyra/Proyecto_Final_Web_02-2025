@@ -1,16 +1,7 @@
 /* Importar tokens de diseño unificados */
 @import url('../tokens.css');
 
-/* Variables específicas del dashboard que no están en tokens */
-:root {
-  /* Colores específicos del dashboard - usando variables de tokens.css */
-  --brand: var(--color-gray-500);
-  --track: var(--color-gray-400);
-  
-  /* Warning colors - usando variables de tokens.css */
-  --warn-outline: var(--color-warning-outline);
-  --warn-text: var(--color-warning);
-}
+/* Nota: Las variables locales han sido reemplazadas por las variables de tokens.css */
 
 *{ box-sizing: border-box; }
 html, body{ height: 100%; }
@@ -55,7 +46,7 @@ body{
   margin: 5px 0 0;
   font-size: 32px;
   font-weight: 700;
-  color: var(--brand);
+  color: var(--color-gray-500);
   text-align: center;
 }
 
@@ -317,8 +308,8 @@ body{
 
 .chip--outline-warning {
   background: var(--color-white);
-  color: var(--warn-text);
-  border: 1px solid var(--warn-outline);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning-outline);
 }
 
 .chip--dark {

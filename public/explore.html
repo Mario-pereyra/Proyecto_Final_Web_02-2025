@@ -4,13 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Explorar - Impulsa.me</title>
-    <link rel="stylesheet" href="assets/css/colors.css" />
-    <link rel="stylesheet" href="assets/css/components.css" />
-    <link rel="stylesheet" href="assets/css/buttons.css" />
-    <link rel="stylesheet" href="assets/css/header.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="stylesheet" href="assets/css/cards.css" />
-    <link rel="stylesheet" href="./assets/css/explore/explore.css" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
   </head>
 
   <body>
@@ -241,7 +235,7 @@
             </div>
           </div>
         </aside>
-        <div class="container-project-features-item">
+        <div class="container-project-features-item grid-responsive">
           <article class="project-card">
             <div class="container-project-img">
               <a href="./detail.html"
@@ -250,7 +244,7 @@
                   alt="SmartWatch Revolucionario"
                   class="project-img"
               /></a>
-              <div class="project-category">Tecnología</div>
+              <div class="project-category" role="status" aria-label="Categoría: Tecnología">Tecnología</div>
               <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
@@ -315,7 +309,7 @@
                   alt="Album de Sonidos del futuro"
                   class="project-img"
               /></a>
-              <div class="project-category">Música</div>
+              <div class="project-category" role="status" aria-label="Categoría: Música">Música</div>
               <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
@@ -363,20 +357,20 @@
                 <p class="date-project">70 días restantes</p>
               </div>
               <div class="project-card__footer">
-                <button type="button" onclick="" class="btn">Ver detalles</button>
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
               </div>
             </div>
           </article>
-          <article class="project">
+          <article class="project-card">
             <div class="container-project-img">
               <a href="#"
                 ><img
                   src="./assets/img/Instalación de Arte Interactivo.png"
-                  alt="SmartWatch Revolucionario"
+                  alt="Instalación de Arte Interactivo"
                   class="project-img"
               /></a>
-              <div class="project-category">Arte</div>
-              <button class="project-like-btn" data-liked="false">
+              <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
                   class="heart-icon-empty"
@@ -388,31 +382,25 @@
                 ></iconify-icon>
               </button>
             </div>
-            <div class="project-content">
-              <div class="content-container-title">
+            <div class="project-card__content">
+              <div class="project-card__title-container">
                 <h3>Instalación de Arte Interactivo</h3>
                 <p>
                   Una experiencia artística inmersiva que responde a las
                   emociones del espectador
                 </p>
               </div>
-              <div class="content-finacial">
-                <div class="content-financial-goal">
+              <div class="project-card__progress">
+                <div class="project-card__stats">
                   <h4>12.300Bs</h4>
                   <p>de 25.000Bs</p>
                 </div>
-                <div class="financial-goal-container-progressbar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="49"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill meta_project__progressbar progres financial-goal-progressbar" max="100" value="49"></progress>
                 </div>
                 <p>49% financiado</p>
               </div>
-              <div class="container-owner-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-person"
                   width="24"
@@ -420,7 +408,7 @@
                 ></iconify-icon>
                 <p class="owner-project">Por Ana garcia</p>
               </div>
-              <div class="container-date-project">
+              <div class="project-card__meta">
                 <iconify-icon
                   icon="ic:round-calendar-today"
                   width="24"
@@ -428,7 +416,9 @@
                 ></iconify-icon>
                 <p class="date-project">24 dias restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
           <article class="project-card">
@@ -439,7 +429,7 @@
                   alt="SmartWatch Revolucionario"
                   class="project-img"
               /></a>
-              <div class="project-category">Tecnología</div>
+              <div class="project-category" role="status" aria-label="Categoría: Tecnología">Tecnología</div>
               <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
@@ -487,7 +477,7 @@
                 <p class="date-project">101 dias restantes</p>
               </div>
               <div class="project-card__footer">
-                <button type="button" onclick="" class="btn">Ver detalles</button>
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
               </div>
             </div>
           </article>
@@ -499,7 +489,7 @@
                   alt="Album de Sonidos del futuro"
                   class="project-img"
               /></a>
-              <div class="project-category">Música</div>
+              <div class="project-category" role="status" aria-label="Categoría: Música">Música</div>
               <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
@@ -526,7 +516,7 @@
                   <p>de 15.000 Bs</p>
                 </div>
                 <div class="project-card__progress-bar">
-                  <progress class="project-card__progress-bar-fill" max="100" value="58"></progress>
+                  <progress class="project-card__progress-bar-fill meta_project__progressbar progres financial-goal-progressbar" max="100" value="58"></progress>
                 </div>
                 <p>58% financiado</p>
               </div>
@@ -547,7 +537,7 @@
                 <p class="date-project">70 días restantes</p>
               </div>
               <div class="project-card__footer">
-                <button type="button" onclick="" class="btn">Ver detalles</button>
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
               </div>
             </div>
           </article>
@@ -556,10 +546,10 @@
               <a href="#"
                 ><img
                   src="./assets/img/Instalación de Arte Interactivo.png"
-                  alt="SmartWatch Revolucionario"
+                  alt="Instalación de Arte Interactivo"
                   class="project-img"
               /></a>
-              <div class="project-category">Arte</div>
+              <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
               <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
                 <iconify-icon
                   icon="ic:round-favorite-border"
@@ -607,7 +597,7 @@
                 <p class="date-project">24 dias restantes</p>
               </div>
               <div class="project-card__footer">
-                <button type="button" onclick="" class="btn">Ver detalles</button>
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
               </div>
             </div>
           </article>

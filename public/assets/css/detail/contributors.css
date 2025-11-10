@@ -1,15 +1,7 @@
 /* Importar tokens de diseño unificados */
 @import url('../tokens.css');
 
-/* Variables específicas para los colaboradores */
-:root {
-  --donor-gold: #FFD700;
-  --donor-silver: #C0C0C0;
-  --donor-bronze: #CD7F32;
-  --donor-gold-bg: #FFF9E6;
-  --donor-silver-bg: #F8F8F8;
-  --donor-bronze-bg: #FAF0E6;
-}
+/* Nota: Las variables locales han sido reemplazadas por las variables de tokens.css */
 
 /* -------- LAYOUT DE COLABORADORES -------- */
 .contributors-layout {
@@ -50,23 +42,23 @@
 
 /* -------- CHIPS DE NIVEL -------- */
 .chip--gold {
-  background: var(--donor-gold-bg);
-  color: var(--donor-gold);
-  border: 1px solid var(--donor-gold);
+  background: var(--color-donor-gold-bg);
+  color: var(--color-donor-gold);
+  border: 1px solid var(--color-donor-gold);
   font-weight: var(--font-semibold);
 }
 
 .chip--silver {
-  background: var(--donor-silver-bg);
-  color: var(--donor-silver);
-  border: 1px solid var(--donor-silver);
+  background: var(--color-donor-silver-bg);
+  color: var(--color-donor-silver);
+  border: 1px solid var(--color-donor-silver);
   font-weight: var(--font-medium);
 }
 
 .chip--bronze {
-  background: var(--donor-bronze-bg);
-  color: var(--donor-bronze);
-  border: 1px solid var(--donor-bronze);
+  background: var(--color-donor-bronze-bg);
+  color: var(--color-donor-bronze);
+  border: 1px solid var(--color-donor-bronze);
   font-weight: var(--font-medium);
 }
 
@@ -86,15 +78,15 @@
 }
 
 .sidebar .level-card--gold {
-  border-left: 4px solid var(--donor-gold);
+  border-left: 4px solid var(--color-donor-gold);
 }
 
 .sidebar .level-card--silver {
-  border-left: 4px solid var(--donor-silver);
+  border-left: 4px solid var(--color-donor-silver);
 }
 
 .sidebar .level-card--bronze {
-  border-left: 4px solid var(--donor-bronze);
+  border-left: 4px solid var(--color-donor-bronze);
 }
 
 .sidebar .level-header {
@@ -106,15 +98,15 @@
 
 .sidebar .level-icon {
   font-size: 20px;
-  color: var(--donor-gold);
+  color: var(--color-donor-gold);
 }
 
 .sidebar .level-card--silver .level-icon {
-  color: var(--donor-silver);
+  color: var(--color-donor-silver);
 }
 
 .sidebar .level-card--bronze .level-icon {
-  color: var(--donor-bronze);
+  color: var(--color-donor-bronze);
 }
 
 .sidebar .level-name {
@@ -177,15 +169,15 @@
 }
 
 .level-card--gold {
-  border-left: 4px solid var(--donor-gold);
+  border-left: 4px solid var(--color-donor-gold);
 }
 
 .level-card--silver {
-  border-left: 4px solid var(--donor-silver);
+  border-left: 4px solid var(--color-donor-silver);
 }
 
 .level-card--bronze {
-  border-left: 4px solid var(--donor-bronze);
+  border-left: 4px solid var(--color-donor-bronze);
 }
 
 .level-header {
@@ -197,15 +189,15 @@
 
 .level-icon {
   font-size: 20px;
-  color: var(--donor-gold);
+  color: var(--color-donor-gold);
 }
 
 .level-card--silver .level-icon {
-  color: var(--donor-silver);
+  color: var(--color-donor-silver);
 }
 
 .level-card--bronze .level-icon {
-  color: var(--donor-bronze);
+  color: var(--color-donor-bronze);
 }
 
 .level-name {

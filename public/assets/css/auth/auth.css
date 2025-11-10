@@ -1,13 +1,7 @@
 /* Importar tokens de diseño unificados */
 @import url('../tokens.css');
 
-/* Variables específicas del auth que no están en tokens */
-:root {
-    /* Mantener compatibilidad con código existente */
-    --secondary-color: var(--color-white);
-    --background-color: var(--bg-secondary);
-    --card-background: var(--bg-primary);
-}
+/* Nota: Las variables locales han sido reemplazadas por las variables de tokens.css */
 
 /* Reset y estilos base con variables unificadas */
 body {
@@ -22,7 +16,7 @@ body {
 
 /* Header con navegación */
 header {
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     left: 0;
     right: 0;
@@ -114,28 +108,39 @@ header {
     border-radius: var(--border-radius);
     margin-bottom: var(--spacing-lg);
     overflow: hidden;
+    width: 100%;
+    border: 1px solid var(--border-color);
 }
 
 .tabs button {
     flex: 1;
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
     border: none;
     background-color: transparent;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    min-width: 0; /* Evita que el contenido haga overflow */
+    white-space: nowrap; /* Evita que el texto se rompa */
 }
 
 .tabs button:hover {
-    background-color: rgba(3, 2, 19, 0.05);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
 }
 
 .tabs button.active {
     background-color: var(--color-primary);
     color: var(--color-white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tabs button:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
 }
 
 /* Contenedor de tabs */
@@ -221,13 +226,13 @@ header {
 
 /* Mensajes de error */
 .error-message {
-    color: var(--error-color);
-    font-size: 0.8rem;
-    margin: 0;
-    padding: 0;
-    min-height: 1.2rem;
-    display: none;
-    animation: slideDown 0.3s ease-out;
+  color: var(--color-error);
+  font-size: 0.8rem;
+  margin: 0;
+  padding: 0;
+  min-height: 1.2rem;
+  display: none;
+  animation: slideDown 0.3s ease-out;
 }
 
 .error-message.show {
@@ -247,13 +252,13 @@ header {
 
 /* Estados de validación */
 .container-input input.error {
-    border-color: var(--error-color);
-    background-color: rgba(231, 76, 60, 0.05);
+  border-color: var(--color-error);
+  background-color: rgba(231, 76, 60, 0.05);
 }
 
 .container-input input.success {
-    border-color: var(--success-color);
-    background-color: rgba(39, 174, 96, 0.05);
+  border-color: var(--color-success);
+  background-color: rgba(39, 174, 96, 0.05);
 }
 
 /* Botones */

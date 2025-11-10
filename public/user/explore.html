@@ -4,12 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Explorar - Impulsa.me</title>
-    <link rel="stylesheet" href="../assets/css/colors.css" />
-    <link rel="stylesheet" href="../assets/css/buttons.css" />
-    <link rel="stylesheet" href="../assets/css/header.css" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="stylesheet" href="../assets/css/cards.css" />
-    <link rel="stylesheet" href="../assets/css/explore/explore.css" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
   </head>
 
   <body>
@@ -61,7 +56,7 @@
           ></iconify-icon>
           <p>Crear Proyecto</p>
         </a>
-        <a href="./dashboard.html" class="btn btn--secondary">
+        <a href="./dashboard.html#favoritos" class="btn btn--secondary">
           <iconify-icon
             icon="ic:round-favorite"
             width="24"
@@ -69,7 +64,7 @@
           ></iconify-icon>
           <p>Favoritos</p>
         </a>
-        <a href="./dashboard.html" class="btn btn--secondary">
+        <a href="./dashboard.html#aportes" class="btn btn--secondary">
           <iconify-icon
             icon="ic:round-add-circle"
             width="24"
@@ -77,7 +72,7 @@
           ></iconify-icon>
           <p>Mis Aportes</p>
         </a>
-        <a href="./dashboard.html" class="btn btn--primary">
+        <a href="./dashboard.html#cuenta" class="btn btn--primary">
           <iconify-icon
             icon="ic:round-person"
             width="24"
@@ -118,19 +113,19 @@
         <div class="menu-section">
           <h3>Cuenta</h3>
           <div class="menu-actions">
-            <a href="./auth.html" class="btn btn--primary menu-btn"
+            <a href="./dashboard.html#proyectos" class="btn btn--secondary menu-btn"
               >Mis Proyectos</a
             >
-            <a href="./auth.html" class="btn btn--secondary menu-btn"
+            <a href="./dashboard.html" class="btn btn--secondary menu-btn"
               >Crear Proyecto</a
             >
-            <a href="./auth.html" class="btn btn--primary menu-btn"
+            <a href="./dashboard.html#favoritos" class="btn btn--primary menu-btn"
               >Favoritos</a
             >
-            <a href="./auth.html" class="btn btn--secondary menu-btn"
+            <a href="./dashboard.html#aportes" class="btn btn--secondary menu-btn"
               >Mis Aportes</a
             >
-            <a href="./auth.html" class="btn btn--primary menu-btn"
+            <a href="./dashboard.html#cuenta" class="btn btn--primary menu-btn"
               >Mi Cuenta</a
             >
           </div>
@@ -287,7 +282,7 @@
             </div>
           </div>
         </aside>
-        <div class="container-project-features-item">
+        <div class="container-project-features-item grid-responsive">
           <article class="project-card">
             <div class="container-project-img">
               <a href="./detail.html"
@@ -341,11 +336,15 @@
                   width="24"
                   height="24"
                 ></iconify-icon>
-                <p class="date-project">101 días restantes</p>
+                <p class="date-project">101 dias restantes</p>
               </div>
               <div class="project-card__footer">
-                <button type="button" onclick="window.location.href='./detail.html'" class="btn">
-                  Ver detalles
+                <button
+                  type="button"
+                  onclick="window.location.href='./detail.html'"
+                  class="btn"
+                >
+                Ver detalles
                 </button>
               </div>
             </div>
@@ -385,13 +384,7 @@
                   <p>de 15.000 Bs</p>
                 </div>
                 <div class="project-card__progress-bar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="58"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                  <progress class="project-card__progress-bar-fill meta_project__progressbar progres financial-goal-progressbar" max="100" value="58"></progress>
                 </div>
                 <p>58% financiado</p>
               </div>
@@ -411,7 +404,9 @@
                 ></iconify-icon>
                 <p class="date-project">70 días restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
           <article class="project-card">
@@ -419,7 +414,7 @@
               <a href="#"
                 ><img
                   src="../assets/img/Instalación de Arte Interactivo.png"
-                  alt="SmartWatch Revolucionario"
+                  alt="Instalación de Arte Interactivo"
                   class="project-img"
               /></a>
               <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
@@ -470,7 +465,7 @@
                 <p class="date-project">24 dias restantes</p>
               </div>
               <div class="project-card__footer">
-                <button type="button" onclick="" class="btn">Ver detalles</button>
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
               </div>
             </div>
           </article>
@@ -527,10 +522,10 @@
                   width="24"
                   height="24"
                 ></iconify-icon>
-                <p class="date-project">101 días restantes</p>
+                <p class="date-project">101 dias restantes</p>
               </div>
               <div class="project-card__footer">
-                <button type="button" onclick="" class="btn">Ver detalles</button>
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
               </div>
             </div>
           </article>
@@ -569,13 +564,7 @@
                   <p>de 15.000 Bs</p>
                 </div>
                 <div class="project-card__progress-bar">
-                  <progress
-                    class="meta_project__progressbar"
-                    max="100"
-                    value="58"
-                    class="progres"
-                    class="financial-goal-progressbar"
-                  ></progress>
+                  <progress class="project-card__progress-bar-fill meta_project__progressbar progres financial-goal-progressbar" max="100" value="58"></progress>
                 </div>
                 <p>58% financiado</p>
               </div>
@@ -595,7 +584,9 @@
                 ></iconify-icon>
                 <p class="date-project">70 días restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
           <article class="project-card">
@@ -603,7 +594,7 @@
               <a href="#"
                 ><img
                   src="../assets/img/Instalación de Arte Interactivo.png"
-                  alt="SmartWatch Revolucionario"
+                  alt="Instalación de Arte Interactivo"
                   class="project-img"
               /></a>
               <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
@@ -651,9 +642,11 @@
                   width="24"
                   height="24"
                 ></iconify-icon>
-                <p class="date-project">24 días restantes</p>
+                <p class="date-project">24 dias restantes</p>
               </div>
-              <button type="button" onclick="">Ver detalles</button>
+              <div class="project-card__footer">
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver detalles</button>
+              </div>
             </div>
           </article>
         </div>

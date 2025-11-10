@@ -40,6 +40,17 @@
   --color-info: #1347E5;
   --color-info-bg: #DAEAFE;
   
+  /* ===== COLORES DE DONADORES ===== */
+  --color-donor-gold: #FFD700;
+  --color-donor-silver: #C0C0C0;
+  --color-donor-bronze: #CD7F32;
+  --color-donor-gold-bg: #FFF9E6;
+  --color-donor-silver-bg: #F8F8F8;
+  --color-donor-bronze-bg: #FAF0E6;
+  
+  /* ===== COLORES ADICIONALES ===== */
+  --color-purple: #980FFA;
+  
   /* ===== COLORES DE FONDO ===== */
   --bg-primary: #FFFFFF;
   --bg-secondary: #E7E7E9;
@@ -178,6 +189,9 @@
   --progress-height-lg: 16px;
   --progress-bg: var(--color-gray-400);
   --progress-fill: var(--color-primary);
+  
+  /* ===== VARIABLES ADICIONALES ===== */
+  --filter-active-bg: var(--text-secondary);
 }
 
 /* ===== CLASES UTILITARIAS ===== */
