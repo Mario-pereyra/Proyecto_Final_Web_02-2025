@@ -1,7 +1,5 @@
-/* Importar tokens de diseño unificados */
-@import url('../tokens.css');
+@import url("../tokens.css");
 
-/* Sección de características del home */
 .features {
   display: flex;
   flex-direction: column;
@@ -84,44 +82,43 @@
   line-height: var(--leading-normal);
 }
 
-/* Responsive adjustments */
 @media (max-width: 425px) {
   .features {
     padding: var(--spacing-6) var(--spacing-3);
   }
-  
+
   .features-title {
     font-size: var(--text-2xl);
     margin-bottom: var(--spacing-4);
   }
-  
+
   .features-description {
     font-size: var(--text-sm);
     margin-bottom: var(--spacing-6);
   }
-  
+
   .features-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-4);
   }
-  
+
   .feature-item {
     padding: var(--spacing-4);
   }
-  
+
   .feature-icon {
     width: 60px;
     height: 60px;
   }
-  
+
   .feature-icon iconify-icon {
     font-size: var(--text-2xl);
   }
-  
+
   .feature-title {
     font-size: var(--text-lg);
   }
-  
+
   .feature-description {
     font-size: var(--text-sm);
   }
@@ -131,16 +128,16 @@
   .features {
     padding: var(--spacing-7) var(--spacing-4);
   }
-  
+
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-5);
   }
-  
+
   .feature-item {
     padding: var(--spacing-5);
   }
-  
+
   .feature-icon {
     width: 70px;
     height: 70px;
@@ -151,12 +148,12 @@
   .features {
     padding: var(--spacing-10) var(--spacing-6);
   }
-  
+
   .features-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-6);
   }
-  
+
   .feature-item {
     padding: var(--spacing-6);
   }

@@ -1,38 +1,26 @@
-/* ===================================
-   MAIN CSS - IMPULSA.ME
-   Archivo principal que importa todos los módulos CSS
-   =================================== */
+@import url("./tokens.css");
 
-/* Importar tokens de diseño primero (más importante) */
-@import url('./tokens.css');
+@import url("./fonts.css");
 
-/* Importar fuentes */
-@import url('./fonts.css');
+@import url("./components.css");
+@import url("./buttons.css");
+@import url("./cards.css");
 
-/* Importar componentes base */
-@import url('./components.css');
-@import url('./buttons.css');
-@import url('./cards.css');
+@import url("./header.css");
+@import url("./responsive.css");
 
-/* Importar módulos de layout */
-@import url('./header.css');
-@import url('./responsive.css');
+@import url("./auth/auth.css");
+@import url("./dashboard/dashboard.css");
+@import url("./detail/detail.css");
+@import url("./explore/explore.css");
+@import url("./home/banner.css");
+@import url("./home/categories.css");
+@import url("./home/data-info.css");
+@import url("./home/FAQ.css");
+@import url("./home/features.css");
+@import url("./home/howtoworks.css");
+@import url("./home/readytobeginning.css");
 
-/* Importar estilos específicos de páginas */
-@import url('./auth/auth.css');
-@import url('./dashboard/dashboard.css');
-@import url('./detail/detail.css');
-@import url('./explore/explore.css');
-@import url('./home/banner.css');
-@import url('./home/categories.css');
-@import url('./home/data-info.css');
-@import url('./home/FAQ.css');
-@import url('./home/features.css');
-@import url('./home/howtoworks.css');
-@import url('./home/readytobeginning.css');
-
-/* ===== ESTILOS GLOBALES ===== */
-/* Reset básico */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -40,7 +28,7 @@
 }
 
 html {
-  font-size: 16px; /* Base de 16px para facilitar cálculos rem */
+  font-size: 16px;
   scroll-behavior: smooth;
 }
 
@@ -50,10 +38,9 @@ body {
   line-height: var(--leading-normal);
   color: var(--text-primary);
   background-color: var(--bg-primary);
-  /* Suavizado de fuentes - los navegadores modernos lo aplican automáticamente */
-  text-rendering: optimizeLegibility; /* Mejora renderizado general */
-  
-  /* Layout principal con flexbox para footer sticky */
+
+  text-rendering: optimizeLegibility;
+
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -61,7 +48,6 @@ body {
   width: 100%;
 }
 
-/* Enlaces */
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -78,20 +64,23 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* Imágenes */
 img {
   max-width: 100%;
   height: auto;
   object-fit: cover;
 }
 
-/* Listas */
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
-/* Títulos */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: var(--font-semibold);
   line-height: var(--leading-tight);
   margin-bottom: var(--spacing-3);
@@ -121,15 +110,15 @@ h6 {
   font-size: var(--text-base);
 }
 
-/* Párrafos */
 p {
   color: var(--text-secondary);
   margin-bottom: var(--spacing-4);
   line-height: var(--leading-normal);
 }
 
-/* Formularios */
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: var(--font-family-primary);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
@@ -141,20 +130,22 @@ input, textarea, select {
   transition: var(--transition-normal);
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--border-focus);
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
 }
 
-/* Tablas */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: var(--spacing-6);
 }
 
-th, td {
+th,
+td {
   padding: var(--spacing-3) var(--spacing-4);
   text-align: left;
   border-bottom: 1px solid var(--border-color);
@@ -165,7 +156,6 @@ th {
   color: var(--text-primary);
 }
 
-/* Utilidades globales */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -394,27 +384,22 @@ th {
   border-radius: var(--radius-full);
 }
 
-/* ===== LAYOUT ESPECÍFICO ===== */
-/* Contenedor wrapper para todo el contenido excepto header y footer */
 .content-wrapper {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-/* main */
 .main-content {
   padding: var(--spacing-8);
   flex: 1;
 }
 
-/* Clase para secciones con background completo */
 .full-width-section {
   margin: 0 calc(var(--spacing-8) * -1);
   padding: var(--spacing-8) var(--spacing-8);
 }
 
-/* footer */
 .main-footer {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
@@ -454,26 +439,25 @@ th {
   margin: 0;
 }
 
-/* Responsive adjustments para footer */
 @media (max-width: 425px) {
   .main-content {
     padding: var(--spacing-6);
   }
-  
+
   .full-width-section {
     margin: 0 calc(var(--spacing-6) * -1);
     padding: var(--spacing-6) var(--spacing-6);
   }
-  
+
   .main-footer {
     padding: var(--spacing-6) var(--spacing-4);
   }
-  
+
   .footer-icons {
     gap: var(--spacing-3);
     margin-bottom: var(--spacing-4);
   }
-  
+
   .footer-icons iconify-icon {
     font-size: var(--text-lg);
   }
@@ -483,12 +467,12 @@ th {
   .main-content {
     padding: var(--spacing-7);
   }
-  
+
   .full-width-section {
     margin: 0 calc(var(--spacing-7) * -1);
     padding: var(--spacing-7) var(--spacing-7);
   }
-  
+
   .main-footer {
     padding: var(--spacing-7) var(--spacing-5);
   }

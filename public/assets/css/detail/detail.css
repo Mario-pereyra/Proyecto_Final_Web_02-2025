@@ -1,7 +1,4 @@
-/* Importar tokens de diseño unificados */
-@import url('../tokens.css');
-
-/* Nota: Las variables locales han sido reemplazadas por las variables de tokens.css */
+@import url("../tokens.css");
 
 * {
   box-sizing: border-box;
@@ -20,7 +17,6 @@ body {
   line-height: var(--leading-normal);
 }
 
-/* Botón de volver */
 .back-button {
   position: fixed;
   top: 20px;
@@ -59,11 +55,10 @@ body {
   padding: var(--spacing-6);
   display: grid;
   gap: var(--spacing-7);
-  /* Layout por defecto para pantallas medianas y grandes */
+
   grid-template-columns: 2fr 1fr;
 }
 
-/* Layout para pantallas pequeñas - una columna */
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
@@ -72,7 +67,6 @@ body {
   }
 }
 
-/* Layout para pantallas medianas - mantener dos columnas pero más compactas */
 @media (min-width: 769px) and (max-width: 1023px) {
   .container {
     grid-template-columns: 1.5fr 1fr;
@@ -81,18 +75,15 @@ body {
   }
 }
 
-/* Layout para pantallas grandes - dos columnas óptimas */
 @media (min-width: 1024px) {
-  /* Aumentar especificidad para sobreescribir responsive.css */
   main.container {
     max-width: 1248px !important;
     grid-template-columns: 2fr 1fr;
-    /* similar a 821px / 394px */
+
     gap: var(--spacing-7);
   }
 }
 
-/* Media query adicional para pantallas muy grandes */
 @media (min-width: 1025px) and (max-width: 1440px) {
   main.container {
     max-width: 1248px !important;
@@ -105,7 +96,6 @@ body {
   }
 }
 
-/* Sobreescribir reglas problemáticas de responsive.css para detail.html */
 @media (min-width: 769px) and (max-width: 1024px) {
   main .project {
     width: 100% !important;
@@ -120,7 +110,6 @@ body {
   }
 }
 
-/* -------- ELEMENTOS GENERALES -------- */
 .icon {
   width: 16px;
   height: 16px;
@@ -149,7 +138,6 @@ body {
   color: var(--color-purple);
 }
 
-/* -------- LADO PRINCIPAL -------- */
 .project__top {
   display: flex;
   flex-direction: column;
@@ -227,7 +215,6 @@ body {
   border-radius: var(--radius-sm);
 }
 
-/* CTA BUTTONS */
 .cta {
   display: flex;
   flex-wrap: wrap;
@@ -259,7 +246,6 @@ body {
   background: #fff;
 }
 
-/* Tarjetas y contenido */
 .card {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-card);
@@ -267,7 +253,7 @@ body {
   padding: var(--card-padding);
 }
 
-.card+.card {
+.card + .card {
   margin-top: 32px;
 }
 
@@ -286,7 +272,6 @@ body {
   margin: 8px 0 16px;
 }
 
-/* Colaboradores */
 .contrib {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -296,7 +281,7 @@ body {
   padding: 16px;
 }
 
-.contrib+.contrib {
+.contrib + .contrib {
   margin-top: 16px;
 }
 
@@ -327,7 +312,6 @@ body {
   font-size: 11px;
 }
 
-/* Chips */
 .chip {
   display: inline-block;
   background: var(--color-gray-200);
@@ -351,7 +335,6 @@ body {
   color: var(--color-info);
 }
 
-/* -------- SIDEBAR -------- */
 .sidebar {
   display: grid;
   gap: 25px;
@@ -399,7 +382,6 @@ body {
   background: var(--color-primary);
 }
 
-/* Stats */
 .statgrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -427,7 +409,6 @@ body {
   color: var(--text-secondary);
 }
 
-/* Timeline */
 .section-title {
   font-size: 13px;
   color: var(--text-primary);
@@ -465,7 +446,6 @@ body {
   padding: 12px;
 }
 
-/* Creator */
 .creator {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -493,7 +473,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* Rows (pares clave/valor con icono) */
 .row {
   display: flex;
   align-items: center;
@@ -504,7 +483,6 @@ body {
   padding: 12px;
 }
 
-/* ===== ESTILOS PARA VIDEO DE YOUTUBE ===== */
 .video-container {
   margin: var(--spacing-8) 0;
   padding: var(--spacing-6);
@@ -516,7 +494,7 @@ body {
 .video-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* Proporción 16:9 */
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
   border-radius: var(--radius-md);
@@ -541,15 +519,14 @@ body {
   text-align: center;
 }
 
-/* Responsive para video */
 @media (max-width: 768px) {
   .video-container {
     margin: var(--spacing-6) 0;
     padding: var(--spacing-4);
   }
-  
+
   .video-wrapper {
-    padding-bottom: 56.25%; /* Mantener proporción 16:9 */
+    padding-bottom: 56.25%;
   }
 }
 
@@ -558,8 +535,7 @@ body {
     margin: var(--spacing-4) 0;
     padding: var(--spacing-3);
   }
-  
-  /* ===== ESTILOS PARA ENLACE DIRECTO A YOUTUBE ===== */
+
   .video-link {
     display: block;
     text-decoration: none;
@@ -569,31 +545,31 @@ body {
     overflow: hidden;
     position: relative;
   }
-  
+
   .video-link:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
     color: var(--color-primary);
   }
-  
+
   .video-thumbnail {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* Proporción 16:9 */
+    padding-bottom: 56.25%;
     height: 0;
     overflow: hidden;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
     background: var(--bg-secondary);
   }
-  
+
   .video-thumbnail-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: var(--transition-normal);
   }
-  
+
   .video-play-overlay {
     position: absolute;
     top: 50%;
@@ -608,109 +584,108 @@ body {
     justify-content: center;
     transition: var(--transition-normal);
   }
-  
+
   .video-link:hover .video-play-overlay {
     background: rgba(0, 0, 0, 0.8);
   }
-  
+
   .video-play-icon {
     color: var(--color-white);
     font-size: 24px;
   }
-  
+
   .video-info {
     padding: var(--spacing-4);
     background: var(--bg-primary);
     color: var(--color-white);
     text-align: left;
   }
-  
+
   .video-title {
     font-size: var(--text-lg);
     font-weight: var(--font-semibold);
     margin: 0 0 var(--spacing-2) 0;
     color: var(--color-white);
   }
-  
+
   .video-description-short {
     font-size: var(--text-sm);
     margin: 0;
     color: var(--color-white);
     opacity: 0.9;
   }
-  
+
   .video-duration {
     font-size: var(--text-xs);
     color: var(--color-white);
     opacity: 0.8;
   }
-  
-  /* Responsive para video */
+
   @media (max-width: 768px) {
     .video-link {
       margin: var(--spacing-4) 0;
       padding: var(--spacing-3);
     }
-    
+
     .video-thumbnail {
-      padding-bottom: 56.25%; /* Mantener proporción 16:9 */
+      padding-bottom: 56.25%;
     }
-    
+
     .video-info {
       padding: var(--spacing-3);
     }
-    
+
     .video-title {
       font-size: var(--text-base);
     }
-    
+
     .video-description-short {
       font-size: var(--text-xs);
     }
-    
+
     .video-duration {
       font-size: var(--text-xs);
     }
   }
-  
+
   @media (max-width: 480px) {
     .video-link {
       margin: var(--spacing-3) 0;
       padding: var(--spacing-2);
     }
-    
+
     .video-thumbnail {
-      padding-bottom: 56.25%; /* Mantener proporción 16:9 */
+      padding-bottom: 56.25%;
     }
-    
+
     .video-info {
       padding: var(--spacing-2);
     }
-    
+
     .video-title {
       font-size: var(--text-sm);
     }
-    
+
     .video-description-short {
       font-size: var(--text-xs);
     }
-    
+
     .video-duration {
       font-size: var(--text-xs);
     }
   }
-  
+
   .video-wrapper {
-    padding-bottom: 56.25%; /* Mantener proporción 16:9 */
+    padding-bottom: 56.25%;
   }
-  
+
   .video-description {
     font-size: var(--text-xs);
     margin-top: var(--spacing-3);
   }
 }
 
-.row+.row {
+.row + .row {
   margin-top: 12px;
 }
 
@@ -720,7 +695,6 @@ body {
   gap: 11px;
 }
 
-/* Divider */
 .divider {
   border: 0;
   height: 1px;
@@ -728,7 +702,6 @@ body {
   margin: 16px 0;
 }
 
-/* Alert */
 .alert {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-warning-border);
@@ -738,17 +711,16 @@ body {
 
 .alert__title {
   font-size: 15px;
-  color: #9F2D00;
+  color: #9f2d00;
   margin-bottom: 6px;
 }
 
 .alert__text {
-  color: #C93400;
+  color: #c93400;
   font-size: 13px;
   margin: 0;
 }
 
-/* Responsivo fino */
 @media (max-width: 640px) {
   .hero__img {
     height: 300px;

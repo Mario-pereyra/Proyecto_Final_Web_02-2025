@@ -1,881 +1,588 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Impulsa.me</title>
-    <link rel="stylesheet" href="../assets/css/main.css" />
-  </head>
 
-  <body>
-    <header class="main-header">
-      <div class="logo-container">
-        <figure class="logo-figure">
-          <a href="./index.html" class="logo-link">
-            <img
-              src="../assets/img/Logo final.png"
-              alt="Logo Impulsa.me"
-              class="logo-img"
-            />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Impulsa.me</title>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+
+<body>
+  <header class="main-header">
+    <div class="logo-container">
+      <figure class="logo-figure">
+        <a href="./index.html" class="logo-link">
+          <img src="../assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-img" />
+        </a>
+        <figcaption class="logo-caption">Impulsa.me - Inicio</figcaption>
+      </figure>
+    </div>
+
+    <nav class="main-nav">
+      <ul class="nav__list">
+        <li class="nav__list__item">
+          <a href="#" class="btn btn--primary">
+            <iconify-icon icon="ic:round-home"></iconify-icon>
+            <span>Inicio</span>
           </a>
-          <figcaption class="logo-caption">Impulsa.me - Inicio</figcaption>
-        </figure>
+        </li>
+        <li class="nav__list__item">
+          <a href="./explore.html" class="btn btn--secondary">
+            <iconify-icon icon="ic:round-trending-up"></iconify-icon>
+            <span>Explorar</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#proyectos" class="btn btn--secondary">
+        <iconify-icon icon="ic:round-assessment" width="24" height="24"></iconify-icon>
+        <p>Mis Proyectos</p>
+      </a>
+      <a href="#" class="btn btn--secondary" onclick="alert('Función de crear proyecto próximamente')">
+        <iconify-icon icon="ic:round-add-circle" width="24" height="24"></iconify-icon>
+        <p>Crear Proyecto</p>
+      </a>
+      <a href="#favoritos" class="btn btn--secondary">
+        <iconify-icon icon="ic:round-favorite" width="24" height="24"></iconify-icon>
+        <p>Favoritos</p>
+      </a>
+      <a href="#aportes" class="btn btn--secondary">
+        <iconify-icon icon="ic:round-assessment" width="24" height="24"></iconify-icon>
+        <p>Mis Aportes</p>
+      </a>
+      <a href="./index.html" class="btn btn--primary">
+        <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+        <p>Mi Cuenta</p>
+      </a>
+    </div>
+
+
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+      <iconify-icon icon="ic:round-menu" width="24" height="24"></iconify-icon>
+    </button>
+  </header>
+
+
+  <div class="overlay" id="overlay"></div>
+
+
+  <nav class="side-menu" id="sideMenu">
+    <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">
+      <iconify-icon icon="ic:round-close"></iconify-icon>
+    </button>
+
+    <div class="menu-content">
+      <div class="menu-section">
+        <h3>Navegación</h3>
+        <ul class="menu-nav-list">
+          <li>
+            <a href="./index.html" class="menu-link btn--primary">Inicio</a>
+          </li>
+          <li><a href="./explore.html" class="menu-link">Explorar</a></li>
+        </ul>
       </div>
 
-      <nav class="main-nav">
-        <ul class="nav__list">
-          <li class="nav__list__item">
-            <a href="#" class="btn btn--primary">
-              <iconify-icon icon="ic:round-home"></iconify-icon>
-              <span>Inicio</span>
-            </a>
-          </li>
-          <li class="nav__list__item">
-            <a href="./explore.html" class="btn btn--secondary">
-              <iconify-icon icon="ic:round-trending-up"></iconify-icon>
-              <span>Explorar</span>
-            </a>
-          </li>
-        </ul>
+      <div class="menu-section">
+        <h3>Cuenta</h3>
+        <div class="menu-actions">
+          <a href="./dashboard.html#proyectos" class="btn btn--secondary menu-btn">Mis Proyectos</a>
+          <a href="#" class="btn btn--secondary menu-btn"
+            onclick="alert('Función de crear proyecto próximamente')">Crear Proyecto</a>
+          <a href="./dashboard.html#favoritos" class="btn btn--secondary menu-btn">Favoritos</a>
+          <a href="./dashboard.html#aportes" class="btn btn--secondary menu-btn">Mis Aportes</a>
+          <a href="./index.html" class="btn btn--secondary menu-btn">Mi Cuenta</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="page">
+    <main class="shell">
+
+      <header class="dash-header">
+        <div class="dash-header__left">
+          <h1 class="dash-title">Mi Dashboard</h1>
+          <p class="dash-subtitle">
+            Gestiona tus proyectos y revisa tu actividad
+          </p>
+        </div>
+
+        <button class="btn btn--primary btn--icon" type="button" onclick="alert('Pressed!')">
+          <iconify-icon icon="ic:round-add-circle" class="icon icon--lg"></iconify-icon>
+          <span>Nuevo Proyecto</span>
+        </button>
+      </header>
+
+
+      <section class="kpis" aria-label="Indicadores">
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Proyectos Totales</span>
+            <span class="kpi__value">4</span>
+          </div>
+          <iconify-icon icon="ic:round-assessment" class="kpi__icon" width="32" height="32"></iconify-icon>
+        </article>
+
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Campañas Activas</span>
+            <span class="kpi__value">0</span>
+          </div>
+          <iconify-icon icon="ic:round-trending-up" class="kpi__icon" width="32" height="32"></iconify-icon>
+        </article>
+
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Total Recaudado</span>
+            <span class="kpi__value">0&nbsp;€</span>
+          </div>
+          <iconify-icon icon="ic:round-account-balance-wallet" class="kpi__icon" width="32" height="32"></iconify-icon>
+        </article>
+
+        <article class="card kpi">
+          <div class="kpi__info">
+            <span class="kpi__label">Total Donado</span>
+            <span class="kpi__value">225&nbsp;€</span>
+          </div>
+          <iconify-icon icon="ic:round-favorite" class="kpi__icon" width="32" height="32"></iconify-icon>
+        </article>
+      </section>
+
+
+      <nav class="tabs" aria-label="Filtro de contenido">
+        <button class="tab" type="button" data-tab="proyectos">
+          Mis Proyectos
+        </button>
+        <button class="tab tab--active" type="button" data-tab="aportes" aria-current="page">
+          Mis Aportes
+        </button>
+        <button class="tab" type="button" data-tab="favoritos">
+          Favoritos
+        </button>
       </nav>
 
-      <div class="header-actions">
-        <a href="#proyectos" class="btn btn--secondary">
-          <iconify-icon
-            icon="ic:round-assessment"
-            width="24"
-            height="24"
-          ></iconify-icon>
-          <p>Mis Proyectos</p>
-        </a>
-        <a
-          href="#"
-          class="btn btn--secondary"
-          onclick="alert('Función de crear proyecto próximamente')"
-        >
-          <iconify-icon
-            icon="ic:round-add-circle"
-            width="24"
-            height="24"
-          ></iconify-icon>
-          <p>Crear Proyecto</p>
-        </a>
-        <a href="#favoritos" class="btn btn--secondary">
-          <iconify-icon
-            icon="ic:round-favorite"
-            width="24"
-            height="24"
-          ></iconify-icon>
-          <p>Favoritos</p>
-        </a>
-        <a href="#aportes" class="btn btn--secondary">
-          <iconify-icon
-            icon="ic:round-assessment"
-            width="24"
-            height="24"
-          ></iconify-icon>
-          <p>Mis Aportes</p>
-        </a>
-        <a href="./index.html" class="btn btn--primary">
-          <iconify-icon
-            icon="ic:round-person"
-            width="24"
-            height="24"
-          ></iconify-icon>
-          <p>Mi Cuenta</p>
-        </a>
-      </div>
-      <!-- ------------------------------------------------------------------------------------------------------------------- -->
-      <!-- Botón hamburguesa (solo visible en móvil) -->
-      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
-        <iconify-icon
-          icon="ic:round-menu"
-          width="24"
-          height="24"
-        ></iconify-icon>
-      </button>
-    </header>
 
-    <!-- Overlay para oscurecer el fondo -->
-    <div class="overlay" id="overlay"></div>
+      <div class="tab-content-container">
 
-    <!-- Menú lateral que se despliega -->
-    <nav class="side-menu" id="sideMenu">
-      <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">
-        <iconify-icon icon="ic:round-close"></iconify-icon>
-      </button>
+        <section id="proyectos" class="tabcontent">
+          <div class="card">
+            <h2 class="card__title">Mis Proyectos</h2>
 
-      <div class="menu-content">
-        <div class="menu-section">
-          <h3>Navegación</h3>
-          <ul class="menu-nav-list">
-            <li>
-              <a href="./index.html" class="menu-link btn--primary">Inicio</a>
-            </li>
-            <li><a href="./explore.html" class="menu-link">Explorar</a></li>
-          </ul>
-        </div>
+            <ul class="project-list">
 
-        <div class="menu-section">
-          <h3>Cuenta</h3>
-          <div class="menu-actions">
-            <a
-              href="./dashboard.html#proyectos"
-              class="btn btn--secondary menu-btn"
-              >Mis Proyectos</a
-            >
-            <a
-              href="#"
-              class="btn btn--secondary menu-btn"
-              onclick="alert('Función de crear proyecto próximamente')"
-              >Crear Proyecto</a
-            >
-            <a
-              href="./dashboard.html#favoritos"
-              class="btn btn--secondary menu-btn"
-              >Favoritos</a
-            >
-            <a
-              href="./dashboard.html#aportes"
-              class="btn btn--secondary menu-btn"
-              >Mis Aportes</a
-            >
-            <a href="./index.html" class="btn btn--secondary menu-btn"
-              >Mi Cuenta</a
-            >
-          </div>
-        </div>
-      </div>
-    </nav>
-    <div class="page">
-      <main class="shell">
-        <!-- Header -->
-        <header class="dash-header">
-          <div class="dash-header__left">
-            <h1 class="dash-title">Mi Dashboard</h1>
-            <p class="dash-subtitle">
-              Gestiona tus proyectos y revisa tu actividad
-            </p>
-          </div>
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img class="proj-card__thumb" src="../assets/img/SmartWatch Revolucionario.png"
+                    alt="SmartWatch Revolucionario" width="96" height="96" />
+                </figure>
 
-          <button
-            class="btn btn--primary btn--icon"
-            type="button"
-            onclick="alert('Pressed!')"
-          >
-            <iconify-icon
-              icon="ic:round-add-circle"
-              class="icon icon--lg"
-            ></iconify-icon>
-            <span>Nuevo Proyecto</span>
-          </button>
-        </header>
-
-        <!-- KPIs -->
-        <section class="kpis" aria-label="Indicadores">
-          <article class="card kpi">
-            <div class="kpi__info">
-              <span class="kpi__label">Proyectos Totales</span>
-              <span class="kpi__value">4</span>
-            </div>
-            <iconify-icon
-              icon="ic:round-assessment"
-              class="kpi__icon"
-              width="32"
-              height="32"
-            ></iconify-icon>
-          </article>
-
-          <article class="card kpi">
-            <div class="kpi__info">
-              <span class="kpi__label">Campañas Activas</span>
-              <span class="kpi__value">0</span>
-            </div>
-            <iconify-icon
-              icon="ic:round-trending-up"
-              class="kpi__icon"
-              width="32"
-              height="32"
-            ></iconify-icon>
-          </article>
-
-          <article class="card kpi">
-            <div class="kpi__info">
-              <span class="kpi__label">Total Recaudado</span>
-              <span class="kpi__value">0&nbsp;€</span>
-            </div>
-            <iconify-icon
-              icon="ic:round-account-balance-wallet"
-              class="kpi__icon"
-              width="32"
-              height="32"
-            ></iconify-icon>
-          </article>
-
-          <article class="card kpi">
-            <div class="kpi__info">
-              <span class="kpi__label">Total Donado</span>
-              <span class="kpi__value">225&nbsp;€</span>
-            </div>
-            <iconify-icon
-              icon="ic:round-favorite"
-              class="kpi__icon"
-              width="32"
-              height="32"
-            ></iconify-icon>
-          </article>
-        </section>
-
-        <!-- Tabs -->
-        <nav class="tabs" aria-label="Filtro de contenido">
-          <button class="tab" type="button" data-tab="proyectos">
-            Mis Proyectos
-          </button>
-          <button
-            class="tab tab--active"
-            type="button"
-            data-tab="aportes"
-            aria-current="page"
-          >
-            Mis Aportes
-          </button>
-          <button class="tab" type="button" data-tab="favoritos">
-            Favoritos
-          </button>
-        </nav>
-
-        <!-- Contenido de las pestañas -->
-        <div class="tab-content-container">
-          <!-- Mis Proyectos -->
-          <section id="proyectos" class="tabcontent">
-            <div class="card">
-              <h2 class="card__title">Mis Proyectos</h2>
-
-              <ul class="project-list">
-                <!-- Proyecto 1: SmartWatch Revolucionario -->
-                <li class="proj-card card">
-                  <figure class="proj-card__media">
-                    <img
-                      class="proj-card__thumb"
-                      src="../assets/img/SmartWatch Revolucionario.png"
-                      alt="SmartWatch Revolucionario"
-                      width="96"
-                      height="96"
-                    />
-                  </figure>
-
-                  <div class="proj-card__body">
-                    <header class="proj-card__head">
-                      <div class="proj-card__titlewrap">
-                        <h2 class="proj-card__title">
-                          SmartWatch Revolucionario
-                        </h2>
-                        <p class="proj-card__subtitle muted">
-                          Un smartwatch con tecnología innovadora que monitorea
-                          tu salud 24/7
-                        </p>
-                      </div>
-
-                      <div class="proj-card__status">
-                        <span class="chip chip--dark">Publicado</span>
-                        <span class="chip chip--muted">100% Financiado</span>
-                      </div>
-                    </header>
-
-                    <div class="proj-card__stats">
-                      <span class="small">37.500&nbsp;Bs recaudado</span>
-                      <span class="small">100% de 50.000&nbsp;Bs</span>
-                    </div>
-
-                    <div
-                      class="progress progress--thin"
-                      role="progressbar"
-                      aria-label="Progreso de recaudación"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-valuenow="100"
-                    >
-                      <div class="progress__bar" style="--progress: 100%"></div>
-                    </div>
-
-                    <div class="proj-card__meta">
-                      <div class="proj-card__owner">
-                        <iconify-icon
-                          icon="ic:round-person"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span class="small">Por Ana Garcia</span>
-                      </div>
-                      <div class="proj-card__date">
-                        <iconify-icon
-                          icon="ic:round-calendar-today"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span class="small">101 días restantes</span>
-                      </div>
-                    </div>
-
-                    <div class="proj-card__actions">
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="window.location.href='./detail.html'"
-                        aria-label="Ver detalles del proyecto"
-                      >
-                        <iconify-icon
-                          icon="ic:round-visibility"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Ver</span>
-                      </button>
-
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="alert('Función de editar próximamente')"
-                        aria-label="Editar proyecto"
-                      >
-                        <iconify-icon
-                          icon="ic:round-edit"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Editar</span>
-                      </button>
-
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="alert('Función de recaudación próximamente')"
-                        aria-label="Ver recaudación del proyecto"
-                      >
-                        <iconify-icon
-                          icon="ic:round-assessment"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Ver Recaudación</span>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-
-                <!-- Proyecto 2: Álbum "Sonidos del Futuro" -->
-                <li class="proj-card card">
-                  <figure class="proj-card__media">
-                    <img
-                      class="proj-card__thumb"
-                      src="../assets/img/Álbum _Sonidos del Futuro_.png"
-                      alt="Álbum Sonidos del Futuro"
-                      width="96"
-                      height="96"
-                    />
-                  </figure>
-
-                  <div class="proj-card__body">
-                    <header class="proj-card__head">
-                      <div class="proj-card__titlewrap">
-                        <h2 class="proj-card__title">
-                          Álbum "Sonidos del Futuro"
-                        </h2>
-                        <p class="proj-card__subtitle muted">
-                          Un álbum conceptual que fusiona música electrónica con
-                          sonidos naturales
-                        </p>
-                      </div>
-
-                      <div class="proj-card__status">
-                        <span class="chip chip--dark">Publicado</span>
-                        <span class="chip chip--muted">58% financiado</span>
-                      </div>
-                    </header>
-
-                    <div class="proj-card__stats">
-                      <span class="small">8.750&nbsp;Bs recaudado</span>
-                      <span class="small">58% de 15.000&nbsp;Bs</span>
-                    </div>
-
-                    <div
-                      class="progress progress--thin"
-                      role="progressbar"
-                      aria-label="Progreso de recaudación"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-valuenow="58"
-                    >
-                      <div class="progress__bar" style="--progress: 58%"></div>
-                    </div>
-
-                    <div class="proj-card__meta">
-                      <div class="proj-card__owner">
-                        <iconify-icon
-                          icon="ic:round-person"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span class="small">Por Carlos López</span>
-                      </div>
-                      <div class="proj-card__date">
-                        <iconify-icon
-                          icon="ic:round-calendar-today"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span class="small">70 días restantes</span>
-                      </div>
-                    </div>
-
-                    <div class="proj-card__actions">
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="window.location.href='./detail.html'"
-                      >
-                        <iconify-icon
-                          icon="ic:round-visibility"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Ver</span>
-                      </button>
-
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="alert('Función de editar próximamente')"
-                      >
-                        <iconify-icon
-                          icon="ic:round-edit"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Editar</span>
-                      </button>
-
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="alert('Función de recaudación próximamente')"
-                      >
-                        <iconify-icon
-                          icon="ic:round-assessment"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Ver Recaudación</span>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-
-                <!-- Proyecto 3: Álbum "Sonidos del Futuro" -->
-                <li class="proj-card card">
-                  <figure class="proj-card__media">
-                    <img
-                      class="proj-card__thumb"
-                      src="../assets/img/Álbum _Sonidos del Futuro_.png"
-                      alt="Álbum Sonidos del Futuro"
-                      width="96"
-                      height="96"
-                    />
-                  </figure>
-
-                  <div class="proj-card__body">
-                    <header class="proj-card__head">
-                      <div class="proj-card__titlewrap">
-                        <h2 class="proj-card__title">
-                          Álbum "Sonidos del Futuro"
-                        </h2>
-                        <p class="proj-card__subtitle muted">
-                          Un álbum conceptual que fusiona música electrónica con
-                          sonidos naturales
-                        </p>
-                      </div>
-
-                      <div class="proj-card__status">
-                        <span class="chip chip--dark">Publicado</span>
-                        <span class="chip chip--muted">58% financiado</span>
-                      </div>
-                    </header>
-
-                    <div class="proj-card__stats">
-                      <span class="small">8.750&nbsp;Bs recaudado</span>
-                      <span class="small">58% de 15.000&nbsp;Bs</span>
-                    </div>
-
-                    <div
-                      class="progress progress--thin"
-                      role="progressbar"
-                      aria-label="Progreso de recaudación"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-valuenow="58"
-                    >
-                      <div class="progress__bar" style="--progress: 58%"></div>
-                    </div>
-
-                    <div class="proj-card__meta">
-                      <div class="proj-card__owner">
-                        <iconify-icon
-                          icon="ic:round-person"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span class="small">Por Carlos López</span>
-                      </div>
-                      <div class="proj-card__date">
-                        <iconify-icon
-                          icon="ic:round-calendar-today"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span class="small">70 días restantes</span>
-                      </div>
-                    </div>
-
-                    <div class="proj-card__actions">
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="window.location.href='./detail.html'"
-                      >
-                        <iconify-icon
-                          icon="ic:round-visibility"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Ver</span>
-                      </button>
-
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="alert('Función de editar próximamente')"
-                      >
-                        <iconify-icon
-                          icon="ic:round-edit"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Editar</span>
-                      </button>
-
-                      <button
-                        class="btn btn--ghost btn--icon"
-                        type="button"
-                        onclick="alert('Función de recaudación próximamente')"
-                      >
-                        <iconify-icon
-                          icon="ic:round-assessment"
-                          width="16"
-                          height="16"
-                        ></iconify-icon>
-                        <span>Ver Recaudación</span>
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- Mis Aportes -->
-          <section id="aportes" class="tabcontent active">
-            <div class="card">
-              <h2 class="card__title">Historial de Aportes</h2>
-
-              <ul class="donations">
-                <li class="donation">
-                  <div class="donation__left">
-                    <iconify-icon
-                      icon="ic:round-devices"
-                      class="donation__thumb"
-                      width="48"
-                      height="48"
-                    ></iconify-icon>
-                    <div class="donation__meta">
-                      <div class="donation__title">
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">
                         SmartWatch Revolucionario
-                      </div>
-                      <time class="donation__date" datetime="2025-02-19"
-                        >19/2/2025</time
-                      >
-                      <p class="donation__comment">
-                        "Me parece un proyecto muy interesante. ¡Éxito!"
-                      </p>
-                    </div>
-                  </div>
-                  <div class="donation__right">
-                    <div class="donation__amount">150&nbsp;€</div>
-                    <a
-                      class="donation__link"
-                      href="#"
-                      aria-label="Ver proyecto SmartWatch Revolucionario"
-                      >Ver Proyecto</a
-                    >
-                  </div>
-                </li>
-
-                <li class="donation">
-                  <div class="donation__left">
-                    <iconify-icon
-                      icon="ic:round-album"
-                      class="donation__thumb"
-                      width="48"
-                      height="48"
-                    ></iconify-icon>
-                    <div class="donation__meta">
-                      <div class="donation__title">
-                        Álbum "Sonidos del Futuro"
-                      </div>
-                      <time class="donation__date" datetime="2025-02-17"
-                        >17/2/2025</time
-                      >
-                      <p class="donation__comment">
-                        "Apoyo este tipo de iniciativas creativas"
-                      </p>
-                    </div>
-                  </div>
-                  <div class="donation__right">
-                    <div class="donation__amount">75&nbsp;€</div>
-                    <a
-                      class="donation__link"
-                      href="#"
-                      aria-label="Ver proyecto Álbum Sonidos del Futuro"
-                      >Ver Proyecto</a
-                    >
-                  </div>
-                </li>
-                <li class="donation">
-                  <div class="donation__left">
-                    <iconify-icon
-                      icon="ic:round-devices"
-                      class="donation__thumb"
-                      width="48"
-                      height="48"
-                    ></iconify-icon>
-                    <div class="donation__meta">
-                      <div class="donation__title">
-                        SmartWatch Revolucionario
-                      </div>
-                      <time class="donation__date" datetime="2025-02-19"
-                        >19/2/2025</time
-                      >
-                      <p class="donation__comment">
-                        "Me parece un proyecto muy interesante. ¡Éxito!"
-                      </p>
-                    </div>
-                  </div>
-                  <div class="donation__right">
-                    <div class="donation__amount">150&nbsp;€</div>
-                    <a
-                      class="donation__link"
-                      href="#"
-                      aria-label="Ver proyecto SmartWatch Revolucionario"
-                      >Ver Proyecto</a
-                    >
-                  </div>
-                </li>
-                <li class="donation">
-                  <div class="donation__left">
-                    <iconify-icon
-                      icon="ic:round-devices"
-                      class="donation__thumb"
-                      width="48"
-                      height="48"
-                    ></iconify-icon>
-                    <div class="donation__meta">
-                      <div class="donation__title">
-                        SmartWatch Revolucionario
-                      </div>
-                      <time class="donation__date" datetime="2025-02-19"
-                        >19/2/2025</time
-                      >
-                      <p class="donation__comment">
-                        "Me parece un proyecto muy interesante. ¡Éxito!"
-                      </p>
-                    </div>
-                  </div>
-                  <div class="donation__right">
-                    <div class="donation__amount">150&nbsp;€</div>
-                    <a
-                      class="donation__link"
-                      href="#"
-                      aria-label="Ver proyecto SmartWatch Revolucionario"
-                      >Ver Proyecto</a
-                    >
-                  </div>
-                </li>
-                <li class="donation">
-                  <div class="donation__left">
-                    <iconify-icon
-                      icon="ic:round-devices"
-                      class="donation__thumb"
-                      width="48"
-                      height="48"
-                    ></iconify-icon>
-                    <div class="donation__meta">
-                      <div class="donation__title">
-                        SmartWatch Revolucionario
-                      </div>
-                      <time class="donation__date" datetime="2025-02-19"
-                        >19/2/2025</time
-                      >
-                      <p class="donation__comment">
-                        "Me parece un proyecto muy interesante. ¡Éxito!"
-                      </p>
-                    </div>
-                  </div>
-                  <div class="donation__right">
-                    <div class="donation__amount">150&nbsp;€</div>
-                    <a
-                      class="donation__link"
-                      href="#"
-                      aria-label="Ver proyecto SmartWatch Revolucionario"
-                      >Ver Proyecto</a
-                    >
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          <!-- Favoritos -->
-          <section id="favoritos" class="tabcontent">
-            <div class="card">
-              <h2 class="card__title">Proyectos Favoritos</h2>
-
-              <div class="container-project-features-item grid-responsive">
-                <article class="project-card">
-                  <div class="container-project-img">
-                    <a href="#"
-                      ><img
-                        src="../assets/img/Instalación de Arte Interactivo.png"
-                        alt="Instalación de Arte Interactivo"
-                        class="project-img"
-                    /></a>
-                    <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
-                    <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
-                      <iconify-icon
-                        icon="ic:round-favorite-border"
-                        class="heart-icon-empty"
-                      ></iconify-icon>
-                      <iconify-icon
-                        icon="ic:round-favorite"
-                        class="heart-icon-filled"
-                        style="display: none"
-                      ></iconify-icon>
-                    </button>
-                  </div>
-                  <div class="project-card__content">
-                    <div class="project-card__title-container">
-                      <h3>Instalación de Arte Interactivo</h3>
-                      <p>
-                        Una experiencia artística inmersiva que responde a las
-                        emociones del espectador
-                      </p>
-                    </div>
-                    <div class="project-card__progress">
-                      <div class="project-card__stats">
-                        <h4>12.300Bs</h4>
-                        <p>de 25.000Bs</p>
-                      </div>
-                      <div class="project-card__progress-bar">
-                        <progress class="project-card__progress-bar-fill" max="100" value="49"></progress>
-                      </div>
-                      <p>49% financiado</p>
-                    </div>
-                    <div class="project-card__meta">
-                      <iconify-icon
-                        icon="ic:round-person"
-                        width="24"
-                        height="24"
-                      ></iconify-icon>
-                      <p class="owner-project">Por Ana garcia</p>
-                    </div>
-                    <div class="project-card__meta">
-                      <iconify-icon
-                        icon="ic:round-calendar-today"
-                        width="24"
-                        height="24"
-                      ></iconify-icon>
-                      <p class="date-project">24 dias restantes</p>
-                    </div>
-                    <div class="project-card__footer">
-                      <button type="button" onclick="" class="btn">Ver detalles</button>
-                    </div>
-                  </div>
-                </article>
-                <article class="project-card">
-                  <div class="container-project-img">
-                    <a href="#"
-                      ><img
-                        src="../assets/img/SmartWatch Revolucionario.png"
-                        alt="SmartWatch Revolucionario"
-                        class="project-img"
-                    /></a>
-                    <div class="project-category" role="status" aria-label="Categoría: Tecnología">Tecnología</div>
-                    <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
-                      <iconify-icon
-                        icon="ic:round-favorite-border"
-                        class="heart-icon-empty"
-                      ></iconify-icon>
-                      <iconify-icon
-                        icon="ic:round-favorite"
-                        class="heart-icon-filled"
-                        style="display: none"
-                      ></iconify-icon>
-                    </button>
-                  </div>
-                  <div class="project-card__content">
-                    <div class="project-card__title-container">
-                      <h3>SmartWatch Revolucionario</h3>
-                      <p>
-                        Un smartwatch con tecnologia innovadora que monitorea
+                      </h2>
+                      <p class="proj-card__subtitle muted">
+                        Un smartwatch con tecnología innovadora que monitorea
                         tu salud 24/7
                       </p>
                     </div>
-                    <div class="project-card__progress">
-                      <div class="project-card__stats">
-                        <h4>37.500Bs</h4>
-                        <p>de 50.000Bs</p>
-                      </div>
-                      <div class="project-card__progress-bar">
-                        <progress class="project-card__progress-bar-fill" max="100" value="100"></progress>
-                      </div>
-                      <p>100% Financiado</p>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">100% Financiado</span>
                     </div>
-                    <div class="project-card__meta">
-                      <iconify-icon
-                        icon="ic:round-person"
-                        width="24"
-                        height="24"
-                      ></iconify-icon>
-                      <p class="owner-project">Por Ana garcia</p>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">37.500&nbsp;Bs recaudado</span>
+                    <span class="small">100% de 50.000&nbsp;Bs</span>
+                  </div>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación"
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+                    <div class="progress__bar" style="--progress: 100%"></div>
+                  </div>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Ana Garcia</span>
                     </div>
-                    <div class="project-card__meta">
-                      <iconify-icon
-                        icon="ic:round-calendar-today"
-                        width="24"
-                        height="24"
-                      ></iconify-icon>
-                      <p class="date-project">101 dias restantes</p>
-                    </div>
-                    <div class="project-card__footer">
-                      <button type="button" onclick="" class="btn">Ver detalles</button>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">101 días restantes</span>
                     </div>
                   </div>
-                </article>
-              </div>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="window.location.href='./detail.html'" aria-label="Ver detalles del proyecto">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="alert('Función de editar próximamente')" aria-label="Editar proyecto">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="alert('Función de recaudación próximamente')" aria-label="Ver recaudación del proyecto">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+
+
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img class="proj-card__thumb" src="../assets/img/Álbum _Sonidos del Futuro_.png"
+                    alt="Álbum Sonidos del Futuro" width="96" height="96" />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">
+                        Álbum "Sonidos del Futuro"
+                      </h2>
+                      <p class="proj-card__subtitle muted">
+                        Un álbum conceptual que fusiona música electrónica con
+                        sonidos naturales
+                      </p>
+                    </div>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">58% financiado</span>
+                    </div>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">8.750&nbsp;Bs recaudado</span>
+                    <span class="small">58% de 15.000&nbsp;Bs</span>
+                  </div>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación"
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                    <div class="progress__bar" style="--progress: 58%"></div>
+                  </div>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Carlos López</span>
+                    </div>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">70 días restantes</span>
+                    </div>
+                  </div>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="window.location.href='./detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+
+
+              <li class="proj-card card">
+                <figure class="proj-card__media">
+                  <img class="proj-card__thumb" src="../assets/img/Álbum _Sonidos del Futuro_.png"
+                    alt="Álbum Sonidos del Futuro" width="96" height="96" />
+                </figure>
+
+                <div class="proj-card__body">
+                  <header class="proj-card__head">
+                    <div class="proj-card__titlewrap">
+                      <h2 class="proj-card__title">
+                        Álbum "Sonidos del Futuro"
+                      </h2>
+                      <p class="proj-card__subtitle muted">
+                        Un álbum conceptual que fusiona música electrónica con
+                        sonidos naturales
+                      </p>
+                    </div>
+
+                    <div class="proj-card__status">
+                      <span class="chip chip--dark">Publicado</span>
+                      <span class="chip chip--muted">58% financiado</span>
+                    </div>
+                  </header>
+
+                  <div class="proj-card__stats">
+                    <span class="small">8.750&nbsp;Bs recaudado</span>
+                    <span class="small">58% de 15.000&nbsp;Bs</span>
+                  </div>
+
+                  <div class="progress progress--thin" role="progressbar" aria-label="Progreso de recaudación"
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="58">
+                    <div class="progress__bar" style="--progress: 58%"></div>
+                  </div>
+
+                  <div class="proj-card__meta">
+                    <div class="proj-card__owner">
+                      <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+                      <span class="small">Por Carlos López</span>
+                    </div>
+                    <div class="proj-card__date">
+                      <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+                      <span class="small">70 días restantes</span>
+                    </div>
+                  </div>
+
+                  <div class="proj-card__actions">
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="window.location.href='./detail.html'">
+                      <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
+                      <span>Ver</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="alert('Función de editar próximamente')">
+                      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+                      <span>Editar</span>
+                    </button>
+
+                    <button class="btn btn--ghost btn--icon" type="button"
+                      onclick="alert('Función de recaudación próximamente')">
+                      <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
+                      <span>Ver Recaudación</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+
+        <section id="aportes" class="tabcontent active">
+          <div class="card">
+            <h2 class="card__title">Historial de Aportes</h2>
+
+            <ul class="donations">
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-devices" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">
+                      SmartWatch Revolucionario
+                    </div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">
+                      "Me parece un proyecto muy interesante. ¡Éxito!"
+                    </p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
+                    Proyecto</a>
+                </div>
+              </li>
+
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-album" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">
+                      Álbum "Sonidos del Futuro"
+                    </div>
+                    <time class="donation__date" datetime="2025-02-17">17/2/2025</time>
+                    <p class="donation__comment">
+                      "Apoyo este tipo de iniciativas creativas"
+                    </p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">75&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto Álbum Sonidos del Futuro">Ver Proyecto</a>
+                </div>
+              </li>
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-devices" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">
+                      SmartWatch Revolucionario
+                    </div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">
+                      "Me parece un proyecto muy interesante. ¡Éxito!"
+                    </p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
+                    Proyecto</a>
+                </div>
+              </li>
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-devices" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">
+                      SmartWatch Revolucionario
+                    </div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">
+                      "Me parece un proyecto muy interesante. ¡Éxito!"
+                    </p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
+                    Proyecto</a>
+                </div>
+              </li>
+              <li class="donation">
+                <div class="donation__left">
+                  <iconify-icon icon="ic:round-devices" class="donation__thumb" width="48" height="48"></iconify-icon>
+                  <div class="donation__meta">
+                    <div class="donation__title">
+                      SmartWatch Revolucionario
+                    </div>
+                    <time class="donation__date" datetime="2025-02-19">19/2/2025</time>
+                    <p class="donation__comment">
+                      "Me parece un proyecto muy interesante. ¡Éxito!"
+                    </p>
+                  </div>
+                </div>
+                <div class="donation__right">
+                  <div class="donation__amount">150&nbsp;€</div>
+                  <a class="donation__link" href="#" aria-label="Ver proyecto SmartWatch Revolucionario">Ver
+                    Proyecto</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+
+        <section id="favoritos" class="tabcontent">
+          <div class="card">
+            <h2 class="card__title">Proyectos Favoritos</h2>
+
+            <div class="container-project-features-item grid-responsive">
+              <article class="project-card">
+                <div class="container-project-img">
+                  <a href="#"><img src="../assets/img/Instalación de Arte Interactivo.png"
+                      alt="Instalación de Arte Interactivo" class="project-img" /></a>
+                  <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
+                  <button class="project-like-btn" data-liked="false" aria-pressed="false"
+                    aria-label="Añadir a favoritos">
+                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
+                      style="display: none"></iconify-icon>
+                  </button>
+                </div>
+                <div class="project-card__content">
+                  <div class="project-card__title-container">
+                    <h3>Instalación de Arte Interactivo</h3>
+                    <p>
+                      Una experiencia artística inmersiva que responde a las
+                      emociones del espectador
+                    </p>
+                  </div>
+                  <div class="project-card__progress">
+                    <div class="project-card__stats">
+                      <h4>12.300Bs</h4>
+                      <p>de 25.000Bs</p>
+                    </div>
+                    <div class="project-card__progress-bar">
+                      <progress class="project-card__progress-bar-fill" max="100" value="49"></progress>
+                    </div>
+                    <p>49% financiado</p>
+                  </div>
+                  <div class="project-card__meta">
+                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+                    <p class="owner-project">Por Ana garcia</p>
+                  </div>
+                  <div class="project-card__meta">
+                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+                    <p class="date-project">24 dias restantes</p>
+                  </div>
+                  <div class="project-card__footer">
+                    <button type="button" onclick="" class="btn">Ver detalles</button>
+                  </div>
+                </div>
+              </article>
+              <article class="project-card">
+                <div class="container-project-img">
+                  <a href="#"><img src="../assets/img/SmartWatch Revolucionario.png" alt="SmartWatch Revolucionario"
+                      class="project-img" /></a>
+                  <div class="project-category" role="status" aria-label="Categoría: Tecnología">Tecnología</div>
+                  <button class="project-like-btn" data-liked="false" aria-pressed="false"
+                    aria-label="Añadir a favoritos">
+                    <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+                    <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
+                      style="display: none"></iconify-icon>
+                  </button>
+                </div>
+                <div class="project-card__content">
+                  <div class="project-card__title-container">
+                    <h3>SmartWatch Revolucionario</h3>
+                    <p>
+                      Un smartwatch con tecnologia innovadora que monitorea
+                      tu salud 24/7
+                    </p>
+                  </div>
+                  <div class="project-card__progress">
+                    <div class="project-card__stats">
+                      <h4>37.500Bs</h4>
+                      <p>de 50.000Bs</p>
+                    </div>
+                    <div class="project-card__progress-bar">
+                      <progress class="project-card__progress-bar-fill" max="100" value="100"></progress>
+                    </div>
+                    <p>100% Financiado</p>
+                  </div>
+                  <div class="project-card__meta">
+                    <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+                    <p class="owner-project">Por Ana garcia</p>
+                  </div>
+                  <div class="project-card__meta">
+                    <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+                    <p class="date-project">101 dias restantes</p>
+                  </div>
+                  <div class="project-card__footer">
+                    <button type="button" onclick="" class="btn">Ver detalles</button>
+                  </div>
+                </div>
+              </article>
             </div>
-          </section>
-        </div>
-      </main>
-    </div>
-    <script src="../assets/js/common/ui-components.js"></script>
-    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
-  </body>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../assets/js/common/ui-components.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+</body>
+
 </html>

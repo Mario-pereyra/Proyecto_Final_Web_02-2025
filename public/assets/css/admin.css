@@ -1,6 +1,3 @@
-/* Estilos específicos para el tab de Administradores - Mobile First */
-
-/* Tab Content - Administradores */
 .admin-tab-content {
   display: none;
   animation: fadeInUp 0.3s ease-out;
@@ -10,7 +7,6 @@
   display: block;
 }
 
-/* Crear Nuevo Administrador Section */
 .create-admin-section {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -39,7 +35,6 @@
   flex-shrink: 0;
 }
 
-/* Form Container - Mobile First */
 .create-admin-form {
   padding: var(--space-lg);
 }
@@ -105,7 +100,6 @@
   height: 19px;
 }
 
-/* Search Section */
 .admin-search-container {
   display: flex;
   justify-content: center;
@@ -129,7 +123,6 @@
   color: var(--text-secondary);
 }
 
-/* Administradores Count */
 .admin-count {
   margin-bottom: 1px;
   color: #4a5565;
@@ -137,7 +130,6 @@
   font-weight: 400;
 }
 
-/* Administradores Table */
 .admin-table-container {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -145,7 +137,6 @@
   overflow: hidden;
 }
 
-/* Mobile Cards Layout */
 .admin-cards-mobile {
   display: block;
 }
@@ -239,7 +230,6 @@
   height: 19px;
 }
 
-/* Desktop Table - Hidden on mobile */
 .admin-table-desktop {
   display: none;
   width: 100%;
@@ -296,7 +286,6 @@
   height: 19px;
 }
 
-/* Responsive breakpoints */
 @media (min-width: 640px) {
   .admin-form-grid {
     grid-template-columns: 1fr 1fr;
@@ -320,7 +309,6 @@
 }
 
 @media (min-width: 1024px) {
-  /* Show desktop table on large screens */
   .admin-cards-mobile {
     display: none;
   }
@@ -330,7 +318,6 @@
   }
 }
 
-/* Animation classes */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -350,7 +337,6 @@
   animation: fadeInUp 0.4s ease-out;
 }
 
-/* Loading states */
 .admin-loading {
   opacity: 0.6;
   pointer-events: none;
@@ -360,7 +346,6 @@
   opacity: 0.3;
 }
 
-/* Success/Error states */
 .admin-form-success {
   border: 2px solid #22c55e;
   background: rgba(34, 197, 94, 0.05);
@@ -371,7 +356,6 @@
   background: rgba(212, 24, 61, 0.05);
 }
 
-/* Focus states */
 .admin-form-input:focus {
   background: white;
   box-shadow: 0 0 0 2px rgba(212, 24, 61, 0.2);
@@ -383,13 +367,11 @@
   outline: none;
 }
 
-/* Hover effects for cards */
 .admin-card-mobile:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Badge styles for admin roles (if needed in future) */
 .admin-role-badge {
   padding: 2px 8px;
   border-radius: var(--radius-md);
@@ -404,7 +386,6 @@
   color: white;
 }
 
-/* Utility classes for admin section */
 .admin-text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;

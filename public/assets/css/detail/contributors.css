@@ -1,9 +1,5 @@
-/* Importar tokens de diseño unificados */
-@import url('../tokens.css');
+@import url("../tokens.css");
 
-/* Nota: Las variables locales han sido reemplazadas por las variables de tokens.css */
-
-/* -------- LAYOUT DE COLABORADORES -------- */
 .contributors-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -12,7 +8,6 @@
   width: 100%;
 }
 
-/* -------- LISTA DE COLABORADORES -------- */
 .contributors-list {
   max-height: 600px;
   overflow-y: auto;
@@ -21,7 +16,6 @@
   gap: var(--spacing-4);
 }
 
-/* Scroll personalizado para la lista */
 .contributors-list::-webkit-scrollbar {
   width: 6px;
 }
@@ -40,7 +34,6 @@
   background: var(--color-gray-500);
 }
 
-/* -------- CHIPS DE NIVEL -------- */
 .chip--gold {
   background: var(--color-donor-gold-bg);
   color: var(--color-donor-gold);
@@ -62,7 +55,6 @@
   font-weight: var(--font-medium);
 }
 
-/* -------- ESTILOS PARA NIVELES EN SIDEBAR PRINCIPAL -------- */
 .sidebar .level-card {
   background: var(--color-white);
   border-radius: var(--radius-md);
@@ -122,7 +114,6 @@
   margin-left: auto;
 }
 
-/* -------- BENEFICIOS DE NIVEL -------- */
 .sidebar .level-benefits {
   list-style: none;
   padding: 0;
@@ -153,7 +144,6 @@
   color: var(--text-primary);
 }
 
-/* -------- TARJETAS DE NIVEL -------- */
 .level-card {
   background: var(--color-white);
   border-radius: var(--radius-md);
@@ -213,7 +203,6 @@
   margin-left: auto;
 }
 
-/* -------- BENEFICIOS DE NIVEL -------- */
 .level-benefits {
   list-style: none;
   padding: 0;
@@ -237,39 +226,37 @@
   font-weight: var(--font-bold);
 }
 
-/* -------- RESPONSIVE -------- */
 @media (max-width: 768px) {
   .contributors-layout {
     grid-template-columns: 1fr;
     gap: var(--spacing-4);
   }
-  
+
   .contributors-list {
     max-height: 300px;
   }
-  
+
   .donation-levels-sidebar {
     position: static;
     margin-top: var(--spacing-4);
   }
-  
+
   .level-card {
     margin-bottom: var(--spacing-3);
   }
-  
+
   .level-header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-1);
   }
-  
+
   .level-amount {
     margin-left: 0;
     margin-top: var(--spacing-1);
   }
 }
 
-/* -------- ESTILOS ADICIONALES PARA SIDEBAR PRINCIPAL -------- */
 @media (min-width: 769px) {
   .sidebar .level-card {
     margin-bottom: var(--spacing-3);
@@ -287,13 +274,12 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-5);
   }
-  
+
   .contributors-list {
     max-height: 350px;
   }
 }
 
-/* -------- ANIMACIONES -------- */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -309,7 +295,6 @@
   animation: fadeInUp 0.5s ease-out;
 }
 
-/* -------- MEJORAS VISUALES -------- */
 .contrib:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);

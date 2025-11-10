@@ -1,7 +1,5 @@
-/* Importar tokens de diseño unificados */
 @import url("./tokens.css");
 
-/* Sistema de botones unificado con variables de diseño */
 .btn {
   display: flex;
   justify-content: center;

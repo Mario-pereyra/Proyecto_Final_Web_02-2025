@@ -5,7 +5,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Impulsa.me</title>
+  <meta name="title" content="Impulsa.me - Plataforma de Crowdfunding para Creativos" />
+  <meta name="description"
+    content="La plataforma de crowdfunding donde creativos, innovadores y visionarios encuentran el apoyo que necesitan para hacer realidad sus proyectos. Únete a nuestra comunidad y transforma tus ideas en realidad." />
+  <meta name="author" content="Mario Alberto Pereyra Justiniano" />
+  <meta name="keywords"
+    content="crowdfunding, creativos, innovadores, proyectos, financiación, comunidad, ideas, emprendimiento" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="es" />
+
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Impulsa.me - Plataforma de Crowdfunding para Creativos" />
+  <meta property="og:description"
+    content="La plataforma de crowdfunding donde creativos, innovadores y visionarios encuentran el apoyo que necesitan para hacer realidad sus proyectos." />
+  <meta property="og:image" content="./assets/img/Logo final.png" />
+  <meta property="og:url" content="https://impulsa.me" />
+  <meta property="og:site_name" content="Impulsa.me" />
+  <meta property="og:locale" content="es_ES" />
+
+
+
+
+  <!-- CSS -->
   <link rel="stylesheet" href="./assets/css/main.css" />
+
+
+
+
 </head>
 
 <body>
@@ -40,17 +67,15 @@
       <a href="./auth.html#Registrarse" class="btn btn--primary">Registrarse</a>
       <a href="./auth.html#Login" class="btn btn--secondary">Iniciar Sesión</a>
     </div>
-    <!-- ------------------------------------------------------------------------------------------------------------------- -->
-    <!-- Botón hamburguesa (solo visible en móvil) -->
-    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="sideMenu">
+
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false"
+      aria-controls="sideMenu">
       <iconify-icon icon="ic:round-menu" width="24" height="24"></iconify-icon>
     </button>
   </header>
 
-  <!-- Overlay para oscurecer el fondo -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Menú lateral que se despliega -->
   <nav class="side-menu" id="sideMenu">
     <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">
       <iconify-icon icon="ic:round-close"></iconify-icon>
@@ -74,9 +99,10 @@
       </div>
     </div>
   </nav>
-  <!-- ------------------------------------------------------------------------------------------- ^-->
+
   <figure class="hero-banner">
-    <img src="./assets/img/banner.webp" alt="" class="hero-banner__img" />
+    <img src="./assets/img/banner.webp" alt="Banner de Impulsa.me - Plataforma de crowdfunding"
+      class="hero-banner__img" />
     <figcaption class="banner-content">
       <h1>Convierte tus ideas en realidad</h1>
       <p>
@@ -98,324 +124,324 @@
   </figure>
   <div class="content-wrapper">
     <main class="main-content">
-    <!-- El contenido principal de tu página irá aquí -->
-    <section class="data-info full-width-section">
-      <div class="data-info-container">
-        <div class="data-info-item">
-          <iconify-icon icon="ic:round-trending-up" width="24" height="24"></iconify-icon>
-          <h2>127</h2>
-          <p>Proyecto Finaciados</p>
+
+      <section class="data-info full-width-section">
+        <div class="data-info-container">
+          <div class="data-info-item">
+            <iconify-icon icon="ic:round-trending-up" width="24" height="24"></iconify-icon>
+            <h2>127</h2>
+            <p>Proyecto Financiados</p>
+          </div>
+          <div class="data-info-item">
+            <iconify-icon icon="ic:round-group" width="24" height="24"></iconify-icon>
+            <h2>89</h2>
+            <p>Creadores Apoyados</p>
+          </div>
+          <div class="data-info-item">
+            <iconify-icon icon="ic:round-lightbulb" width="24" height="24"></iconify-icon>
+            <h2>324K</h2>
+            <p>Total Recaudado</p>
+          </div>
         </div>
-        <div class="data-info-item">
-          <iconify-icon icon="ic:round-group" width="24" height="24"></iconify-icon>
-          <h2>89</h2>
-          <p>Creadores Apoyados</p>
+      </section>
+      <section class="project-features">
+        <h2>Proyecto destacados</h2>
+        <p>
+          Descubre proyectos innovadores que están transformando ideas en
+          realidad
+        </p>
+        <div class="container-project-features-item grid-responsive">
+          <article class="project-card">
+            <div class="container-project-img">
+              <a href="./detail.html"><img src="./assets/img/SmartWatch Revolucionario.png"
+                  alt="SmartWatch Revolucionario" class="project-img" /></a>
+              <div class="project-category">Tecnología</div>
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
+                <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+                <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
+              </button>
+            </div>
+            <div class="project-card__content">
+              <div class="project-card__title-container">
+                <h3>SmartWatch Revolucionario</h3>
+                <p>
+                  Un smartchwatch con tecnologia innovadora que monitorea tu
+                  salud 24/7
+                </p>
+              </div>
+              <div class="project-card__progress">
+                <div class="project-card__stats">
+                  <h4>37.500Bs</h4>
+                  <p>de 50.000Bs</p>
+                </div>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="100"></progress>
+                </div>
+                <p>100% Financiado</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+                <p class="owner-project">Por Ana garcia</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+                <p class="date-project">101 dias restantes</p>
+              </div>
+              <div class="project-card__footer">
+                <button type="button" onclick="window.location.href='./detail.html'" class="btn">
+                  Ver detalles
+                </button>
+              </div>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="container-project-img">
+              <a href="#"><img src="./assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
+                  class="project-img" /></a>
+              <div class="project-category">Música</div>
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
+                <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+                <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
+              </button>
+            </div>
+            <div class="project-card__content">
+              <div class="project-card__title-container">
+                <h3>Álbum "Sonidos del Futuro"</h3>
+                <p>
+                  Un álbum conceptual que fusiona música electrónica con sonidos
+                  naturales
+                </p>
+              </div>
+              <div class="project-card__progress">
+                <div class="project-card__stats">
+                  <h4>8750Bs</h4>
+                  <p>de 15.000 Bs</p>
+                </div>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="58"></progress>
+                </div>
+                <p>58% financiado</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+                <p class="owner-project">por Carlos López</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+                <p class="date-project">70 días restantes</p>
+              </div>
+              <div class="project-card__footer">
+                <button type="button" onclick="" class="btn">Ver detalles</button>
+              </div>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="container-project-img">
+              <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png" alt="SmartWatch Revolucionario"
+                  class="project-img" /></a>
+              <div class="project-category">Arte</div>
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
+                <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+                <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
+              </button>
+            </div>
+            <div class="project-card__content">
+              <div class="project-card__title-container">
+                <h3>Instalación de Arte Interactivo</h3>
+                <p>
+                  Una experiencia artística inmersiva que responde a las
+                  emociones del espectador
+                </p>
+              </div>
+              <div class="project-card__progress">
+                <div class="project-card__stats">
+                  <h4>12.300Bs</h4>
+                  <p>de 25.000Bs</p>
+                </div>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="49"></progress>
+                </div>
+                <p>49% financiado</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+                <p class="owner-project">Por Ana garcia</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+                <p class="date-project">24 dias restantes</p>
+              </div>
+              <div class="project-card__footer">
+                <button type="button" onclick="" class="btn">Ver detalles</button>
+              </div>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="container-project-img">
+              <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png" alt="SmartWatch Revolucionario"
+                  class="project-img" /></a>
+              <div class="project-category">Arte</div>
+              <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
+                <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
+                <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
+              </button>
+            </div>
+            <div class="project-card__content">
+              <div class="project-card__title-container">
+                <h3>Instalación de Arte Interactivo</h3>
+                <p>
+                  Una experiencia artística inmersiva que responde a las
+                  emociones del espectador
+                </p>
+              </div>
+              <div class="project-card__progress">
+                <div class="project-card__stats">
+                  <h4>12.300Bs</h4>
+                  <p>de 25.000Bs</p>
+                </div>
+                <div class="project-card__progress-bar">
+                  <progress class="project-card__progress-bar-fill" max="100" value="49"></progress>
+                </div>
+                <p>49% financiado</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
+                <p class="owner-project">Por Ana garcia</p>
+              </div>
+              <div class="project-card__meta">
+                <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
+                <p class="date-project">24 dias restantes</p>
+              </div>
+              <div class="project-card__footer">
+                <button type="button" onclick="" class="btn">Ver detalles</button>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="data-info-item">
+        <div class="container-project-features-ver-proyectos">
+          <a href="#" class="btn btn--secondary">
+            <span>Ver Todos los Proyecto</span>
+            <iconify-icon icon="ic:round-east" width="24" height="24"></iconify-icon>
+          </a>
+        </div>
+      </section>
+      <section class="categories full-width-section">
+        <h2>Explorar Categorias</h2>
+        <p>Encuentra proyectos que se alinee con tus intereses</p>
+
+        <div class="container-categories">
+          <a href="#" class="item-categorie">
+            <iconify-icon icon="ic:round-laptop" width="24" height="24"></iconify-icon>
+            <h4>Tecnologia</h4>
+            <p>45 proyectos</p>
+          </a>
+          <a href="#" class="item-categorie">
+            <iconify-icon icon="ic:round-brush" width="24" height="24"></iconify-icon>
+            <h4>Arte</h4>
+            <p>32 proyectos</p>
+          </a>
+          <a href="#" class="item-categorie">
+            <iconify-icon icon="ic:round-library-music" width="24" height="24"></iconify-icon>
+            <h4>Musica</h4>
+            <p>28 proyectos</p>
+          </a>
+
+          <a href="#" class="item-categorie">
+            <iconify-icon icon="ic:round-auto-stories" width="24" height="24"></iconify-icon>
+            <h4>Educacion</h4>
+            <p>12 proyectos</p>
+          </a>
+
+          <a href="#" class="item-categorie">
+            <iconify-icon icon="ic:round-eco" width="24" height="24"></iconify-icon>
+            <h4>Ecologia</h4>
+            <p>19 proyectos</p>
+          </a>
+          <a href="#" class="item-categorie">
+            <iconify-icon icon="ic:round-emergency-recording" width="24" height="24"></iconify-icon>
+            <h4>Cine</h4>
+            <p>21 proyectos</p>
+          </a>
+        </div>
+      </section>
+      <section class="howtoworks">
+        <div class="container-title">
+          <h2>¿Como funciona?</h2>
+          <p>Tres simples pasos para financiar o crear tu proyecto</p>
+        </div>
+        <div class="container-explication">
+          <article>
+            <iconify-icon icon="ic:round-lightbulb" width="24" height="24"></iconify-icon>
+            <h3>1.Crea tu proyecto</h3>
+            <p>
+              Comparte tu idea, establece una meta de financiación y cuenta tu
+              historia de manera creativa.
+            </p>
+          </article>
+          <article>
+            <iconify-icon icon="ic:round-group" width="24" height="24"></iconify-icon>
+            <h3>2. Construye tu Comunidad</h3>
+            <p>
+              Conecta con personas que creen en tu visión y están dispuestas a
+              apoyar tu proyecto.
+            </p>
+          </article>
+          <article>
+            <iconify-icon icon="ic:round-trending-up" width="24" height="24"></iconify-icon>
+            <h3>3. Alcanza tu Meta</h3>
+            <p>
+              Recibe el financiamiento necesario y convierte tu idea en realidad
+              con el apoyo de la comunidad.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section class="readytobeginning full-width-section">
+        <h2>¿Listo para Comenzar?</h2>
+        <p>Únete a miles de creadores que ya están financiando sus sueños</p>
+        <button>
           <iconify-icon icon="ic:round-lightbulb" width="24" height="24"></iconify-icon>
-          <h2>324K</h2>
-          <p>Total Recaudado</p>
+          Crear tu Primer Proyecto
+        </button>
+      </section>
+      <section class="FAQ">
+        <h2 class="FAQ-title">Preguntas Frecuentes</h2>
+        <p class="FAQ-description">
+          Resolvemos las dudas más comunes sobre nuestra plataforma
+        </p>
+        <div class="container-FAQ-questions">
+          <article class="FAQ_questions">
+            <h3>¿Cómo funciona el proceso de financiación?</h3>
+            <p>
+              Los creadores establecen una meta de financiación y un plazo. Si
+              alcanzan su meta antes del plazo, reciben los fondos. Si no, las
+              contribuciones se devuelven a los donantes.
+            </p>
+          </article>
+          <article class="FAQ_questions">
+            <h3>¿Qué comisión cobra la plataforma?</h3>
+            <p>
+              Cobramos una pequeña comisión del 5% solo si el proyecto alcanza
+              su meta de financiación exitosamente.
+            </p>
+          </article>
+          <article class="FAQ_questions">
+            <h3>¿Cómo se aprueban los proyectos?</h3>
+            <p>
+              Nuestro equipo revisa cada proyecto para asegurar que cumple con
+              nuestras directrices de calidad y viabilidad antes de publicarlo.
+            </p>
+          </article>
+          <article class="FAQ_questions">
+            <h3>¿Puedo cancelar mi donación?</h3>
+            <p>
+              Puedes cancelar tu donación antes de que el proyecto alcance su
+              meta de financiación. Una vez financiado exitosamente, las
+              donaciones no se pueden cancelar.
+            </p>
+          </article>
         </div>
-      </div>
-    </section>
-    <section class="project-features">
-      <h2>Proyecto destacados</h2>
-      <p>
-        Descubre proyectos innovadores que están transformando ideas en
-        realidad
-      </p>
-      <div class="container-project-features-item grid-responsive">
-        <article class="project-card">
-          <div class="container-project-img">
-            <a href="./detail.html"><img src="./assets/img/SmartWatch Revolucionario.png"
-                alt="SmartWatch Revolucionario" class="project-img" /></a>
-            <div class="project-category">Tecnología</div>
-            <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
-              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
-            </button>
-          </div>
-          <div class="project-card__content">
-            <div class="project-card__title-container">
-              <h3>SmartWatch Revolucionario</h3>
-              <p>
-                Un smartchwatch con tecnologia innovadora que monitorea tu
-                salud 24/7
-              </p>
-            </div>
-            <div class="project-card__progress">
-              <div class="project-card__stats">
-                <h4>37.500Bs</h4>
-                <p>de 50.000Bs</p>
-              </div>
-              <div class="project-card__progress-bar">
-                <progress class="project-card__progress-bar-fill" max="100" value="100"></progress>
-              </div>
-              <p>100% Financiado</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-              <p class="owner-project">Por Ana garcia</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-              <p class="date-project">101 dias restantes</p>
-            </div>
-            <div class="project-card__footer">
-              <button type="button" onclick="window.location.href='./detail.html'" class="btn">
-              Ver detalles
-            </button>
-          </div>
-        </article>
-        <article class="project-card">
-          <div class="container-project-img">
-            <a href="#"><img src="./assets/img/Álbum _Sonidos del Futuro_.png" alt="Album de Sonidos del futuro"
-                class="project-img" /></a>
-            <div class="project-category">Música</div>
-            <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
-              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
-            </button>
-          </div>
-          <div class="project-card__content">
-            <div class="project-card__title-container">
-              <h3>Álbum "Sonidos del Futuro"</h3>
-              <p>
-                Un álbum conceptual que fusiona música electrónica con sonidos
-                naturales
-              </p>
-            </div>
-            <div class="project-card__progress">
-              <div class="project-card__stats">
-                <h4>8750Bs</h4>
-                <p>de 15.000 Bs</p>
-              </div>
-              <div class="project-card__progress-bar">
-                <progress class="project-card__progress-bar-fill" max="100" value="58"></progress>
-              </div>
-              <p>58% financiado</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-              <p class="owner-project">por Carlos López</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-              <p class="date-project">70 días restantes</p>
-            </div>
-            <div class="project-card__footer">
-              <button type="button" onclick="" class="btn">Ver detalles</button>
-            </div>
-          </div>
-        </article>
-        <article class="project-card">
-          <div class="container-project-img">
-            <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png" alt="SmartWatch Revolucionario"
-                class="project-img" /></a>
-            <div class="project-category">Arte</div>
-            <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
-              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
-            </button>
-          </div>
-          <div class="project-card__content">
-            <div class="project-card__title-container">
-              <h3>Instalación de Arte Interactivo</h3>
-              <p>
-                Una experiencia artística inmersiva que responde a las
-                emociones del espectador
-              </p>
-            </div>
-            <div class="project-card__progress">
-              <div class="project-card__stats">
-                <h4>12.300Bs</h4>
-                <p>de 25.000Bs</p>
-              </div>
-              <div class="project-card__progress-bar">
-                <progress class="project-card__progress-bar-fill" max="100" value="49"></progress>
-              </div>
-              <p>49% financiado</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-              <p class="owner-project">Por Ana garcia</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-              <p class="date-project">24 dias restantes</p>
-            </div>
-            <div class="project-card__footer">
-              <button type="button" onclick="" class="btn">Ver detalles</button>
-            </div>
-          </div>
-        </article>
-        <article class="project-card">
-          <div class="container-project-img">
-            <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png" alt="SmartWatch Revolucionario"
-                class="project-img" /></a>
-            <div class="project-category">Arte</div>
-            <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
-              <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-              <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" style="display: none"></iconify-icon>
-            </button>
-          </div>
-          <div class="project-card__content">
-            <div class="project-card__title-container">
-              <h3>Instalación de Arte Interactivo</h3>
-              <p>
-                Una experiencia artística inmersiva que responde a las
-                emociones del espectador
-              </p>
-            </div>
-            <div class="project-card__progress">
-              <div class="project-card__stats">
-                <h4>12.300Bs</h4>
-                <p>de 25.000Bs</p>
-              </div>
-              <div class="project-card__progress-bar">
-                <progress class="project-card__progress-bar-fill" max="100" value="49"></progress>
-              </div>
-              <p>49% financiado</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-              <p class="owner-project">Por Ana garcia</p>
-            </div>
-            <div class="project-card__meta">
-              <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-              <p class="date-project">24 dias restantes</p>
-            </div>
-            <div class="project-card__footer">
-              <button type="button" onclick="" class="btn">Ver detalles</button>
-            </div>
-          </div>
-        </article>
-
-      </div>
-      <div class="container-project-features-ver-proyectos">
-        <a href="#" class="btn btn--secondary">
-          <span>Ver Todos los Proyecto</span>
-          <iconify-icon icon="ic:round-east" width="24" height="24"></iconify-icon>
-        </a>
-      </div>
-    </section>
-    <section class="categories full-width-section">
-      <h2>Explorar Categorias</h2>
-      <p>Encuentra proyectos que se alinee con tus intereses</p>
-
-      <div class="container-categories">
-        <a href="#" class="item-categorie">
-          <iconify-icon icon="ic:round-laptop" width="24" height="24"></iconify-icon>
-          <h4>Tecnologia</h4>
-          <p>45 proyectos</p>
-        </a>
-        <a href="#" class="item-categorie">
-          <iconify-icon icon="ic:round-brush" width="24" height="24"></iconify-icon>
-          <h4>Arte</h4>
-          <p>32 proyectos</p>
-        </a>
-        <a href="#" class="item-categorie">
-          <iconify-icon icon="ic:round-library-music" width="24" height="24"></iconify-icon>
-          <h4>Musica</h4>
-          <p>28 proyectos</p>
-        </a>
-
-        <a href="#" class="item-categorie">
-          <iconify-icon icon="ic:round-auto-stories" width="24" height="24"></iconify-icon>
-          <h4>Educacion</h4>
-          <p>12 proyectos</p>
-        </a>
-
-        <a href="#" class="item-categorie">
-          <iconify-icon icon="ic:round-eco" width="24" height="24"></iconify-icon>
-          <h4>Ecologia</h4>
-          <p>19 proyectos</p>
-        </a>
-        <a href="#" class="item-categorie">
-          <iconify-icon icon="ic:round-emergency-recording" width="24" height="24"></iconify-icon>
-          <h4>Cine</h4>
-          <p>21 proyectos</p>
-        </a>
-      </div>
-    </section>
-    <section class="howtoworks">
-      <div class="container-title">
-        <h2>¿Como funciona?</h2>
-        <p>Tres simples pasos para financiar o crear tu proyecto</p>
-      </div>
-      <div class="container-explication">
-        <article>
-          <iconify-icon icon="ic:round-lightbulb" width="24" height="24"></iconify-icon>
-          <h3>1.Crea tu proyecto</h3>
-          <p>
-            Comparte tu idea, establece una meta de financiación y cuenta tu
-            historia de manera creativa.
-          </p>
-        </article>
-        <article>
-          <iconify-icon icon="ic:round-group" width="24" height="24"></iconify-icon>
-          <h3>2. Construye tu Comunidad</h3>
-          <p>
-            Conecta con personas que creen en tu visión y están dispuestas a
-            apoyar tu proyecto.
-          </p>
-        </article>
-        <article>
-          <iconify-icon icon="ic:round-trending-up" width="24" height="24"></iconify-icon>
-          <h3>3. Alcanza tu Meta</h3>
-          <p>
-            Recibe el financiamiento necesario y convierte tu idea en realidad
-            con el apoyo de la comunidad.
-          </p>
-        </article>
-      </div>
-    </section>
-    <section class="readytobeginning full-width-section">
-      <h2>¿Listo para Comenzar?</h2>
-      <p>Únete a miles de creadores que ya están financiando sus sueños</p>
-      <button>
-        <iconify-icon icon="ic:round-lightbulb" width="24" height="24"></iconify-icon>
-        Crear tu Primer Proyecto
-      </button>
-    </section>
-    <section class="FAQ">
-      <h2 class="FAQ-title">Preguntas Frecuentes</h2>
-      <p class="FAQ-description">
-        Resolvemos las dudas más comunes sobre nuestra plataforma
-      </p>
-      <div class="container-FAQ-questions">
-        <article class="FAQ_questions">
-          <h3>¿Cómo funciona el proceso de financiación?</h3>
-          <p>
-            Los creadores establecen una meta de financiación y un plazo. Si
-            alcanzan su meta antes del plazo, reciben los fondos. Si no, las
-            contribuciones se devuelven a los donantes.
-          </p>
-        </article>
-        <article class="FAQ_questions">
-          <h3>¿Qué comisión cobra la plataforma?</h3>
-          <p>
-            Cobramos una pequeña comisión del 5% solo si el proyecto alcanza
-            su meta de financiación exitosamente.
-          </p>
-        </article>
-        <article class="FAQ_questions">
-          <h3>¿Cómo se aprueban los proyectos?</h3>
-          <p>
-            Nuestro equipo revisa cada proyecto para asegurar que cumple con
-            nuestras directrices de calidad y viabilidad antes de publicarlo.
-          </p>
-        </article>
-        <article class="FAQ_questions">
-          <h3>¿Puedo cancelar mi donación?</h3>
-          <p>
-            Puedes cancelar tu donación antes de que el proyecto alcance su
-            meta de financiación. Una vez financiado exitosamente, las
-            donaciones no se pueden cancelar.
-          </p>
-        </article>
-      </div>
-    </section>
+      </section>
     </main>
   </div>
 

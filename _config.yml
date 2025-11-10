@@ -1,0 +1,39 @@
+# Configuración para GitHub Pages
+baseurl: "" # la subruta del repositorio, ej: /project-name
+url: "" # el dominio personalizado, ej: https://username.github.io
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Configuración para GitHub Pages
+source: public
+destination: .site
+
+# Exclusiones
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - .git/
+  - .gitignore
+
+# Configuración de inclusión
+include:
+  - _redirects
+  - .htaccess
+
+# Configuración de la carpeta public como raíz
+# Esto permite que GitHub Pages sirva el contenido de la carpeta public
+# como si fuera la raíz del sitio

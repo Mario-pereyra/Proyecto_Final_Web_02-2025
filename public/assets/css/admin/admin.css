@@ -1,9 +1,5 @@
-/* Estilos base para el panel administrativo */
+@import url("../tokens.css");
 
-/* Variables del sistema */
-@import url('../tokens.css');
-
-/* Layout principal */
 .admin-container {
   min-height: 100vh;
   display: flex;
@@ -15,7 +11,6 @@
   line-height: 1.5;
 }
 
-/* Header de navegación */
 .nav-header {
   background: var(--bg-nav);
   backdrop-filter: blur(8px);
@@ -49,7 +44,6 @@
   flex-shrink: 0;
 }
 
-/* Logo fallback */
 .logo-fallback {
   display: none;
   width: 120px;
@@ -68,7 +62,7 @@
   font-size: var(--font-size-md);
   color: var(--text-primary);
   white-space: nowrap;
-  display: none; /* Hidden on mobile */
+  display: none;
 }
 
 .nav-actions {
@@ -87,7 +81,7 @@
   color: var(--primary-dark);
   cursor: pointer;
   transition: all 0.2s ease;
-  display: none; /* Hidden on mobile */
+  display: none;
   align-items: center;
   gap: var(--space-sm);
 }
@@ -115,7 +109,6 @@
   transform: scale(1.05);
 }
 
-/* Contenido principal */
 .main-content {
   flex: 1;
   padding: var(--space-lg) var(--space-md);
@@ -148,7 +141,6 @@
   margin-bottom: var(--space-xl);
 }
 
-/* Tarjetas de estadísticas */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -191,7 +183,6 @@
   color: var(--text-primary);
 }
 
-/* Pestañas */
 .tab-container {
   margin-bottom: var(--space-lg);
 }
@@ -226,7 +217,6 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Filtros */
 .filters-card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -286,7 +276,6 @@
   padding-right: 32px;
 }
 
-/* Sección de proyectos */
 .projects-section {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -308,7 +297,6 @@
   overflow-x: auto;
 }
 
-/* Tarjetas de proyectos móviles */
 .project-card-mobile {
   display: block;
   padding: var(--space-lg);
@@ -338,7 +326,6 @@
   flex-shrink: 0;
 }
 
-/* Placeholder para imagen de proyecto */
 .project-image-placeholder {
   background: var(--bg-light);
   display: flex;
@@ -400,7 +387,6 @@
   flex-shrink: 0;
 }
 
-/* Avatar circular */
 .creator-avatar-circle {
   border-radius: 50%;
 }
@@ -486,9 +472,8 @@
   height: 16px;
 }
 
-/* Tabla desktop */
 .desktop-table {
-  display: none; /* Hidden on mobile */
+  display: none;
   width: 100%;
   border-collapse: collapse;
 }
@@ -525,7 +510,6 @@
   min-width: 150px;
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -541,13 +525,11 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Estados de carga */
 .loading {
   opacity: 0.6;
   pointer-events: none;
 }
 
-/* Clases de utilidad */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -566,7 +548,6 @@
   white-space: nowrap;
 }
 
-/* Sección de administradores */
 .create-admin-section {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
@@ -766,7 +747,7 @@
 }
 
 .admin-table-desktop {
-  display: none; /* Hidden on mobile */
+  display: none;
   width: 100%;
   border-collapse: collapse;
 }
@@ -790,7 +771,6 @@
   overflow: hidden;
 }
 
-/* Animación para tarjetas de administrador */
 @keyframes fadeInUp {
   from {
     opacity: 0;

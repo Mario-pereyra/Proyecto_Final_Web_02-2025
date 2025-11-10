@@ -1,5 +1,4 @@
-/* Importar tokens de diseño unificados */
-@import url('../tokens.css');
+@import url("../tokens.css");
 
 .readytobeginning {
   background-color: var(--color-primary);
@@ -53,22 +52,21 @@
   margin-right: var(--spacing-2);
 }
 
-/* Responsive adjustments */
 @media (max-width: 425px) {
   .readytobeginning {
     padding: var(--spacing-8) var(--spacing-3);
   }
-  
+
   .readytobeginning h2 {
     font-size: var(--text-2xl);
     margin-bottom: var(--spacing-3);
   }
-  
+
   .readytobeginning p {
     font-size: var(--text-sm);
     margin-bottom: var(--spacing-6);
   }
-  
+
   .readytobeginning button {
     padding: var(--spacing-2) var(--spacing-4);
     font-size: var(--text-sm);
@@ -79,15 +77,15 @@
   .readytobeginning {
     padding: var(--spacing-9) var(--spacing-4);
   }
-  
+
   .readytobeginning h2 {
     font-size: var(--text-2xl);
   }
-  
+
   .readytobeginning p {
     font-size: var(--text-base);
   }
-  
+
   .readytobeginning button {
     padding: var(--spacing-3) var(--spacing-5);
     font-size: var(--text-base);
@@ -98,15 +96,15 @@
   .readytobeginning {
     padding: var(--spacing-12) var(--spacing-6);
   }
-  
+
   .readytobeginning h2 {
     font-size: var(--text-3xl);
   }
-  
+
   .readytobeginning p {
     font-size: var(--text-lg);
   }
-  
+
   .readytobeginning button {
     padding: var(--spacing-4) var(--spacing-8);
     font-size: var(--text-lg);

@@ -1,19 +1,5 @@
-/* ===================================
-   RESPONSIVE UTILITIES - IMPULSA.ME
-   Sistema de 4 breakpoints con enfoque Mobile-First
-   =================================== */
+@import url("./tokens.css");
 
-/* Importar tokens de diseño unificados */
-@import url('./tokens.css');
-
-/* ===== BREAKPOINTS DEFINIDOS ===== */
-/* Mobile: hasta 425px (base styles, no media query needed) */
-/* Tablet: hasta 768px */
-/* Laptop: hasta 1024px */
-/* Large Laptop: hasta 1440px */
-
-/* ===== ESTILOS BASE (MOBILE-FIRST) ===== */
-/* Estilos base aplicados a todos los dispositivos */
 .container {
   width: 100%;
   max-width: 100%;
@@ -42,70 +28,63 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* ===== TABLET (hasta 768px) ===== */
 @media (min-width: 426px) and (max-width: 768px) {
   .container {
     padding: var(--spacing-5);
   }
-  
+
   .grid-cols-3,
   .grid-cols-4 {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .sidebar {
     position: sticky;
     top: var(--spacing-5);
   }
 }
 
-/* ===== LAPTOP (hasta 1024px) ===== */
 @media (min-width: 769px) and (max-width: 1024px) {
   .container {
     max-width: 960px;
     padding: var(--spacing-6);
   }
-  
+
   .grid-cols-3 {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .grid-cols-4 {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* ===== LARGE LAPTOP (hasta 1440px) ===== */
 @media (min-width: 1025px) and (max-width: 1440px) {
   .container {
     max-width: 1140px;
     padding: var(--spacing-7);
   }
-  
+
   .grid-cols-3 {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .grid-cols-4 {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* ===== EXTRA LARGE (más de 1440px) ===== */
 @media (min-width: 1441px) {
   .container {
     max-width: 1320px;
     padding: var(--spacing-8);
   }
-  
+
   .grid-cols-4 {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* ===== UTILIDADES RESPONSIVE ===== */
-
-/* Ocultar elementos en breakpoints específicos */
 .hidden-mobile {
   display: block;
 }
@@ -146,7 +125,6 @@
   }
 }
 
-/* Mostrar elementos solo en breakpoints específicos */
 .visible-mobile {
   display: none;
 }
@@ -197,42 +175,38 @@
   }
 }
 
-/* ===== AJUSTES DE COMPONENTES RESPONSIVE ===== */
-
-/* Header responsive */
 @media (max-width: 768px) {
   .main-header {
     flex-direction: column;
     padding: var(--spacing-2);
   }
-  
+
   .main-nav {
     order: 3;
     width: 100%;
   }
-  
+
   .header-actions {
     order: 2;
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .logo-container {
     order: 1;
   }
 }
 
-/* Cards responsive */
 @media (max-width: 768px) {
   .project {
     width: 100%;
     margin-bottom: var(--spacing-4);
   }
-  
+
   .container-project-features-item {
     flex-direction: column;
     gap: var(--spacing-4);
-    padding: 0; /* Aseguramos que no haya padding adicional */
+    padding: 0;
   }
 }
 
@@ -248,22 +222,21 @@
   }
 }
 
-/* Dashboard responsive */
 @media (max-width: 768px) {
   .dash-header {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .kpis {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-4);
   }
-  
+
   .tabs {
     flex-wrap: wrap;
   }
-  
+
   .tab {
     flex: 1;
     min-width: 120px;
@@ -276,39 +249,37 @@
   }
 }
 
-/* Forms responsive */
 @media (max-width: 768px) {
   .form-group {
     margin-bottom: var(--spacing-4);
   }
-  
+
   .auth-form {
     gap: var(--spacing-4);
   }
 }
 
-/* Tables responsive */
 @media (max-width: 768px) {
   .responsive-table {
     display: block;
   }
-  
+
   .responsive-table thead {
     display: none;
   }
-  
+
   .responsive-table tr {
     display: block;
     margin-bottom: var(--spacing-4);
   }
-  
+
   .responsive-table td {
     display: block;
     text-align: right;
     border-bottom: 1px solid var(--border-color);
     padding: var(--spacing-2);
   }
-  
+
   .responsive-table td:before {
     content: attr(data-label);
     float: left;
@@ -316,7 +287,6 @@
   }
 }
 
-/* ===== UTILIDADES DE LAYOUT ===== */
 .flex-col-mobile {
   display: flex;
   flex-direction: column;
@@ -343,8 +313,6 @@
   }
 }
 
-/* ===== GRID RESPONSIVE ADICIONAL ===== */
-/* Grid responsive para componentes específicos */
 @media (max-width: 425px) {
   .grid-responsive-2,
   .grid-responsive-3,
@@ -357,7 +325,7 @@
   .grid-responsive-2 {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .grid-responsive-3,
   .grid-responsive-4 {
     grid-template-columns: repeat(2, 1fr);
@@ -368,7 +336,7 @@
   .grid-responsive-3 {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .grid-responsive-4 {
     grid-template-columns: repeat(3, 1fr);
   }
