@@ -332,3 +332,4 @@ WHERE progress_bucket IN ('menor_25','entre_25_y_75','mayor_75','completamente_f
 ```
 
 ---
+operador ternario
