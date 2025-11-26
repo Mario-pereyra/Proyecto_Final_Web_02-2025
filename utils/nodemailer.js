@@ -37,7 +37,3 @@ El equipo de Impulsa.me`,
     return false;
   }
 };
-
-module.exports = {
-  enviarCodigoVerificacion,
-};
