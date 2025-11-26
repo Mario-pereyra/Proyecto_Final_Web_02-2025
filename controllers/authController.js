@@ -1,50 +1,53 @@
 const userRepository = require("../repositories/userRepository");
 const authRepository = require("../repositories/authRepository");
-
+const nodemailer = require("../utils/nodemailer");
 const registerUser = async (req, res) => {
   const { fullName, email, password } = req.body;
-
-  // Validaciones
-  if (!fullName || !email || !password) {
-    return res.status(400).json({success: false,message: "Todos los campos son obligatorios",});
-  }
-
-  if (!isValidEmail(email)) {
-    return res.status(400).json({success: false,message: "El formato del email no es válido",});
-  }
-
-  if (!isValidPassword(password)) {
-    return res.status(400).json({success: false,message: "La contraseña debe tener al menos 6 caracteres",});
-  }
 
   try {
     // Verificar si el usuario ya existe
     const existingUser = await userRepository.getUserByEmail(email);
     if (existingUser) {
-      return res.status(409).json({success: false,message: "Ya existe un usuario con este email",});
+      return res
+        .status(409)
+        .json({
+          success: false,
+          message: "Ya existe un usuario con este email",
+        });
     }
 
     // Crear usuario
     const newUser = await userRepository.createUser(fullName, email, password);
 
     // Generar y guardar token de verificación
+
     const verificationToken = generateVerificationToken();
     await authRepository.saveVerificationToken(newUser.id, verificationToken);
 
-    // Enviar respuesta
+    // Enviar código de verificación por email ANTES de la respuesta
+    await nodemailer.enviarCodigoVerificacion(
+      newUser.full_name,
+      newUser.email,
+      verificationToken
+    );
+    console.log(`Código de verificación enviado a ${newUser.email}`);
+
+    // Enviar respuesta de éxito
     res.status(201).json({
       success: true,
-      message:"Usuario registrado exitosamente. Por favor verifica tu email con el código enviado.",
+      message: `Usuario registrado exitosamente. Por favor, verifica tu email. Se te ha enviado un código de verificación para activar tu cuenta.`,
       data: {
         userId: newUser.id,
         fullName: newUser.full_name,
         email: newUser.email,
-        verificationToken: verificationToken, // En desarrollo, en producción esto debería enviarse por email
+        verificationToken: verificationToken,
       },
     });
   } catch (error) {
     console.error("Error en registro:", error);
-    res.status(500).json({success: false,message: "Error interno del servidor",});
+    res
+      .status(500)
+      .json({ success: false, message: "Error interno del servidor" });
   }
 };
 
@@ -53,11 +56,15 @@ const loginUser = async (req, res) => {
 
   // Validaciones
   if (!email || !password) {
-    return res.status(400).json({success: false,message: "Email y contraseña son obligatorios",});
+    return res
+      .status(400)
+      .json({ success: false, message: "Email y contraseña son obligatorios" });
   }
 
   if (!isValidEmail(email)) {
-    return res.status(400).json({success: false,message: "El formato del email no es válido",});
+    return res
+      .status(400)
+      .json({ success: false, message: "El formato del email no es válido" });
   }
 
   try {
@@ -65,12 +72,16 @@ const loginUser = async (req, res) => {
     const user = await userRepository.getUserByEmail(email);
 
     if (!user) {
-      return res.status(401).json({success: false,message: "Credenciales inválidas",});
+      return res
+        .status(401)
+        .json({ success: false, message: "Credenciales inválidas" });
     }
 
     // Verificar contraseña (usando el campo password de la BD)
     if (user.password !== password) {
-      return res.status(401).json({success: false,message: "Credenciales inválidas",}); 
+      return res
+        .status(401)
+        .json({ success: false, message: "Credenciales inválidas" });
     }
 
     // Verificar si el usuario está activo

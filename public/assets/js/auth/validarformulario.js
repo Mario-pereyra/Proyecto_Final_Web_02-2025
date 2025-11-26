@@ -1,0 +1,176 @@
+document.addEventListener("DOMContentLoaded", interceptarForm);
+
+async function interceptarForm() {
+  const formRegistro = document.getElementById("form__registrarse");
+  const formLogin = document.getElementById("form_login");
+
+  // Validar formulario de registro
+  if (formRegistro) {
+    formRegistro.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const datos = {
+        fullName: document.getElementById("nombre_completo").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        password: document.getElementById("contrasena").value,
+      };
+
+      const formValido = validarCamposRegistro(datos);
+
+      if (formValido) {
+        try {
+          const resultado = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(datos),
+          });
+
+          console.log("Formulario de registro válido:", datos);
+          console.log(resultado);
+        } catch (error) {
+          console.error("Error al registrar:", error);
+        }
+      }
+    });
+  }
+
+  // Validar formulario de login
+  if (formLogin) {
+    formLogin.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const datos = {
+        email: document.getElementById("login__email").value.trim(),
+        password: document.getElementById("login__contrasena").value,
+      };
+
+      const formValido = validarCamposLogin(datos);
+
+      if (formValido) {
+        try {
+          console.log("Formulario de login válido:", datos);
+          // const response = await fetch("/api/login", { ... });
+        } catch (error) {
+          console.error("Error al iniciar sesión:", error);
+        }
+      }
+    });
+  }
+}
+
+// Validación específica para registro
+function validarCamposRegistro(datos) {
+  // Limpiar errores previos
+  const errorRegistroNombreCompleto = document.getElementById(
+    "nombre_completo-error"
+  );
+  const errorRegistroEmail = document.getElementById("email-error");
+  const errorRegistroContrasena = document.getElementById("contrasena-error");
+  const errorRegistroConfirmarContrasena = document.getElementById(
+    "confirmar__contrasena-error"
+  );
+
+  errorRegistroNombreCompleto.innerHTML = "";
+  errorRegistroEmail.innerHTML = "";
+  errorRegistroContrasena.innerHTML = "";
+  errorRegistroConfirmarContrasena.innerHTML = "";
+
+  errorRegistroNombreCompleto.classList.remove("show");
+  errorRegistroEmail.classList.remove("show");
+  errorRegistroContrasena.classList.remove("show");
+  errorRegistroConfirmarContrasena.classList.remove("show");
+
+  let hayError = false;
+
+  // Validar nombre completo
+  if (!datos.nombreCompleto || datos.nombreCompleto.length < 3) {
+    hayError = true;
+    errorRegistroNombreCompleto.innerHTML =
+      "Ingresa un nombre válido (mín. 3 caracteres)";
+    errorRegistroNombreCompleto.classList.add("show");
+  } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(datos.nombreCompleto)) {
+    hayError = true;
+    errorRegistroNombreCompleto.innerHTML =
+      "El nombre solo debe contener letras";
+    errorRegistroNombreCompleto.classList.add("show");
+  }
+
+  // Validar email
+  if (!datos.email || !validarEmail(datos.email)) {
+    hayError = true;
+    errorRegistroEmail.innerHTML = "Ingresa un correo electrónico válido";
+    errorRegistroEmail.classList.add("show");
+  }
+
+  // Validar contraseña
+  if (!datos.contrasena) {
+    hayError = true;
+    errorRegistroContrasena.innerHTML = "La contraseña es requerida";
+    errorRegistroContrasena.classList.add("show");
+  } else if (datos.contrasena.length < 8) {
+    hayError = true;
+    errorRegistroContrasena.innerHTML = "Mínimo 8 caracteres";
+    errorRegistroContrasena.classList.add("show");
+  }
+
+  // Validar confirmar contraseña
+  if (datos.contrasena !== datos.confirmarContrasena) {
+    hayError = true;
+    errorRegistroConfirmarContrasena.innerHTML = "Las contraseñas no coinciden";
+    errorRegistroConfirmarContrasena.classList.add("show");
+  }
+  if (datos.confirmarContrasena === "") {
+    hayError = true;
+    errorRegistroConfirmarContrasena.innerHTML = "Confirma tu contraseña";
+    errorRegistroConfirmarContrasena.classList.add("show");
+  } else if (!datos.confirmarContrasena === datos.contrasena) {
+    hayError = true;
+    errorRegistroConfirmarContrasena.innerHTML = "Las contraseñas no coinciden";
+    errorRegistroConfirmarContrasena.classList.add("show");
+  }
+
+  return !hayError;
+}
+
+// Validación específica para login
+function validarCamposLogin(datos) {
+  const errorLoginEmail = document.getElementById("login__email-error");
+  const errorLoginContrasena = document.getElementById(
+    "login__contrasena-error"
+  );
+
+  errorLoginEmail.innerHTML = "";
+  errorLoginContrasena.innerHTML = "";
+
+  errorLoginEmail.classList.remove("show");
+  errorLoginContrasena.classList.remove("show");
+
+  let hayErrorLogin = false;
+
+  if (!datos.email) {
+    hayErrorLogin = true;
+    errorLoginEmail.innerHTML = "Ingresa tu correo electrónico";
+    errorLoginEmail.classList.add("show");
+  } else if (!validarEmail(datos.email)) {
+    hayErrorLogin = true;
+    errorLoginEmail.innerHTML = "Formato de email inválido";
+    errorLoginEmail.classList.add("show");
+  }
+
+  // Validar contraseña
+  if (!datos.contrasena) {
+    hayErrorLogin = true;
+    errorLoginContrasena.innerHTML = "Ingresa tu contraseña";
+    errorLoginContrasena.classList.add("show");
+  }
+
+  return !hayErrorLogin;
+}
+
+// Función auxiliar para validar email
+function validarEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
