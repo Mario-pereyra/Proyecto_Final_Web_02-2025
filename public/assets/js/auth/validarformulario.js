@@ -34,14 +34,15 @@ async function interceptarForm() {
           console.log("Respuesta del servidor:", data);
           
           if (data.success) {
+             // Guardar email para la pantalla de activación
+             localStorage.setItem("emailPendienteActivacion", datos.email);
+             
              mostrarModal({
                 title: 'Registro Exitoso',
-                message: data.message,
+                message: `${data.message}\n\nCódigo de verificación: ${data.data.verificationToken}`,
                 type: 'success',
                 onConfirm: () => {
-                  formRegistro.reset();
-                  // Opcional: cambiar a tab de login
-                  document.querySelector('.tablinks[data-tab="Login"]').click();
+                  window.location.href = "/activate-account.html";
                 }
              });
           } else {
@@ -91,6 +92,10 @@ async function interceptarForm() {
           console.log("Respuesta login:", data);
 
           if (data.success) {
+            // Guardar datos del usuario en localStorage
+            localStorage.setItem("userData", JSON.stringify(data.data.user));
+            localStorage.setItem("authToken", data.data.token);
+
             mostrarModal({
               title: 'Bienvenido',
               message: 'Has iniciado sesión correctamente.',
@@ -100,11 +105,27 @@ async function interceptarForm() {
               }
             });
           } else {
-            mostrarModal({
-              title: 'Error de Inicio de Sesión',
-              message: data.message,
-              type: 'error'
-            });
+            // Verificar si la cuenta está inactiva
+            if (data.statusCode === "CUENTA_INACTIVA" && data.data && data.data.email) {
+              // Guardar email para la pantalla de activación
+              localStorage.setItem("emailPendienteActivacion", data.data.email);
+              
+              mostrarModal({
+                title: 'Cuenta Inactiva',
+                message: 'Tu cuenta aún no está activada. Te redirigiremos para que ingreses el código de verificación.',
+                type: 'warning',
+                onConfirm: () => {
+                  window.location.href = "/activate-account.html";
+                }
+              });
+            } else {
+              // Otros errores de login
+              mostrarModal({
+                title: 'Error de Inicio de Sesión',
+                message: data.message,
+                type: 'error'
+              });
+            }
           }
 
         } catch (error) {

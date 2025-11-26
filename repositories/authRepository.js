@@ -8,7 +8,7 @@ const getConnection = async () => {
 };
 
 // Guardar token de verificación
-exports.saveVerificationToken = async (userId, token, expiresIn = 900) => {
+exports.saveVerificationToken = async (userId, token, expiresIn = 300) => {
   try {
     const connection = await getConnection();
     const expiresAt = new Date(Date.now() + expiresIn * 1000);

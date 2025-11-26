@@ -97,7 +97,12 @@ const loginUser = async (req, res) => {
     if (user.status !== "activo") {
       return res.status(403).json({
         success: false,
+        statusCode: "CUENTA_INACTIVA",
         message: "Tu cuenta no está activa. Por favor verifica tu email.",
+        data: {
+          email: user.email,
+          status: user.status
+        }
       });
     }
 

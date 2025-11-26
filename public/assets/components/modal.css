@@ -1,5 +1,5 @@
 /* ==================== MODAL SYSTEM CON ICONIFY ==================== */
-
+@import url('../public/assets/css/tokens.css');
 .modal-overlay {
   display: none;
   position: fixed;
@@ -16,7 +16,7 @@
 }
 
 .modal-content {
-  background: var(--color-surface);
+  background: var(--color-white);
   padding: 2.5rem;
   border-radius: 12px;
   max-width: 450px;
