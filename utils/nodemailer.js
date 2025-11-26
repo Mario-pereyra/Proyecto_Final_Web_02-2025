@@ -38,12 +38,6 @@ El equipo de Impulsa.me`,
   }
 }
 
-// EJEMPLO DE USO:
-// Genera tu código de 5 dígitos (ej: 12345)
-const codigo = Math.floor(10000 + Math.random() * 90000).toString();
-
-// Envía el correo
-enviarCodigoVerificacion("Juan Pérez", "juan.perez@example.com", codigo);
 
 module.exports = {
   enviarCodigoVerificacion,
