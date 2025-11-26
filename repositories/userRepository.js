@@ -101,7 +101,7 @@ exports.updateUser = async (userId, fullName, email, role, status) => {
 exports.getUserByEmail = async (email) => {
   try {
     const connection = await getConnection();
-    const query = `SELECT id, full_name, email, password_plain, role, status FROM users WHERE email = $1`;
+    const query = `SELECT id, full_name, email, password, role, status FROM users WHERE email = $1`;
     const data = await connection.query(query, [email]);
     return data.rows[0];
   } catch (error) {

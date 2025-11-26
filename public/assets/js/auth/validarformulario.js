@@ -13,7 +13,10 @@ async function interceptarForm() {
         fullName: document.getElementById("nombre_completo").value.trim(),
         email: document.getElementById("email").value.trim(),
         password: document.getElementById("contrasena").value,
+        confirmarContrasena: document.getElementById("confirmar__contrasena")
+          .value,
       };
+      console.log(datos);
 
       const formValido = validarCamposRegistro(datos);
 
@@ -27,10 +30,35 @@ async function interceptarForm() {
             body: JSON.stringify(datos),
           });
 
-          console.log("Formulario de registro válido:", datos);
-          console.log(resultado);
+          const data = await resultado.json();
+          console.log("Respuesta del servidor:", data);
+          
+          if (data.success) {
+             mostrarModal({
+                title: 'Registro Exitoso',
+                message: data.message,
+                type: 'success',
+                onConfirm: () => {
+                  formRegistro.reset();
+                  // Opcional: cambiar a tab de login
+                  document.querySelector('.tablinks[data-tab="Login"]').click();
+                }
+             });
+          } else {
+             mostrarModal({
+                title: 'Error en Registro',
+                message: data.message,
+                type: 'error'
+             });
+          }
+
         } catch (error) {
           console.error("Error al registrar:", error);
+          mostrarModal({
+            title: 'Error de Conexión',
+            message: 'No se pudo conectar con el servidor. Intenta nuevamente.',
+            type: 'error'
+          });
         }
       }
     });
@@ -51,9 +79,41 @@ async function interceptarForm() {
       if (formValido) {
         try {
           console.log("Formulario de login válido:", datos);
-          // const response = await fetch("/api/login", { ... });
+          const resultado = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(datos),
+          });
+
+          const data = await resultado.json();
+          console.log("Respuesta login:", data);
+
+          if (data.success) {
+            mostrarModal({
+              title: 'Bienvenido',
+              message: 'Has iniciado sesión correctamente.',
+              type: 'success',
+              onConfirm: () => {
+                window.location.href = "/index.html";
+              }
+            });
+          } else {
+            mostrarModal({
+              title: 'Error de Inicio de Sesión',
+              message: data.message,
+              type: 'error'
+            });
+          }
+
         } catch (error) {
           console.error("Error al iniciar sesión:", error);
+          mostrarModal({
+            title: 'Error de Conexión',
+            message: 'No se pudo conectar con el servidor. Intenta nuevamente.',
+            type: 'error'
+          });
         }
       }
     });
@@ -85,12 +145,12 @@ function validarCamposRegistro(datos) {
   let hayError = false;
 
   // Validar nombre completo
-  if (!datos.nombreCompleto || datos.nombreCompleto.length < 3) {
+  if (!datos.fullName || datos.fullName.length < 3) {
     hayError = true;
     errorRegistroNombreCompleto.innerHTML =
       "Ingresa un nombre válido (mín. 3 caracteres)";
     errorRegistroNombreCompleto.classList.add("show");
-  } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(datos.nombreCompleto)) {
+  } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(datos.fullName)) {
     hayError = true;
     errorRegistroNombreCompleto.innerHTML =
       "El nombre solo debe contener letras";
@@ -105,18 +165,18 @@ function validarCamposRegistro(datos) {
   }
 
   // Validar contraseña
-  if (!datos.contrasena) {
+  if (!datos.password) {
     hayError = true;
     errorRegistroContrasena.innerHTML = "La contraseña es requerida";
     errorRegistroContrasena.classList.add("show");
-  } else if (datos.contrasena.length < 8) {
+  } else if (datos.password.length < 8) {
     hayError = true;
     errorRegistroContrasena.innerHTML = "Mínimo 8 caracteres";
     errorRegistroContrasena.classList.add("show");
   }
 
   // Validar confirmar contraseña
-  if (datos.contrasena !== datos.confirmarContrasena) {
+  if (datos.password !== datos.confirmarContrasena) {
     hayError = true;
     errorRegistroConfirmarContrasena.innerHTML = "Las contraseñas no coinciden";
     errorRegistroConfirmarContrasena.classList.add("show");
@@ -124,10 +184,6 @@ function validarCamposRegistro(datos) {
   if (datos.confirmarContrasena === "") {
     hayError = true;
     errorRegistroConfirmarContrasena.innerHTML = "Confirma tu contraseña";
-    errorRegistroConfirmarContrasena.classList.add("show");
-  } else if (!datos.confirmarContrasena === datos.contrasena) {
-    hayError = true;
-    errorRegistroConfirmarContrasena.innerHTML = "Las contraseñas no coinciden";
     errorRegistroConfirmarContrasena.classList.add("show");
   }
 
@@ -160,7 +216,7 @@ function validarCamposLogin(datos) {
   }
 
   // Validar contraseña
-  if (!datos.contrasena) {
+  if (!datos.password) {
     hayErrorLogin = true;
     errorLoginContrasena.innerHTML = "Ingresa tu contraseña";
     errorLoginContrasena.classList.add("show");
