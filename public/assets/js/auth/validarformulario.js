@@ -39,7 +39,7 @@ async function interceptarForm() {
              
              mostrarModal({
                 title: 'Registro Exitoso',
-                message: `${data.message}\n\nCódigo de verificación: ${data.data.verificationToken}`,
+                message: `${data.message}\n\nRevisa tu correo electrónico para obtener el código de verificación.`,
                 type: 'success',
                 onConfirm: () => {
                   window.location.href = "/activate-account.html";
@@ -107,7 +107,14 @@ async function interceptarForm() {
           } else {
             // Verificar si la cuenta está inactiva
             if (data.statusCode === "CUENTA_INACTIVA" && data.data && data.data.email) {
-              // Guardar email para la pantalla de activación
+              // Guardar datos del usuario en localStorage (sin contraseña)
+              if (data.data.user) {
+                localStorage.setItem("userData", JSON.stringify(data.data.user));
+              }
+              if (data.data.token) {
+                localStorage.setItem("authToken", data.data.token);
+              }
+              // Guardar email para auto-relleno en pantalla de activación
               localStorage.setItem("emailPendienteActivacion", data.data.email);
               
               mostrarModal({

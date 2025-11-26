@@ -2,10 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const formActivar = document.getElementById("form__activate");
   const btnReenviar = document.getElementById("btn__resend__code");
 
-  // Obtener email del localStorage si viene del registro
+  // 1. Obtener email desde URL query params (prioridad)
+  const urlParams = new URLSearchParams(window.location.search);
+  const emailFromURL = urlParams.get('email');
+  
+  // 2. Obtener email del localStorage como fallback
   const emailFromStorage = localStorage.getItem("emailPendienteActivacion");
-  if (emailFromStorage) {
-    document.getElementById("activate__email").value = emailFromStorage;
+  
+  // 3. Usar el que esté disponible (prioridad: URL > localStorage)
+  const emailToFill = emailFromURL || emailFromStorage;
+  if (emailToFill) {
+    document.getElementById("activate__email").value = emailToFill;
   }
 
   // Manejar envío del formulario de activación
