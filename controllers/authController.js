@@ -8,12 +8,10 @@ const registerUser = async (req, res) => {
     // Verificar si el usuario ya existe
     const existingUser = await userRepository.getUserByEmail(email);
     if (existingUser) {
-      return res
-        .status(409)
-        .json({
-          success: false,
-          message: "Ya existe un usuario con este email",
-        });
+      return res.status(409).json({
+        success: false,
+        message: "Ya existe un usuario con este email",
+      });
     }
 
     // Crear usuario
@@ -25,11 +23,22 @@ const registerUser = async (req, res) => {
     await authRepository.saveVerificationToken(newUser.id, verificationToken);
 
     // Enviar código de verificación por email ANTES de la respuesta
-    await nodemailer.enviarCodigoVerificacion(
+    const emailEnviado = await nodemailer.enviarCodigoVerificacion(
       newUser.full_name,
       newUser.email,
       verificationToken
     );
+
+    if (!emailEnviado) {
+      // Si falla el email, eliminar el usuario creado
+      await userRepository.deleteUser(newUser.id);
+      return res.status(500).json({
+        success: false,
+        message:
+          "Error al enviar el código de verificación. Por favor, intenta nuevamente.",
+      });
+    }
+
     console.log(`Código de verificación enviado a ${newUser.email}`);
 
     // Enviar respuesta de éxito

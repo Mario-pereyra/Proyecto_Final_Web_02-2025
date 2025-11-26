@@ -22,7 +22,7 @@ Gracias por registrarte en Impulsa.me.
 
 Tu código de verificación es: ${codigo}
 
-Este código expira en 2 minutos. Úsalo en la sección "Verificar mi cuenta" para completar tu registro.
+Este código expira en 15 minutos. Úsalo en la sección "Verificar mi cuenta" para completar tu registro.
 
 Si no solicitaste este código, ignora este mensaje.
 
@@ -36,8 +36,7 @@ El equipo de Impulsa.me`,
     console.error("❌ Error al enviar:", error);
     return false;
   }
-}
-
+};
 
 module.exports = {
   enviarCodigoVerificacion,
