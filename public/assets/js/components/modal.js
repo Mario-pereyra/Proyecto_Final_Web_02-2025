@@ -76,9 +76,9 @@ function mostrarModal(options) {
       </button>
     `;
   } else {
-    // Modal informativo: Solo Aceptar
+    // Modal informativo: Solo Aceptar (pero debe ejecutar onConfirm si existe)
     botones.innerHTML = `
-      <button class="btn btn--primary" onclick="cerrarModal()">
+      <button class="btn btn--primary" onclick="manejarModalConfirm(${onConfirm ? 'true' : 'false'})">
         <iconify-icon icon="ic:round-check"></iconify-icon>
         ${confirmText}
       </button>

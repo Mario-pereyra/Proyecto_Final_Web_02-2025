@@ -94,7 +94,6 @@ async function interceptarForm() {
           if (data.success) {
             // Guardar datos del usuario en localStorage
             localStorage.setItem("userData", JSON.stringify(data.data.user));
-            localStorage.setItem("authToken", data.data.token);
 
             mostrarModal({
               title: 'Bienvenido',
@@ -107,13 +106,6 @@ async function interceptarForm() {
           } else {
             // Verificar si la cuenta está inactiva
             if (data.statusCode === "CUENTA_INACTIVA" && data.data && data.data.email) {
-              // Guardar datos del usuario en localStorage (sin contraseña)
-              if (data.data.user) {
-                localStorage.setItem("userData", JSON.stringify(data.data.user));
-              }
-              if (data.data.token) {
-                localStorage.setItem("authToken", data.data.token);
-              }
               // Guardar email para auto-relleno en pantalla de activación
               localStorage.setItem("emailPendienteActivacion", data.data.email);
               
@@ -125,6 +117,8 @@ async function interceptarForm() {
                   window.location.href = "/activate-account.html";
                 }
               });
+            
+
             } else {
               // Otros errores de login
               mostrarModal({

@@ -4,10 +4,9 @@
 (function() {
   // Obtener datos del usuario del localStorage
   const userData = localStorage.getItem("userData");
-  const authToken = localStorage.getItem("authToken");
 
   // Si no hay datos de usuario, redirigir al login
-  if (!userData || !authToken) {
+  if (!userData) {
     window.location.href = "/auth.html";
     return;
   }
@@ -32,7 +31,6 @@
     console.error("Error al verificar datos del usuario:", error);
     // Si hay error parseando los datos, limpiar y redirigir
     localStorage.removeItem("userData");
-    localStorage.removeItem("authToken");
     window.location.href = "/auth.html";
   }
 })();

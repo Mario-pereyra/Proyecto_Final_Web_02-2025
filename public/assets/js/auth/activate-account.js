@@ -4,11 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 1. Obtener email desde URL query params (prioridad)
   const urlParams = new URLSearchParams(window.location.search);
-  const emailFromURL = urlParams.get('email');
-  
+  const emailFromURL = urlParams.get("email");
+
   // 2. Obtener email del localStorage como fallback
   const emailFromStorage = localStorage.getItem("emailPendienteActivacion");
-  
+
   // 3. Usar el que esté disponible (prioridad: URL > localStorage)
   const emailToFill = emailFromURL || emailFromStorage;
   if (emailToFill) {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       // Validación
-     if (!validarActivacion(datos)) {
+      if (!validarActivacion(datos)) {
         return;
       }
 
@@ -46,18 +46,34 @@ document.addEventListener("DOMContentLoaded", () => {
           // Limpiar localStorage
           localStorage.removeItem("emailPendienteActivacion");
 
+          // Guardar datos del usuario en localStorage para iniciar sesión automáticamente
+          if (data.data && data.data.user) {
+            const userData = {
+              id: data.data.user.id,
+              fullName: data.data.user.fullName,
+              email: data.data.user.email,
+              role: data.data.user.role,
+              status: data.data.user.status,
+            };
+            localStorage.setItem("userData", JSON.stringify(userData));
+          }
+
           mostrarModal({
             title: "Cuenta Activada",
-            message: "Tu cuenta ha sido activada exitosamente. Ya puedes iniciar sesión.",
+            message: "Tu cuenta ha sido activada exitosamente. Redirigiendo...",
             type: "success",
-            onConfirm: () => {
-              window.location.href = "/auth.html";
-            },
           });
+
+          // Redirigir automáticamente después de mostrar el mensaje
+          setTimeout(() => {
+            window.location.href = "/user/index.html";
+          }, 2000);
         } else {
           mostrarModal({
             title: "Error de Activación",
-            message: data.message || "No se pudo activar tu cuenta. Verifica el código.",
+            message:
+              data.message ||
+              "No se pudo activar tu cuenta. Verifica el código.",
             type: "error",
           });
         }
@@ -76,22 +92,26 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnReenviar) {
     btnReenviar.addEventListener("click", async () => {
       const email = document.getElementById("activate__email").value.trim();
+      const errorEmail = document.getElementById("activate__email-error");
 
+      // Limpiar errores previos
+      errorEmail.innerHTML = "";
+      errorEmail.classList.remove("show");
+
+      let hayError = false;
+
+      // Validar email
       if (!email) {
-        mostrarModal({
-          title: "Email Requerido",
-          message: "Por favor, ingresa tu correo electrónico primero.",
-          type: "warning",
-        });
+        hayError = true;
+        errorEmail.innerHTML = "Ingresa tu correo electrónico";
+        errorEmail.classList.add("show");
         return;
       }
 
       if (!validarEmail(email)) {
-        mostrarModal({
-          title: "Email Inválido",
-          message: "Por favor, ingresa un correo electrónico válido.",
-          type: "warning",
-        });
+        hayError = true;
+        errorEmail.innerHTML = "Formato de email inválido";
+        errorEmail.classList.add("show");
         return;
       }
 
@@ -146,9 +166,13 @@ function validarActivacion(datos) {
   let hayError = false;
 
   // Validar email
-  if (!datos.email || !validarEmail(datos.email)) {
+  if (!datos.email) {
     hayError = true;
-    errorEmail.innerHTML = "Ingresa un correo electrónico válido";
+    errorEmail.innerHTML = "Ingresa tu correo electrónico";
+    errorEmail.classList.add("show");
+  } else if (!validarEmail(datos.email)) {
+    hayError = true;
+    errorEmail.innerHTML = "Formato de email inválido";
     errorEmail.classList.add("show");
   }
 
