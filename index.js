@@ -12,6 +12,8 @@ const categoryRouter = require("./routers/categoryRouter");
 const projectRouter = require("./routers/projectRouter");
 const requirementRouter = require("./routers/requirementRouter");
 const favoriteRouter = require("./routers/favoriteRouter");
+const kpiRouter = require("./routers/kpiRouter");
+
 
 const app = express();
 app.use(express.json());
@@ -27,6 +29,8 @@ app.use("/api", categoryRouter);
 app.use("/api", projectRouter);
 app.use("/api", requirementRouter);
 app.use("/api", favoriteRouter);
+app.use("/api", kpiRouter);
+
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Endpoint no encontrado" });
 });
