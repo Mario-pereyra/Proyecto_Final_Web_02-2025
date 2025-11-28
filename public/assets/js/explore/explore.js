@@ -49,12 +49,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Check for category parameter in URL and auto-select it
   const urlParams = new URLSearchParams(window.location.search);
-  const action = urlParams.get("action");
+  const category = urlParams.get("category");
 
-  if (action === "register") {
-    switchTab("Registrarse");
-  } else if (action === "login") {
-    switchTab("Login");
+  if (category) {
+    const categorySelect = document.getElementById("categoria");
+    if (categorySelect) {
+      // Set the category value if it exists in the select options
+      const option = Array.from(categorySelect.options).find(
+        opt => opt.value === category
+      );
+      if (option) {
+        categorySelect.value = category;
+      }
+    }
   }
 });
