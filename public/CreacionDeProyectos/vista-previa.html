@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Previa del Proyecto - Impulsa.me</title>
+    <link rel="stylesheet" href="vista-previa.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <header>
+            <nav class="nav" aria-label="Navegación principal">
+                <div class="nav-container">
+                    <!-- Logo -->
+                    <a href="/" class="nav-logo" aria-label="Impulsa.me - Inicio">
+                        <img src="https://www.figma.com/api/mcp/asset/94379f54-3cf2-4a26-9fd5-cce54351d8e8"
+                            alt="Impulsa.me" class="logo-img">
+                    </a>
+
+                    <!-- Nav Links -->
+                    <ul class="nav-links">
+                        <li>
+                            <a href="#" class="nav-link">
+                                <iconify-icon icon="material-symbols:home-rounded" class="nav-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Inicio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">
+                                <iconify-icon icon="material-symbols:search-rounded" class="nav-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Explorar
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <ul class="nav-buttons">
+                            <li>
+                                <a href="#" class="action-btn">
+                                    <iconify-icon icon="material-symbols:dashboard-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Mis Proyectos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="action-btn active" aria-current="page">
+                                    <iconify-icon icon="material-symbols:add-box-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Crear Proyecto
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="action-btn">
+                                    <iconify-icon icon="material-symbols:star-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Favoritos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="action-btn">
+                                    <iconify-icon icon="material-symbols:volunteer-activism-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Mis Aportes
+                                </a>
+                            </li>
+                        </ul>
+                        <button type="button" class="user-avatar" aria-label="Menú de usuario">
+                            <span>M</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Back Button -->
+            <nav class="back-section" aria-label="Navegación secundaria">
+                <a href="crear-proyecto-paso5.html" class="back-btn" id="btnVolver">
+                    <iconify-icon icon="material-symbols:arrow-back-rounded" class="back-icon"
+                        aria-hidden="true"></iconify-icon>
+                    Volver al formulario
+                </a>
+            </nav>
+
+            <!-- Page Title -->
+            <h1 class="page-title">VISTA PREVIA DEL PROYECTO</h1>
+
+            <!-- Preview Section -->
+            <section class="preview-section" aria-labelledby="preview-title">
+                <!-- Preview Header -->
+                <header class="preview-header">
+                    <h2 class="preview-main-title" id="preview-title">Así se verá tu proyecto</h2>
+                    <p class="preview-subtitle">Esta es una vista previa de cómo aparecerá tu proyecto para los posibles
+                        donantes.</p>
+                </header>
+
+                <!-- Project Card Preview -->
+                <article class="project-card" aria-labelledby="project-title">
+                    <!-- Project Image -->
+                    <figure class="project-image">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800"
+                            alt="Imagen del proyecto" id="previewImg">
+                    </figure>
+
+                    <!-- Project Content -->
+                    <div class="project-content">
+                        <!-- Category Badge -->
+                        <span class="category-badge" id="previewCategory">Categoría</span>
+
+                        <!-- Title -->
+                        <h3 class="project-title" id="previewTitle">Título del proyecto</h3>
+
+                        <!-- Short Description -->
+                        <p class="project-short-desc" id="previewShortDesc">Descripción corta del proyecto que aparecerá
+                            en las tarjetas.</p>
+
+                        <!-- Progress Bar -->
+                        <div class="funding-progress">
+                            <div class="progress-info">
+                                <span class="progress-amount" id="previewAmount">€0</span>
+                                <span class="progress-goal">de <span id="previewGoalText">€0</span></span>
+                            </div>
+                            <div class="progress-bar-funding" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100">
+                                <div class="progress-fill-funding" id="progressFill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <span class="stat-item">
+                                    <iconify-icon icon="material-symbols:people-rounded" class="stat-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    <span id="previewBackers">0</span> patrocinadores
+                                </span>
+                                <span class="stat-item">
+                                    <iconify-icon icon="material-symbols:schedule-rounded" class="stat-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    <span id="previewDays">0</span> días restantes
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Meta Info -->
+                        <dl class="project-meta">
+                            <div class="meta-item">
+                                <dt>
+                                    <iconify-icon icon="material-symbols:flag-rounded" class="meta-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Meta:
+                                </dt>
+                                <dd id="previewGoal">€0</dd>
+                            </div>
+                            <div class="meta-item">
+                                <dt>
+                                    <iconify-icon icon="material-symbols:calendar-month-rounded" class="meta-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Fecha límite:
+                                </dt>
+                                <dd id="previewDeadline">--/--/----</dd>
+                            </div>
+                        </dl>
+
+                        <!-- Detailed Description -->
+                        <section class="project-detailed" aria-labelledby="detailed-title">
+                            <h4 class="detailed-title" id="detailed-title">
+                                <iconify-icon icon="material-symbols:description-rounded" class="section-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Descripción Detallada
+                            </h4>
+                            <div class="detailed-content" id="previewDetailedDesc">
+                                <p>Descripción detallada del proyecto...</p>
+                            </div>
+                        </section>
+
+                        <!-- Requisitos -->
+                        <section class="project-requirements" aria-labelledby="requirements-title">
+                            <h4 class="requirements-title" id="requirements-title">
+                                <iconify-icon icon="material-symbols:checklist-rounded" class="section-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Requisitos del Proyecto
+                            </h4>
+                            <div class="requirements-content" id="previewRequisitos">
+                                <p>Requisitos del proyecto...</p>
+                            </div>
+                        </section>
+
+                        <!-- Documentos -->
+                        <section class="project-documents" aria-labelledby="documents-title">
+                            <h4 class="documents-title" id="documents-title">
+                                <iconify-icon icon="material-symbols:folder-rounded" class="section-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Documentos Adjuntos
+                            </h4>
+                            <ul class="documents-list" id="previewDocuments">
+                                <li class="no-documents">No hay documentos adjuntos</li>
+                            </ul>
+                        </section>
+                    </div>
+                </article>
+
+                <!-- Action Buttons -->
+                <footer class="preview-actions">
+                    <button type="button" class="btn btn-outline" id="btnVolverFormulario">
+                        <iconify-icon icon="material-symbols:edit-rounded" class="btn-icon"
+                            aria-hidden="true"></iconify-icon>
+                        Editar Proyecto
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btnEnviarDesdePrevia">
+                        <iconify-icon icon="material-symbols:send-rounded" class="btn-icon"
+                            aria-hidden="true"></iconify-icon>
+                        Enviar para Aprobación
+                    </button>
+                </footer>
+            </section>
+        </main>
+    </div>
+
+    <script src="vista-previa.js"></script>
+</body>
+
+</html>

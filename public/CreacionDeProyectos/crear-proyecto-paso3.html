@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Proyecto - Paso 3 - Impulsa.me</title>
+    <link rel="stylesheet" href="crear-proyecto-paso3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <header>
+            <nav class="nav" aria-label="Navegación principal">
+                <div class="nav-container">
+                    <!-- Logo -->
+                    <a href="/" class="nav-logo" aria-label="Impulsa.me - Inicio">
+                        <img src="https://www.figma.com/api/mcp/asset/94379f54-3cf2-4a26-9fd5-cce54351d8e8"
+                            alt="Impulsa.me" class="logo-img">
+                    </a>
+
+                    <!-- Nav Links -->
+                    <ul class="nav-links">
+                        <li>
+                            <a href="#" class="nav-link">
+                                <iconify-icon icon="material-symbols:home-rounded" class="nav-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Inicio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">
+                                <iconify-icon icon="material-symbols:search-rounded" class="nav-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Explorar
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Action Buttons -->
+                    <div class="nav-actions">
+                        <ul class="nav-buttons">
+                            <li>
+                                <a href="#" class="action-btn">
+                                    <iconify-icon icon="material-symbols:dashboard-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Mis Proyectos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="action-btn active" aria-current="page">
+                                    <iconify-icon icon="material-symbols:add-box-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Crear Proyecto
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="action-btn">
+                                    <iconify-icon icon="material-symbols:star-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Favoritos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="action-btn">
+                                    <iconify-icon icon="material-symbols:volunteer-activism-rounded" class="action-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Mis Aportes
+                                </a>
+                            </li>
+                        </ul>
+                        <button type="button" class="user-avatar" aria-label="Menú de usuario">
+                            <span>M</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Back Button -->
+            <nav class="back-section" aria-label="Navegación secundaria">
+                <a href="#" class="back-btn">
+                    <iconify-icon icon="material-symbols:arrow-back-rounded" class="back-icon"
+                        aria-hidden="true"></iconify-icon>
+                    Volver al Dashboard
+                </a>
+            </nav>
+
+            <!-- Page Title -->
+            <h1 class="page-title">CREAR PROYECTO FECHA Y META DE FINANCIACION</h1>
+
+            <!-- Form Section -->
+            <section class="form-section" aria-labelledby="form-title">
+                <!-- Header -->
+                <header class="form-header">
+                    <div class="form-header-content">
+                        <h2 class="form-title" id="form-title">Crear Nuevo Proyecto</h2>
+                        <span class="step-indicator" aria-label="Progreso del formulario">Paso 3 de 5</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                        aria-valuemax="100" aria-label="Progreso: 60%">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                </header>
+
+                <!-- Form Card -->
+                <article class="form-card">
+                    <header class="form-card-header">
+                        <h3 class="section-title">Meta de Financiación</h3>
+                    </header>
+
+                    <form class="form-content" id="paso3Form">
+                        <!-- Meta de Financiación -->
+                        <div class="form-group">
+                            <label class="form-label" for="metaFinanciacion">Meta de Financiación (€) *</label>
+                            <div class="input-icon-wrapper">
+                                <iconify-icon icon="material-symbols:euro-rounded" class="input-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                <input type="number" class="form-input with-icon" id="metaFinanciacion"
+                                    name="metaFinanciacion" placeholder="50000" min="100" max="10000000" required>
+                            </div>
+                            <span class="form-hint">Establece una meta realista basada en tus necesidades reales.</span>
+                        </div>
+
+                        <!-- Fecha Límite -->
+                        <div class="form-group">
+                            <label class="form-label" for="fechaLimite">Fecha Límite *</label>
+                            <div class="date-input-wrapper">
+                                <input type="date" class="form-input date-input" id="fechaLimite" name="fechaLimite"
+                                    required>
+                                <iconify-icon icon="material-symbols:calendar-month-rounded" class="date-icon"
+                                    aria-hidden="true"></iconify-icon>
+                            </div>
+                            <span class="form-hint">Las campañas más exitosas duran entre 30-60 días.</span>
+                        </div>
+
+                        <!-- Alert Box -->
+                        <aside class="alert-box warning" role="alert" aria-label="Información importante">
+                            <iconify-icon icon="material-symbols:warning-rounded" class="alert-icon"
+                                aria-hidden="true"></iconify-icon>
+                            <div class="alert-content">
+                                <p class="alert-title">Importante:</p>
+                                <p class="alert-text">Solo recibirás los fondos si alcanzas tu meta completa antes de la
+                                    fecha límite. Si no alcanzas la meta, las donaciones se devuelven automáticamente a
+                                    los donantes.</p>
+                            </div>
+                        </aside>
+
+                        <!-- Form Actions -->
+                        <footer class="form-actions">
+                            <button type="button" class="btn btn-outline" id="btnAnterior">
+                                <iconify-icon icon="material-symbols:arrow-back-rounded" class="btn-icon"
+                                    aria-hidden="true"></iconify-icon>
+                                Anterior
+                            </button>
+                            <div class="actions-right">
+                                <button type="button" class="btn btn-secondary" id="btnGuardarBorrador">
+                                    <iconify-icon icon="material-symbols:save-rounded" class="btn-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                    Guardar Borrador
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="btnSiguiente">
+                                    Siguiente
+                                    <iconify-icon icon="material-symbols:arrow-forward-rounded" class="btn-icon"
+                                        aria-hidden="true"></iconify-icon>
+                                </button>
+                            </div>
+                        </footer>
+                    </form>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <script src="crear-proyecto-paso3.js"></script>
+</body>
+
+</html>

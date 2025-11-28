@@ -121,7 +121,8 @@ CREATE TABLE IF NOT EXISTS projects (
     summary             VARCHAR(300) NULL,
     description_json    JSONB   NOT NULL DEFAULT '{}'::jsonb, -- payload de editor.js
     goal_amount         DECIMAL(12,2) NOT NULL CHECK (goal_amount >= 0.01),
-    deadline            DATE    NOT NULL,
+    start_date          DATE    NOT NULL,
+    end_date            DATE    NOT NULL,
     approval_status     project_approval_status_enum NOT NULL DEFAULT 'borrador',
     campaign_state      campaign_state_enum          NOT NULL DEFAULT 'no_iniciada',
     created_at          TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -131,7 +132,7 @@ CREATE TABLE IF NOT EXISTS projects (
 CREATE INDEX IF NOT EXISTS idx_projects_owner       ON projects(owner_id);
 CREATE INDEX IF NOT EXISTS idx_projects_category    ON projects(category_id);
 CREATE INDEX IF NOT EXISTS idx_projects_status      ON projects(approval_status) WHERE deleted_at IS NULL;
-CREATE INDEX IF NOT EXISTS idx_projects_deadline    ON projects(deadline)        WHERE deleted_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_projects_end_date    ON projects(end_date)        WHERE deleted_at IS NULL;
 CREATE INDEX IF NOT EXISTS idx_projects_created_at  ON projects(created_at)      WHERE deleted_at IS NULL;
 
 -- ─────────────────────────────────────────────────────────────────────────────
@@ -233,7 +234,8 @@ SELECT
     p.category_id,
     p.owner_id,
     p.goal_amount,
-    p.deadline,
+    p.start_date,
+    p.end_date,
     p.approval_status,
     p.campaign_state,
     p.created_at,
