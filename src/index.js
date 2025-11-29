@@ -1,0 +1,39 @@
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const PORT = 3000;
+
+const authRouter = require("./routers/authRouter");
+const adminRouter = require("./routers/adminRouter");
+const userRouter = require("./routers/userRouter");
+const campaignRouter = require("./routers/campaignRouter");
+const donationRouter = require("./routers/donationRouter");
+const categoryRouter = require("./routers/categoryRouter");
+const projectRouter = require("./routers/projectRouter");
+const requirementRouter = require("./routers/requirementRouter");
+const favoriteRouter = require("./routers/favoriteRouter");
+const kpiRouter = require("./routers/kpiRouter");
+
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api", campaignRouter);
+app.use("/api", donationRouter);
+app.use("/api", categoryRouter);
+app.use("/api", projectRouter);
+app.use("/api", requirementRouter);
+app.use("/api", favoriteRouter);
+app.use("/api", kpiRouter);
+
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: "Endpoint no encontrado" });
+});
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
+});

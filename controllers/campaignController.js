@@ -1,1 +1,0 @@
-exports.updateCampaignState = (req, res) => {};

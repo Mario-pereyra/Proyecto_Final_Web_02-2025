@@ -1,0 +1,38 @@
+.project-card__title-container {
+  margin-bottom: var(--spacing-2);
+}
+
+.project-card__title-container h3 {
+  margin: 0 0 var(--spacing-1) 0;
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  height: 2.4em;
+  overflow: hidden;
+  display: -webkit-box;
+  display: flex;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.project-card__title-container p {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-tight);
+  color: var(--text-secondary);
+  height: 3.9em;
+  overflow: hidden;
+  display: -webkit-box;
+  display: flex;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Nota: Los estilos para .container-project-img, .project-img, .project-category,
+   .project-like-btn, .container-project-features-item, .project-features y
+   .container-project-features-ver-proyectos han sido consolidados en cards.css
+   para evitar duplicaciones y mantener un único punto de mantenimiento. */
+
+/* Nota: Los media queries para componentes han sido consolidados en cards.css
+   para evitar duplicaciones y mantener un único punto de mantenimiento. */

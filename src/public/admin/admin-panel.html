@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Administrativo - Impulsa.me</title>
+  <link rel="stylesheet" href="./assets/css/main.css" />
+  <link rel="stylesheet" href="./assets/css/admin/admin.css" />
+  <link rel="stylesheet" href="./assets/css/admin/admin-responsive.css" />
+</head>
+
+<body>
+  <div class="admin-container" data-name="1920w default" data-node-id="21:2">
+
+    <header class="nav-header" data-name="Nav" data-node-id="21:10">
+      <div class="nav-container" data-name="Container" data-node-id="21:11">
+        <div class="nav-logo-section" data-name="Container" data-node-id="21:12">
+          <img src="https://www.figma.com/api/mcp/asset/e7b0b272-319b-4414-8a5b-a8d7cd365952" alt="Logo Impulsa.me"
+            class="logo-image" data-name="image 16" data-node-id="22:326"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+          <div class="logo-fallback">
+            Impulsa.me
+          </div>
+          <h1 class="admin-title" data-node-id="21:18">
+            Panel Administrativo
+          </h1>
+        </div>
+
+        <div class="nav-actions" data-name="Container" data-node-id="21:19">
+          <button class="management-btn" data-name="Button" data-node-id="21:22">
+            <img src="https://www.figma.com/api/mcp/asset/8f402119-0aa2-4f52-8975-b6468947e170" alt="Gestión" width="16"
+              height="16" />
+            <span>Gestión de Proyectos</span>
+          </button>
+
+          <button class="user-avatar" data-name="Button menu" data-node-id="21:30">
+            <span>A</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+
+    <main class="main-content" data-name="Main" data-node-id="21:34">
+      <div data-name="Container" data-node-id="21:35">
+
+      </div>
+
+
+      <div data-name="Container" data-node-id="21:36">
+        <h3 class="section-title" data-node-id="21:38">
+          Gestión de Proyectos
+        </h3>
+        <p class="section-description" data-node-id="21:40">
+          Revisa y modera proyectos enviados para aprobación. Controla el
+          flujo de estados desde revisión hasta publicación.
+        </p>
+      </div>
+
+
+      <div class="stats-grid" data-name="Container" data-node-id="21:41">
+        <div class="stat-card" data-name="Background+Border" data-node-id="21:42">
+          <img src="https://www.figma.com/api/mcp/asset/cdcb5be0-55ad-433a-bb06-8744b49911d3" alt="En Revisión"
+            class="stat-icon" />
+          <div class="stat-content">
+            <h3>En Revisión</h3>
+            <div class="stat-number">3</div>
+          </div>
+        </div>
+
+        <div class="stat-card" data-name="Background+Border" data-node-id="21:54">
+          <img src="https://www.figma.com/api/mcp/asset/5d575488-1034-4f98-9c5c-b048e83294c9" alt="Observados"
+            class="stat-icon" />
+          <div class="stat-content">
+            <h3>Observados</h3>
+            <div class="stat-number">1</div>
+          </div>
+        </div>
+
+        <div class="stat-card" data-name="Background+Border" data-node-id="21:65">
+          <img src="https://www.figma.com/api/mcp/asset/385fcb8b-070d-4e7b-bc40-4871d768e867" alt="Publicados"
+            class="stat-icon" />
+          <div class="stat-content">
+            <h3>Publicados</h3>
+            <div class="stat-number">5</div>
+          </div>
+        </div>
+
+        <div class="stat-card" data-name="Background+Border" data-node-id="21:76">
+          <img src="https://www.figma.com/api/mcp/asset/6807b02d-ea79-4e13-952a-ad287c0b32d9" alt="Rechazados"
+            class="stat-icon" />
+          <div class="stat-content">
+            <h3>Rechazados</h3>
+            <div class="stat-number">1</div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="tab-container" data-name="Tabpanel" data-node-id="21:88">
+        <div class="tab-list" data-name="Tablist" data-node-id="23:2">
+          <button class="tab-button active" data-name="Tab" data-node-id="23:3">
+            Proyectos
+          </button>
+          <button class="tab-button" data-name="Tab" data-node-id="23:5">
+            Administradores
+          </button>
+        </div>
+
+
+        <div class="filters-card" data-name="Background+Border" data-node-id="21:89">
+          <div class="filters-container" data-name="Container" data-node-id="21:90">
+            <div class="search-container">
+              <input type="text" class="search-input" placeholder="Buscar proyectos por título, creador o categoría..."
+                data-name="Input" data-node-id="21:93" />
+              <img src="https://www.figma.com/api/mcp/asset/946705cf-3176-43bf-bf36-ae3c35b83478" alt="Buscar"
+                class="search-icon" />
+            </div>
+
+            <select class="filter-select" data-name="Combobox" data-node-id="21:100">
+              <option>Todos los estados</option>
+              <option>En Revisión</option>
+              <option>Publicado</option>
+              <option>Observado</option>
+              <option>Rechazado</option>
+              <option>Borrador</option>
+            </select>
+
+            <select class="filter-select" data-name="Combobox" data-node-id="21:105">
+              <option>Todas las categorías</option>
+              <option>Tecnología</option>
+              <option>Arte</option>
+              <option>Música</option>
+              <option>Ecología</option>
+              <option>Educación</option>
+              <option>Cine</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="projects-section" data-name="Background+Border" data-node-id="21:110">
+          <div class="projects-header">
+            <h4 class="projects-count" data-node-id="21:113">
+              Proyectos (12)
+            </h4>
+          </div>
+
+          <div class="projects-table" data-name="Table" data-node-id="21:115">
+
+            <div class="mobile-cards">
+
+              <div class="project-card-mobile" data-name="Row" data-node-id="21:132">
+                <div class="project-main-info">
+                  <img src="https://www.figma.com/api/mcp/asset/e48f8ad0-97a1-4fa2-957d-5596795104b5"
+                    alt="SmartWatch Revolucionario" class="project-image" />
+                  <div class="project-content">
+                    <h5 class="project-title">SmartWatch Revolucionario</h5>
+                    <p class="project-description">
+                      Un smartwatch con tecnología innovadora que monitora
+                      tu salud 24/7
+                    </p>
+                  </div>
+                </div>
+
+                <div class="project-meta">
+                  <div class="meta-item">
+                    <div class="creator-avatar">A</div>
+                    <span>Ana García</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="category-tag">Tecnología</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong>50.000 €</strong>
+                  </div>
+                  <div class="meta-item">
+                    <small>14/1/2025</small>
+                  </div>
+                </div>
+
+                <div class="project-footer">
+                  <span class="status-badge status-published">✅ Publicado</span>
+                  <div class="project-actions">
+                    <button class="action-btn">
+                      <img src="https://www.figma.com/api/mcp/asset/706a8f81-4ff3-4ffe-90a3-5a6ec166cf31" alt="Ver"
+                        class="action-icon" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="project-card-mobile" data-name="Row" data-node-id="21:161">
+                <div class="project-main-info">
+                  <img src="https://www.figma.com/api/mcp/asset/5c7051c8-7f9d-4af6-a662-bbf4ce171844"
+                    alt="Álbum Sonidos del Futuro" class="project-image" />
+                  <div class="project-content">
+                    <h5 class="project-title">
+                      Álbum "Sonidos del Futuro"
+                    </h5>
+                    <p class="project-description">
+                      Un álbum conceptual que fusiona música electrónica con
+                      sonidos naturales
+                    </p>
+                  </div>
+                </div>
+
+                <div class="project-meta">
+                  <div class="meta-item">
+                    <img src="https://www.figma.com/api/mcp/asset/c7c392a2-804a-44de-8161-388a568f7f4b"
+                      alt="Carlos López" class="creator-avatar creator-avatar-circle" />
+                    <span>Carlos López</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="category-tag">Música</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong>15.000 €</strong>
+                  </div>
+                  <div class="meta-item">
+                    <small>31/1/2025</small>
+                  </div>
+                </div>
+
+                <div class="project-footer">
+                  <span class="status-badge status-published">✅ Publicado</span>
+                  <div class="project-actions">
+                    <button class="action-btn">
+                      <img src="https://www.figma.com/api/mcp/asset/706a8f81-4ff3-4ffe-90a3-5a6ec166cf31" alt="Ver"
+                        class="action-icon" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="project-card-mobile" data-name="Row" data-node-id="21:189">
+                <div class="project-main-info">
+                  <img src="https://www.figma.com/api/mcp/asset/7b298e61-3677-4632-9f32-2a8eb595c024"
+                    alt="Instalación de Arte Interactivo" class="project-image" />
+                  <div class="project-content">
+                    <h5 class="project-title">
+                      Instalación de Arte Interactivo
+                    </h5>
+                    <p class="project-description">
+                      Una experiencia artística inmersiva que responde a las
+                      emociones del espectador
+                    </p>
+                  </div>
+                </div>
+
+                <div class="project-meta">
+                  <div class="meta-item">
+                    <div class="creator-avatar">A</div>
+                    <span>Ana García</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="category-tag">Arte</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong>25.000 €</strong>
+                  </div>
+                  <div class="meta-item">
+                    <small>19/1/2025</small>
+                  </div>
+                </div>
+
+                <div class="project-footer">
+                  <span class="status-badge status-published">✅ Publicado</span>
+                  <div class="project-actions">
+                    <button class="action-btn">
+                      <img src="https://www.figma.com/api/mcp/asset/706a8f81-4ff3-4ffe-90a3-5a6ec166cf31" alt="Ver"
+                        class="action-icon" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="project-card-mobile" data-name="Row" data-node-id="21:246">
+                <div class="project-main-info">
+                  <img src="https://www.figma.com/api/mcp/asset/d6365103-0654-4eb2-bb54-996817e57244"
+                    alt="Proyecto en Revisión" class="project-image" />
+                  <div class="project-content">
+                    <h5 class="project-title">Proyecto en Revisión</h5>
+                    <p class="project-description">
+                      Este proyecto está siendo revisado por nuestro equipo
+                    </p>
+                  </div>
+                </div>
+
+                <div class="project-meta">
+                  <div class="meta-item">
+                    <div class="creator-avatar">A</div>
+                    <span>Ana García</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="category-tag">Tecnología</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong>20.000 €</strong>
+                  </div>
+                  <div class="meta-item">
+                    <small>19/2/2025</small>
+                  </div>
+                </div>
+
+                <div class="project-footer">
+                  <span class="status-badge status-review">⏳ En Revisión</span>
+                  <div class="project-actions">
+                    <button class="action-btn">
+                      <img src="https://www.figma.com/api/mcp/asset/706a8f81-4ff3-4ffe-90a3-5a6ec166cf31" alt="Ver"
+                        class="action-icon" />
+                    </button>
+                    <button class="action-btn">
+                      <img src="https://www.figma.com/api/mcp/asset/a61629bd-d2db-4c94-9def-cb929232ae22" alt="Editar"
+                        class="action-icon" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="project-card-mobile" data-name="Row" data-node-id="21:309">
+                <div class="project-main-info">
+                  <img src="https://www.figma.com/api/mcp/asset/e54cab67-3b91-4a88-a02f-d76eacc34386"
+                    alt="Proyecto Observado" class="project-image" />
+                  <div class="project-content">
+                    <h5 class="project-title">Proyecto Observado</h5>
+                    <p class="project-description">
+                      Un proyecto que necesita correcciones
+                    </p>
+                  </div>
+                </div>
+
+                <div class="project-meta">
+                  <div class="meta-item">
+                    <div class="creator-avatar">M</div>
+                    <span>Mario Pereyra Justi…</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="category-tag">Arte</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong>12.000 €</strong>
+                  </div>
+                  <div class="meta-item">
+                    <small>17/2/2025</small>
+                  </div>
+                </div>
+
+                <div class="project-footer">
+                  <span class="status-badge status-observed">⚠️ Observado</span>
+                  <div class="project-actions">
+                    <button class="action-btn">
+                      <img src="https://www.figma.com/api/mcp/asset/706a8f81-4ff3-4ffe-90a3-5a6ec166cf31" alt="Ver"
+                        class="action-icon" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="project-card-mobile">
+                <div class="project-main-info">
+                  <div class="project-image project-image-placeholder">
+                    📽️
+                  </div>
+                  <div class="project-content">
+                    <h5 class="project-title">
+                      Documental sobre Cambio Climático
+                    </h5>
+                    <p class="project-description">
+                      Un documental que explora las soluciones innovadoras
+                      al cambio climático
+                    </p>
+                  </div>
+                </div>
+
+                <div class="project-meta">
+                  <div class="meta-item">
+                    <div class="creator-avatar">A</div>
+                    <span>Ana García</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="category-tag">Cine</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong>25.000 €</strong>
+                  </div>
+                  <div class="meta-item">
+                    <small>19/2/2025</small>
+                  </div>
+                </div>
+
+                <div class="project-footer">
+                  <span class="status-badge status-rejected">❌ Rechazado</span>
+                  <div class="project-actions">
+                    <button class="action-btn">
+                      <img src="https://www.figma.com/api/mcp/asset/706a8f81-4ff3-4ffe-90a3-5a6ec166cf31" alt="Ver"
+                        class="action-icon" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <table class="desktop-table">
+              <thead>
+                <tr>
+                  <th>Proyecto</th>
+                  <th>Creador</th>
+                  <th>Categoría</th>
+                  <th>Meta</th>
+                  <th>Estado</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="table-project-info">
+                      <img src="https://www.figma.com/api/mcp/asset/e48f8ad0-97a1-4fa2-957d-5596795104b5"
+                        alt="SmartWatch" class="project-image" />
+                      <div>
+                        <div class="project-title">
+                          SmartWatch Revolucionario
+                        </div>
+                        <div class="project-description">
+                          Un smartwatch con tecnología innovadora...
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="table-creator">
+                      <div class="creator-avatar">A</div>
+                      <span>Ana García</span>
+                    </div>
+                  </td>
+                  <td><span class="category-tag">Tecnología</span></td>
+                  <td>50.000 €</td>
+                  <td>
+                    <span class="status-badge status-published">✅ Publicado</span>
+                  </td>
+                  <td>14/1/2025</td>
+                  <td>
+                    <div class="project-actions">
+                      <button class="action-btn">
+                        <img src="https://www.figma.com/api/mcp/asset/706a8f81-4ff3-4ffe-90a3-5a6ec166cf31" alt="Ver"
+                          class="action-icon" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <div class="admin-tab-content" id="admin-tab-administradores">
+
+          <div class="create-admin-section" data-name="Background+Border" data-node-id="30:845">
+            <div class="create-admin-header" data-name="Container" data-node-id="30:846">
+              <div class="create-admin-title" data-name="Heading 4" data-node-id="30:847">
+                <img src="https://www.figma.com/api/mcp/asset/457d8da2-6cc9-4dde-aab2-64bd427b0f01" alt="Agregar"
+                  class="create-admin-icon" data-name="SVG" data-node-id="30:848" onerror="this.style.display='none'" />
+                <span>Crear Nuevo Administrador</span>
+              </div>
+            </div>
+
+            <div class="create-admin-form" data-name="Container" data-node-id="30:854">
+              <div class="admin-form-grid" data-name="Container" data-node-id="30:855">
+                <input type="text" class="admin-form-input" placeholder="Nombre completo" data-name="Input"
+                  data-node-id="30:856" />
+                <input type="email" class="admin-form-input" placeholder="correo@impulsa.me" data-name="Input"
+                  data-node-id="30:860" />
+                <input type="password" class="admin-form-input" placeholder="Contraseña" data-name="Input"
+                  data-node-id="30:864" />
+                <input type="password" class="admin-form-input" placeholder="Confirmar contraseña" data-name="Input"
+                  data-node-id="30:868" />
+                <button class="admin-submit-btn" type="button" data-name="Button" data-node-id="30:872">
+                  <img src="https://www.figma.com/api/mcp/asset/ac3ec092-98fc-43ef-b5cb-76a05c30ecbf" alt="Agregar"
+                    class="submit-btn-icon" onerror="this.style.display='none'" />
+                  <span>Agregar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="admin-search-container" data-name="Container" data-node-id="30:879">
+            <input type="text" class="admin-search-input" placeholder="Buscar por nombre o email..." data-name="Input"
+              data-node-id="30:881" />
+          </div>
+
+
+          <div class="admin-count" data-name="Container" data-node-id="30:885">
+            Administradores (8)
+          </div>
+
+
+          <div class="admin-table-container" data-name="Background+Border" data-node-id="30:887">
+
+            <div class="admin-cards-mobile">
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:897">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:899">
+                    <img src="https://www.figma.com/api/mcp/asset/5b1ac500-72cf-4c45-93f4-71c1259af8a2" alt="Ana García"
+                      onerror="this.style.display='none'; this.parentElement.innerHTML='A'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">Ana García</div>
+                    <div class="admin-email">ana.garcia@impulsa.me</div>
+                  </div>
+                </div>
+                <div class="admin-password">•••••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:910">
+                    <img src="https://www.figma.com/api/mcp/asset/b13fe9c5-bce3-4121-95c8-2d99219e9dd5" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:914">
+                    <img src="https://www.figma.com/api/mcp/asset/4aa0b150-a603-42b8-ad66-d40bf5757478" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:921">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:923">
+                    <img src="https://www.figma.com/api/mcp/asset/1753b665-fd1a-4aad-8979-1b97a634c5e4"
+                      alt="Carlos López" onerror="this.style.display='none'; this.parentElement.innerHTML='C'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">Carlos López</div>
+                    <div class="admin-email">carlos.lopez@impulsa.me</div>
+                  </div>
+                </div>
+                <div class="admin-password">••••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:934">
+                    <img src="https://www.figma.com/api/mcp/asset/98521466-da81-43e3-b010-442b822762ee" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:938">
+                    <img src="https://www.figma.com/api/mcp/asset/9dc5d7d0-eaaf-49ea-9ba5-f8634933c215" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:945">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:947">
+                    <img src="https://www.figma.com/api/mcp/asset/3dd15321-111c-47b2-8f60-40da21ceb52e"
+                      alt="María Fernández" onerror="this.style.display='none'; this.parentElement.innerHTML='M'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">María Fernández</div>
+                    <div class="admin-email">
+                      maria.fernandez@impulsa.me
+                    </div>
+                  </div>
+                </div>
+                <div class="admin-password">•••••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:958">
+                    <img src="https://www.figma.com/api/mcp/asset/f7753b3b-5c05-48f7-87a8-29052088494b" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:962">
+                    <img src="https://www.figma.com/api/mcp/asset/044f1292-e3f1-4621-9b46-c51ec5741c78" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:969">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:971">
+                    <img src="https://www.figma.com/api/mcp/asset/cacad5eb-eb73-44b1-912f-a67945358505" alt="David Ruiz"
+                      onerror="this.style.display='none'; this.parentElement.innerHTML='D'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">David Ruiz</div>
+                    <div class="admin-email">david.ruiz@impulsa.me</div>
+                  </div>
+                </div>
+                <div class="admin-password">••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:982">
+                    <img src="https://www.figma.com/api/mcp/asset/cedfd9dd-a6a2-4502-9e6b-032772d20b75" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:986">
+                    <img src="https://www.figma.com/api/mcp/asset/79d21984-52b1-47c0-be08-61f0cc29d420" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:993">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:995">
+                    <img src="https://www.figma.com/api/mcp/asset/f267e4cd-e51a-4970-8b53-99af66bae45c"
+                      alt="Laura Moreno" onerror="this.style.display='none'; this.parentElement.innerHTML='L'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">Laura Moreno</div>
+                    <div class="admin-email">laura.moreno@impulsa.me</div>
+                  </div>
+                </div>
+                <div class="admin-password">••••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:1006">
+                    <img src="https://www.figma.com/api/mcp/asset/19f78059-b5af-4e0d-90bb-6c1b248a8b20" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:1010">
+                    <img src="https://www.figma.com/api/mcp/asset/3ebce58d-4024-457c-a0a1-2228e7abd3c4" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:1017">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:1019">
+                    <img src="https://www.figma.com/api/mcp/asset/b0f6e8c6-5023-4f0c-bf58-8dc468a59251"
+                      alt="Roberto Jiménez" onerror="this.style.display='none'; this.parentElement.innerHTML='R'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">Roberto Jiménez</div>
+                    <div class="admin-email">
+                      roberto.jimenez@impulsa.me
+                    </div>
+                  </div>
+                </div>
+                <div class="admin-password">•••••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:1030">
+                    <img src="https://www.figma.com/api/mcp/asset/6b13ad0a-c752-40fa-9351-c12b670b0593" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:1034">
+                    <img src="https://www.figma.com/api/mcp/asset/0b00a8e5-3b6a-4ffb-b826-390576ce9b34" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:1041">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:1043">
+                    <img src="https://www.figma.com/api/mcp/asset/457d8da2-6cc9-4dde-aab2-64bd427b0f01"
+                      alt="Elena Vázquez" onerror="this.style.display='none'; this.parentElement.innerHTML='E'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">Elena Vázquez</div>
+                    <div class="admin-email">elena.vazquez@impulsa.me</div>
+                  </div>
+                </div>
+                <div class="admin-password">•••••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:1054">
+                    <img src="https://www.figma.com/api/mcp/asset/f104e34d-b01e-4adc-b029-56de69351c98" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:1058">
+                    <img src="https://www.figma.com/api/mcp/asset/96ac7a07-3d94-4395-904a-6881ebe47648" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="admin-card-mobile" data-name="HorizontalBorder" data-node-id="30:1065">
+                <div class="admin-main-info">
+                  <div class="admin-avatar" data-name="Background" data-node-id="30:1067">
+                    <img src="https://www.figma.com/api/mcp/asset/f9c5f42e-da23-46a0-93ac-06dc02076db5"
+                      alt="Pablo Herrera" onerror="this.style.display='none'; this.parentElement.innerHTML='P'" />
+                  </div>
+                  <div class="admin-info">
+                    <div class="admin-name">Pablo Herrera</div>
+                    <div class="admin-email">pablo.herrera@impulsa.me</div>
+                  </div>
+                </div>
+                <div class="admin-password">•••••••••••</div>
+                <div class="admin-actions">
+                  <button class="admin-action-btn" data-name="Button" data-node-id="30:1078">
+                    <img src="https://www.figma.com/api/mcp/asset/98c40afb-595b-478a-b50b-a876cc50dfaa" alt="Editar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                  <button class="admin-action-btn" data-name="Button dialog" data-node-id="30:1082">
+                    <img src="https://www.figma.com/api/mcp/asset/4e9b22a6-3687-4b58-89bf-ad510a8aba17" alt="Eliminar"
+                      class="admin-action-icon" onerror="this.style.display='none'" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+            <table class="admin-table-desktop">
+              <thead data-name="Background+HorizontalBorder" data-node-id="30:888">
+                <tr>
+                  <th data-name="Container" data-node-id="30:889">
+                    Administrador
+                  </th>
+                  <th data-name="Container" data-node-id="30:891">Email</th>
+                  <th data-name="Container" data-node-id="30:893">
+                    Contraseña
+                  </th>
+                  <th data-name="Container" data-node-id="30:895">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-name="HorizontalBorder" data-node-id="30:897">
+                  <td>
+                    <div class="table-admin-info">
+                      <div class="table-admin-avatar">
+                        <img src="https://www.figma.com/api/mcp/asset/5b1ac500-72cf-4c45-93f4-71c1259af8a2"
+                          alt="Ana García" onerror="this.style.display='none'; this.parentElement.innerHTML='A'" />
+                      </div>
+                      <span>Ana García</span>
+                    </div>
+                  </td>
+                  <td>ana.garcia@impulsa.me</td>
+                  <td>•••••••••••</td>
+                  <td>
+                    <div class="admin-actions">
+                      <button class="admin-action-btn">
+                        <img src="https://www.figma.com/api/mcp/asset/b13fe9c5-bce3-4121-95c8-2d99219e9dd5" alt="Editar"
+                          class="admin-action-icon" />
+                      </button>
+                      <button class="admin-action-btn">
+                        <img src="https://www.figma.com/api/mcp/asset/4aa0b150-a603-42b8-ad66-d40bf5757478"
+                          alt="Eliminar" class="admin-action-icon" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  </div>
+  </main>
+  </div>
+
+  <script>
+    // Mobile-first JavaScript functionality
+    document.addEventListener("DOMContentLoaded", function () {
+      console.log("🔧 Panel Administrativo cargado - Mobile First");
+
+      // Tab functionality
+      const tabButtons = document.querySelectorAll(".tab-button");
+      const projectsSection = document.querySelector(".projects-section");
+      const adminTabContent = document.querySelector(".admin-tab-content");
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          // Remove active class from all tabs
+          tabButtons.forEach((tab) => tab.classList.remove("active"));
+          // Add active class to clicked tab
+          this.classList.add("active");
+
+          const tabText = this.textContent.trim();
+          console.log("Tab cambiado a:", tabText);
+
+          // Show/hide content based on tab
+          if (tabText === "Proyectos") {
+            projectsSection.style.display = "block";
+            if (adminTabContent) adminTabContent.classList.remove("active");
+          } else if (tabText === "Administradores") {
+            projectsSection.style.display = "none";
+            if (adminTabContent) adminTabContent.classList.add("active");
+          }
+        });
+      });
+
+      // Search functionality
+      const searchInput = document.querySelector(".search-input");
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          const query = this.value.toLowerCase();
+          console.log("Buscando:", query);
+          // Add search logic here
+        });
+      }
+
+      // Filter functionality
+      const filterSelects = document.querySelectorAll(".filter-select");
+      filterSelects.forEach((select) => {
+        select.addEventListener("change", function () {
+          console.log("Filtro cambiado:", this.value);
+          // Add filter logic here
+        });
+      });
+
+      // Action buttons
+      const actionButtons = document.querySelectorAll(".action-btn");
+      actionButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          console.log("Acción ejecutada en proyecto");
+
+          // Visual feedback
+          this.style.transform = "scale(0.95)";
+          setTimeout(() => {
+            this.style.transform = "";
+          }, 150);
+        });
+      });
+
+      // User avatar menu
+      const userAvatar = document.querySelector(".user-avatar");
+      if (userAvatar) {
+        userAvatar.addEventListener("click", function () {
+          console.log("Menu de usuario clicked");
+          // Add user menu logic here
+        });
+      }
+
+      // Stats card interactions
+      const statCards = document.querySelectorAll(".stat-card");
+      statCards.forEach((card) => {
+        card.addEventListener("click", function () {
+          const statType = this.querySelector("h3").textContent;
+          console.log("Filtrar por estado:", statType);
+          // Add filtering by stat type logic here
+        });
+      });
+
+      // Management button
+      const managementBtn = document.querySelector(".management-btn");
+      if (managementBtn) {
+        managementBtn.addEventListener("click", function () {
+          console.log("Gestión de proyectos clicked");
+          // Add management functionality here
+        });
+      }
+
+      // Responsive breakpoint detection
+      const checkBreakpoint = () => {
+        const width = window.innerWidth;
+        if (width >= 1024) {
+          console.log("Desktop view active");
+        } else if (width >= 768) {
+          console.log("Tablet view active");
+        } else {
+          console.log("Mobile view active");
+        }
+      };
+
+      // Check on load and resize
+      checkBreakpoint();
+      window.addEventListener("resize", checkBreakpoint);
+
+      // Image loading fallbacks
+      const images = document.querySelectorAll('img[src*="figma.com"]');
+      images.forEach((img) => {
+        img.addEventListener("error", function () {
+          console.warn("⚠️ Imagen no disponible:", this.alt);
+        });
+
+        img.addEventListener("load", function () {
+          console.log("✅ Imagen cargada:", this.alt);
+        });
+      });
+
+      // Admin form functionality
+      const adminForm = document.querySelectorAll(".admin-form-input");
+      const adminSubmitBtn = document.querySelector(".admin-submit-btn");
+      const adminSearchInput = document.querySelector(".admin-search-input");
+
+      // Admin form validation
+      if (adminForm.length > 0 && adminSubmitBtn) {
+        adminForm.forEach((input) => {
+          input.addEventListener("input", function () {
+            validateAdminForm();
+          });
+        });
+
+        adminSubmitBtn.addEventListener("click", function () {
+          if (validateAdminForm()) {
+            console.log("🔧 Crear nuevo administrador");
+            // Add admin creation logic here
+
+            // Visual feedback
+            this.style.transform = "scale(0.95)";
+            setTimeout(() => {
+              this.style.transform = "";
+            }, 150);
+          }
+        });
+      }
+
+      // Admin search functionality
+      if (adminSearchInput) {
+        adminSearchInput.addEventListener("input", function () {
+          const query = this.value.toLowerCase();
+          console.log("🔍 Buscando administrador:", query);
+          filterAdminCards(query);
+        });
+      }
+
+      // Admin action buttons
+      const adminActionButtons =
+        document.querySelectorAll(".admin-action-btn");
+      adminActionButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          const isEdit = this.querySelector('img[alt="Editar"]');
+          const isDelete = this.querySelector('img[alt="Eliminar"]');
+
+          if (isEdit) {
+            console.log("✏️ Editar administrador");
+          } else if (isDelete) {
+            console.log("🗑️ Eliminar administrador");
+          }
+
+          // Visual feedback
+          this.style.transform = "scale(0.9)";
+          setTimeout(() => {
+            this.style.transform = "";
+          }, 100);
+        });
+      });
+
+      console.log("📱 Sistema responsive inicializado");
+      console.log(
+        "📊 Total de proyectos mostrados:",
+        document.querySelectorAll(".project-card-mobile").length
+      );
+      console.log(
+        "👥 Total de administradores mostrados:",
+        document.querySelectorAll(".admin-card-mobile").length
+      );
+    });
+
+    // Utility functions for mobile interactions
+    function toggleMobileMenu() {
+      console.log("Toggle mobile menu");
+    }
+
+    function filterProjects(type) {
+      console.log("Filtrar proyectos por:", type);
+    }
+
+    function approveProject(projectId) {
+      console.log("Aprobar proyecto:", projectId);
+    }
+
+    function rejectProject(projectId) {
+      console.log("Rechazar proyecto:", projectId);
+    }
+
+    // Admin management functions
+    function validateAdminForm() {
+      const inputs = document.querySelectorAll(".admin-form-input");
+      const submitBtn = document.querySelector(".admin-submit-btn");
+      let isValid = true;
+
+      inputs.forEach((input) => {
+        if (!input.value.trim()) {
+          isValid = false;
+        }
+      });
+
+      // Password confirmation validation
+      const password = inputs[2]?.value;
+      const confirmPassword = inputs[3]?.value;
+      if (password !== confirmPassword) {
+        isValid = false;
+      }
+
+      // Update submit button state
+      if (submitBtn) {
+        submitBtn.style.opacity = isValid ? "1" : "0.5";
+        submitBtn.disabled = !isValid;
+      }
+
+      return isValid;
+    }
+
+    function filterAdminCards(query) {
+      const adminCards = document.querySelectorAll(".admin-card-mobile");
+
+      adminCards.forEach((card) => {
+        const name =
+          card.querySelector(".admin-name")?.textContent.toLowerCase() || "";
+        const email =
+          card.querySelector(".admin-email")?.textContent.toLowerCase() || "";
+
+        const matches = name.includes(query) || email.includes(query);
+        card.style.display = matches ? "block" : "none";
+
+        if (matches) {
+          card.style.animation = "fadeInUp 0.3s ease-out";
+        }
+      });
+
+      // Update desktop table if visible
+      const desktopTable = document.querySelector(".admin-table-desktop");
+      if (desktopTable && window.innerWidth >= 1024) {
+        const rows = desktopTable.querySelectorAll("tbody tr");
+        rows.forEach((row) => {
+          const name = row.cells[0]?.textContent.toLowerCase() || "";
+          const email = row.cells[1]?.textContent.toLowerCase() || "";
+
+          const matches = name.includes(query) || email.includes(query);
+          row.style.display = matches ? "" : "none";
+        });
+      }
+    }
+
+    function createNewAdmin(adminData) {
+      console.log("Creando nuevo administrador:", adminData);
+      // Add admin creation logic here
+    }
+
+    function editAdmin(adminId) {
+      console.log("Editando administrador:", adminId);
+      // Add admin editing logic here
+    }
+
+    function deleteAdmin(adminId) {
+      console.log("Eliminando administrador:", adminId);
+      // Add admin deletion logic here
+    }
+  </script>
+</body>
+
+</html>

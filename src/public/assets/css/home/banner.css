@@ -1,0 +1,54 @@
+@import url("../tokens.css");
+
+.hero-banner {
+  width: 100%;
+  margin: 0;
+}
+.hero-banner__img {
+  width: 100%;
+  object-fit: contain;
+  opacity: 0.45;
+}
+.banner-content {
+  background-color: var(--bg-secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--spacing-8);
+  font-family: var(--font-family-primary);
+}
+.banner-content p {
+  color: var(--text-secondary);
+  margin: var(--spacing-4) 0;
+}
+.banner-content-container__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+@media (max-width: 425px) {
+  .banner-content {
+    padding: var(--spacing-6);
+  }
+
+  .banner-content h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .banner-content p {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+  .banner-content {
+    padding: var(--spacing-7);
+  }
+
+  .banner-content h1 {
+    font-size: var(--text-3xl);
+  }
+}

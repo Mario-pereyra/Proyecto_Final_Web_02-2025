@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donadores del Proyecto - SmartWatch Revolucionario</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./assets/css/detail/detail.css" />
+  <link rel="stylesheet" href="./assets/css/donors.css" />
+</head>
+
+<body>
+  <a href="detail.html" class="back-button" aria-label="Volver al detalle del proyecto">
+    <iconify-icon icon="ic:round-arrow-back"></iconify-icon>
+  </a>
+
+  <div class="page">
+    <main class="container">
+      <header class="donors-header">
+        <h1 class="donors__title">Donadores del Proyecto</h1>
+        <p class="donors__subtitle">SmartWatch Revolucionario</p>
+
+        <div class="donors-stats">
+          <div class="stat">
+            <div class="stat__val">10</div>
+            <div class="stat__label">Total Donadores</div>
+          </div>
+          <div class="stat">
+            <div class="stat__val">37.500&nbsp;€</div>
+            <div class="stat__label">Total Recaudado</div>
+          </div>
+          <div class="stat">
+            <div class="stat__val">3.750&nbsp;€</div>
+            <div class="stat__label">Donación Promedio</div>
+          </div>
+        </div>
+      </header>
+
+      <section class="card">
+        <div class="donors-filters">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="high">Más de 500€</button>
+          <button class="filter-btn" data-filter="medium">100-500€</button>
+          <button class="filter-btn" data-filter="low">Menos de 100€</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card__title">Lista de Donadores</h2>
+
+        <div class="donors-list">
+          <article class="donor-card" data-amount="high">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">C</div>
+              <div class="donor-badge donor-badge--gold">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Carlos López</h3>
+                <span class="donor-amount">500&nbsp;€</span>
+              </div>
+
+              <p class="donor-message">
+                "¡Excelente proyecto! Espero que tenga mucho éxito. La tecnología de monitoreo cardíaco es el futuro."
+              </p>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-02-14">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  14 de febrero de 2025
+                </time>
+                <span class="donor-level">Donador Oro</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="medium">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">M</div>
+              <div class="donor-badge donor-badge--silver">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">María Rodríguez</h3>
+                <span class="donor-amount">250&nbsp;€</span>
+              </div>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-02-15">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  15 de febrero de 2025
+                </time>
+                <span class="donor-level">Donador Plata</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="high">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">J</div>
+              <div class="donor-badge donor-badge--gold">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Juan Martínez</h3>
+                <span class="donor-amount">750&nbsp;€</span>
+              </div>
+
+              <p class="donor-message">
+                "Como médico, veo un potencial increíble en este dispositivo. ¡Felicidades al equipo!"
+              </p>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-02-10">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  10 de febrero de 2025
+                </time>
+                <span class="donor-level">Donador Oro</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="medium">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">A</div>
+              <div class="donor-badge donor-badge--silver">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Ana Sánchez</h3>
+                <span class="donor-amount">150&nbsp;€</span>
+              </div>
+
+              <p class="donor-message">
+                "Mi padre podría beneficiarse mucho de esta tecnología. ¡Gracias por hacerlo posible!"
+              </p>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-02-08">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  8 de febrero de 2025
+                </time>
+                <span class="donor-level">Donador Plata</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="low">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">L</div>
+              <div class="donor-badge donor-badge--bronze">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Luis Gómez</h3>
+                <span class="donor-amount">50&nbsp;€</span>
+              </div>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-02-05">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  5 de febrero de 2025
+                </time>
+                <span class="donor-level">Donador Bronce</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="high">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">P</div>
+              <div class="donor-badge donor-badge--gold">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Patricia Fernández</h3>
+                <span class="donor-amount">1.000&nbsp;€</span>
+              </div>
+
+              <p class="donor-message">
+                "Invertir en salud es siempre una buena decisión. Este proyecto tiene mi total apoyo."
+              </p>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-02-01">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  1 de febrero de 2025
+                </time>
+                <span class="donor-level">Donador Oro</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="medium">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">R</div>
+              <div class="donor-badge donor-badge--silver">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Roberto Díaz</h3>
+                <span class="donor-amount">300&nbsp;€</span>
+              </div>
+
+              <p class="donor-message">
+                "La innovación tecnológica en el campo médico es fundamental. ¡Adelante!"
+              </p>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-01-28">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  28 de enero de 2025
+                </time>
+                <span class="donor-level">Donador Plata</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="low">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">S</div>
+              <div class="donor-badge donor-badge--bronze">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Sofía Herrera</h3>
+                <span class="donor-amount">75&nbsp;€</span>
+              </div>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-01-25">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  25 de enero de 2025
+                </time>
+                <span class="donor-level">Donador Bronce</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="medium">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">D</div>
+              <div class="donor-badge donor-badge--silver">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">David Morales</h3>
+                <span class="donor-amount">200&nbsp;€</span>
+              </div>
+
+              <p class="donor-message">
+                "Como ingeniero de software, admiro la integración de IA en dispositivos wearable."
+              </p>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-01-22">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  22 de enero de 2025
+                </time>
+                <span class="donor-level">Donador Plata</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="donor-card" data-amount="low">
+            <div class="donor-avatar">
+              <div class="avatar avatar--md" aria-hidden="true">E</div>
+              <div class="donor-badge donor-badge--bronze">
+                <iconify-icon icon="ic:round-star"></iconify-icon>
+              </div>
+            </div>
+
+            <div class="donor-info">
+              <div class="donor-top">
+                <h3 class="donor-name">Elena Vargas</h3>
+                <span class="donor-amount">25&nbsp;€</span>
+              </div>
+
+              <div class="donor-meta">
+                <time class="donor-date" datetime="2025-01-20">
+                  <iconify-icon icon="ic:round-calendar-today" class="icon"></iconify-icon>
+                  20 de enero de 2025
+                </time>
+                <span class="donor-level">Donador Bronce</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card__title">Niveles de Donación</h2>
+
+        <div class="donation-levels">
+          <div class="level-card level-card--gold">
+            <div class="level-icon">
+              <iconify-icon icon="ic:round-star"></iconify-icon>
+            </div>
+            <h3 class="level-title">Donador Oro</h3>
+            <p class="level-description">A partir de 500€</p>
+            <ul class="level-benefits">
+              <li>Mención especial en el proyecto</li>
+              <li>Acceso anticipado a actualizaciones</li>
+              <li>Descuento especial en el producto</li>
+            </ul>
+          </div>
+
+          <div class="level-card level-card--silver">
+            <div class="level-icon">
+              <iconify-icon icon="ic:round-star"></iconify-icon>
+            </div>
+            <h3 class="level-title">Donador Plata</h3>
+            <p class="level-description">De 100€ a 499€</p>
+            <ul class="level-benefits">
+              <li>Mención en la web del proyecto</li>
+              <li>Acceso a actualizaciones exclusivas</li>
+              <li>Agradecimiento personalizado</li>
+            </ul>
+          </div>
+
+          <div class="level-card level-card--bronze">
+            <div class="level-icon">
+              <iconify-icon icon="ic:round-star"></iconify-icon>
+            </div>
+            <h3 class="level-title">Donador Bronce</h3>
+            <p class="level-description">Hasta 99€</p>
+            <ul class="level-benefits">
+              <li>Agradecimiento en la web</li>
+              <li>Acceso a actualizaciones generales</li>
+              <li>Participación en la comunidad</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  <script src="./assets/js/donors.js"></script>
+</body>
+
+</html>

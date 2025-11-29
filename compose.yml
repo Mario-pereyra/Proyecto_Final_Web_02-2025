@@ -1,0 +1,40 @@
+
+networks:
+  app-network:
+    driver: bridge
+      
+
+services:
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - MYSQL_HOST=mariadb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=agenda_db
+      - MYSQL_PORT=3306
+      - NODE_ENV=development
+      - PORT=3000
+      - UPLOADS_PATH=uploads
+    depends_on:
+      - mariadb
+    volumes:
+      - ./files:/app/uploads
+    networks:
+      - app-network

@@ -1,0 +1,26 @@
+:root {
+  --primary-color: var(--color-primary);
+  --secondary-color: var(--color-primary);
+
+  --white-primary: var(--color-white);
+  --grey-primary: var(--color-gray-100);
+  --grey-secondary: var(--border-color);
+  --grey-tertiary: var(--color-gray-700);
+
+  --font-primary: var(--text-primary);
+  --font-secondary: var(--text-secondary);
+  --font-tertiary: var(--text-tertiary);
+  --font-white: var(--text-white);
+
+  --btn-primary-bg: var(--color-primary);
+  --btn-primary-hover: var(--color-primary-hover);
+  --btn-secondary-bg: transparent;
+  --btn-secondary-border: var(--color-primary);
+  --btn-secondary-hover: var(--color-gray-100);
+
+  --background-color: var(--bg-secondary);
+  --card-background: var(--bg-primary);
+
+  --error-color: var(--color-error);
+  --success-color: var(--color-success);
+}

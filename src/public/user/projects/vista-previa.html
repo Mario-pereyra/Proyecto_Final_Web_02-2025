@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vista Previa - Impulsa.me</title>
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+    <link rel="stylesheet" href="../../assets/css/projects/create-project.css" />
+    <style>
+        .preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .preview-header {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-card);
+            padding: var(--spacing-6);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .preview-title {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-3) 0;
+        }
+
+        .preview-meta {
+            display: flex;
+            gap: var(--spacing-4);
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .preview-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-1);
+        }
+
+        .preview-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-card);
+            padding: var(--spacing-6);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .preview-section-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-4) 0;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+        }
+
+        .preview-image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--spacing-3);
+        }
+
+        .preview-image {
+            aspect-ratio: 16/9;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-image.is-cover::after {
+            content: "Portada";
+            position: absolute;
+            bottom: var(--spacing-2);
+            left: var(--spacing-2);
+            background: var(--color-primary);
+            color: white;
+            padding: var(--spacing-1) var(--spacing-2);
+            border-radius: var(--radius-button);
+            font-size: var(--text-xs);
+            font-weight: var(--font-semibold);
+        }
+
+        .preview-content {
+            line-height: var(--leading-relaxed);
+        }
+
+        .preview-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-6);
+            padding: var(--spacing-6);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-card);
+            position: sticky;
+            bottom: var(--spacing-4);
+        }
+
+        .actions-group {
+            display: flex;
+            gap: var(--spacing-2);
+        }
+
+        @media (max-width: 768px) {
+            .preview-actions {
+                flex-direction: column;
+            }
+
+            .actions-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body class="create-project-container">
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="logo-container">
+            <figure class="logo-figure">
+                <a href="../index.html" class="logo-link">
+                    <img src="../../assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-img" />
+                </a>
+                <figcaption class="logo-caption">Impulsa.me - Inicio</figcaption>
+            </figure>
+        </div>
+
+        <nav class="main-nav">
+            <ul class="nav__list">
+                <li class="nav__list__item">
+                    <a href="../index.html" class="btn btn--secondary">
+                        <iconify-icon icon="ic:round-home"></iconify-icon>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="nav__list__item">
+                    <a href="../explore.html" class="btn btn--secondary">
+                        <iconify-icon icon="ic:round-trending-up"></iconify-icon>
+                        <span>Explorar</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <a href="../dashboard.html" class="btn btn--secondary">
+                <iconify-icon icon="ic:round-dashboard" width="24" height="24"></iconify-icon>
+                <p>Dashboard</p>
+            </a>
+            <a href="#" class="btn btn--primary">
+                <iconify-icon icon="ic:round-add-circle" width="24" height="24"></iconify-icon>
+                <p>Crear Proyecto</p>
+            </a>
+        </div>
+
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+            <iconify-icon icon="ic:round-menu" width="24" height="24"></iconify-icon>
+        </button>
+    </header>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Side Menu -->
+    <nav class="side-menu" id="sideMenu">
+        <button class="close-btn" id="closeBtn" aria-label="Cerrar menú">
+            <iconify-icon icon="ic:round-close"></iconify-icon>
+        </button>
+
+        <div class="menu-content">
+            <div class="menu-section">
+                <h3>Navegación</h3>
+                <ul class="menu-nav-list">
+                    <li>
+                        <a href="../index.html" class="menu-link">Inicio</a>
+                    </li>
+                    <li><a href="../explore.html" class="menu-link">Explorar</a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <h3>Cuenta</h3>
+                <div class="menu-actions">
+                    <a href="../dashboard.html" class="btn btn--secondary menu-btn">Dashboard</a>
+                    <a href="./crear-proyecto-paso1.html" class="btn btn--primary menu-btn">Crear Proyecto</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="create-project-main">
+        <!-- Back Button -->
+        <nav class="back-section" aria-label="Navegación secundaria">
+            <a href="./crear-proyecto-paso5.html" class="back-btn">
+                <iconify-icon icon="ic:round-arrow-back" width="20" height="20"></iconify-icon>
+                Volver a editar
+            </a>
+        </nav>
+
+        <!-- Page Title -->
+        <h1 class="page-title">Vista Previa del Proyecto</h1>
+
+        <!-- Preview Container -->
+        <div class="preview-container">
+            <!-- Header -->
+            <div class="preview-header">
+                <h2 class="preview-title" id="previewTitle">Título del Proyecto</h2>
+                <div class="preview-meta">
+                    <span class="preview-meta-item">
+                        <iconify-icon icon="ic:round-category" width="16"></iconify-icon>
+                        <span id="previewCategory">Categoría</span>
+                    </span>
+                    <span class="preview-meta-item">
+                        <iconify-icon icon="ic:round-account-balance-wallet" width="16"></iconify-icon>
+                        <span id="previewGoal">Meta: 0 Bs</span>
+                    </span>
+                    <span class="preview-meta-item">
+                        <iconify-icon icon="ic:round-calendar-today" width="16"></iconify-icon>
+                        <span id="previewDates">Fechas</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Descripción Corta -->
+            <div class="preview-section">
+                <h3 class="preview-section-title">
+                    <iconify-icon icon="ic:round-description"></iconify-icon>
+                    Descripción
+                </h3>
+                <p id="previewSummary">Descripción corta del proyecto...</p>
+            </div>
+
+            <!-- Imágenes -->
+            <div class="preview-section">
+                <h3 class="preview-section-title">
+                    <iconify-icon icon="ic:round-image"></iconify-icon>
+                    Imágenes
+                </h3>
+                <div class="preview-image-grid" id="previewImages"></div>
+            </div>
+
+            <!-- Descripción Detallada -->
+            <div class="preview-section">
+                <h3 class="preview-section-title">
+                    <iconify-icon icon="ic:round-article"></iconify-icon>
+                    Historia del Proyecto
+                </h3>
+                <div class="preview-content" id="previewContent"></div>
+            </div>
+
+            <!-- Requisitos -->
+            <div class="preview-section" id="previewRequirementsSection" style="display: none;">
+                <h3 class="preview-section-title">
+                    <iconify-icon icon="ic:round-check-circle"></iconify-icon>
+                    Requisitos Completados
+                </h3>
+                <div id="previewRequirements"></div>
+            </div>
+
+            <!-- Actions -->
+            <div class="preview-actions">
+                <button type="button" class="btn btn--ghost btn--icon" id="btnEditar">
+                    <iconify-icon icon="ic:round-edit" width="20"></iconify-icon>
+                    <span>Editar Proyecto</span>
+                </button>
+                <div class="actions-group">
+                    <button type="button" class="btn btn--secondary btn--icon" id="btnGuardarBorrador">
+                        <iconify-icon icon="ic:round-save" width="20"></iconify-icon>
+                        <span>Guardar Borrador</span>
+                    </button>
+                    <button type="button" class="btn btn--primary btn--icon" id="btnPublicar">
+                        <iconify-icon icon="ic:round-send" width="20"></iconify-icon>
+                        <span>Publicar Proyecto</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <script src="../../assets/js/common/ui-components.js"></script>
+    <script src="./vista-previa.js"></script>
+</body>
+
+</html>

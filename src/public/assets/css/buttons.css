@@ -1,0 +1,80 @@
+@import url("./tokens.css");
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  border-radius: var(--radius-button);
+  margin: 0;
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-family: var(--font-family-primary);
+  transition: var(--transition-normal);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--text-white);
+  border-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.btn--secondary {
+  color: var(--color-primary);
+  background-color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-gray-100);
+}
+
+.btn--ghost {
+  color: var(--text-primary);
+  background-color: var(--color-white);
+  border-color: var(--border-color);
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-gray-100);
+}
+
+.btn--small {
+  padding: var(--btn-padding-sm-y) var(--btn-padding-sm-x);
+  font-size: var(--text-xs);
+}
+
+.btn--large {
+  padding: var(--btn-padding-lg-y) var(--btn-padding-lg-x);
+  font-size: var(--text-lg);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--icon {
+  gap: var(--spacing-1);
+}
+
+.btn:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -135,7 +135,7 @@ flowchart LR
 ### 7.2 Proyectos
 
 - Crear/editar con **editor.js** (se guarda `description_json` completo).
-- Subir **imágenes** (UUID, máx. 10, una `is_cover=TRUE`).
+- Subir **imágenes** (UUID, máx. , una `is_cover=TRUE`).
 - Asignar **categoría**, **meta** (DECIMAL(12,2) Bs), **end_date** (DATE).
 - Enviar a **revisión**; recibir **observaciones** (historial).
 - **Publicación** o **rechazo** por admin.
@@ -253,7 +253,7 @@ SELECT
 
 ## 10) Seguridad
 
-- **Tokens:** permitir reenvío **a clic del usuario** cada **1 minuto** si el anterior **no se usó**.
+- **Tokens:** permitir reenvío **a clic del usuario** cada **5 minutos** si el anterior **no se usó**.
 - **Logs:** conservar `audit_logs` y los callbacks de la pasarela (éxito/fallo) en `donations.gateway_response`.
 
 ---
@@ -278,16 +278,12 @@ DATABASE_URL=postgres://postgres:master123@localhost:5432/db_impulsame
 
 ### 12.2 Migraciones
 
-1. Crear BD y extensiones requeridas.
+1. Crear BD 
 2. Ejecutar el **DDL** (`db_impulsame.sql`).
-3. Cargar **seeds** (`seeds.sql`).
+
 
 ---
 
-## 13) Integraciones de media (editor.js)
-
-- El bloque de **video** sube al backend → backend guarda y devuelve URL → editor.js la embebe y se persiste el **JSON completo** en `projects.description_json`.
-- **Imágenes** en `project_images` con `position` y `is_cover` (única).
 
 ---
 
