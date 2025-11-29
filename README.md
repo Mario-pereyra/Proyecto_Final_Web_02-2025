@@ -179,7 +179,7 @@ flowchart LR
 - **categories**: catálogo simple.
 - **category_requirements**: `required`, `is_active`, `retired_at`, `retire_reason`; **unique** `(category_id, code)` solo con `is_active=TRUE`.
 - **projects**: `id(bigserial), owner_id, category_id, title, summary, description_json(JSONB), goal_amount, end_date, approval_status, campaign_state, published_at, deleted_at`.
--- **project_images**: `id(BIGSERIAL), project_id, url, position(1..10), is_cover`.
+  -- **project_images**: `id(BIGSERIAL), project_id, url, position(1..10), is_cover`.
 - **project_observations**: `project_id, admin_id, title, description_json`.
 - **project_requirement_answers**: `project_id, requirement_id (ON DELETE RESTRICT), value_text/json, file_url`.
 - **donations**: `user_id, project_id, amount, status, payment_method, payment_reference, gateway_response, confirmed_at`.

@@ -19,10 +19,14 @@
     "@editorjs/table": "^2.4.5",
     "@editorjs/warning": "^1.4.1",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "multer": "^2.0.2",
     "node": "^25.1.0",
     "nodemailer": "^7.0.10",
+    "patch": "^0.0.1",
     "pg": "^8.16.3"
   }
 }
