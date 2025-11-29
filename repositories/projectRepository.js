@@ -228,5 +228,51 @@ module.exports = {
     
     const result = await pool.query(query, [projectId, userId]);
     return result.rows[0];
+  },
+
+  /**
+   * Actualizar proyecto existente
+   */
+  async update(projectId, userId, projectData) {
+    const {
+      title,
+      summary,
+      description_json,
+      goal_amount,
+      start_date,
+      end_date,
+      approval_status,
+      category_id
+    } = projectData;
+    
+    const query = `
+      UPDATE projects SET
+        title = $1,
+        summary = $2,
+        description_json = $3,
+        goal_amount = $4,
+        start_date = $5,
+        end_date = $6,
+        approval_status = $7,
+        category_id = $8
+      WHERE id = $9 AND owner_id = $10 AND deleted_at IS NULL
+      RETURNING id, title, summary, goal_amount, approval_status, created_at
+    `;
+    
+    const values = [
+      title,
+      summary,
+      typeof description_json === 'string' ? description_json : JSON.stringify(description_json),
+      goal_amount,
+      start_date,
+      end_date,
+      approval_status,
+      category_id,
+      projectId,
+      userId
+    ];
+    
+    const result = await pool.query(query, values);
+    return result.rows[0];
   }
 };

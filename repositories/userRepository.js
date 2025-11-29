@@ -1,10 +1,7 @@
-const { dbConnectiion } = require("../db/dbConnection");
+const pool = require("../db/dbConnection");
 
-let connection = null;
-
-const getConnection = async () => {
-  connection = connection || (await dbConnectiion());
-  return connection;
+const getConnection = () => {
+  return pool;
 };
 
 exports.getUsers = async () => {

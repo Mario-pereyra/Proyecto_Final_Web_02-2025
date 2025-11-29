@@ -41,7 +41,7 @@
         <iconify-icon icon="ic:round-assessment" width="24" height="24"></iconify-icon>
         <p>Mis Proyectos</p>
       </a>
-      <a href="#" class="btn btn--secondary" onclick="alert('Función de crear proyecto próximamente')">
+      <a href="../CreacionDeProyectos/wizard-proyecto.html" class="btn btn--secondary">
         <iconify-icon icon="ic:round-add-circle" width="24" height="24"></iconify-icon>
         <p>Crear Proyecto</p>
       </a>
@@ -89,8 +89,7 @@
         <h3>Cuenta</h3>
         <div class="menu-actions">
           <a href="./dashboard.html#proyectos" class="btn btn--secondary menu-btn">Mis Proyectos</a>
-          <a href="#" class="btn btn--secondary menu-btn"
-            onclick="alert('Función de crear proyecto próximamente')">Crear Proyecto</a>
+          <a href="../CreacionDeProyectos/wizard-proyecto.html" class="btn btn--secondary menu-btn">Crear Proyecto</a>
           <a href="./dashboard.html#favoritos" class="btn btn--secondary menu-btn">Favoritos</a>
           <a href="./dashboard.html#aportes" class="btn btn--secondary menu-btn">Mis Aportes</a>
           <a href="./index.html" class="btn btn--secondary menu-btn">Mi Cuenta</a>
@@ -109,8 +108,9 @@
           </p>
         </div>
 
-        <button class="btn btn--primary btn--icon" type="button" onclick="alert('Pressed!')">
-          <iconify-icon icon="ic:round-add-circle" class="icon icon--lg"></iconify-icon>
+        <button class="btn btn--primary btn--icon" type="button"
+          onclick="window.location.href='../CreacionDeProyectos/wizard-proyecto.html'"> <iconify-icon
+            icon="ic:round-add-circle" class="icon icon--lg"></iconify-icon>
           <span>Nuevo Proyecto</span>
         </button>
       </header>

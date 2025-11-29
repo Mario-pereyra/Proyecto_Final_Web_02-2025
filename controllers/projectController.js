@@ -175,13 +175,67 @@ exports.getProjectById = async (req, res) => {
 
 /**
  * PATCH /api/projects/:id
- * Actualizar proyecto (placeholder para futuro)
+ * Actualizar proyecto existente
  */
 exports.updateProject = async (req, res) => {
-  res.status(501).json({
-    success: false,
-    message: 'Funcionalidad no implementada aún'
-  });
+  try {
+    const { id } = req.params;
+    const userId = req.user ? req.user.id : 1; // Temporal: hardcoded user
+    const {
+      title,
+      summary,
+      category_id,
+      description_json,
+      goal_amount,
+      start_date,
+      end_date,
+      approval_status
+    } = req.body;
+
+    // Validaciones básicas
+    if (!title || !category_id || !goal_amount || !end_date) {
+      return res.status(400).json({
+        success: false,
+        message: 'Faltan campos obligatorios: title, category_id, goal_amount, end_date'
+      });
+    }
+
+    // Actualizar proyecto
+    const updatedProject = await projectRepository.update(id, userId, {
+      title,
+      summary,
+      category_id: parseInt(category_id),
+      description_json: description_json ? JSON.parse(description_json) : {},
+      goal_amount: parseFloat(goal_amount),
+      start_date,
+      end_date,
+      approval_status: approval_status || 'borrador'
+    });
+
+    if (!updatedProject) {
+      return res.status(404).json({
+        success: false,
+        message: 'Proyecto no encontrado o no tienes permisos para editarlo'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: approval_status === 'borrador'
+        ? 'Borrador actualizado correctamente'
+        : 'Proyecto actualizado y enviado para revisión',
+      projectId: id,
+      project: updatedProject
+    });
+
+  } catch (error) {
+    console.error('Error al actualizar proyecto:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al actualizar el proyecto',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
 };
 
 /**
