@@ -99,8 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return { valid: true };
   }
 
-  // Validar fecha límite
-  function validateDeadline(value) {
+  // Validar fecha límite (end_date)
+  function validateEndDate(value) {
     if (!value) {
       return {
         valid: false,
@@ -134,9 +134,9 @@ document.addEventListener("DOMContentLoaded", function () {
       return goalValidation;
     }
 
-    const deadlineValidation = validateDeadline(fechaInput.value);
-    if (!deadlineValidation.valid) {
-      return deadlineValidation;
+    const endDateValidation = validateEndDate(fechaInput.value);
+    if (!endDateValidation.valid) {
+      return endDateValidation;
     }
 
     return { valid: true };
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   fechaInput.addEventListener("change", function () {
-    const validation = validateDeadline(this.value);
+    const validation = validateEndDate(this.value);
     if (!validation.valid) {
       this.style.boxShadow = "0 0 0 2px var(--color-accent)";
     } else {
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
       step2: step2Data ? JSON.parse(step2Data) : null,
       step3: {
         goal: metaInput.value,
-        deadline: fechaInput.value,
+        end_date: fechaInput.value,
       },
       currentStep: CURRENT_STEP,
       savedAt: new Date().toISOString(),
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "projectStep3",
       JSON.stringify({
         goal: metaInput.value,
-        deadline: fechaInput.value,
+        end_date: fechaInput.value,
       })
     );
 
@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Guardar datos del paso actual
     const step3Data = {
       goal: parseFloat(metaInput.value),
-      deadline: fechaInput.value,
+      end_date: fechaInput.value,
       campaignDays: calculateDaysRemaining(fechaInput.value),
     };
 
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (step3Session) {
       const data = JSON.parse(step3Session);
       if (data.goal) metaInput.value = data.goal;
-      if (data.deadline) fechaInput.value = data.deadline;
+      if (data.end_date) fechaInput.value = data.end_date;
       return;
     }
 
@@ -250,8 +250,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const draftData = JSON.parse(draft);
       if (draftData.step3) {
         if (draftData.step3.goal) metaInput.value = draftData.step3.goal;
-        if (draftData.step3.deadline)
-          fechaInput.value = draftData.step3.deadline;
+        if (draftData.step3.end_date)
+          fechaInput.value = draftData.step3.end_date;
       }
     }
   }

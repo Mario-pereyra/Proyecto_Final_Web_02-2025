@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS users (
     id               BIGSERIAL PRIMARY KEY,
     full_name        VARCHAR(120)       NOT NULL,
     email            CITEXT             NOT NULL,
-    password_plain   TEXT               NOT NULL, -- ⚠️ recomienda usar password_hash en producción
+    password         TEXT               NOT NULL, -- ⚠️ recomienda usar password_hash en producción
     role             role_enum          NOT NULL DEFAULT 'usuario',
     status           user_status_enum   NOT NULL DEFAULT 'inactivo',
     UNIQUE (email)
@@ -111,7 +111,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_catreq_active_code
   WHERE is_active = TRUE;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- Proyectos (incluye campaña y deadline)
+-- Proyectos (incluye campaña y fechas: start_date y end_date)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS projects (
     id                  BIGSERIAL PRIMARY KEY,
@@ -167,7 +167,7 @@ CREATE INDEX IF NOT EXISTS idx_proj_obs_project ON project_observations(project_
 -- Imágenes de proyecto (máximo 10 por proyecto; portada única)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS project_images (
-    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id          BIGSERIAL PRIMARY KEY,
     project_id  BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     url         TEXT   NOT NULL,
     position    SMALLINT NOT NULL CHECK (position BETWEEN 1 AND 10),

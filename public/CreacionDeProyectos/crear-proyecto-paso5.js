@@ -258,9 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (data.goal) {
         previewGoal.textContent = `Meta: €${formatNumber(data.goal)}`;
       }
-      if (data.deadline) {
-        const date = new Date(data.deadline);
-        previewDeadline.textContent = `Hasta: ${formatDate(date)}`;
+      if (data.end_date) {
+        const date = new Date(data.end_date);
+        previewEndDate.textContent = `Hasta: ${formatDate(date)}`;
       }
     }
 
@@ -342,29 +342,10 @@ document.addEventListener("DOMContentLoaded", function () {
     return { valid: true };
   }
 
-  // Guardar borrador
-  btnGuardarBorrador.addEventListener("click", function () {
-    const step1Data = sessionStorage.getItem("projectStep1");
-    const step2Data = sessionStorage.getItem("projectStep2");
-    const step3Data = sessionStorage.getItem("projectStep3");
-    const step4Data = sessionStorage.getItem("projectStep4");
-
-    const draftData = {
-      step1: step1Data ? JSON.parse(step1Data) : null,
-      step2: step2Data ? JSON.parse(step2Data) : null,
-      step3: step3Data ? JSON.parse(step3Data) : null,
-      step4: step4Data ? JSON.parse(step4Data) : null,
-      step5: {
-        requisitos: requisitosTextarea.value.trim(),
-        documentsCount: documents.length,
-        documentNames: documents.map((d) => d.name),
-      },
-      currentStep: CURRENT_STEP,
-      savedAt: new Date().toISOString(),
-    };
-
-    localStorage.setItem("projectDraft", JSON.stringify(draftData));
-    showNotification("Borrador guardado correctamente", "success");
+  // Guardar borrador - INTEGRADO CON BACKEND
+  btnGuardarBorrador.addEventListener("click", function (e) {
+    e.preventDefault();
+    saveDraftToServer();
   });
 
   // Botón anterior
@@ -422,17 +403,10 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "vista-previa.html";
   });
 
-  // Enviar para aprobación
-  btnEnviarAprobacion.addEventListener("click", function () {
-    const validation = validateForm();
-
-    if (!validation.valid) {
-      showNotification(validation.message, "error");
-      return;
-    }
-
-    // Mostrar modal de confirmación
-    showConfirmModal();
+  // Enviar para aprobación - INTEGRADO CON BACKEND
+  btnEnviarAprobacion.addEventListener("click", function (e) {
+    e.preventDefault();
+    submitProjectForReview();
   });
 
   // Modal de confirmación
@@ -565,6 +539,292 @@ document.addEventListener("DOMContentLoaded", function () {
         notification.remove();
       }
     }, 4000);
+  }
+
+  // ========================================================================
+  // FUNCIONES DE INTEGRACIÓN CON BACKEND
+  // ========================================================================
+
+  /**
+   * Convertir base64 Data URL a File object
+   */
+  function dataURLtoFile(dataurl, filename) {
+    if (!dataurl) return null;
+
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  /**
+   * Guardar proyecto como borrador en el servidor
+   */
+  async function saveDraftToServer() {
+    try {
+      // Mostrar modal de carga usando el sistema de modales existente
+      if (typeof mostrarModal !== 'undefined') {
+        mostrarModal({
+          title: 'Guardando proyecto',
+          message: 'Por favor espera mientras subimos tus archivos al servidor...',
+          type: 'info'
+        });
+
+        // Ocultar botones durante la carga
+        const modalBotones = document.getElementById('modal-botones');
+        if (modalBotones) {
+          modalBotones.style.display = 'none';
+        }
+      }
+
+      // Recopilar datos de todos los pasos
+      const step1 = JSON.parse(sessionStorage.getItem('projectStep1') || '{}');
+      const step2 = JSON.parse(sessionStorage.getItem('projectStep2') || '{}');
+      const step3 = JSON.parse(sessionStorage.getItem('projectStep3') || '{}');
+      const step4 = JSON.parse(sessionStorage.getItem('projectStep4') || '{}');
+
+      // Validar datos mínimos
+      if (!step1.title || !step3.goal || !step3.end_date) {
+        throw new Error('Faltan datos obligatorios del proyecto');
+      }
+
+      // Preparar FormData
+      const formData = new FormData();
+
+      // Datos del proyecto
+      formData.append('title', step1.title);
+      formData.append('summary', step1.description || '');
+      formData.append('category_id', step1.category || '1');
+      formData.append('description_json', JSON.stringify(step2));
+      formData.append('goal_amount', step3.goal);
+      formData.append('start_date', step3.start_date || new Date().toISOString().split('T')[0]);
+      formData.append('end_date', step3.end_date);
+      formData.append('requirements_text', requisitosTextarea.value.trim());
+      formData.append('approval_status', 'borrador');
+
+      // Imagen principal (convertir base64 a File)
+      if (step4.imageData) {
+        const imageFile = dataURLtoFile(step4.imageData, step4.fileName || 'project-image.jpg');
+        if (imageFile) {
+          formData.append('mainImage', imageFile);
+        }
+      }
+
+      // Documentos
+      if (documents && documents.length > 0) {
+        documents.forEach((doc) => {
+          formData.append('documents', doc.file);
+        });
+      }
+
+      // Enviar al servidor
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Limpiar sessionStorage
+        sessionStorage.removeItem('projectStep1');
+        sessionStorage.removeItem('projectStep2');
+        sessionStorage.removeItem('projectStep3');
+        sessionStorage.removeItem('projectStep4');
+        sessionStorage.removeItem('projectStep5');
+        localStorage.removeItem('projectDraft');
+
+        // Mostrar modal de éxito
+        if (typeof mostrarModal !== 'undefined') {
+          mostrarModal({
+            title: '¡Proyecto guardado!',
+            message: 'Tu proyecto ha sido guardado como borrador correctamente.',
+            type: 'success',
+            confirmText: 'Ir al Dashboard',
+            onConfirm: () => {
+              window.location.href = '/user/dashboard.html';
+            }
+          });
+        } else {
+          showNotification('Proyecto guardado como borrador', 'success');
+          setTimeout(() => {
+            window.location.href = '/user/dashboard.html';
+          }, 2000);
+        }
+      } else {
+        throw new Error(result.message || 'Error al guardar proyecto');
+      }
+
+    } catch (error) {
+      console.error('Error al guardar proyecto:', error);
+
+      // Mostrar error
+      if (typeof mostrarModal !== 'undefined') {
+        mostrarModal({
+          title: 'Error',
+          message: error.message || 'Hubo un problema al guardar tu proyecto. Por favor intenta nuevamente.',
+          type: 'error',
+          confirmText: 'Cerrar'
+        });
+      } else {
+        showNotification(error.message || 'Error al guardar proyecto', 'error');
+      }
+    }
+  }
+
+  /**
+   * Enviar proyecto para revisión
+   */
+  async function submitProjectForReview() {
+    // Validar formulario
+    const validation = validateForm();
+    if (!validation.valid) {
+      if (typeof mostrarModal !== 'undefined') {
+        mostrarModal({
+          title: 'Formulario incompleto',
+          message: validation.message,
+          type: 'warning',
+          confirmText: 'Cerrar'
+        });
+      } else {
+        showNotification(validation.message, 'error');
+      }
+      return;
+    }
+
+    // Mostrar confirmación
+    if (typeof mostrarModal !== 'undefined') {
+      mostrarModal({
+        title: '¿Enviar proyecto para revisión?',
+        message: 'Una vez enviado, tu proyecto será revisado por nuestro equipo. Este proceso puede tomar entre 24-48 horas.',
+        type: 'confirm',
+        confirmText: 'Enviar Proyecto',
+        cancelText: 'Cancelar',
+        onConfirm: () => {
+          submitWithStatus('en_revision');
+        }
+      });
+    } else {
+      // Fallback si modal.js no está cargado
+      if (confirm('¿Enviar proyecto para revisión? Este proceso puede tomar entre 24-48 horas.')) {
+        submitWithStatus('en_revision');
+      }
+    }
+  }
+
+  /**
+   * Enviar proyecto con status específico
+   */
+  async function submitWithStatus(status) {
+    try {
+      // Modal de carga
+      if (typeof mostrarModal !== 'undefined') {
+        mostrarModal({
+          title: 'Enviando proyecto',
+          message: 'Por favor espera mientras procesamos tu solicitud...',
+          type: 'info'
+        });
+
+        const modalBotones = document.getElementById('modal-botones');
+        if (modalBotones) {
+          modalBotones.style.display = 'none';
+        }
+      }
+
+      // Recopilar datos
+      const step1 = JSON.parse(sessionStorage.getItem('projectStep1') || '{}');
+      const step2 = JSON.parse(sessionStorage.getItem('projectStep2') || '{}');
+      const step3 = JSON.parse(sessionStorage.getItem('projectStep3') || '{}');
+      const step4 = JSON.parse(sessionStorage.getItem('projectStep4') || '{}');
+
+      const formData = new FormData();
+
+      formData.append('title', step1.title);
+      formData.append('summary', step1.description || '');
+      formData.append('category_id', step1.category || '1');
+      formData.append('description_json', JSON.stringify(step2));
+      formData.append('goal_amount', step3.goal);
+      formData.append('start_date', step3.start_date || new Date().toISOString().split('T')[0]);
+      formData.append('end_date', step3.end_date);
+      formData.append('requirements_text', requisitosTextarea.value.trim());
+      formData.append('approval_status', status);
+
+      // Imagen
+      if (step4.imageData) {
+        const imageFile = dataURLtoFile(step4.imageData, step4.fileName || 'project-image.jpg');
+        if (imageFile) {
+          formData.append('mainImage', imageFile);
+        }
+      }
+
+      // Documentos
+      if (documents && documents.length > 0) {
+        documents.forEach((doc) => {
+          formData.append('documents', doc.file);
+        });
+      }
+
+      // Enviar
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Limpiar storage
+        sessionStorage.removeItem('projectStep1');
+        sessionStorage.removeItem('projectStep2');
+        sessionStorage.removeItem('projectStep3');
+        sessionStorage.removeItem('projectStep4');
+        sessionStorage.removeItem('projectStep5');
+        localStorage.removeItem('projectDraft');
+
+        // Modal de éxito
+        if (typeof mostrarModal !== 'undefined') {
+          mostrarModal({
+            title: '¡Proyecto enviado!',
+            message: status === 'en_revision'
+              ? 'Tu proyecto ha sido enviado para revisión. Te notificaremos del resultado.'
+              : 'Tu proyecto ha sido guardado correctamente.',
+            type: 'success',
+            confirmText: 'Ir al Dashboard',
+            onConfirm: () => {
+              window.location.href = '/user/dashboard.html';
+            }
+          });
+        } else {
+          showNotification('Proyecto enviado correctamente', 'success');
+          setTimeout(() => {
+            window.location.href = '/user/dashboard.html';
+          }, 2000);
+        }
+      } else {
+        throw new Error(result.message || 'Error al enviar proyecto');
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+
+      if (typeof mostrarModal !== 'undefined') {
+        mostrarModal({
+          title: 'Error',
+          message: error.message || 'Hubo un problema al enviar tu proyecto.',
+          type: 'error',
+          confirmText: 'Cerrar'
+        });
+      } else {
+        showNotification(error.message || 'Error al enviar proyecto', 'error');
+      }
+    }
   }
 
   // Inicialización

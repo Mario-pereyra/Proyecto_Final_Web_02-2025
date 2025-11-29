@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const previewBackers = document.getElementById("previewBackers");
   const previewDays = document.getElementById("previewDays");
   const previewGoal = document.getElementById("previewGoal");
-  const previewDeadline = document.getElementById("previewDeadline");
+  const previewEndDate = document.getElementById("previewEndDate");
   const previewDetailedDesc = document.getElementById("previewDetailedDesc");
   const previewRequisitos = document.getElementById("previewRequisitos");
   const previewDocuments = document.getElementById("previewDocuments");
@@ -117,9 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
         previewAmount.textContent = "€0"; // Simulación: proyecto nuevo
         progressFill.style.width = "0%"; // Simulación: 0% financiado
       }
-      if (data.deadline) {
-        const date = new Date(data.deadline);
-        previewDeadline.textContent = formatDate(date);
+      if (data.end_date) {
+        const date = new Date(data.end_date);
+        previewEndDate.textContent = formatDate(date);
 
         // Calcular días restantes
         const today = new Date();

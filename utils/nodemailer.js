@@ -19,7 +19,6 @@ exports.enviarCodigoVerificacion = async (nombre, email, codigo) => {
       text: `Hola ${nombre},
 
 Gracias por registrarte en Impulsa.me. 
-
 Tu código de verificación es: ${codigo}
 
 Este código expira en 15 minutos. Úsalo en la sección "Verificar mi cuenta" para completar tu registro.

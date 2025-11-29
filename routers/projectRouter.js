@@ -1,26 +1,45 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const projectController = require("../controllers/projectController");
+const projectController = require('../controllers/projectController');
+const fileUploadMiddleware =require('../middleware/fileUploadMiddleware');
+// const authMiddleware = require('../middlewares/auth'); // TODO: Descomentar cuando esté implementado
 
-// POST /projects - Crear nuevo proyecto
-router.post("/", projectController.createProject);
+// Configurar multer para recibir imagen principal + documentos
+const upload = fileUploadMiddleware.uploadProject.fields([
+  { name: 'mainImage', maxCount: 1 },
+  { name: 'documents', maxCount: 10 }
+]);
 
-// GET /projects - Obtener todos los proyectos (con filtros)
-router.get("/", projectController.getAllProjects);
+// POST /api/projects - Crear proyecto completo con archivos
+// router.post('/', authMiddleware, upload, projectController.createProject);
+router.post('/', upload, projectController.createProject); // Temporal sin auth
 
-// GET /projects/:id - Obtener proyecto por ID
-router.get("/:id", projectController.getProjectById);
+// GET /api/projects - Listar proyectos del usuario
+// router.get('/', authMiddleware, projectController.getAllProjects);
+router.get('/', projectController.getAllProjects); // Temporal sin auth
 
-// PATCH /projects/:id - Actualizar proyecto
-router.patch("/:id", projectController.updateProject);
+// GET /api/projects/:id - Obtener proyecto por ID
+// router.get('/:id', authMiddleware, projectController.getProjectById);
+router.get('/:id', projectController.getProjectById); // Temporal sin auth
 
-// POST /projects/:id/submit - Enviar proyecto para revisión
-router.post("/:id/submit", projectController.submitProject);
+// PATCH /api/projects/:id - Actualizar proyecto
+// router.patch('/:id', authMiddleware, projectController.updateProject);
+router.patch('/:id', projectController.updateProject); // Temporal sin auth
 
-// POST /projects/:id/images - Subir imágenes de proyecto
-router.post("/:id/images", projectController.uploadProjectImages);
+// POST /api/projects/:id/submit - Enviar para revisión
+// router.post('/:id/submit', authMiddleware, projectController.submitProject);
+router.post('/:id/submit', projectController.submitProject); // Temporal sin auth
 
-// DELETE /projects/:id/images/:imageId - Eliminar imagen de proyecto
-router.delete("/:id/images/:imageId", projectController.deleteProjectImage);
+// DELETE /api/projects/:id - Soft delete
+// router.delete('/:id', authMiddleware, projectController.deleteProject);
+router.delete('/:id', projectController.deleteProject); // Temporal sin auth
+
+// POST /api/projects/:id/images - Upload adicional de imágenes
+// router.post('/:id/images', authMiddleware, projectController.uploadProjectImages);
+router.post('/:id/images', projectController.uploadProjectImages); // Temporal sin auth
+
+// DELETE /api/projects/:id/images/:imageId - Eliminar imagen
+// router.delete('/:id/images/:imageId', authMiddleware, projectController.deleteProjectImage);
+router.delete('/:id/images/:imageId', projectController.deleteProjectImage); // Temporal sin auth
 
 module.exports = router;

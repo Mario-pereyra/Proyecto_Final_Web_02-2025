@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mostrar feedback y navegar
     showNotification("Paso 1 completado. Redirigiendo al paso 2...", "success");
-
+Vie
     // Navegar al siguiente paso
     setTimeout(() => {
       window.location.href = "crear-proyecto-paso2.html";

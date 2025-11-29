@@ -23,7 +23,7 @@ ON CONFLICT (name) DO NOTHING;
 -- Puedes verificar los IDs ejecutando: SELECT id, email FROM users;
 
 -- Proyectos de Tecnología (category_id = 1)
-INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, deadline, approval_status, campaign_state, published_at)
+INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, end_date, approval_status, campaign_state, published_at)
 VALUES 
 (1, (SELECT id FROM categories WHERE name = 'Tecnología'), 
  'SmartWatch Revolucionario', 
@@ -46,7 +46,7 @@ VALUES
  NOW());
 
 -- Proyectos de Arte (category_id = 2)
-INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, deadline, approval_status, campaign_state, published_at)
+INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, end_date, approval_status, campaign_state, published_at)
 VALUES 
 (1, (SELECT id FROM categories WHERE name = 'Arte'), 
  'Instalación de Arte Interactivo', 
@@ -69,7 +69,7 @@ VALUES
  NOW());
 
 -- Proyectos de Música (category_id = 3)
-INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, deadline, approval_status, campaign_state, published_at)
+INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, end_date, approval_status, campaign_state, published_at)
 VALUES 
 (1, (SELECT id FROM categories WHERE name = 'Música'), 
  'Álbum "Sonidos del Futuro"', 
@@ -92,7 +92,7 @@ VALUES
  NOW());
 
 -- Proyectos de Educación (category_id = 4)
-INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, deadline, approval_status, campaign_state, published_at)
+INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, end_date, approval_status, campaign_state, published_at)
 VALUES 
 (1, (SELECT id FROM categories WHERE name = 'Educación'), 
  'Curso Online de Programación', 
@@ -115,7 +115,7 @@ VALUES
  NOW());
 
 -- Proyectos de Ecología (category_id = 5)
-INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, deadline, approval_status, campaign_state, published_at)
+INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, end_date, approval_status, campaign_state, published_at)
 VALUES 
 (1, (SELECT id FROM categories WHERE name = 'Ecología'), 
  'Reforestación Urbana', 
@@ -138,7 +138,7 @@ VALUES
  NOW());
 
 -- Proyectos de Cine (category_id = 6)
-INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, deadline, approval_status, campaign_state, published_at)
+INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, end_date, approval_status, campaign_state, published_at)
 VALUES 
 (1, (SELECT id FROM categories WHERE name = 'Cine'), 
  'Documental sobre Cultura Local', 

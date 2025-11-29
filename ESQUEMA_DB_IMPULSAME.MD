@@ -262,10 +262,10 @@ GRANT ALL ON TABLE public.category_requirements TO postgres;
 
 -- DROP TABLE public.projects;
 
-CREATE TABLE public.projects ( id bigserial NOT NULL, owner_id int8 NOT NULL, category_id int4 NOT NULL, title varchar(140) NOT NULL, summary varchar(300) NULL, description_json jsonb DEFAULT '{}'::jsonb NOT NULL, goal_amount numeric(12, 2) NOT NULL, deadline date NOT NULL, approval_status public.project_approval_status_enum DEFAULT 'borrador'::project_approval_status_enum NOT NULL, campaign_state public.campaign_state_enum DEFAULT 'no_iniciada'::campaign_state_enum NOT NULL, created_at timestamp DEFAULT now() NOT NULL, published_at timestamp NULL, deleted_at timestamp NULL, CONSTRAINT projects_goal_amount_check CHECK ((goal_amount >= 0.01)), CONSTRAINT projects_pkey PRIMARY KEY (id), CONSTRAINT projects_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id) ON DELETE RESTRICT, CONSTRAINT projects_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE RESTRICT);
+CREATE TABLE public.projects ( id bigserial NOT NULL, owner_id int8 NOT NULL, category_id int4 NOT NULL, title varchar(140) NOT NULL, summary varchar(300) NULL, description_json jsonb DEFAULT '{}'::jsonb NOT NULL, goal_amount numeric(12, 2) NOT NULL, end_date date NOT NULL, approval_status public.project_approval_status_enum DEFAULT 'borrador'::project_approval_status_enum NOT NULL, campaign_state public.campaign_state_enum DEFAULT 'no_iniciada'::campaign_state_enum NOT NULL, created_at timestamp DEFAULT now() NOT NULL, published_at timestamp NULL, deleted_at timestamp NULL, start_date date NOT NULL, CONSTRAINT projects_goal_amount_check CHECK ((goal_amount >= 0.01)), CONSTRAINT projects_pkey PRIMARY KEY (id), CONSTRAINT projects_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.categories(id) ON DELETE RESTRICT, CONSTRAINT projects_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id) ON DELETE RESTRICT);
 CREATE INDEX idx_projects_category ON public.projects USING btree (category_id);
 CREATE INDEX idx_projects_created_at ON public.projects USING btree (created_at) WHERE (deleted_at IS NULL);
-CREATE INDEX idx_projects_deadline ON public.projects USING btree (deadline) WHERE (deleted_at IS NULL);
+CREATE INDEX idx_projects_deadline ON public.projects USING btree (end_date) WHERE (deleted_at IS NULL);
 CREATE INDEX idx_projects_owner ON public.projects USING btree (owner_id);
 CREATE INDEX idx_projects_status ON public.projects USING btree (approval_status) WHERE (deleted_at IS NULL);
 
@@ -338,8 +338,13 @@ GRANT ALL ON TABLE public.favorites TO postgres;
 
 -- DROP TABLE public.project_images;
 
-CREATE TABLE public.project_images ( id uuid DEFAULT gen_random_uuid() NOT NULL, project_id int8 NOT NULL, url text NOT NULL, "position" int2 NOT NULL, is_cover bool DEFAULT false NOT NULL, alt_text varchar(140) NULL, created_at timestamp DEFAULT now() NOT NULL, CONSTRAINT project_images_pkey PRIMARY KEY (id), CONSTRAINT project_images_position_check CHECK ((("position" >= 1) AND ("position" <= 10))), CONSTRAINT project_images_project_id_position_key UNIQUE (project_id, "position"), CONSTRAINT project_images_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE);
+CREATE TABLE public.project_images ( id bigserial NOT NULL, project_id int8 NOT NULL, url text NOT NULL, original_filename varchar(255) NULL, file_size int4 NULL, mime_type varchar(100) NULL, "position" int2 NOT NULL, is_cover bool DEFAULT false NOT NULL, alt_text varchar(140) NULL, created_at timestamp DEFAULT now() NOT NULL, CONSTRAINT project_images_pkey PRIMARY KEY (id), CONSTRAINT project_images_position_check CHECK ((("position" >= 1) AND ("position" <= 10))), CONSTRAINT project_images_project_id_position_key UNIQUE (project_id, "position"), CONSTRAINT project_images_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE);
 CREATE UNIQUE INDEX ux_proj_images_cover ON public.project_images USING btree (project_id) WHERE (is_cover = true);
+
+-- Columns added for file metadata tracking:
+-- original_filename: Original filename uploaded by user (e.g., "My Project Cover.jpg")
+-- file_size: File size in bytes
+-- mime_type: MIME type of the file (e.g., "image/jpeg")
 
 -- Permissions
 
@@ -366,7 +371,13 @@ GRANT ALL ON TABLE public.project_observations TO postgres;
 
 -- DROP TABLE public.project_requirement_answers;
 
-CREATE TABLE public.project_requirement_answers ( id bigserial NOT NULL, project_id int8 NOT NULL, requirement_id int4 NOT NULL, value_text text NULL, value_json jsonb NULL, file_url text NULL, CONSTRAINT project_requirement_answers_pkey PRIMARY KEY (id), CONSTRAINT project_requirement_answers_project_id_requirement_id_key UNIQUE (project_id, requirement_id), CONSTRAINT project_requirement_answers_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE, CONSTRAINT project_requirement_answers_requirement_id_fkey FOREIGN KEY (requirement_id) REFERENCES public.category_requirements(id) ON DELETE RESTRICT);
+CREATE TABLE public.project_requirement_answers ( id bigserial NOT NULL, project_id int8 NOT NULL, requirement_id int4 NULL, value_text text NULL, value_json jsonb NULL, file_url text NULL, original_filename varchar(255) NULL, file_size int4 NULL, mime_type varchar(100) NULL, CONSTRAINT project_requirement_answers_pkey PRIMARY KEY (id), CONSTRAINT project_requirement_answers_project_id_requirement_id_key UNIQUE (project_id, requirement_id), CONSTRAINT project_requirement_answers_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE, CONSTRAINT project_requirement_answers_requirement_id_fkey FOREIGN KEY (requirement_id) REFERENCES public.category_requirements(id) ON DELETE RESTRICT);
+
+-- Columns added for document metadata tracking:
+-- original_filename: Original filename of uploaded document (e.g., "Detailed Budget 2025.pdf")
+-- file_size: File size in bytes
+-- mime_type: MIME type of the document (e.g., "application/pdf")
+-- requirement_id: Changed to NULL to allow documents without specific requirement (Step 5)
 
 -- Permissions
 
@@ -381,7 +392,7 @@ p.title,
 p.category_id,
 p.owner_id,
 p.goal_amount,
-p.deadline,
+p.end_date,
 p.approval_status,
 p.campaign_state,
 p.created_at,

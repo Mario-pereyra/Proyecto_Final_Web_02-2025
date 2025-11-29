@@ -6,7 +6,7 @@ TRUNCATE audit_logs, favorites, donations, project_images, project_observations,
 -- =========================
 -- 1) USUARIOS
 -- =========================
-INSERT INTO users (full_name, email, password_plain, role, status) VALUES
+INSERT INTO users (full_name, email, password, role, status) VALUES
   ('Administrador', 'admin@impulsa.me', 'admin123', 'admin', 'activo'),
   ('Creador Demo',  'creador@impulsa.me', 'user123',  'usuario', 'activo'),
   ('Apoyador Demo', 'apoyador@impulsa.me', 'user123', 'usuario', 'activo');
@@ -87,7 +87,7 @@ SELECT id, 'cat_verde',    'Categoría verde',                     'opcion', FAL
 -- =========================
 WITH owner AS (SELECT id AS owner_id FROM users WHERE email='creador@impulsa.me'),
      cat   AS (SELECT id AS category_id FROM categories WHERE name='Tecnología')
-INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, deadline, approval_status, campaign_state, created_at, published_at)
+INSERT INTO projects (owner_id, category_id, title, summary, description_json, goal_amount, end_date, approval_status, campaign_state, created_at, published_at)
 SELECT
   owner.owner_id,
   cat.category_id,
