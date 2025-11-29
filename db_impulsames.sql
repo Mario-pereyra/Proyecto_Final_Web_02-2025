@@ -1,11 +1,11 @@
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Extensiones útiles
 -- ─────────────────────────────────────────────────────────────────────────────
-CREATE EXTENSION IF NOT EXISTS pgcrypto;  -- gen_random_uuid()
+CREATE EXTENSION IF NOT EXISTS pgcrypto;  -- gen_random_uuid() y funciones criptográficas
 CREATE EXTENSION IF NOT EXISTS citext;    -- emails case-insensitive
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- Tipos ENUM
+-- Tipos ENUM (Bloque seguro para evitar errores si ya existen)
 -- ─────────────────────────────────────────────────────────────────────────────
 DO $$
 BEGIN
@@ -50,15 +50,24 @@ BEGIN
 END$$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- Categorías
+-- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS categories (
+    id          SERIAL PRIMARY KEY,
+    name        VARCHAR(80)  NOT NULL UNIQUE,
+    description TEXT         NULL
+);
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- Usuarios
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS users (
-    id               BIGSERIAL PRIMARY KEY,
-    full_name        VARCHAR(120)       NOT NULL,
-    email            CITEXT             NOT NULL,
-    password         TEXT               NOT NULL, -- ⚠️ recomienda usar password_hash en producción
-    role             role_enum          NOT NULL DEFAULT 'usuario',
-    status           user_status_enum   NOT NULL DEFAULT 'inactivo',
+    id             BIGSERIAL PRIMARY KEY,
+    full_name      VARCHAR(120)       NOT NULL,
+    email          CITEXT             NOT NULL,
+    password       TEXT               NOT NULL, -- ⚠️ Se asume hash bcrypt/argon2
+    role           role_enum          NOT NULL DEFAULT 'usuario',
+    status         user_status_enum   NOT NULL DEFAULT 'inactivo',
     UNIQUE (email)
 );
 
@@ -79,31 +88,22 @@ CREATE INDEX IF NOT EXISTS idx_user_tokens_user_purpose ON user_tokens(user_id, 
 CREATE INDEX IF NOT EXISTS idx_user_tokens_active ON user_tokens(user_id) WHERE used_at IS NULL;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- Categorías
--- ─────────────────────────────────────────────────────────────────────────────
-CREATE TABLE IF NOT EXISTS categories (
-    id          SERIAL PRIMARY KEY,
-    name        VARCHAR(80)  NOT NULL UNIQUE,
-    description TEXT         NULL
-);
-
--- ─────────────────────────────────────────────────────────────────────────────
 -- Requisitos por categoría (definición de campos dinámicos)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS category_requirements (
-    id               SERIAL PRIMARY KEY,
-    category_id      INT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
-    code             VARCHAR(50)  NOT NULL,  -- ej. "ruc", "doc_legal"
-    label            VARCHAR(120) NOT NULL,
-    type             requirement_type_enum NOT NULL,
-    required         BOOLEAN NOT NULL DEFAULT TRUE,
-    position         SMALLINT NOT NULL DEFAULT 1,
-    options_json     JSONB NULL,     -- ej. opciones de un select
-    validations_json JSONB NULL,     -- ej. regex, min/max, etc.
+    id              SERIAL PRIMARY KEY,
+    category_id     INT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+    code            VARCHAR(50)  NOT NULL,  -- ej. "ruc", "doc_legal"
+    label           VARCHAR(120) NOT NULL,
+    type            requirement_type_enum NOT NULL,
+    required        BOOLEAN NOT NULL DEFAULT TRUE,
+    position        SMALLINT NOT NULL DEFAULT 1,
+    options_json    JSONB NULL,     -- ej. opciones de un select
+    validations_json JSONB NULL,    -- ej. regex, min/max, etc.
     -- Flags de retiro / ciclo de vida
-    is_active        BOOLEAN   NOT NULL DEFAULT TRUE,
-    retired_at       TIMESTAMP NULL,
-    retire_reason    TEXT      NULL
+    is_active       BOOLEAN   NOT NULL DEFAULT TRUE,
+    retired_at      TIMESTAMP NULL,
+    retire_reason   TEXT      NULL
 );
 -- Unicidad solo para requisitos ACTIVOS por categoría+code
 CREATE UNIQUE INDEX IF NOT EXISTS ux_catreq_active_code
@@ -114,20 +114,20 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_catreq_active_code
 -- Proyectos (incluye campaña y fechas: start_date y end_date)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS projects (
-    id                  BIGSERIAL PRIMARY KEY,
-    owner_id            BIGINT  NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
-    category_id         INT     NOT NULL REFERENCES categories(id) ON DELETE RESTRICT,
-    title               VARCHAR(140) NOT NULL,
-    summary             VARCHAR(300) NULL,
-    description_json    JSONB   NOT NULL DEFAULT '{}'::jsonb, -- payload de editor.js
-    goal_amount         DECIMAL(12,2) NOT NULL CHECK (goal_amount >= 0.01),
-    start_date          DATE    NOT NULL,
-    end_date            DATE    NOT NULL,
-    approval_status     project_approval_status_enum NOT NULL DEFAULT 'borrador',
-    campaign_state      campaign_state_enum          NOT NULL DEFAULT 'no_iniciada',
-    created_at          TIMESTAMP NOT NULL DEFAULT NOW(),
-    published_at        TIMESTAMP NULL,
-    deleted_at          TIMESTAMP NULL              -- soft delete para KPIs
+    id                   BIGSERIAL PRIMARY KEY,
+    owner_id             BIGINT    NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    category_id          INT       NOT NULL REFERENCES categories(id) ON DELETE RESTRICT,
+    title                VARCHAR(140) NOT NULL,
+    summary              VARCHAR(300) NULL,
+    description_json     JSONB   NOT NULL DEFAULT '{}'::jsonb, -- payload de editor.js
+    goal_amount          DECIMAL(12,2) NOT NULL CHECK (goal_amount >= 0.01),
+    start_date           DATE    NOT NULL,
+    end_date             DATE    NOT NULL,
+    approval_status      project_approval_status_enum NOT NULL DEFAULT 'borrador',
+    campaign_state       campaign_state_enum          NOT NULL DEFAULT 'no_iniciada',
+    created_at           TIMESTAMP NOT NULL DEFAULT NOW(),
+    published_at         TIMESTAMP NULL,
+    deleted_at           TIMESTAMP NULL               -- soft delete para KPIs
 );
 CREATE INDEX IF NOT EXISTS idx_projects_owner       ON projects(owner_id);
 CREATE INDEX IF NOT EXISTS idx_projects_category    ON projects(category_id);
@@ -141,12 +141,16 @@ CREATE INDEX IF NOT EXISTS idx_projects_created_at  ON projects(created_at)     
 --  * FK a project:     ON DELETE CASCADE (al borrar proyecto, se van sus respuestas)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS project_requirement_answers (
-    id              BIGSERIAL PRIMARY KEY,
-    project_id      BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-    requirement_id  INT    NOT NULL REFERENCES category_requirements(id) ON DELETE RESTRICT,
-    value_text      TEXT   NULL,
-    value_json      JSONB  NULL,
-    file_url        TEXT   NULL,
+    id                  BIGSERIAL PRIMARY KEY,
+    project_id          BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    requirement_id      INT    NOT NULL REFERENCES category_requirements(id) ON DELETE RESTRICT,
+    value_text          TEXT   NULL,
+    value_json          JSONB  NULL,
+    file_url            TEXT   NULL,
+    -- Metadatos de archivo (Agregados en V2)
+    original_filename   VARCHAR(255) NULL,
+    file_size           INT          NULL,
+    mime_type           VARCHAR(100) NULL,
     UNIQUE (project_id, requirement_id)
 );
 
@@ -167,13 +171,17 @@ CREATE INDEX IF NOT EXISTS idx_proj_obs_project ON project_observations(project_
 -- Imágenes de proyecto (máximo 10 por proyecto; portada única)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS project_images (
-    id          BIGSERIAL PRIMARY KEY,
-    project_id  BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-    url         TEXT   NOT NULL,
-    position    SMALLINT NOT NULL CHECK (position BETWEEN 1 AND 10),
-    is_cover    BOOLEAN NOT NULL DEFAULT FALSE,
-    alt_text    VARCHAR(140) NULL,
-    created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
+    id               BIGSERIAL PRIMARY KEY, -- Actualizado a BIGSERIAL según migración
+    project_id       BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    url              TEXT   NOT NULL,
+    position         SMALLINT NOT NULL CHECK (position BETWEEN 1 AND 10),
+    is_cover         BOOLEAN NOT NULL DEFAULT FALSE,
+    alt_text         VARCHAR(140) NULL,
+    created_at       TIMESTAMP NOT NULL DEFAULT NOW(),
+    -- Metadatos de archivo (Agregados en V2)
+    original_filename VARCHAR(255) NULL,
+    file_size         INT          NULL,
+    mime_type         VARCHAR(100) NULL,
     UNIQUE (project_id, position)
 );
 -- Una sola portada por proyecto
@@ -185,16 +193,16 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_proj_images_cover
 -- Donaciones (aportes)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS donations (
-    id                 BIGSERIAL PRIMARY KEY,
-    user_id            BIGINT  NOT NULL REFERENCES users(id)    ON DELETE RESTRICT,
-    project_id         BIGINT  NOT NULL REFERENCES projects(id) ON DELETE RESTRICT,
-    amount             DECIMAL(12,2) NOT NULL CHECK (amount >= 0.01),
-    status             donation_status_enum NOT NULL,
-    payment_method     VARCHAR(30) NOT NULL DEFAULT 'qr',
-    payment_reference  VARCHAR(100) NULL,
-    gateway_response   JSONB NULL,
-    created_at         TIMESTAMP NOT NULL DEFAULT NOW(),
-    confirmed_at       TIMESTAMP NULL
+    id                  BIGSERIAL PRIMARY KEY,
+    user_id             BIGINT  NOT NULL REFERENCES users(id)    ON DELETE RESTRICT,
+    project_id          BIGINT  NOT NULL REFERENCES projects(id) ON DELETE RESTRICT,
+    amount              DECIMAL(12,2) NOT NULL CHECK (amount >= 0.01),
+    status              donation_status_enum NOT NULL,
+    payment_method      VARCHAR(30) NOT NULL DEFAULT 'qr',
+    payment_reference   VARCHAR(100) NULL,
+    gateway_response    JSONB NULL,
+    created_at          TIMESTAMP NOT NULL DEFAULT NOW(),
+    confirmed_at        TIMESTAMP NULL
 );
 CREATE INDEX IF NOT EXISTS idx_donations_project_status ON donations(project_id, status);
 CREATE INDEX IF NOT EXISTS idx_donations_user           ON donations(user_id);
@@ -214,13 +222,13 @@ CREATE TABLE IF NOT EXISTS favorites (
 -- Auditoría mínima (quién observó/publicó/rechazó/bloqueó)
 -- ─────────────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS audit_logs (
-    id              BIGSERIAL PRIMARY KEY,
-    actor_user_id   BIGINT NOT NULL REFERENCES users(id)    ON DELETE RESTRICT, -- admin o dueño que actúa
-    action          audit_action_enum NOT NULL,
-    project_id      BIGINT NULL REFERENCES projects(id)     ON DELETE CASCADE,
-    target_user_id  BIGINT NULL REFERENCES users(id)        ON DELETE RESTRICT,
-    details_json    JSONB  NULL,
-    created_at      TIMESTAMP NOT NULL DEFAULT NOW()
+    id               BIGSERIAL PRIMARY KEY,
+    actor_user_id    BIGINT NOT NULL REFERENCES users(id)    ON DELETE RESTRICT, -- admin o dueño que actúa
+    action           audit_action_enum NOT NULL,
+    project_id       BIGINT NULL REFERENCES projects(id)     ON DELETE CASCADE,
+    target_user_id   BIGINT NULL REFERENCES users(id)        ON DELETE RESTRICT,
+    details_json     JSONB  NULL,
+    created_at       TIMESTAMP NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action, created_at DESC);
 
