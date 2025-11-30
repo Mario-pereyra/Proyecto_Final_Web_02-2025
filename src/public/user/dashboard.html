@@ -120,7 +120,7 @@
         <article class="card kpi">
           <div class="kpi__info">
             <span class="kpi__label">Proyectos Totales</span>
-            <span class="kpi__value">4</span>
+            <span class="kpi__value"  data-kpi="total-projects">4</span>
           </div>
           <iconify-icon icon="ic:round-assessment" class="kpi__icon" width="32" height="32"></iconify-icon>
         </article>
@@ -128,7 +128,7 @@
         <article class="card kpi">
           <div class="kpi__info">
             <span class="kpi__label">Campañas Activas</span>
-            <span class="kpi__value">0</span>
+            <span class="kpi__value"   data-kpi="active-campaigns">0</span>
           </div>
           <iconify-icon icon="ic:round-trending-up" class="kpi__icon" width="32" height="32"></iconify-icon>
         </article>
@@ -136,7 +136,7 @@
         <article class="card kpi">
           <div class="kpi__info">
             <span class="kpi__label">Total Recaudado</span>
-            <span class="kpi__value">0&nbsp;€</span>
+            <span class="kpi__value" data-kpi="total-raised">0&nbsp;€</span>
           </div>
           <iconify-icon icon="ic:round-account-balance-wallet" class="kpi__icon" width="32" height="32"></iconify-icon>
         </article>
@@ -144,7 +144,7 @@
         <article class="card kpi">
           <div class="kpi__info">
             <span class="kpi__label">Total Donado</span>
-            <span class="kpi__value">225&nbsp;€</span>
+            <span class="kpi__value" data-kpi="total-donated">225&nbsp;€</span>
           </div>
           <iconify-icon icon="ic:round-favorite" class="kpi__icon" width="32" height="32"></iconify-icon>
         </article>
@@ -799,6 +799,7 @@
     });
   </script>
   <script src="/assets/js/auth/auth-guard.js"></script>
+  <script src="../assets/js/dashboard/user-kpis.js"></script>
 </body>
 
 </html>
