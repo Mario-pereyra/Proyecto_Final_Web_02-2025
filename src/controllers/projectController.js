@@ -110,10 +110,25 @@ exports.createProject = async (req, res) => {
  */
 exports.getAllProjects = async (req, res) => {
   try {
-    const userId = req.user ? req.user.id : 1; // Temporal: hardcoded user
-    const { status } = req.query;
+    // Si hay usuario autenticado, mostrar SUS proyectos (Dashboard)
+    if (req.user) {
+      const { status } = req.query;
+      const projects = await projectRepository.getByUserId(req.user.id, status);
+      return res.json({
+        success: true,
+        count: projects.length,
+        projects
+      });
+    }
 
-    const projects = await projectRepository.getByUserId(userId, status);
+    // Si NO hay usuario, mostrar proyectos PÚBLICOS (Homepage/Explore)
+    // Usando la vista project_details_view
+    const { category, orderBy, limit } = req.query;
+    const projects = await projectRepository.getAllPublic({ 
+      category, 
+      orderBy,
+      limit: limit ? parseInt(limit) : null 
+    });
 
     res.json({
       success: true,

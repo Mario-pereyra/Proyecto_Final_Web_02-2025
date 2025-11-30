@@ -160,37 +160,6 @@ SELECT
     ) as cover_image,
     
     -- Dinero Recaudado
-    COALESCE(SUM(d.amount) FILTER (WHERE d.status = 'pagado'), 0) as total_collected,
-    
-    -- Mecenas
-    COUNT(DISTINCT d.user_id) FILTER (WHERE d.status = 'pagado') as backers_count,
-    
-    -- Progreso
-    CASE 
-        WHEN p.goal_amount > 0 THEN 
-            ROUND((COALESCE(SUM(d.amount) FILTER (WHERE d.status = 'pagado'), 0) / p.goal_amount) * 100, 2) 
-        ELSE 0 
-    END as progress_percentage,
-    
-    -- Días Restantes
-    CASE 
-        WHEN p.deadline_at IS NULL THEN p.duration_days
-        WHEN NOW() > p.deadline_at THEN 0               
-        ELSE EXTRACT(DAY FROM (p.deadline_at - NOW()))::INTEGER 
-    END as days_remaining
-
-FROM projects p
-JOIN users u ON p.owner_id = u.id
-JOIN categories c ON p.category_id = c.id
-LEFT JOIN donations d ON p.id = d.project_id
-WHERE p.deleted_at IS NULL
-GROUP BY p.id, u.full_name, c.name;
-
-
--- 5. CARGA DE DATOS SEMILLA (SEED DATA)
--- =============================================================================
-
--- USUARIOS
 INSERT INTO public.users (id, full_name, email, password, role, status, created_at) 
 VALUES
 (101, 'Sofía Ramírez', 'sofia.ramirez@impulsa.me', 'AdminPass2025!', 'admin', 'activo', NOW()),

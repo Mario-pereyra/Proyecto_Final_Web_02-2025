@@ -152,6 +152,36 @@ module.exports = {
   },
 
   /**
+   * Obtener todos los proyectos públicos para el feed (usando la vista)
+   */
+  async getAllPublic(filters = {}) {
+    let query = `SELECT * FROM project_details_view WHERE approval_status = 'publicado'`;
+    const values = [];
+    
+    // Filtro por categoría
+    if (filters.category) {
+      values.push(filters.category);
+      query += ` AND category_name = $${values.length}`;
+    }
+
+    // Ordenamiento
+    if (filters.orderBy === 'visits') {
+      query += ` ORDER BY visit_count DESC, created_at DESC`;
+    } else {
+      query += ` ORDER BY created_at DESC`;
+    }
+    
+    // Límite de resultados
+    if (filters.limit) {
+      values.push(filters.limit);
+      query += ` LIMIT $${values.length}`;
+    }
+    
+    const result = await pool.query(query, values);
+    return result.rows;
+  },
+
+  /**
    * Obtener proyecto por ID (solo del usuario)
    */
   async getById(projectId, userId) {

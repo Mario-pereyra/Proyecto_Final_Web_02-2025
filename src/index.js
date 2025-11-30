@@ -29,7 +29,7 @@ app.use("/api", kpiRouter); // ← Debe ir ANTES de projectRouter
 app.use("/api", campaignRouter);
 app.use("/api", donationRouter);
 app.use("/api", categoryRouter);
-app.use("/api", projectRouter);
+app.use("/api/projects", projectRouter);
 app.use("/api", requirementRouter);
 app.use("/api", favoriteRouter);
 
