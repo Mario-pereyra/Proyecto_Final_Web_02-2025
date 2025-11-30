@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
 const projectSearchController = require('../controllers/projectSearchController');
+const projectDonationController = require('../controllers/projectDonationController');
 const fileUploadMiddleware =require('../middleware/fileUploadMiddleware');
 // const authMiddleware = require('../middlewares/auth'); // TODO: Descomentar cuando esté implementado
 
@@ -25,6 +26,9 @@ router.get('/', projectController.getAllProjects); // Temporal sin auth
 // GET /api/projects/:id - Obtener proyecto por ID
 // router.get('/:id', authMiddleware, projectController.getProjectById);
 router.get('/:id', projectController.getProjectById); // Temporal sin auth
+
+// GET /api/projects/:projectId/donations - Obtener donaciones del proyecto
+router.get('/:projectId/donations', projectDonationController.getProjectDonations);
 
 // PATCH /api/projects/:id - Actualizar proyecto
 // router.patch('/:id', authMiddleware, projectController.updateProject);

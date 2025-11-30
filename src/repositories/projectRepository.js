@@ -182,6 +182,19 @@ module.exports = {
   },
 
   /**
+   * Obtener proyecto público por ID (desde la vista)
+   */
+  async getPublicById(projectId) {
+    const query = `
+      SELECT * FROM project_details_view 
+      WHERE id = $1 AND approval_status = 'publicado'
+    `;
+    
+    const result = await pool.query(query, [projectId]);
+    return result.rows[0];
+  },
+
+  /**
    * Obtener proyecto por ID (solo del usuario)
    */
   async getById(projectId, userId) {

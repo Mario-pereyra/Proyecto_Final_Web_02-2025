@@ -336,8 +336,13 @@ body {
 }
 
 .sidebar {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 25px;
+}
+
+.sidebar .card + .card {
+  margin-top: 0;
 }
 
 .funding {

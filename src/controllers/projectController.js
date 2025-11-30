@@ -146,14 +146,14 @@ exports.getAllProjects = async (req, res) => {
 
 /**
  * GET /api/projects/:id
- * Obtener proyecto específico con imágenes y documentos
+ * Obtener proyecto específico (público)
  */
 exports.getProjectById = async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user ? req.user.id : 1; // Temporal: hardcoded user
 
-    const project = await projectRepository.getById(id, userId);
+    // Obtener proyecto desde la vista pública
+    const project = await projectRepository.getPublicById(id);
 
     if (!project) {
       return res.status(404).json({
@@ -162,17 +162,9 @@ exports.getProjectById = async (req, res) => {
       });
     }
 
-    // Obtener imágenes y documentos
-    const images = await projectRepository.getProjectImages(id);
-    const documents = await projectRepository.getProjectDocuments(id);
-
     res.json({
       success: true,
-      project: {
-        ...project,
-        images,
-        documents
-      }
+      data: project
     });
   } catch (error) {
     console.error('Error al obtener proyecto:', error);
