@@ -25,13 +25,13 @@ app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api", kpiRouter); // ← Debe ir ANTES de projectRouter
 app.use("/api", campaignRouter);
 app.use("/api", donationRouter);
 app.use("/api", categoryRouter);
 app.use("/api", projectRouter);
 app.use("/api", requirementRouter);
 app.use("/api", favoriteRouter);
-app.use("/api", kpiRouter);
 
 // Health check endpoint para Docker
 app.get("/health", (req, res) => {

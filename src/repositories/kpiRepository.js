@@ -19,7 +19,7 @@ exports.getKPIs = async () => {
         (SELECT COUNT(*) FROM (
           SELECT p.id
           FROM projects p
-          LEFT JOIN donations d ON p.id = d.project_id AND d.status = 'confirmado'
+          LEFT JOIN donations d ON p.id = d.project_id AND d.status = 'pagado'
           WHERE p.approval_status = 'publicado' 
             AND p.deleted_at IS NULL
           GROUP BY p.id
@@ -33,10 +33,10 @@ exports.getKPIs = async () => {
            AND deleted_at IS NULL
         ) as creadores_apoyados,
         
-        -- Total Recaudado (suma de todas las donaciones confirmadas)
+        -- Total Recaudado (suma de todas las donaciones pagadas)
         (SELECT COALESCE(SUM(amount), 0)
          FROM donations
-         WHERE status = 'confirmado'
+         WHERE status = 'pagado'
         ) as total_recaudado
     `;
     

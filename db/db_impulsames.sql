@@ -265,3 +265,19 @@ INSERT INTO project_observations (project_id, admin_id, observation_json) VALUES
 SELECT setval('projects_id_seq', (SELECT MAX(id) FROM projects));
 SELECT setval('categories_id_seq', (SELECT MAX(id) FROM categories));
 SELECT setval('category_requirements_id_seq', (SELECT MAX(id) FROM category_requirements));
+
+-- =============================================================================
+-- 7. SIMULACIÓN DE DONACIONES
+-- =============================================================================
+
+-- Donación 1: Diego (User 106) apoya el proyecto EcoBin (Project 501)
+-- ESTADO: 'pagado' -> Esto DEBE sumar a la meta.
+INSERT INTO donations (project_id, user_id, amount, payment_proof_url, status, created_at)
+VALUES 
+(501, 106, 150.00, 'https://stripe.com/receipt/ch_12345ABC', 'pagado', NOW()); ---Donacion de ejemplo la url no representara la url que usaremos en el backend
+
+-- Donación 2: Valentina (User 107) intenta apoyar el proyecto EcoBin (Project 501)
+-- ESTADO: 'pendiente' -> Esto NO DEBE sumar a la meta todavía (fallo de tarjeta, etc).
+INSERT INTO donations (project_id, user_id, amount, payment_proof_url, status, created_at)
+VALUES 
+(501, 107, 500.00, NULL, 'pendiente', NOW());

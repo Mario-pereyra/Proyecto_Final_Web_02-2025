@@ -2,7 +2,7 @@
  * Módulo para cargar y mostrar categorías dinámicamente
  */
 
-const API_URL = "http://localhost:3000/api";
+// API_URL ya está definido en kpis.js
 
 /**
  * Mapeo de nombres de categorías a iconos de Iconify
@@ -31,19 +31,26 @@ function getCategoryIcon(categoryName) {
  * Carga las categorías desde la API y actualiza los contadores
  */
 async function loadCategories() {
+  console.log('🚀 [categories.js] Iniciando carga de categorías...');
+  console.log('📡 API URL:', `${API_URL}/categories`);
+  
   try {
     const response = await fetch(`${API_URL}/categories`);
+    console.log('✅ Respuesta recibida:', response.status);
+    
     const result = await response.json();
+    console.log('📦 Datos parseados:', result);
 
     if (!result.success) {
-      console.error("Error al obtener categorías:", result.message);
+      console.error("❌ Error al obtener categorías:", result.message);
       return;
     }
 
     const categories = result.data;
+    console.log('📊 Categorías a actualizar:', categories);
     updateCategoryCounts(categories);
   } catch (error) {
-    console.error("Error al cargar categorías:", error);
+    console.error("💥 Error al cargar categorías:", error);
     // Si falla, los valores estáticos permanecen vacíos
   }
 }
@@ -69,6 +76,7 @@ function updateCategoryCounts(categories) {
     
     if (elementId) {
       const element = document.getElementById(elementId);
+      
       if (element) {
         const projectText = category.project_count === 1 ? "proyecto" : "proyectos";
         element.textContent = `${category.project_count} ${projectText}`;
@@ -81,10 +89,18 @@ function updateCategoryCounts(categories) {
 /**
  * Inicializar cuando el DOM esté listo
  */
+console.log('📜 [categories.js] Script cargado');
+
 document.addEventListener("DOMContentLoaded", () => {
+  console.log('🎯 [categories.js] DOM cargado, buscando contenedor...');
+  
   // Solo cargar si estamos en una página que tiene el contenedor de categorías
   const container = document.querySelector(".container-categories");
+  
   if (container) {
+    console.log('✅ [categories.js] Contenedor encontrado, iniciando carga...');
     loadCategories();
+  } else {
+    console.warn('⚠️ [categories.js] No se encontró el contenedor .container-categories');
   }
 });
