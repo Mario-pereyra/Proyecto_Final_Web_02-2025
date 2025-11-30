@@ -12,19 +12,20 @@ module.exports = {
       owner_id,
       category_id,
       title,
-      summary,
-      description_json,
+      short_description,
+      story_json,
       goal_amount,
-      start_date,
-      end_date,
+      duration_days,
+      started_at,
+      deadline_at,
       approval_status
     } = projectData;
     
     const query = `
       INSERT INTO projects (
-        owner_id, category_id, title, summary, description_json,
-        goal_amount, start_date, end_date, approval_status, created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
+        owner_id, category_id, title, short_description, story_json,
+        goal_amount, duration_days, started_at, deadline_at, approval_status, created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())
       RETURNING id, title, approval_status, created_at
     `;
     
@@ -32,11 +33,12 @@ module.exports = {
       owner_id,
       category_id,
       title,
-      summary,
-      JSON.stringify(description_json),
+      short_description,
+      JSON.stringify(story_json),
       goal_amount,
-      start_date,
-      end_date,
+      duration_days,
+      started_at,
+      deadline_at,
       approval_status
     ];
     
@@ -50,33 +52,24 @@ module.exports = {
   async saveImage(imageData) {
     const { 
       project_id, 
-      url, 
+      image_path, 
       original_filename,
-      file_size,
-      mime_type,
-      position, 
-      is_cover,
-      alt_text
+      is_cover
     } = imageData;
     
     const query = `
       INSERT INTO project_images (
-        project_id, url, original_filename, file_size, mime_type,
-        position, is_cover, alt_text, created_at
+        project_id, image_path, original_filename, is_cover, created_at
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
-      RETURNING id, url, original_filename, file_size, mime_type
+      VALUES ($1, $2, $3, $4, NOW())
+      RETURNING id, image_path, original_filename
     `;
     
     const values = [
       project_id, 
-      url, 
+      image_path, 
       original_filename,
-      file_size,
-      mime_type,
-      position, 
-      is_cover,
-      alt_text
+      is_cover
     ];
     
     const result = await pool.query(query, values);
@@ -90,30 +83,25 @@ module.exports = {
     const { 
       project_id, 
       requirement_id,
-      file_url,
+      file_path,
       original_filename,
-      file_size,
-      mime_type,
-      value_text
+      mime_type
     } = docData;
     
     const query = `
-      INSERT INTO project_requirement_answers (
-        project_id, requirement_id, file_url, original_filename,
-        file_size, mime_type, value_text
+      INSERT INTO project_requirements_answers (
+        project_id, requirement_id, file_path, original_filename, mime_type
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING id, file_url, original_filename, file_size, mime_type
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, file_path, original_filename, mime_type
     `;
     
     const values = [
       project_id,
       requirement_id || null,
-      file_url,
+      file_path,
       original_filename,
-      file_size,
-      mime_type,
-      value_text
+      mime_type
     ];
     
     const result = await pool.query(query, values);
@@ -124,15 +112,15 @@ module.exports = {
    * Guardar texto de requisitos (sin archivo)
    */
   async saveRequirementAnswer(data) {
-    const { project_id, requirement_id, value_text } = data;
+    const { project_id, requirement_id, file_path, original_filename, mime_type } = data;
     
     const query = `
-      INSERT INTO project_requirement_answers (project_id, requirement_id, value_text)
-      VALUES ($1, $2, $3)
+      INSERT INTO project_requirements_answers (project_id, requirement_id, file_path, original_filename, mime_type)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING id
     `;
     
-    const result = await pool.query(query, [project_id, requirement_id || null, value_text]);
+    const result = await pool.query(query, [project_id, requirement_id || null, file_path, original_filename, mime_type]);
     return result.rows[0];
   },
 
@@ -142,8 +130,8 @@ module.exports = {
   async getByUserId(userId, status = null) {
     let query = `
       SELECT 
-        p.id, p.title, p.summary, p.goal_amount, p.approval_status,
-        p.campaign_state, p.created_at, p.published_at,
+        p.id, p.title, p.short_description, p.goal_amount, p.approval_status,
+        p.campaign_status, p.created_at,
         c.name as category_name
       FROM projects p
       JOIN categories c ON p.category_id = c.id
@@ -187,11 +175,10 @@ module.exports = {
   async getProjectImages(projectId) {
     const query = `
       SELECT 
-        id, url, original_filename, file_size, mime_type,
-        position, is_cover, alt_text, created_at
+        id, image_path, original_filename, is_cover, created_at
       FROM project_images
       WHERE project_id = $1
-      ORDER BY position ASC
+      ORDER BY created_at ASC
     `;
     
     const result = await pool.query(query, [projectId]);
@@ -204,10 +191,9 @@ module.exports = {
   async getProjectDocuments(projectId) {
     const query = `
       SELECT 
-        id, file_url, original_filename, file_size, mime_type,
-        value_text, created_at
-      FROM project_requirement_answers
-      WHERE project_id = $1 AND file_url IS NOT NULL
+        id, file_path, original_filename, mime_type, submitted_at
+      FROM project_requirements_answers
+      WHERE project_id = $1 AND file_path IS NOT NULL
       ORDER BY id ASC
     `;
     
@@ -236,11 +222,12 @@ module.exports = {
   async update(projectId, userId, projectData) {
     const {
       title,
-      summary,
-      description_json,
+      short_description,
+      story_json,
       goal_amount,
-      start_date,
-      end_date,
+      duration_days,
+      started_at,
+      deadline_at,
       approval_status,
       category_id
     } = projectData;
@@ -248,24 +235,27 @@ module.exports = {
     const query = `
       UPDATE projects SET
         title = $1,
-        summary = $2,
-        description_json = $3,
+        short_description = $2,
+        story_json = $3,
         goal_amount = $4,
-        start_date = $5,
-        end_date = $6,
-        approval_status = $7,
-        category_id = $8
-      WHERE id = $9 AND owner_id = $10 AND deleted_at IS NULL
-      RETURNING id, title, summary, goal_amount, approval_status, created_at
+        duration_days = $5,
+        started_at = $6,
+        deadline_at = $7,
+        approval_status = $8,
+        category_id = $9,
+        updated_at = NOW()
+      WHERE id = $10 AND owner_id = $11 AND deleted_at IS NULL
+      RETURNING id, title, short_description, goal_amount, approval_status, created_at
     `;
     
     const values = [
       title,
-      summary,
-      typeof description_json === 'string' ? description_json : JSON.stringify(description_json),
+      short_description,
+      typeof story_json === 'string' ? story_json : JSON.stringify(story_json),
       goal_amount,
-      start_date,
-      end_date,
+      duration_days,
+      started_at,
+      deadline_at,
       approval_status,
       category_id,
       projectId,

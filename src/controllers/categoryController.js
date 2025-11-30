@@ -100,13 +100,13 @@ exports.createCategory = async (req, res) => {
 exports.createRequirement = async (req, res) => {
   try {
     const { id: categoryId } = req.params;
-    const { code, label, type, required, position, optionsJson, validationsJson } = req.body;
+    const { title, description, is_required } = req.body;
 
     // Validaciones
-    if (!code || !label || !type) {
+    if (!title) {
       return res.status(400).json({
         success: false,
-        message: "Los campos code, label y type son requeridos",
+        message: "El campo title es requerido",
       });
     }
 
@@ -121,13 +121,9 @@ exports.createRequirement = async (req, res) => {
 
     const requirementData = {
       categoryId,
-      code,
-      label,
-      type,
-      required,
-      position,
-      optionsJson,
-      validationsJson,
+      title,
+      description,
+      is_required
     };
 
     const newRequirement = await categoryRepository.createRequirement(requirementData);
@@ -143,7 +139,7 @@ exports.createRequirement = async (req, res) => {
     if (error.code === "23505") {
       return res.status(409).json({
         success: false,
-        message: "Ya existe un requisito activo con ese código para esta categoría",
+        message: "Ya existe un requisito con ese título para esta categoría",
       });
     }
 

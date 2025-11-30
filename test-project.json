@@ -1,0 +1,10 @@
+{
+  "title": "Proyecto de Prueba V8",
+  "summary": "Descripción corta del proyecto",
+  "category_id": 1,
+  "description_json": "{}",
+  "goal_amount": 10000,
+  "start_date": "2025-12-01",
+  "end_date": "2026-02-01",
+  "approval_status": "borrador"
+}

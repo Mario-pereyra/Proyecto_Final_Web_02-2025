@@ -32,11 +32,12 @@ exports.createProject = async (req, res) => {
       owner_id: userId,
       category_id: parseInt(category_id),
       title,
-      summary,
-      description_json: description_json ? JSON.parse(description_json) : {},
+      short_description: summary,  // Mapear summary del frontend a short_description de la DB
+      story_json: description_json ? JSON.parse(description_json) : {},  // Mapear description_json a story_json
       goal_amount: parseFloat(goal_amount),
-      start_date: start_date || new Date().toISOString().split('T')[0],
-      end_date,
+      duration_days: end_date ? Math.ceil((new Date(end_date) - new Date(start_date || new Date())) / (1000 * 60 * 60 * 24)) : null,
+      started_at: start_date || null,
+      deadline_at: end_date || null,
       approval_status: approval_status || 'borrador'
     });
 
@@ -49,13 +50,9 @@ exports.createProject = async (req, res) => {
 
       await projectRepository.saveImage({
         project_id: projectId,
-        url: imageUrl,
+        image_path: imageUrl,
         original_filename: imageFile.originalname,
-        file_size: imageFile.size,
-        mime_type: imageFile.mimetype,
-        position: 1,
-        is_cover: true,
-        alt_text: title
+        is_cover: true
       });
     }
 
@@ -67,11 +64,9 @@ exports.createProject = async (req, res) => {
         await projectRepository.saveDocument({
           project_id: projectId,
           requirement_id: null,
-          file_url: fileUrl,
+          file_path: fileUrl,
           original_filename: doc.originalname,
-          file_size: doc.size,
-          mime_type: doc.mimetype,
-          value_text: requirements_text || null
+          mime_type: doc.mimetype
         });
       }
     }
@@ -203,12 +198,13 @@ exports.updateProject = async (req, res) => {
     // Actualizar proyecto
     const updatedProject = await projectRepository.update(id, userId, {
       title,
-      summary,
+      short_description: summary,
+      story_json: description_json ? JSON.parse(description_json) : {},
       category_id: parseInt(category_id),
-      description_json: description_json ? JSON.parse(description_json) : {},
       goal_amount: parseFloat(goal_amount),
-      start_date,
-      end_date,
+      duration_days: end_date ? Math.ceil((new Date(end_date) - new Date(start_date || new Date())) / (1000 * 60 * 60 * 24)) : null,
+      started_at: start_date || null,
+      deadline_at: end_date || null,
       approval_status: approval_status || 'borrador'
     });
 

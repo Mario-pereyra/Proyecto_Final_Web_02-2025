@@ -66,18 +66,12 @@ exports.getCategoryRequirements = async (categoryId) => {
       SELECT 
         id,
         category_id,
-        code,
-        label,
-        type,
-        required,
-        position,
-        options_json,
-        validations_json
+        title,
+        description,
+        is_required
       FROM category_requirements
-      WHERE category_id = $1 
-        AND is_active = TRUE 
-        AND retired_at IS NULL
-      ORDER BY position ASC
+      WHERE category_id = $1
+      ORDER BY id ASC
     `;
     const data = await connection.query(query, [categoryId]);
     return data.rows;
@@ -119,30 +113,22 @@ exports.createRequirement = async (requirementData) => {
     const connection = await getConnection();
     const {
       categoryId,
-      code,
-      label,
-      type,
-      required = true,
-      position = 1,
-      optionsJson = null,
-      validationsJson = null,
+      title,
+      description,
+      is_required = true
     } = requirementData;
 
     const query = `
       INSERT INTO category_requirements 
-        (category_id, code, label, type, required, position, options_json, validations_json)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-      RETURNING id, category_id, code, label, type, required, position, options_json, validations_json
+        (category_id, title, description, is_required)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, category_id, title, description, is_required
     `;
     const data = await connection.query(query, [
       categoryId,
-      code,
-      label,
-      type,
-      required,
-      position,
-      optionsJson,
-      validationsJson,
+      title,
+      description,
+      is_required
     ]);
     return data.rows[0];
   } catch (error) {
@@ -161,37 +147,25 @@ exports.updateRequirement = async (requirementId, updateData) => {
   try {
     const connection = await getConnection();
     const {
-      label,
-      type,
-      required,
-      position,
-      optionsJson,
-      validationsJson,
-      isActive,
+      title,
+      description,
+      is_required
     } = updateData;
 
     const query = `
       UPDATE category_requirements
       SET 
-        label = COALESCE($1, label),
-        type = COALESCE($2, type),
-        required = COALESCE($3, required),
-        position = COALESCE($4, position),
-        options_json = COALESCE($5, options_json),
-        validations_json = COALESCE($6, validations_json),
-        is_active = COALESCE($7, is_active)
-      WHERE id = $8
-      RETURNING id, category_id, code, label, type, required, position, options_json, validations_json, is_active
+        title = COALESCE($1, title),
+        description = COALESCE($2, description),
+        is_required = COALESCE($3, is_required)
+      WHERE id = $4
+      RETURNING id, category_id, title, description, is_required
     `;
     const data = await connection.query(query, [
-      label,
-      type,
-      required,
-      position,
-      optionsJson,
-      validationsJson,
-      isActive,
-      requirementId,
+      title,
+      description,
+      is_required,
+      requirementId
     ]);
     return data.rows[0];
   } catch (error) {
