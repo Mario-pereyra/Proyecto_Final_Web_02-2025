@@ -45,7 +45,7 @@ const userKpiRepository = {
       const totalDonatedResult = await client.query(
         `SELECT COALESCE(SUM(amount), 0) as total
          FROM donations
-         WHERE donor_id = $1 
+         WHERE user_id = $1 
            AND status = 'pagado'`,
         [userId]
       );

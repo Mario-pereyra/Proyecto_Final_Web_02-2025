@@ -2,8 +2,7 @@
  * Módulo para cargar y mostrar KPIs del dashboard de usuario
  */
 
-// API_URL ya está definido en kpis.js (si se carga en la misma página)
-const API_URL = API_URL || "http://localhost:3000/api";
+const API_URL = "http://localhost:3000/api";
 
 /**
  * Formatea un número con separadores de miles
