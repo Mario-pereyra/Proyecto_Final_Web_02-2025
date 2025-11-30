@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
+const projectSearchController = require('../controllers/projectSearchController');
 const fileUploadMiddleware =require('../middleware/fileUploadMiddleware');
 // const authMiddleware = require('../middlewares/auth'); // TODO: Descomentar cuando esté implementado
 
@@ -13,6 +14,9 @@ const upload = fileUploadMiddleware.uploadProject.fields([
 // POST /api/projects - Crear proyecto completo con archivos
 // router.post('/', authMiddleware, upload, projectController.createProject);
 router.post('/', upload, projectController.createProject); // Temporal sin auth
+
+// GET /api/projects/search - Buscar proyectos con filtros
+router.get('/search', projectSearchController.searchProjects);
 
 // GET /api/projects - Listar proyectos del usuario
 // router.get('/', authMiddleware, projectController.getAllProjects);
