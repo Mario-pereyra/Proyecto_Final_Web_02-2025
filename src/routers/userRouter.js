@@ -2,9 +2,13 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
 const userKpiController = require("../controllers/userKpiController");
+const userDonationController = require("../controllers/userDonationController");
 
 // GET /users/:id/kpis - Obtener KPIs del usuario
 router.get("/:id/kpis", userKpiController.getUserKPIs);
+
+// GET /users/:id/donations - Obtener donaciones del usuario
+router.get("/:id/donations", userDonationController.getUserDonations);
 
 // GET /me - Obtener perfil del usuario autenticado
 router.get("/me", userController.getProfile);
