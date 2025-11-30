@@ -144,7 +144,7 @@ CREATE TABLE project_observations (
 );
 
 
--- 4. VISTAS INTELIGENTES (Para el Frontend/Flutter)
+-- 4. VISTAS INTELIGENTES
 -- ====================================================================================
 CREATE OR REPLACE VIEW project_details_view AS
 SELECT 
@@ -158,6 +158,33 @@ SELECT
         (SELECT image_path FROM project_images WHERE project_id = p.id AND is_cover = TRUE LIMIT 1),
         (SELECT image_path FROM project_images WHERE project_id = p.id LIMIT 1)
     ) as cover_image,
+    
+    -- Dinero Recaudado (Suma SOLO si status = 'pagado')
+    COALESCE(SUM(d.amount) FILTER (WHERE d.status = 'pagado'), 0) as total_collected,
+    
+    -- Mecenas (Cuenta SOLO si status = 'pagado')
+    COUNT(DISTINCT d.user_id) FILTER (WHERE d.status = 'pagado') as backers_count,
+    
+    -- Progreso %
+    CASE 
+        WHEN p.goal_amount > 0 THEN 
+            ROUND((COALESCE(SUM(d.amount) FILTER (WHERE d.status = 'pagado'), 0) / p.goal_amount) * 100, 2) 
+        ELSE 0 
+    END as progress_percentage,
+    
+    -- Días Restantes
+    CASE 
+        WHEN p.deadline_at IS NULL THEN p.duration_days
+        WHEN NOW() > p.deadline_at THEN 0               
+        ELSE EXTRACT(DAY FROM (p.deadline_at - NOW()))::INTEGER 
+    END as days_remaining
+
+FROM projects p
+JOIN users u ON p.owner_id = u.id
+JOIN categories c ON p.category_id = c.id
+LEFT JOIN donations d ON p.id = d.project_id
+WHERE p.deleted_at IS NULL
+GROUP BY p.id, u.full_name, c.name;
     
     -- Dinero Recaudado
 INSERT INTO public.users (id, full_name, email, password, role, status, created_at) 
@@ -250,3 +277,6 @@ VALUES
 INSERT INTO donations (project_id, user_id, amount, payment_proof_url, status, created_at)
 VALUES 
 (501, 107, 500.00, NULL, 'pendiente', NOW());
+
+
+INSERT INTO saved_projects (user_id, project_id) VALUES (102, 501);
