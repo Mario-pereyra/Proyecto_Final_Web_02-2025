@@ -1,333 +1,204 @@
-¡hecho! aquí tienes **todo** el README consolidado con tus cambios en los puntos **10) Seguridad** y **11) Rendimiento y escalabilidad**, más el **`seeds.sql` completo**.
+# Impulsame - Plataforma de Crowdfunding
 
----
+Esta es una aplicación web de crowdfunding creada para conectar creadores con patrocinadores. En esta plataforma, los usuarios pueden crear proyectos, gestionar campañas de financiamiento, recibir donaciones y seguir el progreso de sus iniciativas. Cada proyecto incluye información detallada como título, descripción rica (Editor.js), meta de financiamiento, galería de imágenes y documentación de respaldo.
 
-# IMPULSA.ME — Plataforma de Crowdfunding — README
+## Características
 
-## 1) Resumen ejecutivo
+- ✅ Sistema de autenticación con verificación por email
+- ✅ Creación de proyectos con editor rico (Editor.js)
+- ✅ Gestión de campañas de financiamiento
+- ✅ Sistema de donaciones
+- ✅ Categorías personalizadas con requisitos específicos
+- ✅ Panel de administración
+- ✅ Dashboard de usuario con métricas
+- ✅ Sistema de favoritos
+- ✅ Carga de archivos e imágenes
 
-Plataforma web de crowdfunding enfocada en campañas de recaudación en **bolivianos (Bs)**. Los **creadores** publican proyectos que pasan por un **flujo de aprobación**; los **usuarios** autenticados pueden **apoyar** mediante donaciones simuladas con **QR**. El contenido del proyecto usa **editor.js** y una galería de **imágenes** (máx. 10, con portada). El sistema registra **observaciones** (por admins), **favoritos**, **métricas** y **auditoría** mínima.
+## Requisitos
 
-**BD:** PostgreSQL (DDL incluido)
-**IDs clave:** `projects` autoincremental; `project_images.id` con `BIGSERIAL`.
-**Estados:**
+- Node.js 18+
+- PostgreSQL 16+
+- Docker y Docker Compose (opcional)
 
-- Proyecto (aprobación): `borrador | en_revision | observado | publicado | rechazado`
-- Campaña (en `projects`): `no_iniciada | en_progreso | en_pausa | finalizada`
-- Donación: `pendiente | confirmado | fallido`
+## Ejecución Local
 
----
+### 1. Clonar el repositorio:
 
-## 2) Objetivos
-
-- Habilitar la **creación, revisión y publicación** de proyectos con contenido enriquecido.
-- Gestionar **campañas** (una por proyecto) con fecha límite y estados operativos.
-- Permitir **donaciones** autenticadas (simuladas vía QR) y mostrar progreso.
-- Mantener **historial de observaciones** y **auditoría mínima** de acciones críticas.
-- Ofrecer **búsquedas, filtros y KPIs** para catálogo y paneles.
-
----
-
-## 3) Alcance (MVP)
-
-- Autenticación con **verificación por email** (token de 5 dígitos; reenvío cada 1 min si no se usó).
-- Gestión de **usuarios** (roles: `usuario`, `admin`; estados: `inactivo`, `activo`, `bloqueado`).
-- **Proyectos** con descripción `JSONB` (editor.js), imágenes (máx. 10, una portada), categoría y meta.
-- **Flujo de aprobación** con observaciones (título + descripción `JSONB`).
-- **Campaña única por proyecto**, con `end_date` en el propio proyecto.
-- **Donaciones** autenticadas, estados `pendiente|confirmado|fallido` (sin reembolsos).
-- **Favoritos** (único por usuario+proyecto).
-- **KPIs** y listados soportados por `VIEW project_stats`.
-
----
-
-## 4) Roles y permisos
-
-**Usuario**
-
-- Registrarse, verificar email, iniciar sesión.
-- Crear/editar proyectos (en `borrador` u `observado`) y enviar a revisión.
-- Cambiar estado de **campaña** (normalmente el dueño), subir imágenes (máx. 10).
-- Donar y marcar favoritos.
-
-**Admin**
-
-- Revisar proyectos, **observar** (título + detalle), **publicar** o **rechazar**.
-- **Bloquear/desbloquear** usuarios.
-- Retirar requisitos por categoría (**sin borrar respuestas**).
-- Visualizar métricas.
-
----
-
-## 5) Reglas de negocio clave
-
-- **Una campaña por proyecto**. `end_date` vive en `projects`.
-- **Borrado lógico** de proyectos (`deleted_at`) para preservar KPIs.
-- **Requisitos por categoría**:
-
-  - Si ya no aplica, usar `required = FALSE` o **retirar** (`is_active = FALSE`, `retired_at`, `retire_reason`).
-  - **Prohibido borrar requisitos con respuestas** → FK `ON DELETE RESTRICT` + flags `is_active/retired_at/retire_reason`.
-
-- **Observaciones**: un proyecto puede ciclar entre `en_revision` ↔ `observado` varias veces.
-- **Rechazado** no vuelve a `borrador`; se crea un proyecto nuevo.
-
----
-
-## 6) Flujos principales
-
-### 6.1 Registro y verificación (token 5 dígitos)
-
-```mermaid
-sequenceDiagram
-  participant U as Usuario
-  participant A as App Backend
-  participant M as Email (SMTP)
-  U->>A: POST /auth/register (full_name, email, password)
-  A->>A: crea user (status=inactivo)
-  A->>A: genera token 5 dígitos (purpose=verificacion_email)
-  A->>M: envía email con token
-  U->>A: POST /auth/verify (email, code)
-  A->>A: valida code (vigente, no usado)
-  A-->>U: 200 OK (status=activo)
-  U->>A: POST /auth/login
-  A-->>U: JWT/Session
+```bash
+git clone <tu-repositorio>
+cd Proyecto_Final
 ```
 
-**Política de reenvío:** 1 por minuto si el anterior no se usó.
+### 2. Ejecutar el script de base de datos:
 
-### 6.2 Flujo de aprobación de proyecto
+Ejecuta el script `/db/db_impulsames.sql` en PostgreSQL para crear la estructura de la base de datos.
 
-```mermaid
-stateDiagram-v2
-  [*] --> borrador
-  borrador --> en_revision : enviar a revisión
-  en_revision --> publicado : aprobado por admin
-  en_revision --> observado : observado (con título+detalle)
-  observado --> en_revision : reenviar tras correcciones
-  en_revision --> rechazado : rechazo final
-  publicado --> [*]
-  rechazado --> [*]
+**Opción A - Desde psql:**
+
+```bash
+psql -U postgres -d db_Impulsame < db/db_impulsames.sql
 ```
 
-### 6.3 Donación con QR (simulada)
+**Opción B - Desde pgAdmin:**
 
-```mermaid
-flowchart LR
-  U[Usuario Autenticado] -->|elige proyecto| P[Proyecto Publicado]
-  P --> |monto| A[Crear Donación pendiente]
-  A --> |solicita QR| G[Pasarela sim.]
-  G --> |pago ok/fracaso| A2[Callback/Confirmación]
-  A2 --> |ok| D[Donación confirmado]
-  A2 --> |fallo| F[Donación fallido]
+1. Crear base de datos `db_Impulsame`
+2. Abrir Query Tool
+3. Ejecutar el contenido de `db/db_impulsames.sql`
+
+### 3. Configurar variables de entorno:
+
+Copia el archivo de ejemplo y ajusta los valores:
+
+```bash
+cp .env.example src/.env
 ```
 
----
-
-## 7) Funcionalidades (desglose)
-
-### 7.1 Usuarios
-
-- Registro, verificación por email (token 5 dígitos), login/logout.
-- Perfil básico (nombre completo, email).
-- **Estado**: inactivo/activo/bloqueado (admin).
-- Reenvío de token cada 1 min si no se usó.
-
-### 7.2 Proyectos
-
-- Crear/editar con **editor.js** (se guarda `description_json` completo).
-- Subir **imágenes** (UUID, máx. , una `is_cover=TRUE`).
-- Asignar **categoría**, **meta** (DECIMAL(12,2) Bs), **end_date** (DATE).
-- Enviar a **revisión**; recibir **observaciones** (historial).
-- **Publicación** o **rechazo** por admin.
-- **Campaña** (en `projects`): `no_iniciada | en_progreso | en_pausa | finalizada`.
-
-### 7.3 Categorías y requisitos
-
-- Catálogo de **categorías** (id, name, description).
-- **Requisitos por categoría** con tipos (`texto`, `largo`, `numero`, `archivo`, `url`, `booleano`, `opcion`, `video`), `required`, **`is_active`**, `retired_at`, `retire_reason`.
-- Respuestas por proyecto (`value_text`, `value_json`, `file_url`).
-- **No se borran** requisitos con respuestas (`ON DELETE RESTRICT`).
-
-### 7.4 Donaciones
-
-- Crear donación `pendiente`, recibir **QR** de pasarela simulada.
-- Confirmación vía callback → `confirmado` o `fallido` (guardar `gateway_response`).
-- **Métricas** y progreso derivados de donaciones **confirmadas**.
-
-### 7.5 Favoritos
-
-- Toggle de favoritos (único por `user_id+project_id`).
-- Listado personal de guardados.
-
-### 7.6 Búsquedas y filtros
-
-- Por **nombre** (título), **categoría**.
-- Orden: **más recientes**, **más populares** (apoyos confirmados), **próximos a finalizar**, **meta mayor/menor**.
-- **Progreso**: `<25%`, `25–75%`, `>75%`, **completamente financiado** (desde `project_stats`).
-
-### 7.7 Auditoría mínima
-
-- Acciones: `proyecto_en_revision`, `proyecto_observado`, `proyecto_publicado`, `proyecto_rechazado`, `usuario_bloqueado`, `usuario_desbloqueado`.
-- `details_json` para contexto adicional.
-
----
-
-## 8) Modelo de datos (resumen)
-
-- **users**: `id, full_name, email(citext unique), password, role, status`
-- **user_tokens**: `user_id, purpose, code(5 dígitos), created_at, expires_at, used_at`.
-- **categories**: catálogo simple.
-- **category_requirements**: `required`, `is_active`, `retired_at`, `retire_reason`; **unique** `(category_id, code)` solo con `is_active=TRUE`.
-- **projects**: `id(bigserial), owner_id, category_id, title, summary, description_json(JSONB), goal_amount, end_date, approval_status, campaign_state, published_at, deleted_at`.
-  -- **project_images**: `id(BIGSERIAL), project_id, url, position(1..10), is_cover`.
-- **project_observations**: `project_id, admin_id, title, description_json`.
-- **project_requirement_answers**: `project_id, requirement_id (ON DELETE RESTRICT), value_text/json, file_url`.
-- **donations**: `user_id, project_id, amount, status, payment_method, payment_reference, gateway_response, confirmed_at`.
-- **favorites**: PK `(user_id, project_id)`.
-- **audit_logs**: `actor_user_id, action, project_id?, target_user_id?, details_json, created_at`.
-- **project_stats (VIEW)**: totales confirmados, supporters, `progress_percent`, `progress_bucket`.
-
----
-
-## 9) KPIs y reportes (SQL de ejemplo)
-
-**Más recientes**
-
-```sql
-SELECT * FROM project_stats ORDER BY created_at DESC LIMIT 20;
-```
-
-**Más populares (apoyos confirmados)**
-
-```sql
-SELECT * FROM project_stats
-ORDER BY supporters_count DESC, total_confirmed_amount DESC
-LIMIT 20;
-```
-
-**Próximos a finalizar**
-
-```sql
-SELECT * FROM project_stats
-WHERE approval_status = 'publicado'
-ORDER BY end_date ASC
-LIMIT 20;
-```
-
-**Meta mayor / menor**
-
-```sql
-SELECT id, title, goal_amount FROM projects WHERE deleted_at IS NULL ORDER BY goal_amount DESC; -- o ASC
-```
-
-**Buckets de progreso**
-
-```sql
-SELECT * FROM project_stats WHERE progress_bucket = 'entre_25_y_75';
-```
-
-**Top categorías por monto confirmado**
-
-```sql
-SELECT c.name, SUM(ps.total_confirmed_amount) total
-FROM project_stats ps
-JOIN categories c ON c.id = ps.category_id
-GROUP BY c.name
-ORDER BY total DESC;
-```
-
-**Dashboard del creador (por usuario)**
-
-```sql
-WITH mine AS (
-  SELECT * FROM project_stats WHERE owner_id = :user_id
-)
-SELECT
-  (SELECT COUNT(*) FROM projects p WHERE p.owner_id = :user_id AND p.deleted_at IS NULL)                AS proyectos_totales,
-  (SELECT COUNT(*) FROM projects p WHERE p.owner_id = :user_id AND p.campaign_state='en_progreso')     AS campañas_activas,
-  (SELECT COALESCE(SUM(total_confirmed_amount),0) FROM mine)                                           AS total_recaudado,
-  (SELECT COALESCE(SUM(d.amount),0) FROM donations d WHERE d.user_id = :user_id AND d.status='confirmado') AS total_donado;
-```
-
----
-
-## 10) Seguridad
-
-- **Tokens:** permitir reenvío **a clic del usuario** cada **5 minutos** si el anterior **no se usó**.
-- **Logs:** conservar `audit_logs` y los callbacks de la pasarela (éxito/fallo) en `donations.gateway_response`.
-
----
-
-## 11) Rendimiento y escalabilidad
-
-- **Índices** por estado, fechas, relaciones y agregados de donaciones.
-- `project_stats` como **vista**; si escala, usar **vista materializada** con refresh programado.
-- **Subida de media asíncrona** para imágenes y videos.
-
----
-
-## 12) Configuración y puesta en marcha
-
-### 12.1 Variables de entorno (`.env`)
+Edita `src/.env` con tus credenciales:
 
 ```env
-# Base de datos(desglosar en varias si es mas eficiente la batabase_url)
-DATABASE_URL=postgres://postgres:master123@localhost:5432/db_impulsame
-
+PG_HOST=localhost
+PG_USER=postgres
+PG_PASSWORD=tu_password
+PG_DATABASE=db_Impulsame
+PG_PORT=5432
+PORT=3000
+UPLOADS_IMG_PATH=D:/ruta/a/uploads/images
+UPLOADS_FILES_PATH=D:/ruta/a/uploads/files
 ```
 
-### 12.2 Migraciones
+### 4. Instalar las dependencias:
 
-1. Crear BD 
-2. Ejecutar el **DDL** (`db_impulsame.sql`).
+```bash
+cd src
+npm install
+```
 
+### 5. Iniciar la aplicación:
+
+```bash
+node index.js
+```
+
+### 6. Abrir el navegador:
+
+Accede a la aplicación en:
+
+```
+http://localhost:3000
+```
+
+## Ejecución mediante Docker
+
+Para ejecutar la aplicación mediante Docker, asegúrate de tener Docker Desktop instalado y ejecuta el siguiente comando en la raíz del proyecto:
+
+```bash
+docker-compose up --build -d
+```
+
+### Acceso con Docker:
+
+- **Aplicación**: http://localhost:4000
+- **PostgreSQL**: localhost:5532
+
+### Ver logs:
+
+```bash
+docker-compose logs -f
+```
+
+### Detener contenedores:
+
+```bash
+docker-compose down
+```
+
+> **Nota**: Con Docker, la aplicación corre en el puerto **4000** y PostgreSQL en el puerto **5532** para evitar conflictos con servicios locales.
+
+## Estructura del Proyecto
+
+```
+Proyecto_Final/
+├── src/
+│   ├── controllers/      # Lógica de negocio
+│   ├── repositories/     # Acceso a datos
+│   ├── routers/          # Rutas de la API
+│   ├── middleware/       # Middleware personalizado
+│   ├── public/           # Archivos estáticos (HTML, CSS, JS)
+│   ├── db/               # Configuración de conexión
+│   ├── utils/            # Utilidades
+│   ├── index.js          # Punto de entrada
+│   └── .env              # Variables de entorno (no commitear)
+├── db/
+│   └── db_impulsames.sql # Script de inicialización de BD
+├── Dockerfile            # Configuración de Docker para la app
+├── compose.yml           # Orquestación de servicios
+├── .dockerignore         # Archivos excluidos del build
+├── .env.example          # Plantilla de variables de entorno
+└── README.md             # Este archivo
+```
+
+## Tecnologías Utilizadas
+
+### Backend:
+
+- Node.js + Express
+- PostgreSQL
+- dotenv
+- pg (PostgreSQL client)
+- multer (upload de archivos)
+- nodemailer (envío de emails)
+
+### Frontend:
+
+- HTML5, CSS3, JavaScript
+- Editor.js (editor rico de contenido)
+- Fetch API
+
+### DevOps:
+
+- Docker
+- Docker Compose
+
+## Documentación Adicional
+
+- **Esquema de Base de Datos**: Ver [`db/db_impulsames.sql`](./db/db_impulsames.sql)
+
+## Solución de Problemas
+
+### Puerto en uso:
+
+Si el puerto 3000 está ocupado, cambia el valor de `PORT` en `src/.env`:
+
+```env
+PORT=3001
+```
+
+### Error de conexión a PostgreSQL:
+
+Verifica que PostgreSQL esté corriendo y que las credenciales en `src/.env` sean correctas:
+
+```bash
+# Windows
+Get-Service postgresql-x64-16
+
+# Linux/Mac
+sudo systemctl status postgresql
+```
+
+### Problemas con Docker:
+
+Si Docker falla al iniciar, verifica que Docker Desktop esté corriendo:
+
+```bash
+docker --version
+docker ps
+```
+
+
+## Contacto
+
+Para preguntas o sugerencias, abre un issue en el repositorio.
 
 ---
 
-
----
-
-## 14) API (alto nivel — endpoints sugeridos)
-
-- **Auth**: `POST /auth/register`, `POST /auth/verify`, `POST /auth/login`, `POST /auth/resend-code`
-- **Usuarios**: `GET /me`, `PATCH /admin/users/:id/block`, `PATCH /admin/users/:id/unblock`
-- **Categorías/Reqs**: `GET /categories`, `GET /categories/:id/requirements`, `POST /admin/categories`, `POST /admin/categories/:id/requirements`, `PATCH /admin/requirements/:id`
-- **Proyectos**: `POST /projects`, `GET /projects`, `GET /projects/:id`, `PATCH /projects/:id`, `POST /projects/:id/submit`, `POST /projects/:id/images`, `DELETE /projects/:id/images/:imageId`
-- **Revisión**: `POST /admin/projects/:id/observe`, `POST /admin/projects/:id/publish`, `POST /admin/projects/:id/reject`
-- **Campaña**: `PATCH /projects/:id/campaign-state`
-- **Donaciones**: `POST /projects/:id/donations`, `POST /payments/callback`, `GET /me/donations`
-- **Favoritos**: `POST /projects/:id/favorite`, `DELETE /projects/:id/favorite`, `GET /me/favorites`
-
----
-
-## 15) Consultas SQL útiles (catálogo y filtros)
-
-**Búsqueda por nombre/categoría**
-
-```sql
-SELECT * FROM project_stats
-WHERE title ILIKE '%' || :q || '%'
-  AND (:category_id IS NULL OR category_id = :category_id)
-ORDER BY created_at DESC
-LIMIT :limit OFFSET :offset;
-```
-
-**Próximos a finalizar y publicados**
-
-```sql
-SELECT * FROM project_stats
-WHERE approval_status='publicado'
-ORDER BY end_date ASC
-LIMIT :limit OFFSET :offset;
-```
-
-**Progreso por bucket**
-
-```sql
-SELECT * FROM project_stats
-WHERE progress_bucket IN ('menor_25','entre_25_y_75','mayor_75','completamente_financiado');
-```
-
----
-
-operador ternario
+**¡Gracias por usar Impulsame!** 🚀

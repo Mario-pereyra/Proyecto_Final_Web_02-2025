@@ -45,7 +45,7 @@ exports.createProject = async (req, res) => {
     // 2. Guardar imagen principal con metadata
     if (req.files && req.files.mainImage && req.files.mainImage[0]) {
       const imageFile = req.files.mainImage[0];
-      const imageUrl = `/uploads/projects/images/${imageFile.filename}`;
+      const imageUrl = `/uploads/images/${imageFile.filename}`;
 
       await projectRepository.saveImage({
         project_id: projectId,
@@ -62,7 +62,7 @@ exports.createProject = async (req, res) => {
     // 3. Guardar documentos con metadata
     if (req.files && req.files.documents) {
       for (const doc of req.files.documents) {
-        const fileUrl = `/uploads/projects/documents/${doc.filename}`;
+        const fileUrl = `/uploads/files/${doc.filename}`;
 
         await projectRepository.saveDocument({
           project_id: projectId,

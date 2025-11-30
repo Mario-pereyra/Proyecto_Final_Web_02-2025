@@ -1,0 +1,48 @@
+# Dependencias
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Archivos de entorno (se configuran en docker-compose)
+.env
+.env.local
+.env.*.local
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Archivos temporales
+tmp
+temp
+*.tmp
+
+# Archivos de prueba
+coverage
+.nyc_output
+
+# Docker
+Dockerfile
+docker-compose.yml
+compose.yml
+.dockerignore
+
+# Documentación
+*.md
+!README.md
+
+# Archivos de desarrollo
+.editorconfig
+.eslintrc*
+.prettierrc*

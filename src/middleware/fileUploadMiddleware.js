@@ -39,9 +39,9 @@ const projectStorage = multer.diskStorage({
     let uploadPath;
     
     if (file.fieldname === 'mainImage') {
-      uploadPath = 'public/uploads/projects/images';
+      uploadPath = 'uploads/images';
     } else if (file.fieldname === 'documents') {
-      uploadPath = 'public/uploads/projects/documents';
+      uploadPath = 'uploads/files';
     } else {
       return cb(new Error('Campo de archivo no reconocido'));
     }

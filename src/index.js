@@ -19,6 +19,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
+// Servir archivos de uploads (imágenes y documentos)
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
@@ -30,6 +32,11 @@ app.use("/api", projectRouter);
 app.use("/api", requirementRouter);
 app.use("/api", favoriteRouter);
 app.use("/api", kpiRouter);
+
+// Health check endpoint para Docker
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+});
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Endpoint no encontrado" });
