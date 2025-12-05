@@ -1,0 +1,144 @@
+RF-REC-01: Gestión de Recursos Multimedia y Documentales
+Descripción: El sistema debe gestionar la carga, almacenamiento y ciclo de vida de los archivos digitales asociados a los proyectos, diferenciando entre contenido visual (imágenes) y evidencia documental (archivos de requisitos).
+
+Reglas de Negocio:
+
+Segregación de Almacenamiento:
+
+Imágenes (uploads/img): Se utilizará para la Portada del Proyecto y para las imágenes incrustadas dentro de la Historia (contenido rico).
+
+En base de datos (project_images), se distinguirán mediante el campo lógico is_cover. TRUE para la portada principal, FALSE para imágenes de contenido.
+
+Documentos (uploads/files): Se utilizará exclusivamente para las respuestas a los Requisitos de Categoría (ej: PDFs, DOCs).
+
+En base de datos (project_requirements_answers), se debe persistir el mime_type para su correcta identificación futura.
+
+Identificación y Rutas:
+
+El sistema no debe exponer los nombres de archivo originales en el sistema de archivos del servidor. Se debe generar un identificador único (UUID) conservando la extensión original.
+
+La base de datos almacenará la ruta relativa desde la raíz del proyecto (ej: uploads/img/a1b2-c3d4.jpg) para facilitar su consumo por el cliente web.
+
+Política de Reemplazo y Limpieza (Garbage Collection):
+
+Dado que un proyecto solo puede tener una única portada activa y una única respuesta por requisito, al subir una nueva versión de estos archivos, el sistema debe eliminar físicamente el archivo anterior del disco duro antes de actualizar la referencia en la base de datos, optimizando así el espacio de almacenamiento.
+
+Parte 2: Implementación en Node.js (Tu "Contexto")
+Aquí tienes cómo implementar el Helper de Borrado y el Controlador que cumple con tu regla #5 (borrar el viejo al subir el nuevo).
+
+A. El Helper para Borrar Archivos (src/utils/fileHelper.js)
+Este pequeño utilitario te salvará de llenar tu código de fs.unlink.
+
+JavaScript
+
+const fs = require('fs');
+const path = require('path');
+
+const deleteFile = (relativePath) => {
+    if (!relativePath) return; // Si no hay ruta, no hace nada
+
+    // Construye la ruta absoluta basada en la raíz de tu proyecto
+    const absolutePath = path.join(__dirname, '../../', relativePath); 
+
+    fs.unlink(absolutePath, (err) => {
+        if (err) {
+            console.error(`Error al borrar archivo físico (${relativePath}):`, err.message);
+            // No lanzamos error para no detener el flujo principal, solo logueamos
+        } else {
+            console.log(`Archivo eliminado correctamente: ${relativePath}`);
+        }
+    });
+};
+
+module.exports = { deleteFile };
+B. El Controlador de Actualización (Ejemplo: Cambiar Portada)
+Este es el flujo crítico: Subir Nuevo -> Buscar Viejo -> Borrar Viejo -> Guardar Nuevo.
+
+JavaScript
+
+// src/controllers/project.controller.js
+const { pool } = require('../config/db'); // Tu conexión a PostgreSQL
+const { deleteFile } = require('../utils/fileHelper'); // El helper de arriba
+
+const updateProjectCover = async (req, res) => {
+    const { projectId } = req.params;
+    
+    // 1. Validar que Multer haya subido algo
+    if (!req.file) {
+        return res.status(400).json({ error: "Debe subir una imagen." });
+    }
+
+    const newFilePath = req.file.path; // Ej: 'uploads/img/uuid-nuevo.jpg'
+    const originalName = req.file.originalname;
+
+    try {
+        // 2. BUSCAR LA PORTADA ANTERIOR (Para borrarla)
+        // Consultamos la tabla 'project_images' buscando is_cover = true
+        const queryOld = "SELECT image_path FROM project_images WHERE project_id = $1 AND is_cover = TRUE";
+        const oldResult = await pool.query(queryOld, [projectId]);
+
+        if (oldResult.rows.length > 0) {
+            const oldPath = oldResult.rows[0].image_path;
+            
+            // 3. BORRADO FÍSICO (Regla #5)
+            deleteFile(oldPath); 
+            
+            // 4. ACTUALIZAR DB (Update)
+            // Si ya existe registro, actualizamos la ruta y el nombre
+            const queryUpdate = `
+                UPDATE project_images 
+                SET image_path = $1, original_filename = $2, created_at = NOW()
+                WHERE project_id = $3 AND is_cover = TRUE
+                RETURNING *`;
+            
+            const updated = await pool.query(queryUpdate, [newFilePath, originalName, projectId]);
+            return res.json({ message: "Portada actualizada", data: updated.rows[0] });
+
+        } else {
+            // 5. INSERTAR SI NO EXISTÍA (Caso borde: proyecto nuevo sin portada)
+            const queryInsert = `
+                INSERT INTO project_images (project_id, image_path, original_filename, is_cover)
+                VALUES ($1, $2, $3, TRUE)
+                RETURNING *`;
+            
+            const inserted = await pool.query(queryInsert, [projectId, newFilePath, originalName]);
+            return res.json({ message: "Portada creada", data: inserted.rows[0] });
+        }
+
+    } catch (error) {
+        // Si falla la BD, es buena práctica borrar el archivo que acabamos de subir
+        // para no dejar basura, ya que la transacción falló.
+        deleteFile(newFilePath);
+        console.error(error);
+        res.status(500).json({ error: "Error al actualizar la portada" });
+    }
+};
+
+module.exports = { updateProjectCover };
+C. Multer Configurado (Refinado con tus rutas)
+Asegúrate de que tu configuración de Multer coincida con las rutas relativas que espera tu DB (uploads/img y uploads/files).
+
+JavaScript
+
+// src/middlewares/upload.middleware.js
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        // Regla #3: Rutas relativas específicas
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, 'uploads/img'); 
+        } else {
+            cb(null, 'uploads/files');
+        }
+    },
+    filename: function (req, file, cb) {
+        // Regla #2: UUID + extensión
+        const uniqueName = uuidv4() + path.extname(file.originalname);
+        cb(null, uniqueName);
+    }
+});
+Resumen de alineación con tu DB:
+project_images: Solo usamos image_path (que será uploads/img/...), original_filename y is_cover. Ignoramos mime/size como pediste.
+
+project_requirements_answers: Aquí sí capturarás req.file.mimetype en el controlador correspondiente a la subida de archivos y lo guardarás en la columna mime_type.
+
+Paths: Todo el sistema trabaja con rutas relativas limpias.

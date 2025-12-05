@@ -1,0 +1,306 @@
+const projectRepository = require('../repositories/projectRepository');
+
+/**
+ * POST /api/projects
+ * Crear proyecto completo con im├ígenes y documentos
+ */
+exports.createProject = async (req, res) => {
+  try {
+    const userId = req.user ? req.user.id : 1; // Temporal: hardcoded user
+    const {
+      title,
+      summary,
+      category_id,
+      description_json,
+      goal_amount,
+      start_date,
+      end_date,
+      requirements_text,
+      approval_status
+    } = req.body;
+
+    // Validaciones b├ísicas
+    if (!title || !category_id || !goal_amount || !end_date) {
+      return res.status(400).json({
+        success: false,
+        message: 'Faltan campos obligatorios: title, category_id, goal_amount, end_date'
+      });
+    }
+
+    // 1. Crear proyecto
+    const project = await projectRepository.create({
+      owner_id: userId,
+      category_id: parseInt(category_id),
+      title,
+      short_description: summary,  // Mapear summary del frontend a short_description de la DB
+      story_json: description_json ? JSON.parse(description_json) : {},  // Mapear description_json a story_json
+      goal_amount: parseFloat(goal_amount),
+      duration_days: end_date ? Math.ceil((new Date(end_date) - new Date(start_date || new Date())) / (1000 * 60 * 60 * 24)) : null,
+      started_at: start_date || null,
+      deadline_at: end_date || null,
+      approval_status: approval_status || 'borrador'
+    });
+
+    const projectId = project.id;
+
+    // 2. Guardar imagen principal con metadata
+    if (req.files && req.files.mainImage && req.files.mainImage[0]) {
+      const imageFile = req.files.mainImage[0];
+      const imageUrl = `/uploads/images/${imageFile.filename}`;
+
+      await projectRepository.saveImage({
+        project_id: projectId,
+        image_path: imageUrl,
+        original_filename: imageFile.originalname,
+        is_cover: true
+      });
+    }
+
+    // 3. Guardar documentos con metadata
+    if (req.files && req.files.documents) {
+      for (const doc of req.files.documents) {
+        const fileUrl = `/uploads/files/${doc.filename}`;
+
+        await projectRepository.saveDocument({
+          project_id: projectId,
+          requirement_id: null,
+          file_path: fileUrl,
+          original_filename: doc.originalname,
+          mime_type: doc.mimetype
+        });
+      }
+    }
+
+    // 4. Guardar requisitos de texto (si no hay documentos)
+    if (requirements_text && (!req.files || !req.files.documents || req.files.documents.length === 0)) {
+      await projectRepository.saveRequirementAnswer({
+        project_id: projectId,
+        requirement_id: null,
+        value_text: requirements_text
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: approval_status === 'borrador'
+        ? 'Proyecto guardado como borrador'
+        : 'Proyecto enviado para revisi├│n',
+      projectId: projectId,
+      project: {
+        id: projectId,
+        title: project.title,
+        status: project.approval_status,
+        created_at: project.created_at
+      }
+    });
+
+  } catch (error) {
+    console.error('Error al crear proyecto:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al guardar el proyecto',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+/**
+ * GET /api/projects
+ * Obtener proyectos del usuario con filtro opcional de status
+ */
+exports.getAllProjects = async (req, res) => {
+  try {
+    // Si hay usuario autenticado, mostrar SUS proyectos (Dashboard)
+    if (req.user) {
+      const { status } = req.query;
+      const projects = await projectRepository.getByUserId(req.user.id, status);
+      return res.json({
+        success: true,
+        count: projects.length,
+        projects
+      });
+    }
+
+    // Si NO hay usuario, mostrar proyectos P├ÜBLICOS (Homepage/Explore)
+    // Usando la vista project_details_view
+    const { category, orderBy, limit } = req.query;
+    const projects = await projectRepository.getAllPublic({ 
+      category, 
+      orderBy,
+      limit: limit ? parseInt(limit) : null 
+    });
+
+    res.json({
+      success: true,
+      count: projects.length,
+      projects
+    });
+  } catch (error) {
+    console.error('Error al obtener proyectos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener proyectos'
+    });
+  }
+};
+
+/**
+ * GET /api/projects/:id
+ * Obtener proyecto espec├¡fico (p├║blico)
+ */
+exports.getProjectById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Obtener proyecto desde la vista p├║blica
+    const project = await projectRepository.getPublicById(id);
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: 'Proyecto no encontrado'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: project
+    });
+  } catch (error) {
+    console.error('Error al obtener proyecto:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener proyecto'
+    });
+  }
+};
+
+/**
+ * PATCH /api/projects/:id
+ * Actualizar proyecto existente
+ */
+exports.updateProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user ? req.user.id : 1; // Temporal: hardcoded user
+    const {
+      title,
+      summary,
+      category_id,
+      description_json,
+      goal_amount,
+      start_date,
+      end_date,
+      approval_status
+    } = req.body;
+
+    // Validaciones b├ísicas
+    if (!title || !category_id || !goal_amount || !end_date) {
+      return res.status(400).json({
+        success: false,
+        message: 'Faltan campos obligatorios: title, category_id, goal_amount, end_date'
+      });
+    }
+
+    // Actualizar proyecto
+    const updatedProject = await projectRepository.update(id, userId, {
+      title,
+      short_description: summary,
+      story_json: description_json ? JSON.parse(description_json) : {},
+      category_id: parseInt(category_id),
+      goal_amount: parseFloat(goal_amount),
+      duration_days: end_date ? Math.ceil((new Date(end_date) - new Date(start_date || new Date())) / (1000 * 60 * 60 * 24)) : null,
+      started_at: start_date || null,
+      deadline_at: end_date || null,
+      approval_status: approval_status || 'borrador'
+    });
+
+    if (!updatedProject) {
+      return res.status(404).json({
+        success: false,
+        message: 'Proyecto no encontrado o no tienes permisos para editarlo'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: approval_status === 'borrador'
+        ? 'Borrador actualizado correctamente'
+        : 'Proyecto actualizado y enviado para revisi├│n',
+      projectId: id,
+      project: updatedProject
+    });
+
+  } catch (error) {
+    console.error('Error al actualizar proyecto:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al actualizar el proyecto',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+/**
+ * POST /api/projects/:id/submit
+ * Enviar proyecto para revisi├│n
+ */
+exports.submitProject = async (req, res) => {
+  res.status(501).json({
+    success: false,
+    message: 'Funcionalidad no implementada a├║n'
+  });
+};
+
+/**
+ * POST /api/projects/:id/images
+ * Upload adicional de im├ígenes (placeholder)
+ */
+exports.uploadProjectImages = async (req, res) => {
+  res.status(501).json({
+    success: false,
+    message: 'Funcionalidad no implementada a├║n'
+  });
+};
+
+/**
+ * DELETE /api/projects/:id/images/:imageId
+ * Eliminar imagen
+ */
+exports.deleteProjectImage = async (req, res) => {
+  res.status(501).json({
+    success: false,
+    message: 'Funcionalidad no implementada a├║n'
+  });
+};
+
+/**
+ * DELETE /api/projects/:id
+ * Soft delete de proyecto
+ */
+exports.deleteProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user ? req.user.id : 1; // Temporal: hardcoded user
+
+    const result = await projectRepository.softDelete(id, userId);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: 'Proyecto no encontrado'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Proyecto eliminado correctamente'
+    });
+  } catch (error) {
+    console.error('Error al eliminar proyecto:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al eliminar proyecto'
+    });
+  }
+};

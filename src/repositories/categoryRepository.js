@@ -11,20 +11,18 @@ const getConnection = () => {
 exports.getAllCategoriesWithCount = async () => {
   try {
     const connection = await getConnection();
-    const query = `
-      SELECT 
-        c.id,
-        c.name,
-        c.description,
-        COUNT(CASE 
-          WHEN p.approval_status = 'publicado' AND p.deleted_at IS NULL 
-          THEN 1 
-        END) as project_count
-      FROM categories c
-      LEFT JOIN projects p ON c.id = p.category_id
-      GROUP BY c.id, c.name, c.description
-      ORDER BY c.name ASC
-    `;
+    const query = `SELECT 
+                     c.id,
+                     c.name,
+                     c.description,
+                     COUNT(CASE 
+                       WHEN p.approval_status = 'publicado' AND p.deleted_at IS NULL 
+                       THEN 1 
+                     END) as project_count
+                   FROM categories c
+                   LEFT JOIN projects p ON c.id = p.category_id
+                   GROUP BY c.id, c.name, c.description
+                   ORDER BY c.name ASC`;
     const data = await connection.query(query);
     return data.rows;
   } catch (error) {
@@ -41,11 +39,9 @@ exports.getAllCategoriesWithCount = async () => {
 exports.getCategoryById = async (categoryId) => {
   try {
     const connection = await getConnection();
-    const query = `
-      SELECT id, name, description
-      FROM categories
-      WHERE id = $1
-    `;
+    const query = `SELECT id, name, description
+                   FROM categories
+                   WHERE id = $1`;
     const data = await connection.query(query, [categoryId]);
     return data.rows[0];
   } catch (error) {
@@ -62,17 +58,15 @@ exports.getCategoryById = async (categoryId) => {
 exports.getCategoryRequirements = async (categoryId) => {
   try {
     const connection = await getConnection();
-    const query = `
-      SELECT 
-        id,
-        category_id,
-        title,
-        description,
-        is_required
-      FROM category_requirements
-      WHERE category_id = $1
-      ORDER BY id ASC
-    `;
+    const query = `SELECT 
+                     id,
+                     category_id,
+                     title,
+                     description,
+                     is_required
+                   FROM category_requirements
+                   WHERE category_id = $1
+                   ORDER BY id ASC`;
     const data = await connection.query(query, [categoryId]);
     return data.rows;
   } catch (error) {
@@ -90,11 +84,9 @@ exports.getCategoryRequirements = async (categoryId) => {
 exports.createCategory = async (name, description = null) => {
   try {
     const connection = await getConnection();
-    const query = `
-      INSERT INTO categories (name, description)
-      VALUES ($1, $2)
-      RETURNING id, name, description
-    `;
+    const query = `INSERT INTO categories (name, description)
+                   VALUES ($1, $2)
+                   RETURNING id, name, description`;
     const data = await connection.query(query, [name, description]);
     return data.rows[0];
   } catch (error) {
@@ -115,20 +107,18 @@ exports.createRequirement = async (requirementData) => {
       categoryId,
       title,
       description,
-      is_required = true
+      is_required = true,
     } = requirementData;
 
-    const query = `
-      INSERT INTO category_requirements 
-        (category_id, title, description, is_required)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, category_id, title, description, is_required
-    `;
+    const query = `INSERT INTO category_requirements 
+                     (category_id, title, description, is_required)
+                   VALUES ($1, $2, $3, $4)
+                   RETURNING id, category_id, title, description, is_required`;
     const data = await connection.query(query, [
       categoryId,
       title,
       description,
-      is_required
+      is_required,
     ]);
     return data.rows[0];
   } catch (error) {
@@ -146,26 +136,20 @@ exports.createRequirement = async (requirementData) => {
 exports.updateRequirement = async (requirementId, updateData) => {
   try {
     const connection = await getConnection();
-    const {
-      title,
-      description,
-      is_required
-    } = updateData;
+    const { title, description, is_required } = updateData;
 
-    const query = `
-      UPDATE category_requirements
-      SET 
-        title = COALESCE($1, title),
-        description = COALESCE($2, description),
-        is_required = COALESCE($3, is_required)
-      WHERE id = $4
-      RETURNING id, category_id, title, description, is_required
-    `;
+    const query = `UPDATE category_requirements
+                   SET 
+                     title = COALESCE($1, title),
+                     description = COALESCE($2, description),
+                     is_required = COALESCE($3, is_required)
+                   WHERE id = $4
+                   RETURNING id, category_id, title, description, is_required`;
     const data = await connection.query(query, [
       title,
       description,
       is_required,
-      requirementId
+      requirementId,
     ]);
     return data.rows[0];
   } catch (error) {

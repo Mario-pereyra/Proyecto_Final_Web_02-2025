@@ -13,6 +13,7 @@ const projectRouter = require("./routers/projectRouter");
 const requirementRouter = require("./routers/requirementRouter");
 const favoriteRouter = require("./routers/favoriteRouter");
 const kpiRouter = require("./routers/kpiRouter");
+const uploadRouter = require("./routers/uploadRouter");
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/api", categoryRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api", requirementRouter);
 app.use("/api", favoriteRouter);
+app.use("/api/upload", uploadRouter); // ← Upload de imágenes para Editor.js
 
 // Health check endpoint para Docker
 app.get("/health", (req, res) => {
