@@ -1,0 +1,14 @@
+/* =========================================
+   Explore Page - Header / Hero
+   ========================================= */
+.explore-title {
+    font-size: var(--text-3xl);
+    font-weight: bold;
+    margin-bottom: var(--spacing-2);
+    margin-top: var(--spacing-8);
+}
+
+.explore-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-6);
+}

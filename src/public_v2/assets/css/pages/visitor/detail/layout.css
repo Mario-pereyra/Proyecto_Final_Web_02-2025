@@ -1,0 +1,22 @@
+/* Page Layout */
+.page {
+    min-height: 100%;
+}
+
+.container {
+    max-width: 1248px;
+    margin: 0 auto;
+    padding: var(--spacing-6);
+    display: grid;
+    gap: var(--spacing-7);
+    grid-template-columns: 2fr 1fr;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-5);
+        padding: var(--spacing-4);
+    }
+}

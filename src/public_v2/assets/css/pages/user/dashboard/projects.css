@@ -1,0 +1,231 @@
+/* Projects Grid */
+.projects-grid,
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-6);
+    margin-top: var(--spacing-5);
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 16px;
+}
+
+/* Project Card */
+.proj-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.proj-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.proj-card__media {
+    margin: 0;
+}
+
+.proj-card__thumb {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.proj-card__body {
+    display: grid;
+    gap: 8px;
+}
+
+.proj-card__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+}
+
+.proj-card__titlewrap {
+    flex: 1;
+}
+
+.proj-card__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.proj-card__subtitle {
+    margin: 2px 0 0;
+    font-size: 13px;
+}
+
+.proj-card__status,
+.proj-card__status--stack {
+    display: grid;
+    gap: 4px;
+}
+
+/* Chips & Progress */
+.chip {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    line-height: 1.6;
+    transition: all 0.2s ease;
+}
+
+.chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chip--muted {
+    background: var(--color-gray-200);
+    color: var(--text-primary);
+    border: 0;
+}
+
+.chip--outline-warning {
+    background: var(--color-white);
+    color: var(--color-warning);
+    border: 1px solid var(--color-warning-outline);
+}
+
+.chip--dark {
+    background: var(--color-primary);
+    color: var(--text-white);
+    border: 0;
+}
+
+.proj-card__stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.progress {
+    width: 100%;
+    height: 8px;
+    /* var(--progress-height-lg) */
+    background: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    position: relative;
+}
+
+.progress--thin {
+    height: 4px;
+    /* var(--progress-height) */
+}
+
+.progress__bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--progress, 0%);
+    background: var(--color-primary);
+}
+
+.proj-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-3);
+}
+
+.proj-card__owner,
+.proj-card__date {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+}
+
+.proj-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) 0;
+}
+
+@media (max-width: 768px) {
+
+    .projects-grid,
+    .favorites-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .proj-card {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-3);
+    }
+
+    .proj-card__media {
+        order: 0;
+        margin-bottom: var(--spacing-1);
+    }
+
+    .proj-card__thumb {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .proj-card__head {
+        flex-direction: column;
+        gap: var(--spacing-2);
+        align-items: flex-start;
+    }
+
+    .proj-card__status {
+        align-self: flex-start;
+    }
+
+    .proj-card__actions {
+        gap: var(--spacing-3);
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .proj-card__actions .btn {
+        justify-content: center;
+    }
+
+    .proj-card__meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-2);
+    }
+}
+
+@media (min-width: 721px) and (max-width: 1024px) {
+    .proj-card {
+        gap: var(--spacing-3);
+    }
+
+    .proj-card__thumb {
+        width: 80px;
+        height: 80px;
+    }
+
+    .proj-card__actions {
+        flex-wrap: wrap;
+        gap: var(--spacing-2);
+    }
+
+    .proj-card__actions .btn {
+        font-size: var(--text-xs);
+        padding: var(--spacing-1) var(--spacing-2);
+    }
+}

@@ -1,0 +1,14 @@
+/* =========================================
+   Explore Page - Grid Layout
+   ========================================= */
+.explore {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.projects-grid--explore {
+    margin-bottom: var(--spacing-8);
+}

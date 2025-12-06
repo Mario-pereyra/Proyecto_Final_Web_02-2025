@@ -192,7 +192,10 @@ VALUES
 (101, 'Sofía Ramírez', 'sofia.ramirez@impulsa.me', 'AdminPass2025!', 'admin', 'activo', NOW()),
 (102, 'Mateo Tórrez', 'mateo.dev@gmail.com', 'startup_rockstar', 'usuario', 'activo', NOW()),
 (106, 'Diego Rojas', 'diego.films@outlook.com', 'cinema_paradiso', 'usuario', 'activo', NOW()),
-(107, 'Valentina Paz', 'vale.verde@gmail.com', 'recicla_todo', 'usuario', 'activo', NOW());
+(107, 'Valentina Paz', 'vale.verde@gmail.com', 'recicla_todo', 'usuario', 'activo', NOW()),
+(108, 'Juan Perez', 'juanseeding@example.com', '123456', 'usuario', 'activo', NOW()),
+(109, 'Maria Gomez', 'mariaseeding@example.com', '123456', 'usuario', 'activo', NOW()),
+(110, 'Admin Master', 'adminseeding@example.com', '123456', 'admin', 'activo', NOW());
 
 -- Ajuste secuencia usuarios
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
@@ -248,8 +251,23 @@ VALUES
  '{"time": 1709876543210, "blocks": [{"type": "paragraph", "data": {"text": "Plan de reforestación"}}]}',
  8500.00, 30, NULL, NULL, 'observado', 'no_iniciada');
 
-INSERT INTO project_images (project_id, image_path, original_filename, is_cover) VALUES 
 (503, 'uploads/img/eco-cover.jpg', 'arboles.jpg', TRUE);
+
+-- Proyecto 4: Tecnología (Nuevo)
+INSERT INTO projects (id, owner_id, category_id, title, short_description, story_json, goal_amount, duration_days, started_at, deadline_at, approval_status, campaign_status, visit_count)
+VALUES 
+(504, 108, 1, 'Gadget Revolution', 'Un dispositivo futurista que cambiará tu vida.', '{}', 50000.00, 45, NOW(), NOW() + INTERVAL '45 days', 'publicado', 'en_progreso', 120);
+
+INSERT INTO project_images (project_id, image_path, original_filename, is_cover) VALUES 
+(504, 'uploads/img/tech_cover.png', 'tech_cover.png', TRUE);
+
+-- Proyecto 5: Ecología (Nuevo)
+INSERT INTO projects (id, owner_id, category_id, title, short_description, story_json, goal_amount, duration_days, started_at, deadline_at, approval_status, campaign_status, visit_count)
+VALUES 
+(505, 109, 5, 'Reforest Amazonas', 'Plantando árboles para salvar el pulmón del mundo.', '{}', 10000.00, 60, NOW(), NOW() + INTERVAL '60 days', 'publicado', 'en_progreso', 85);
+
+INSERT INTO project_images (project_id, image_path, original_filename, is_cover) VALUES 
+(505, 'uploads/img/eco_cover.png', 'eco_cover.png', TRUE);
 
 -- Feedback Admin
 INSERT INTO project_observations (project_id, admin_id, observation_json) VALUES 
@@ -278,5 +296,11 @@ INSERT INTO donations (project_id, user_id, amount, payment_proof_url, status, c
 VALUES 
 (501, 107, 500.00, NULL, 'pendiente', NOW());
 
+-- Donación 3: Juan Perez (User 108) a Reforest Amazonas (Project 505)
+INSERT INTO donations (project_id, user_id, amount, payment_proof_url, status, created_at)
+VALUES 
+(505, 108, 1500.00, NULL, 'pagado', NOW());
+
 
 INSERT INTO saved_projects (user_id, project_id) VALUES (102, 501);
+INSERT INTO saved_projects (user_id, project_id) VALUES (109, 504);

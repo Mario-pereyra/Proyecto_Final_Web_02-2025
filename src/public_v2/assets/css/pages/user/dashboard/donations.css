@@ -1,0 +1,89 @@
+/* Donations List */
+.donations {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.donation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 17px;
+}
+
+.donation__left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+}
+
+.donation__thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.donation__meta {
+    display: grid;
+    gap: 4px;
+}
+
+.donation__title {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.donation__date {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.donation__comment {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.donation__right {
+    display: grid;
+    justify-items: end;
+    gap: 6px;
+    min-width: 105px;
+}
+
+.donation__amount {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.donation__link {
+    font-size: 13px;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.donation__link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+    .donation {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .donation__right {
+        justify-items: start;
+    }
+}

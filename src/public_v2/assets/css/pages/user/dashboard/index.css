@@ -1,0 +1,33 @@
+@import url("../../../../global/variables.css");
+@import url("./layout.css");
+@import url("./header.css");
+@import url("./kpis.css");
+@import url("./tabs.css");
+@import url("./projects.css");
+@import url("./donations.css");
+
+/* Utilities that were in dashboard.css */
+.icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.icon--lg {
+    width: 24px;
+    height: 16px;
+}
+
+.icon--md {
+    width: 20px;
+    height: 16px;
+}
+
+.muted {
+    color: var(--text-secondary);
+}
+
+.small {
+    font-size: var(--text-xs);
+    color: var(--text-primary);
+}

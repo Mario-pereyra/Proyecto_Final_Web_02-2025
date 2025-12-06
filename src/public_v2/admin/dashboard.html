@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel Administrativo - Impulsa.me</title>
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../../assets/css/global/reset.css" />
+    <link rel="stylesheet" href="../../assets/css/global/variables.css" />
+    <link rel="stylesheet" href="../../assets/css/global/typography.css" />
+
+    <!-- Components CSS -->
+    <link rel="stylesheet" href="../../assets/css/components/buttons.css" />
+    <link rel="stylesheet" href="../../assets/css/components/navbar.css" />
+    <link rel="stylesheet" href="../../assets/css/components/cards.css" />
+    <link rel="stylesheet" href="../../assets/css/components/forms.css" />
+    <link rel="stylesheet" href="../../assets/css/components/modals.css" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="../../assets/css/pages/admin/dashboard/index.css" />
+</head>
+
+<body>
+    <div class="admin-container">
+
+        <header class="nav-header">
+            <div class="nav-container">
+                <div class="nav-logo-section">
+                    <img src="../../assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-image" />
+                    <div class="logo-fallback" style="display: none;">Impulsa.me</div>
+                    <h1 class="admin-title">Panel Administrativo</h1>
+                </div>
+
+                <div class="nav-actions">
+                    <button class="management-btn">
+                        <iconify-icon icon="ic:round-settings" width="16" height="16"></iconify-icon>
+                        <span>Gestión de Proyectos</span>
+                    </button>
+
+                    <button class="user-avatar" title="Perfil Admin">
+                        <span>A</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+
+        <main class="main-content">
+            <div>
+                <h3 class="section-title">Gestión de Proyectos</h3>
+                <p class="section-description">
+                    Revisa y modera proyectos enviados para aprobación. Controla el flujo de estados desde revisión
+                    hasta publicación.
+                </p>
+            </div>
+
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <iconify-icon icon="ic:round-hourglass-empty" width="48" height="48" class="stat-icon"
+                        style="color: #fbbf24;"></iconify-icon>
+                    <div class="stat-content">
+                        <h3>En Revisión</h3>
+                        <div class="stat-number">3</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <iconify-icon icon="ic:round-warning" width="48" height="48" class="stat-icon"
+                        style="color: #f87171;"></iconify-icon>
+                    <div class="stat-content">
+                        <h3>Observados</h3>
+                        <div class="stat-number">1</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <iconify-icon icon="ic:round-check-circle" width="48" height="48" class="stat-icon"
+                        style="color: #34d399;"></iconify-icon>
+                    <div class="stat-content">
+                        <h3>Publicados</h3>
+                        <div class="stat-number">5</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <iconify-icon icon="ic:round-cancel" width="48" height="48" class="stat-icon"
+                        style="color: #ef4444;"></iconify-icon>
+                    <div class="stat-content">
+                        <h3>Rechazados</h3>
+                        <div class="stat-number">1</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-container">
+                <div class="tab-list">
+                    <button class="tab-button active">Proyectos</button>
+                    <button class="tab-button">Administradores</button>
+                </div>
+
+
+                <div class="filters-card">
+                    <div class="filters-container">
+                        <div class="search-container">
+                            <input type="text" class="search-input"
+                                placeholder="Buscar proyectos por título, creador o categoría..." />
+                            <iconify-icon icon="ic:round-search" class="search-icon"></iconify-icon>
+                        </div>
+
+                        <select class="filter-select">
+                            <option>Todos los estados</option>
+                            <option>En Revisión</option>
+                            <option>Publicado</option>
+                            <option>Observado</option>
+                            <option>Rechazado</option>
+                            <option>Borrador</option>
+                        </select>
+
+                        <select class="filter-select">
+                            <option>Todas las categorías</option>
+                            <option>Tecnología</option>
+                            <option>Arte</option>
+                            <option>Música</option>
+                            <option>Ecología</option>
+                            <option>Educación</option>
+                            <option>Cine</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="projects-section">
+                    <div class="projects-header">
+                        <h4 class="projects-count">Proyectos (12)</h4>
+                    </div>
+
+                    <div class="projects-table">
+                        <table class="desktop-table">
+                            <thead>
+                                <tr>
+                                    <th>Proyecto</th>
+                                    <th>Creador</th>
+                                    <th>Categoría</th>
+                                    <th>Meta</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="table-project-info">
+                                            <img src="../../assets/img/SmartWatch Revolucionario.png" alt="SmartWatch"
+                                                class="project-image" />
+                                            <div>
+                                                <div class="project-title" style="font-weight: 500;">SmartWatch
+                                                    Revolucionario</div>
+                                                <div class="project-description"
+                                                    style="color: var(--text-secondary); font-size: 0.875rem;">Un
+                                                    smartwatch con tecnología innovadora...</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table-creator">
+                                            <div class="creator-avatar">A</div>
+                                            <span>Ana García</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="category-tag">Tecnología</span></td>
+                                    <td>50.000 €</td>
+                                    <td><span class="status-badge status-published">✅ Publicado</span></td>
+                                    <td>14/1/2025</td>
+                                    <td>
+                                        <div class="project-actions">
+                                            <!-- Use standard button classes? Or keep inline? keeping inline as per css -->
+                                            <button class="btn btn--sm btn--secondary" title="Ver detalle">
+                                                <iconify-icon icon="ic:round-visibility"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="admin-tab-content" id="admin-tab-administradores">
+                    <div class="create-admin-section">
+                        <div class="create-admin-header">
+                            <div class="create-admin-title">
+                                <iconify-icon icon="ic:round-person-add" width="24" height="24"></iconify-icon>
+                                <span>Crear Nuevo Administrador</span>
+                            </div>
+                        </div>
+
+                        <div class="create-admin-form">
+                            <div class="admin-form-grid">
+                                <input type="text" class="admin-form-input" placeholder="Nombre completo" />
+                                <input type="email" class="admin-form-input" placeholder="correo@impulsa.me" />
+                                <input type="password" class="admin-form-input" placeholder="Contraseña" />
+                                <input type="password" class="admin-form-input" placeholder="Confirmar contraseña" />
+                                <button class="admin-submit-btn" type="button">
+                                    <iconify-icon icon="ic:round-add"></iconify-icon>
+                                    <span>Agregar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-search-container">
+                        <input type="text" class="admin-search-input" placeholder="Buscar por nombre o email..." />
+                    </div>
+
+                    <div class="admin-count">Administradores (8)</div>
+
+                    <div class="admin-table-container">
+                        <table class="admin-table-desktop">
+                            <thead>
+                                <tr>
+                                    <th>Administrador</th>
+                                    <th>Email</th>
+                                    <th>Contraseña</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="table-admin-info">
+                                            <div class="table-admin-avatar">A</div>
+                                            <span>Ana García</span>
+                                        </div>
+                                    </td>
+                                    <td>ana.garcia@impulsa.me</td>
+                                    <td>•••••••••••</td>
+                                    <td>
+                                        <div class="admin-actions">
+                                            <button class="admin-action-btn" title="Editar">
+                                                <iconify-icon icon="ic:round-edit"
+                                                    class="admin-action-icon"></iconify-icon>
+                                            </button>
+                                            <button class="admin-action-btn" title="Eliminar">
+                                                <iconify-icon icon="ic:round-delete"
+                                                    class="admin-action-icon"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    </main>
+    </div>
+
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+    <script>
+        // Tab functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabButtons = document.querySelectorAll(".tab-button");
+            const projectsSection = document.querySelector(".projects-section");
+            const adminTabContent = document.querySelector(".admin-tab-content");
+
+            tabButtons.forEach((button) => {
+                button.addEventListener("click", function () {
+                    // Remove active class from all tabs
+                    tabButtons.forEach((tab) => tab.classList.remove("active"));
+                    // Add active class to clicked tab
+                    this.classList.add("active");
+
+                    const tabText = this.textContent.trim();
+
+                    // Show/hide content based on tab
+                    if (tabText === "Proyectos") {
+                        projectsSection.style.display = "block";
+                        if (adminTabContent) adminTabContent.classList.remove("active");
+                    } else if (tabText === "Administradores") {
+                        projectsSection.style.display = "none";
+                        if (adminTabContent) adminTabContent.classList.add("active");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

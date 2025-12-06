@@ -1,0 +1,144 @@
+:root {
+    /* Core Colors */
+    --color-primary: #030213;
+    --color-primary-hover: #1a1a2e;
+
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-gray-50: #f9f9fb;
+    --color-gray-100: #ededee;
+    --color-gray-200: #ececf0;
+    --color-gray-300: #eceef2;
+    --color-gray-400: #e3e3e7;
+    --color-gray-500: #d4183d;
+    --color-gray-600: #717182;
+    --color-gray-700: #9ca3af;
+
+    /* Semantic Colors */
+    --text-primary: #0a0a0a;
+    --text-secondary: #717182;
+    --text-tertiary: #9ca3af;
+    --text-white: #ffffff;
+    --text-muted: #717182;
+    --text-inverse: #ffffff;
+
+    --color-success: #27ae60;
+    --color-success-bg: #dbfbe6;
+    --color-success-text: #008235;
+    --color-warning: #d08700;
+    --color-warning-bg: #fff7ec80;
+    --color-warning-border: #ffd6a7;
+    --color-warning-outline: #ffdf20;
+    --color-error: #e74c3c;
+    --color-info: #1347e5;
+    --color-info-bg: #daeafe;
+
+    /* Donor Colors */
+    --color-donor-gold: #ffd700;
+    --color-donor-silver: #c0c0c0;
+    --color-donor-bronze: #cd7f32;
+    --color-donor-gold-bg: #fff9e6;
+    --color-donor-silver-bg: #f8f8f8;
+    --color-donor-bronze-bg: #faf0e6;
+
+    --color-purple: #980ffa;
+
+    /* Backgrounds */
+    --bg-primary: #ffffff;
+    --bg-secondary: #e7e7e9;
+    --bg-tertiary: #f9f9fb;
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    --bg-soft: #ecebef80;
+    --bg-soft-2: #ecebef4d;
+
+    /* Borders */
+    --border-color: #ececf0;
+    --border-color-light: #0000001a;
+    --border-light: #e5e7eb;
+    /* Added from admin reference */
+    --border-focus: var(--color-primary);
+
+    /* Radius */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 16px;
+    --radius-full: 999px;
+    --radius-button: 8px;
+    --radius-card: 14px;
+
+    /* Spacing Base */
+    --spacing-0: 0;
+    --spacing-1: 4px;
+    --spacing-2: 8px;
+    --spacing-3: 12px;
+    --spacing-4: 16px;
+    --spacing-5: 20px;
+    --spacing-6: 24px;
+    --spacing-7: 32px;
+    --spacing-8: 40px;
+    --spacing-9: 48px;
+    --spacing-10: 56px;
+    --spacing-11: 64px;
+    --spacing-12: 72px;
+
+    /* Spacing Aliases */
+    --space-1: var(--spacing-1);
+    --space-2: var(--spacing-2);
+    --space-3: var(--spacing-3);
+    --space-4: var(--spacing-4);
+    --space-5: var(--spacing-5);
+    --space-6: var(--spacing-6);
+    --space-7: var(--spacing-7);
+    --space-xs: var(--spacing-1);
+    --space-sm: var(--spacing-2);
+    --space-md: var(--spacing-4);
+    --space-lg: var(--spacing-6);
+    --space-xl: var(--spacing-8);
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-button: 0 4px 12px rgba(3, 2, 19, 0.2);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+    /* Z-Index */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+    --z-toast: 1080;
+
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow: 350ms ease;
+
+    /* Component Specifics */
+    --btn-padding-x: var(--spacing-4);
+    --btn-padding-y: var(--spacing-2);
+    --card-padding: var(--spacing-6);
+    --card-border-radius: var(--radius-lg);
+    --input-padding-x: var(--spacing-4);
+    --input-padding-y: var(--spacing-3);
+    --input-border-radius: var(--radius-md);
+
+    /* Legacy Aliases */
+    --primary-color: var(--color-primary);
+    --secondary-color: var(--color-primary);
+    --white-primary: var(--color-white);
+    --grey-primary: var(--color-gray-100);
+    --grey-secondary: var(--border-color);
+    --grey-tertiary: var(--color-gray-700);
+    --background-color: var(--bg-secondary);
+    --card-background: var(--bg-primary);
+    --error-color: var(--color-error);
+    --success-color: var(--color-success);
+}

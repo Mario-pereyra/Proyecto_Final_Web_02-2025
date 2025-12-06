@@ -19,7 +19,7 @@ const uploadRouter = require("./routers/uploadRouter");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public_v2")));
 // Servir archivos de uploads (imágenes y documentos)
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 

@@ -1,0 +1,67 @@
+@import url("../global/variables.css");
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-4);
+}
+
+.form-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+}
+
+.input-form,
+.select-form,
+.textarea-form {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 10px var(--spacing-md);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    font-family: var(--font-family-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    width: 100%;
+}
+
+.input-form:placeholder-shown,
+.textarea-form:placeholder-shown {
+    color: var(--text-secondary);
+}
+
+.input-form:focus,
+.select-form:focus,
+.textarea-form:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(212, 24, 61, 0.1);
+    /* Based on admin-panel focus */
+}
+
+.input-form.error,
+.select-form.error,
+.textarea-form.error {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.form-error-msg {
+    font-size: var(--text-xs);
+    color: var(--color-error);
+    margin-top: var(--spacing-1);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.checkbox-form {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-primary);
+}

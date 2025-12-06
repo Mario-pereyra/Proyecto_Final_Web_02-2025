@@ -1,0 +1,170 @@
+/* Admins Section (Refactored from administradores.css) */
+.admin-tab-content {
+    display: none;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.admin-tab-content.active {
+    display: block;
+}
+
+.create-admin-section {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    margin-bottom: var(--spacing-6);
+}
+
+.create-admin-header {
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.create-admin-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    color: var(--text-primary);
+}
+
+.create-admin-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.create-admin-form {
+    padding: var(--spacing-4);
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+}
+
+.admin-form-input {
+    background: var(--bg-tertiary);
+    border: none;
+    padding: 10px var(--spacing-3);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    height: 43px;
+    font-family: inherit;
+}
+
+.admin-form-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(212, 24, 61, 0.3);
+}
+
+.admin-submit-btn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px var(--spacing-4);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    font-weight: 500;
+    cursor: pointer;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    opacity: 0.9;
+    transition: all 0.2s ease;
+}
+
+.admin-submit-btn:hover {
+    opacity: 1;
+    background: var(--color-primary-hover);
+}
+
+.admin-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Admin Table */
+.admin-table-container {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.admin-table-desktop {
+    display: none;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table-desktop thead {
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table-desktop th,
+.admin-table-desktop td {
+    padding: 18px 19px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-cards-mobile {
+    display: block;
+}
+
+.admin-card-mobile {
+    padding: var(--spacing-4);
+    border-bottom: 1px solid var(--border-color);
+}
+
+@media (min-width: 640px) {
+    .admin-form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-submit-btn {
+        grid-column: span 2;
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-form-grid {
+        grid-template-columns: repeat(4, 1fr) auto;
+        align-items: end;
+    }
+
+    .admin-submit-btn {
+        grid-column: auto;
+        width: auto;
+        min-width: 120px;
+    }
+
+    .admin-cards-mobile {
+        display: none;
+    }
+
+    .admin-table-desktop {
+        display: table;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,18 @@
+/* Page Layout */
+.page {
+    min-height: 100%;
+}
+
+.shell {
+    max-width: 1232px;
+    margin: 0 auto;
+    padding: var(--spacing-6);
+    display: grid;
+    gap: var(--spacing-7);
+}
+
+@media (max-width: 480px) {
+    .shell {
+        padding: var(--spacing-4);
+    }
+}

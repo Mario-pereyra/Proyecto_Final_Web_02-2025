@@ -1,0 +1,45 @@
+@import url("../../global/variables.css");
+@import url("./hero.css");
+@import url("./filters.css");
+@import url("./sidebar.css");
+@import url("./grid.css");
+
+:root {
+    --filter-active-bg: var(--text-secondary);
+}
+
+/* Page specific utility overrides */
+.card-icon-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+/* FOOTER INHERITANCE */
+.main-footer {
+    background-color: var(--bg-secondary);
+    padding: var(--spacing-8) 0;
+    font-family: var(--font-family-primary);
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-icons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+}
+
+.footer-text p {
+    color: var(--text-secondary);
+    margin: 0;
+}
