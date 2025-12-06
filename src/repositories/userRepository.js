@@ -28,6 +28,19 @@ exports.getByIdUser = async (userId) => {
   }
 };
 
+exports.getUserByEmail = async (email) => {
+  try {
+    const connection = await getConnection();
+    const query = `SELECT id, full_name, email, password, role, status FROM users WHERE email = $1`;
+    const data = await connection.query(query, [email]);
+    return data.rows[0];
+  } catch (error) {
+    console.error("Error al obtener usuario por email:", error);
+    throw error;
+  }
+};
+
+
 exports.createUser = async (fullName, email, password) => {
   try {
     const connection = await getConnection();
@@ -62,17 +75,7 @@ exports.createAdmin = async (fullName, email, password) => {
   }
 };
 
-exports.deleteUser = async (userId) => {
-  try {
-    const connection = await getConnection();
-    const query = `DELETE FROM users WHERE id = $1`;
-    const data = await connection.query(query, [userId]);
-    return data.rowCount > 0;
-  } catch (error) {
-    console.error("Error al eliminar usuario:", error);
-    throw error;
-  }
-};
+
 
 exports.updateUser = async (userId, fullName, email, role, status) => {
   try {
@@ -94,18 +97,18 @@ exports.updateUser = async (userId, fullName, email, role, status) => {
     throw error;
   }
 };
-
-exports.getUserByEmail = async (email) => {
+exports.deleteUser = async (userId) => {
   try {
     const connection = await getConnection();
-    const query = `SELECT id, full_name, email, password, role, status FROM users WHERE email = $1`;
-    const data = await connection.query(query, [email]);
-    return data.rows[0];
+    const query = `DELETE FROM users WHERE id = $1`;
+    const data = await connection.query(query, [userId]);
+    return data.rowCount > 0;
   } catch (error) {
-    console.error("Error al obtener usuario por email:", error);
+    console.error("Error al eliminar usuario:", error);
     throw error;
   }
 };
+
 
 exports.getUserDonations = async (userId) => {
   try {

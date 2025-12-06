@@ -8,9 +8,7 @@ const getConnection = () => {
  * Repositorio para operaciones de administrador
  */
 module.exports = {
-    /**
-     * Actualizar estado de aprobación de un proyecto
-     */
+    
     async updateProjectStatus(projectId, status, adminId, feedback = null) {
         try {
             const connection = await getConnection();
