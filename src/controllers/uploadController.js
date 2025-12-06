@@ -30,3 +30,36 @@ exports.uploadStoryImage = (req, res) => {
         });
     }
 };
+
+/**
+ * POST /api/upload
+ * Upload genérico de archivos (para requisitos u otros)
+ */
+exports.uploadFile = (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: 'No se recibió ningún archivo'
+            });
+        }
+
+        const fileUrl = `uploads/files/${req.file.filename}`;
+
+        return res.json({
+            success: true,
+            message: 'Archivo subido correctamente',
+            data: {
+                url: fileUrl,
+                originalName: req.file.originalname,
+                mimeType: req.file.mimetype
+            }
+        });
+    } catch (error) {
+        console.error('Error al subir archivo:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Error al procesar el archivo'
+        });
+    }
+};

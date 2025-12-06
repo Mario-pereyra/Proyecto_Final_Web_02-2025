@@ -111,9 +111,12 @@ exports.createProject = async (req, res) => {
  */
 exports.getAllProjects = async (req, res) => {
   try {
-    if (req.user) {
+    // Fallback: Si no hay req.user (sin auth middleware), permitir userId por query param (DEV ONLY)
+    const userId = req.user ? req.user.id : (req.query.userId ? parseInt(req.query.userId) : null);
+
+    if (userId) {
       const { status } = req.query;
-      const projects = await projectRepository.getByUserId(req.user.id, status);
+      const projects = await projectRepository.getByUserId(userId, status);
       return res.json({
         success: true,
         count: projects.length,
@@ -121,6 +124,7 @@ exports.getAllProjects = async (req, res) => {
       });
     }
 
+    // Si no hay usuario identificado, devolver feed público
     const { category, orderBy, limit } = req.query;
     const projects = await projectRepository.getAllPublic({
       category,
@@ -269,6 +273,9 @@ exports.updateProject = async (req, res) => {
   }
 };
 
+const { validateProjectCompleteness } = require('../utils/projectValidation');
+const categoryRepository = require('../repositories/categoryRepository');
+
 /**
  * POST /api/projects/:id/submit
  * Enviar proyecto para revisión
@@ -278,7 +285,8 @@ exports.submitProject = async (req, res) => {
     const { id } = req.params;
     const userId = req.user ? req.user.id : 1;
 
-    const project = await projectRepository.submitForReview(id, userId);
+    // 1. Obtener proyecto completo
+    const project = await projectRepository.getById(id, userId);
 
     if (!project) {
       return res.status(404).json({
@@ -287,10 +295,36 @@ exports.submitProject = async (req, res) => {
       });
     }
 
+    if (project.approval_status !== 'borrador' && project.approval_status !== 'observado') {
+      return res.status(400).json({
+        success: false,
+        message: 'El proyecto no está en un estado válido para enviar (solo Borrador u Observado)'
+      });
+    }
+
+    // 2. Obtener datos dependientes para validación
+    const images = await projectRepository.getProjectImages(id);
+    const answers = await projectRepository.getProjectDocuments(id);
+    const requirements = await categoryRepository.getCategoryRequirements(project.category_id);
+
+    // 3. Validar Integridad
+    const validation = validateProjectCompleteness(project, images, requirements, answers);
+
+    if (!validation.valid) {
+      return res.status(400).json({
+        success: false,
+        message: 'El proyecto está incompleto',
+        errors: validation.errors
+      });
+    }
+
+    // 4. Si pasa validación, cambiar estado
+    const submittedProject = await projectRepository.submitForReview(id, userId);
+
     res.json({
       success: true,
-      message: 'Proyecto enviado para revisión',
-      project
+      message: 'Proyecto enviado para revisión exitosamente',
+      project: submittedProject
     });
   } catch (error) {
     console.error('Error al enviar proyecto:', error);
@@ -531,12 +565,7 @@ exports.getProjectDonations = async (req, res) => {
  * Maneja archivos dinámicos con multer.any()
  */
 exports.saveProject = async (req, res) => {
-  const pool = require('../db/dbConnection');
-  const client = await pool.connect();
-
   try {
-    await client.query('BEGIN');
-
     const {
       id: projectId,
       title,
@@ -553,153 +582,70 @@ exports.saveProject = async (req, res) => {
     const isUpdate = !!projectId;
 
     if (!title || title.trim() === '') {
-      await client.query('ROLLBACK');
-      return res.status(400).json({
-        success: false,
-        message: 'El título es obligatorio'
-      });
+      // Borrar archivos si falla validación
+      if (req.files && req.files.length > 0) {
+        req.files.forEach(file => deleteFileSync(`uploads/${file.fieldname === 'cover_image' ? 'img' : 'files'}/${file.filename}`));
+      }
+      return res.status(400).json({ success: false, message: 'El título es obligatorio' });
     }
 
-    let finalProjectId;
+    // Preparar datos para el repositorio
+    const projectData = {
+      owner_id: userId,
+      category_id,
+      title,
+      short_description,
+      story_json: typeof story_json === 'string' ? JSON.parse(story_json || '{}') : (story_json || {}),
+      goal_amount: goal_amount ? parseFloat(goal_amount) : null,
+      duration_days: duration_days ? parseInt(duration_days) : null,
+      started_at: started_at || null,
+      deadline_at: deadline_at || null,
+      approval_status: 'borrador'
+    };
 
-    if (isUpdate) {
-      const checkOwner = await client.query(
-        'SELECT id, approval_status FROM projects WHERE id = $1 AND owner_id = $2 AND deleted_at IS NULL',
-        [projectId, userId]
-      );
-
-      if (checkOwner.rows.length === 0) {
-        await client.query('ROLLBACK');
-        return res.status(404).json({
-          success: false,
-          message: 'Proyecto no encontrado o no tienes permisos'
-        });
-      }
-
-      const currentStatus = checkOwner.rows[0].approval_status;
-      if (currentStatus !== 'borrador' && currentStatus !== 'observado') {
-        await client.query('ROLLBACK');
-        return res.status(403).json({
-          success: false,
-          message: 'Solo puedes editar proyectos en borrador u observados'
-        });
-      }
-
-      await client.query(`
-        UPDATE projects SET
-          category_id = $1,
-          title = $2,
-          short_description = $3,
-          story_json = $4,
-          goal_amount = $5,
-          duration_days = $6,
-          started_at = $7,
-          deadline_at = $8,
-          updated_at = NOW()
-        WHERE id = $9 AND owner_id = $10
-      `, [
-        category_id,
-        title,
-        short_description,
-        story_json || '{}',
-        goal_amount || null,
-        duration_days || null,
-        started_at || null,
-        deadline_at || null,
-        projectId,
-        userId
-      ]);
-
-      finalProjectId = projectId;
-    } else {
-      const result = await client.query(`
-        INSERT INTO projects (
-          owner_id, category_id, title, short_description, story_json,
-          goal_amount, duration_days, started_at, deadline_at,
-          approval_status, created_at
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'borrador', NOW())
-        RETURNING id
-      `, [
-        userId,
-        category_id,
-        title,
-        short_description,
-        story_json || '{}',
-        goal_amount || null,
-        duration_days || null,
-        started_at || null,
-        deadline_at || null
-      ]);
-
-      finalProjectId = result.rows[0].id;
-    }
+    // Procesar imágenes y archivos para pasarlos limpios al repositorio
+    const images = [];
+    const requirements = [];
 
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
         if (file.fieldname === 'cover_image') {
-          const newCoverPath = `uploads/img/${file.filename}`;
-
-          if (isUpdate) {
-            const oldCover = await client.query(
-              'SELECT image_path FROM project_images WHERE project_id = $1 AND is_cover = TRUE',
-              [finalProjectId]
-            );
-
-            if (oldCover.rows.length > 0) {
-              deleteFile(oldCover.rows[0].image_path);
-              await client.query(
-                'DELETE FROM project_images WHERE project_id = $1 AND is_cover = TRUE',
-                [finalProjectId]
-              );
-            }
-          }
-
-          await client.query(`
-            INSERT INTO project_images (project_id, image_path, original_filename, is_cover, created_at)
-            VALUES ($1, $2, $3, TRUE, NOW())
-          `, [finalProjectId, newCoverPath, file.originalname]);
+          images.push({
+            image_path: `uploads/img/${file.filename}`,
+            original_filename: file.originalname,
+            is_cover: true
+          });
         }
-
         if (file.fieldname.startsWith('req_')) {
           const requirementId = parseInt(file.fieldname.split('_')[1]);
-          const newFilePath = `uploads/files/${file.filename}`;
-
-          if (isUpdate) {
-            const oldReq = await client.query(
-              'SELECT file_path FROM project_requirements_answers WHERE project_id = $1 AND requirement_id = $2',
-              [finalProjectId, requirementId]
-            );
-
-            if (oldReq.rows.length > 0) {
-              deleteFile(oldReq.rows[0].file_path);
-              await client.query(
-                'DELETE FROM project_requirements_answers WHERE project_id = $1 AND requirement_id = $2',
-                [finalProjectId, requirementId]
-              );
-            }
-          }
-
-          await client.query(`
-            INSERT INTO project_requirements_answers (
-              project_id, requirement_id, file_path, original_filename, mime_type, submitted_at
-            ) VALUES ($1, $2, $3, $4, $5, NOW())
-          `, [finalProjectId, requirementId, newFilePath, file.originalname, file.mimetype]);
+          requirements.push({
+            requirement_id: requirementId,
+            file_path: `uploads/files/${file.filename}`,
+            original_filename: file.originalname,
+            mime_type: file.mimetype
+          });
         }
       }
     }
 
-    await client.query('COMMIT');
+    let resultId;
+
+    if (isUpdate) {
+      resultId = await projectRepository.updateWithTransaction(projectId, userId, projectData, images, requirements);
+    } else {
+      resultId = await projectRepository.createWithTransaction(projectData, images, requirements);
+    }
 
     return res.status(isUpdate ? 200 : 201).json({
       success: true,
       message: isUpdate ? 'Proyecto actualizado correctamente' : 'Proyecto creado correctamente',
-      projectId: finalProjectId
+      projectId: resultId
     });
 
   } catch (error) {
-    await client.query('ROLLBACK');
     console.error('Error en saveProject:', error);
 
+    // Limpieza de archivos en caso de error
     if (req.files && req.files.length > 0) {
       req.files.forEach(file => {
         const filePath = file.fieldname === 'cover_image'
@@ -709,12 +655,13 @@ exports.saveProject = async (req, res) => {
       });
     }
 
-    return res.status(500).json({
+    const statusCode = error.message === "PROYECTO_NO_ENCONTRADO" ? 404 : 500;
+    const message = error.message === "PROYECTO_NO_ENCONTRADO" ? "Proyecto no encontrado o no tienes permisos" : "Error al guardar el proyecto";
+
+    return res.status(statusCode).json({
       success: false,
-      message: 'Error al guardar el proyecto',
+      message: message,
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
-  } finally {
-    client.release();
   }
 };

@@ -53,9 +53,9 @@ function translateCampaignStatus(status) {
 function createProjectCard(project) {
   const approvalStatus = translateApprovalStatus(project.approval_status);
   const campaignStatus = translateCampaignStatus(project.campaign_status);
-  
+
   // Calcular progreso si tenemos los datos
-  const progress = project.goal_amount > 0 
+  const progress = project.goal_amount > 0
     ? Math.min((project.total_collected || 0) / project.goal_amount * 100, 100).toFixed(0)
     : 0;
 
@@ -144,8 +144,8 @@ async function loadUserProjects() {
       return;
     }
 
-    // Llamar al endpoint de proyectos del usuario
-    const response = await fetch(`${API_URL}/projects`, {
+    // Llamar al endpoint de proyectos del usuario (agregando filter por query param temporalmente)
+    const response = await fetch(`${API_URL}/projects?userId=${userId}`, {
       headers: {
         'Content-Type': 'application/json'
         // Aquí iría el token de autenticación si lo tuvieras
@@ -172,7 +172,7 @@ async function loadUserProjects() {
  */
 function updateProjectsList(projects) {
   const container = document.querySelector('#proyectos .project-list');
-  
+
   if (!container) {
     console.error('Contenedor de proyectos no encontrado');
     return;

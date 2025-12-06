@@ -140,7 +140,7 @@ async function loadProjects() {
  */
 function updateProjectsGrid(projects) {
   const container = document.querySelector('.container-project-features-item');
-  
+
   if (!container) {
     console.error('Contenedor de proyectos no encontrado');
     return;
@@ -197,17 +197,23 @@ async function loadUserFavorites() {
  */
 function attachFavoriteListeners() {
   const favoriteButtons = document.querySelectorAll('.project-like-btn');
-  
+
   favoriteButtons.forEach(button => {
     button.addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
-      
+
       const projectId = parseInt(button.dataset.projectId);
       const isLiked = button.dataset.liked === 'true';
 
       if (!currentUserId) {
-        alert('Debes iniciar sesión para guardar favoritos');
+        mostrarModal({
+          title: 'Iniciar Sesión',
+          message: 'Debes iniciar sesión para guardar favoritos',
+          type: 'info',
+          confirmText: 'Iniciar Sesión',
+          onConfirm: () => window.location.href = './auth.html?action=login'
+        });
         return;
       }
 
@@ -274,7 +280,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("metaFinanciacion").value = "100000";
     document.getElementById("metaValue").textContent = "100000";
     document.getElementById("progresoFinanciacion").value = "todos";
-    
+
     // Recargar proyectos
     loadProjects();
   }

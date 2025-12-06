@@ -1,7 +1,7 @@
 // Script de protección para páginas de usuario
 // Verifica que el usuario esté autenticado y su cuenta esté activa
 
-(function() {
+(function () {
   // Obtener datos del usuario del localStorage
   const userData = localStorage.getItem("userData");
 
@@ -18,10 +18,16 @@
     if (user.status !== "activo") {
       // Guardar email para activación
       localStorage.setItem("emailPendienteActivacion", user.email);
-      
+
       // Mostrar alerta y redirigir
-      alert("Tu cuenta no está activada. Serás redirigido a la página de activación.");
-      window.location.href = "/activate-account.html";
+      mostrarModal({
+        title: 'Cuenta no activada',
+        message: 'Tu cuenta no está activada. Serás redirigido a la página de activación.',
+        type: 'warning',
+        onConfirm: () => {
+          window.location.href = "/activate-account.html";
+        }
+      });
       return;
     }
 

@@ -459,5 +459,139 @@ module.exports = {
 
     const result = await connection.query(query, values);
     return result.rows;
+  },
+
+  /**
+ * Crear proyecto con transacción completa
+ */
+  async createWithTransaction(projectData, images, requirements) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      // 1. Insertar proyecto
+      const {
+        owner_id, category_id, title, short_description, story_json,
+        goal_amount, duration_days, started_at, deadline_at, approval_status
+      } = projectData;
+
+      const projectQuery = `
+        INSERT INTO projects (
+          owner_id, category_id, title, short_description, story_json,
+          goal_amount, duration_days, started_at, deadline_at, approval_status, created_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())
+        RETURNING id`;
+
+      const projectResult = await client.query(projectQuery, [
+        owner_id, category_id, title, short_description, story_json,
+        goal_amount, duration_days, started_at, deadline_at, approval_status
+      ]);
+
+      const projectId = projectResult.rows[0].id;
+
+      // 2. Insertar Imágenes
+      if (images && images.length > 0) {
+        for (const img of images) {
+          const imgQuery = `
+            INSERT INTO project_images (project_id, image_path, original_filename, is_cover, created_at)
+            VALUES ($1, $2, $3, $4, NOW())`;
+          await client.query(imgQuery, [projectId, img.image_path, img.original_filename, img.is_cover]);
+        }
+      }
+
+      // 3. Insertar Requisitos
+      if (requirements && requirements.length > 0) {
+        for (const req of requirements) {
+          const reqQuery = `
+            INSERT INTO project_requirements_answers (
+              project_id, requirement_id, file_path, original_filename, mime_type, submitted_at
+            ) VALUES ($1, $2, $3, $4, $5, NOW())`;
+          await client.query(reqQuery, [projectId, req.requirement_id, req.file_path, req.original_filename, req.mime_type]);
+        }
+      }
+
+      await client.query("COMMIT");
+      return projectId;
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  },
+
+  /**
+   * Actualizar proyecto con transacción completa
+   */
+  async updateWithTransaction(projectId, userId, projectData, images, requirements) {
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      // Verificar propiedad
+      const checkOwner = await client.query(
+        'SELECT id, approval_status FROM projects WHERE id = $1 AND owner_id = $2 AND deleted_at IS NULL',
+        [projectId, userId]
+      );
+
+      if (checkOwner.rows.length === 0) {
+        throw new Error("PROYECTO_NO_ENCONTRADO");
+      }
+
+      // 1. Actualizar Datos Básicos
+      const {
+        title, short_description, story_json, category_id,
+        goal_amount, duration_days, started_at, deadline_at
+      } = projectData;
+
+      const updateQuery = `
+        UPDATE projects SET
+          category_id = $1, title = $2, short_description = $3, story_json = $4,
+          goal_amount = $5, duration_days = $6, started_at = $7, deadline_at = $8,
+          updated_at = NOW()
+        WHERE id = $9 AND owner_id = $10`;
+
+      await client.query(updateQuery, [
+        category_id, title, short_description, story_json,
+        goal_amount, duration_days, started_at, deadline_at,
+        projectId, userId
+      ]);
+
+      // 2. Manejar Imágenes (Solo si hay nuevas)
+      if (images && images.length > 0) {
+        for (const img of images) {
+          // Si es cover, borrar anterior logicamente de la base (fisicamente se borra en controller/service)
+          if (img.is_cover) {
+            await client.query('DELETE FROM project_images WHERE project_id = $1 AND is_cover = TRUE', [projectId]);
+          }
+          const imgQuery = `
+            INSERT INTO project_images (project_id, image_path, original_filename, is_cover, created_at)
+            VALUES ($1, $2, $3, $4, NOW())`;
+          await client.query(imgQuery, [projectId, img.image_path, img.original_filename, img.is_cover]);
+        }
+      }
+
+      // 3. Manejar Requisitos (Solo si hay nuevos)
+      if (requirements && requirements.length > 0) {
+        for (const req of requirements) {
+          // Borrar respuesta previa para este requisito
+          await client.query('DELETE FROM project_requirements_answers WHERE project_id = $1 AND requirement_id = $2', [projectId, req.requirement_id]);
+
+          const reqQuery = `
+            INSERT INTO project_requirements_answers (
+              project_id, requirement_id, file_path, original_filename, mime_type, submitted_at
+            ) VALUES ($1, $2, $3, $4, $5, NOW())`;
+          await client.query(reqQuery, [projectId, req.requirement_id, req.file_path, req.original_filename, req.mime_type]);
+        }
+      }
+
+      await client.query("COMMIT");
+      return projectId;
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   }
 };

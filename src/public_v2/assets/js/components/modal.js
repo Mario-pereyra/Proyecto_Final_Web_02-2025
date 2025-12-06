@@ -9,6 +9,12 @@ const iconifyIcons = {
   confirm: 'ic:round-help'
 };
 
+// Callbacks en memoria
+const currentCallbacks = {
+  onConfirm: null,
+  onCancel: null
+};
+
 function mostrarModal(options) {
   const {
     title = 'Mensaje',
@@ -62,15 +68,15 @@ function mostrarModal(options) {
 
   // Configurar botones según tipo
   botones.innerHTML = '';
-  
+
   if (type === 'confirm') {
     // Modal de confirmación: Aceptar y Cancelar
     botones.innerHTML = `
-      <button class="btn btn--secondary" onclick="manejarModalCancel(${onCancel ? 'true' : 'false'})">
+      <button class="btn btn--secondary" onclick="manejarModalCancel()">
         <iconify-icon icon="ic:round-cancel"></iconify-icon>
         ${cancelText}
       </button>
-      <button class="btn btn--primary" onclick="manejarModalConfirm(${onConfirm ? 'true' : 'false'})">
+      <button class="btn btn--primary" onclick="manejarModalConfirm()">
         <iconify-icon icon="ic:round-check"></iconify-icon>
         ${confirmText}
       </button>
@@ -78,60 +84,56 @@ function mostrarModal(options) {
   } else {
     // Modal informativo: Solo Aceptar (pero debe ejecutar onConfirm si existe)
     botones.innerHTML = `
-      <button class="btn btn--primary" onclick="manejarModalConfirm(${onConfirm ? 'true' : 'false'})">
+      <button class="btn btn--primary" onclick="manejarModalConfirm()">
         <iconify-icon icon="ic:round-check"></iconify-icon>
         ${confirmText}
       </button>
     `;
   }
 
-  // Guardar callbacks
-  modal.dataset.onConfirm = onConfirm ? onConfirm.toString() : '';
-  modal.dataset.onCancel = onCancel ? onCancel.toString() : '';
+  // Guardar callbacks en memoria
+  currentCallbacks.onConfirm = onConfirm;
+  currentCallbacks.onCancel = onCancel;
 
   // Mostrar modal
   modal.style.display = 'flex';
-  
-  // Animación de entrada
-  setTimeout(() => {
-    modal.querySelector('.modal-content').style.transform = 'scale(1)';
-    modal.querySelector('.modal-content').style.opacity = '1';
-  }, 10);
+
+  // Animación de entrada usando clase CSS
+  // Usamos requestAnimationFrame para asegurar que el navegador procese el display:flex antes de añadir la clase
+  requestAnimationFrame(() => {
+    modal.classList.add('active');
+  });
 }
 
 // Función para cerrar modal
 function cerrarModal() {
   const modal = document.getElementById('modal-sistema');
   if (modal) {
-    modal.style.display = 'none';
-    modal.querySelector('.modal-content').style.transform = 'scale(0.8)';
-    modal.querySelector('.modal-content').style.opacity = '0';
+    modal.classList.remove('active');
+
+    // Esperar a que termine la transición CSS (300ms) antes de ocultar
+    setTimeout(() => {
+      modal.style.display = 'none';
+      // Limpiar callbacks
+      currentCallbacks.onConfirm = null;
+      currentCallbacks.onCancel = null;
+    }, 300);
   }
 }
 
 // Manejar confirmación
-function manejarModalConfirm(hasCallback) {
-  const modal = document.getElementById('modal-sistema');
-  const callback = modal.dataset.onConfirm;
-  
-  if (hasCallback && callback) {
-    const func = new Function('return ' + callback)();
-    func();
+function manejarModalConfirm() {
+  if (currentCallbacks.onConfirm && typeof currentCallbacks.onConfirm === 'function') {
+    currentCallbacks.onConfirm();
   }
-  
   cerrarModal();
 }
 
 // Manejar cancelación
-function manejarModalCancel(hasCallback) {
-  const modal = document.getElementById('modal-sistema');
-  const callback = modal.dataset.onCancel;
-  
-  if (hasCallback && callback) {
-    const func = new Function('return ' + callback)();
-    func();
+function manejarModalCancel() {
+  if (currentCallbacks.onCancel && typeof currentCallbacks.onCancel === 'function') {
+    currentCallbacks.onCancel();
   }
-  
   cerrarModal();
 }
 
