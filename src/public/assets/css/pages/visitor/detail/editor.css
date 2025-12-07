@@ -1,0 +1,71 @@
+/* Editor.js Content Styles */
+.editorjs-content {
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    line-height: 1.7;
+}
+
+.editorjs-content h2,
+.editorjs-content h3 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.editorjs-content p {
+    margin-bottom: 1em;
+}
+
+.editorjs-content ul,
+.editorjs-content ol {
+    margin-bottom: 1em;
+    padding-left: 20px;
+}
+
+.editorjs-content li {
+    margin-bottom: 0.5em;
+}
+
+.editorjs-content .image-block {
+    margin: 2em 0;
+    text-align: center;
+}
+
+.editorjs-content .image-block img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.editorjs-content .image-caption {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.editorjs-content .embed-block {
+    margin: 2em 0;
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.editorjs-content .embed-block iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Youtube specific override if needed */
+.ce-block__content {
+    max-width: 100%;
+}

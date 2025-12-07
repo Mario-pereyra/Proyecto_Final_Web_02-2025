@@ -152,15 +152,26 @@ exports.getAllProjects = async (req, res) => {
  */
 exports.searchProjects = async (req, res) => {
   try {
-    const { q, category, status, orderBy, limit, offset } = req.query;
+    const { q, search, category, status, orderBy, limit, offset, maxGoal, minProgress, maxProgress } = req.query;
+
+    // Mapeo de ordenamiento Frontend -> Backend
+    let mappedOrderBy = 'recent';
+    if (orderBy === 'mas_populares' || orderBy === 'popular') mappedOrderBy = 'popular';
+    else if (orderBy === 'proximos_a_finalizar' || orderBy === 'closing_soon') mappedOrderBy = 'closing_soon';
+    else if (orderBy === 'meta_mayor' || orderBy === 'high_goal') mappedOrderBy = 'high_goal';
+    else if (orderBy === 'meta_menor' || orderBy === 'low_goal') mappedOrderBy = 'low_goal';
+    else if (orderBy === 'mas_recientes' || orderBy === 'recent') mappedOrderBy = 'recent';
 
     const filters = {
-      searchTerm: q,
-      category: category ? parseInt(category) : null,
+      searchTerm: q || search,
+      category: category, // Pasar como string (nombre/slug)
       status,
-      orderBy: orderBy || 'recent',
+      orderBy: mappedOrderBy,
       limit: limit ? parseInt(limit) : 20,
-      offset: offset ? parseInt(offset) : 0
+      offset: offset ? parseInt(offset) : 0,
+      maxGoal: maxGoal ? parseFloat(maxGoal) : null,
+      minProgress: minProgress ? parseFloat(minProgress) : undefined,
+      maxProgress: maxProgress ? parseFloat(maxProgress) : undefined
     };
 
     const results = await projectRepository.searchProjects(filters);
@@ -168,7 +179,7 @@ exports.searchProjects = async (req, res) => {
     res.json({
       success: true,
       count: results.length,
-      projects: results,
+      data: results,
       filters: filters
     });
   } catch (error) {

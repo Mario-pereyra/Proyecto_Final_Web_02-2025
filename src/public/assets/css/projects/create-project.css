@@ -1,6 +1,6 @@
-@import url("../tokens.css");
-@import url("../buttons.css");
-@import url("../auth/auth.css");
+@import url("../global/variables.css");
+@import url("../components/buttons.css");
+/* auth.css removed as generic form styles should be in components/forms.css or defined locally */
 
 /* ============================================
    LAYOUT PRINCIPAL

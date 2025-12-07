@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const previewContent = document.getElementById("previewContent");
   const previewRequirements = document.getElementById("previewRequirements");
   const previewRequirementsSection = document.getElementById("previewRequirementsSection");
-  
+
   const btnEditar = document.getElementById("btnEditar");
   const btnGuardarBorrador = document.getElementById("btnGuardarBorrador");
   const btnPublicar = document.getElementById("btnPublicar");
@@ -198,43 +198,51 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     localStorage.setItem("projectDraft", JSON.stringify(projectData));
-    alert("✅ Borrador guardado correctamente");
+    mostrarModal({
+      title: 'Borrador guardado',
+      message: 'Borrador guardado correctamente',
+      type: 'success'
+    });
   });
 
   // Publicar Proyecto
   btnPublicar.addEventListener("click", () => {
-    if (!confirm("¿Estás seguro de que deseas publicar este proyecto? Será enviado para revisión.")) {
-      return;
-    }
+    mostrarModal({
+      title: 'Confirmar Publicación',
+      message: '¿Estás seguro de que deseas publicar este proyecto? Será enviado para revisión.',
+      type: 'confirm',
+      confirmText: 'Sí, Publicar',
+      cancelText: 'Cancelar',
+      onConfirm: () => {
+        const projectData = {
+          step1: JSON.parse(sessionStorage.getItem("projectStep1") || "{}"),
+          step2: JSON.parse(sessionStorage.getItem("projectStep2") || "{}"),
+          step3: JSON.parse(sessionStorage.getItem("projectStep3") || "{}"),
+          step4: JSON.parse(sessionStorage.getItem("projectStep4") || "{}"),
+          step5: JSON.parse(sessionStorage.getItem("projectStep5") || "{}"),
+          status: "pending_approval",
+          submittedAt: new Date().toISOString(),
+        };
 
-    const projectData = {
-      step1: JSON.parse(sessionStorage.getItem("projectStep1") || "{}"),
-      step2: JSON.parse(sessionStorage.getItem("projectStep2") || "{}"),
-      step3: JSON.parse(sessionStorage.getItem("projectStep3") || "{}"),
-      step4: JSON.parse(sessionStorage.getItem("projectStep4") || "{}"),
-      step5: JSON.parse(sessionStorage.getItem("projectStep5") || "{}"),
-      status: "pending_approval",
-      submittedAt: new Date().toISOString(),
-    };
+        console.log("Proyecto a publicar:", projectData);
 
-    console.log("Proyecto a publicar:", projectData);
+        // Limpiar storage
+        sessionStorage.removeItem("projectStep1");
+        sessionStorage.removeItem("projectStep2");
+        sessionStorage.removeItem("projectStep3");
+        sessionStorage.removeItem("projectStep4");
+        sessionStorage.removeItem("projectStep5");
+        localStorage.removeItem("projectDraft");
 
-    // TODO: Enviar al backend
-    // fetch('/api/projects', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(projectData)
-    // })
-
-    // Limpiar storage
-    sessionStorage.removeItem("projectStep1");
-    sessionStorage.removeItem("projectStep2");
-    sessionStorage.removeItem("projectStep3");
-    sessionStorage.removeItem("projectStep4");
-    sessionStorage.removeItem("projectStep5");
-    localStorage.removeItem("projectDraft");
-
-    alert("✅ ¡Proyecto publicado! Será revisado por nuestro equipo.");
-    window.location.href = "../dashboard.html";
+        mostrarModal({
+          title: '¡Proyecto Publicado!',
+          message: 'Tu proyecto ha sido enviado y será revisado por nuestro equipo.',
+          type: 'success',
+          onConfirm: () => {
+            window.location.href = "../dashboard.html";
+          }
+        });
+      }
+    });
   });
 });

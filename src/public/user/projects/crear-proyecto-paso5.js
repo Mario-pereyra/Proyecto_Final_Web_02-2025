@@ -23,8 +23,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Cargar categoría del Paso 1
   const step1Data = sessionStorage.getItem("projectStep1");
   if (!step1Data) {
-    alert("Debes completar el Paso 1 primero");
-    window.location.href = "./crear-proyecto-paso1.html";
+    mostrarModal({
+      title: 'Paso 1 incompleto',
+      message: 'Debes completar el Paso 1 primero',
+      type: 'error',
+      onConfirm: () => {
+        window.location.href = "./crear-proyecto-paso1.html";
+      }
+    });
     return;
   }
 
@@ -401,7 +407,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     Object.assign(draft, projectData);
     localStorage.setItem("projectDraft", JSON.stringify(draft));
 
-    alert("✅ Borrador guardado correctamente");
+    mostrarModal({
+      title: 'Borrador guardado',
+      message: 'Borrador guardado correctamente',
+      type: 'success'
+    });
   });
 
   // Formulario submit (Vista Previa)
@@ -409,7 +419,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     e.preventDefault();
 
     if (!validateForm()) {
-      alert("⚠️ Por favor, completa todos los campos obligatorios");
+      mostrarModal({
+        title: 'Campos incompletos',
+        message: 'Por favor, completa todos los campos obligatorios',
+        type: 'warning'
+      });
       return;
     }
 

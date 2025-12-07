@@ -1,121 +1,102 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Activar Cuenta - Impulsa.me</title>
 
-    <link rel="stylesheet" href="./assets/css/main.css" />
-    <link rel="stylesheet" href="./assets/components/modal.css" />
-  </head>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="./assets/css/global/reset.css" />
+    <link rel="stylesheet" href="./assets/css/global/variables.css" />
+    <link rel="stylesheet" href="./assets/css/global/typography.css" />
 
-  <body>
+    <!-- Components CSS -->
+    <link rel="stylesheet" href="./assets/css/components/buttons.css" />
+    <link rel="stylesheet" href="./assets/css/components/modals.css" />
+    <link rel="stylesheet" href="./assets/css/components/forms.css" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="./assets/css/pages/visitor/auth/index.css" />
+</head>
+
+<body>
     <header>
-      <nav class="auth-nav">
-        <button
-          onclick="window.location.href='index.html'"
-          class="btn btn--secondary"
-        >
-          <iconify-icon icon="ic:round-arrow-back"></iconify-icon>
-          <span>Volver</span>
-        </button>
-      </nav>
+        <nav class="auth-nav">
+            <button onclick="window.location.href='index.html'" class="btn btn--secondary">
+                <iconify-icon icon="ic:round-arrow-back"></iconify-icon>
+                <span>Volver</span>
+            </button>
+        </nav>
     </header>
 
     <main class="auth-main">
-      <div class="auth-container">
-        <div class="logo-container">
-          <figure class="logo-figure">
-            <a href="index.html" class="logo-link">
-              <img
-                src="assets/img/Logo final.png"
-                alt="Logo Impulsa.me"
-                class="logo-img"
-              />
-            </a>
-          </figure>
-          <h1 class="auth-title">Activa tu Cuenta</h1>
-          <p class="auth-description">
-            Ingresa el código de verificación que te enviamos por correo
-            electrónico. El código expira en 5 minutos.
-          </p>
+        <div class="auth-container">
+            <div class="logo-container">
+                <figure class="logo-figure">
+                    <a href="index.html" class="logo-link">
+                        <img src="assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-img" />
+                    </a>
+                </figure>
+                <h1 class="auth-title">Activa tu Cuenta</h1>
+                <p class="auth-description">
+                    Ingresa el código de verificación que te enviamos por correo
+                    electrónico. El código expira en 5 minutos.
+                </p>
+            </div>
+
+            <section class="auth-section">
+                <form id="form__activate" class="auth-form">
+                    <div class="form-group">
+                        <label for="activate__email">
+                            <iconify-icon icon="ic:round-email" width="20" height="20"></iconify-icon>
+                            Correo Electrónico
+                        </label>
+                        <div class="container-input">
+                            <input type="email" id="activate__email" name="Email" placeholder="tu@gmail.com" />
+                            <p class="error-message" id="activate__email-error"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activate__code">
+                            <iconify-icon icon="ic:round-vpn-key" width="20" height="20"></iconify-icon>
+                            Código de Verificación
+                        </label>
+                        <div class="container-input">
+                            <input type="text" id="activate__code" name="Codigo" placeholder="Código de 5 dígitos"
+                                maxlength="5" pattern="[0-9]{5}" />
+                            <p class="error-message" id="activate__code-error"></p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn--primary btn--full">
+                        <iconify-icon icon="ic:round-check-circle" width="20" height="20"></iconify-icon>
+                        Activar Cuenta
+                    </button>
+
+                    <div class="auth-links">
+                        <button type="button" id="btn__resend__code" class="btn-link">
+                            <iconify-icon icon="ic:round-refresh"></iconify-icon>
+                            ¿No recibiste el código? Reenviar
+                        </button>
+                    </div>
+                </form>
+            </section>
         </div>
-
-        <section class="auth-section">
-          <form id="form__activate" class="auth-form">
-            <div class="form-group">
-              <label for="activate__email">
-                <iconify-icon
-                  icon="ic:round-email"
-                  width="20"
-                  height="20"
-                ></iconify-icon>
-                Correo Electrónico
-              </label>
-              <div class="container-input">
-                <input
-                  type="email"
-                  id="activate__email"
-                  name="Email"
-                  placeholder="tu@gmail.com"
-                />
-                <p class="error-message" id="activate__email-error"></p>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="activate__code">
-                <iconify-icon
-                  icon="ic:round-vpn-key"
-                  width="20"
-                  height="20"
-                ></iconify-icon>
-                Código de Verificación
-              </label>
-              <div class="container-input">
-                <input
-                  type="text"
-                  id="activate__code"
-                  name="Codigo"
-                  placeholder="Código de 5 dígitos"
-                  maxlength="5"
-                  pattern="[0-9]{5}"
-                />
-                <p class="error-message" id="activate__code-error"></p>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn--primary btn--full">
-              <iconify-icon
-                icon="ic:round-check-circle"
-                width="20"
-                height="20"
-              ></iconify-icon>
-              Activar Cuenta
-            </button>
-
-            <div class="auth-links">
-              <button type="button" id="btn__resend__code" class="btn-link">
-                <iconify-icon icon="ic:round-refresh"></iconify-icon>
-                ¿No recibiste el código? Reenviar
-              </button>
-            </div>
-          </form>
-        </section>
-      </div>
     </main>
 
     <footer class="main-footer">
-      <div class="footer-content">
-        <div class="footer-icons"></div>
-        <div class="footer-text">
-          <p>&copy; 2023 Impulsa.me. Todos los derechos reservados.</p>
+        <div class="footer-content">
+            <div class="footer-text">
+                <p>&copy; 2025 Impulsa.me. Todos los derechos reservados.</p>
+            </div>
         </div>
-      </div>
     </footer>
 
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
     <script src="./assets/js/components/modal.js"></script>
     <script src="./assets/js/auth/activate-account.js"></script>
-  </body>
+</body>
+
 </html>

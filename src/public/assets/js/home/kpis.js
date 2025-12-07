@@ -2,7 +2,7 @@
  * Módulo para cargar y mostrar KPIs dinámicamente
  */
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "http://localhost:3001/api";
 
 /**
  * Formatea un número grande con sufijos (K, M)

@@ -438,23 +438,70 @@ module.exports = {
     let query = `SELECT * FROM project_details_view WHERE approval_status = 'publicado'`;
     const values = [];
 
-    if (filters.q) {
-      values.push(`%${filters.q}%`);
+    if (filters.searchTerm) {
+      values.push(`%${filters.searchTerm}%`);
       query += ` AND (title ILIKE $${values.length} OR short_description ILIKE $${values.length})`;
     }
 
     if (filters.category) {
       values.push(filters.category);
-      query += ` AND category_name = $${values.length}`;
+      query += ` AND category_name ILIKE $${values.length}`;
+    }
+
+    // Filtro por Meta de Financiación (Máxima)
+    if (filters.maxGoal) {
+      values.push(filters.maxGoal);
+      query += ` AND goal_amount <= $${values.length}`;
+    }
+
+    // Filtros de Progreso
+    if (filters.minProgress !== undefined) {
+      values.push(filters.minProgress);
+      query += ` AND progress_percentage >= $${values.length}`;
+    }
+
+    if (filters.maxProgress !== undefined && filters.maxProgress < 100) {
+      // Nota: si es 100 o más, generalmente queremos ver todos los de 100, asi que solo filtramos si es menor para rangos.
+      // O si el usuario pide explícitamente "menos de X".
+      // La lógica del frontend manda 99.99 para "menos de 100", o 100 para "100".
+      // Ajustamos según lo que llegue.
+      values.push(filters.maxProgress);
+      query += ` AND progress_percentage <= $${values.length}`;
+    } else if (filters.maxProgress !== undefined && filters.maxProgress == 100) {
+      // Caso especial para "completamente financiado"
+      values.push(100);
+      query += ` AND progress_percentage >= $${values.length}`;
     }
 
     // Ordenamiento
-    if (filters.orderBy === 'recent') {
-      query += ` ORDER BY created_at DESC`;
-    } else if (filters.orderBy === 'popular') {
-      query += ` ORDER BY visit_count DESC`;
-    } else {
-      query += ` ORDER BY created_at DESC`;
+    switch (filters.orderBy) {
+      case 'popular': // mas_populares
+        query += ` ORDER BY visit_count DESC`;
+        break;
+      case 'closing_soon': // proximos_a_finalizar
+        query += ` ORDER BY deadline_at ASC`;
+        break;
+      case 'high_goal': // meta_mayor
+        query += ` ORDER BY goal_amount DESC`;
+        break;
+      case 'low_goal': // meta_menor
+        query += ` ORDER BY goal_amount ASC`;
+        break;
+      case 'recent': // mas_recientes
+      default:
+        query += ` ORDER BY created_at DESC`;
+        break;
+    }
+
+    // Paginación
+    if (filters.limit) {
+      values.push(filters.limit);
+      query += ` LIMIT $${values.length}`;
+    }
+
+    if (filters.offset) {
+      values.push(filters.offset);
+      query += ` OFFSET $${values.length}`;
     }
 
     const result = await connection.query(query, values);

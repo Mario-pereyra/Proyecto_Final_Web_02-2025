@@ -80,7 +80,11 @@ document.addEventListener("DOMContentLoaded", function () {
     Object.assign(draft, projectData);
     localStorage.setItem("projectDraft", JSON.stringify(draft));
 
-    alert("✅ Borrador guardado correctamente");
+    mostrarModal({
+      title: 'Borrador guardado',
+      message: 'Borrador guardado correctamente',
+      type: 'success'
+    });
   });
 
   // Formulario submit

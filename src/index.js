@@ -19,7 +19,7 @@ const uploadRouter = require("./routers/uploadRouter");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, "public_v2")));
+app.use(express.static(path.join(__dirname, "public")));
 // Servir archivos de uploads (imágenes y documentos)
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
@@ -32,7 +32,7 @@ app.use("/api", donationRouter);
 app.use("/api", categoryRouter);
 app.use("/api/projects", projectRouter);
 app.use("/api", requirementRouter);
-app.use("/api", favoriteRouter);
+app.use("/api/favorites", favoriteRouter);
 app.use("/api/upload", uploadRouter); // ← Upload de imágenes para Editor.js
 
 // Health check endpoint para Docker

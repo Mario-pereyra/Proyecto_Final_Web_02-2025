@@ -17,7 +17,7 @@ const CATEGORY_ICONS = {
 
 async function loadCategories(containerCategories) {
   try {
-    const response = await fetch(`/categories`);
+    const response = await fetch(`/api/categories`);
     const result = await response.json();
 
     if (!result.success) {

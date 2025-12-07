@@ -104,13 +104,12 @@ document.addEventListener("DOMContentLoaded", function () {
       item.innerHTML = `
         <img src="${image.url}" alt="${image.name}" class="image-preview-img" />
         <div class="image-preview-actions">
-          ${
-            !image.isCover
-              ? `<button type="button" class="image-action-btn" data-action="cover" data-index="${index}" title="Establecer como portada">
+          ${!image.isCover
+          ? `<button type="button" class="image-action-btn" data-action="cover" data-index="${index}" title="Establecer como portada">
               <iconify-icon icon="ic:round-star" width="20"></iconify-icon>
             </button>`
-              : ""
-          }
+          : ""
+        }
           <button type="button" class="image-action-btn" data-action="delete" data-index="${index}" title="Eliminar">
             <iconify-icon icon="ic:round-delete" width="20"></iconify-icon>
           </button>
@@ -172,7 +171,11 @@ document.addEventListener("DOMContentLoaded", function () {
     Object.assign(draft, projectData);
     localStorage.setItem("projectDraft", JSON.stringify(draft));
 
-    alert("✅ Borrador guardado correctamente");
+    mostrarModal({
+      title: 'Borrador guardado',
+      message: 'Borrador guardado correctamente',
+      type: 'success'
+    });
   });
 
   // Formulario submit

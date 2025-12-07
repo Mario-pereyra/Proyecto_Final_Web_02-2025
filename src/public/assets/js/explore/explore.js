@@ -2,7 +2,7 @@
  * Módulo para explorar proyectos con búsqueda y filtros
  */
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = "http://localhost:3001/api";
 let userFavorites = []; // IDs de proyectos favoritos del usuario
 let currentUserId = null;
 
@@ -20,20 +20,23 @@ function formatCurrency(amount) {
  * Crea el HTML de una tarjeta de proyecto
  */
 function createProjectCard(project) {
-  const progress = parseFloat(project.progress_percentage || 0).toFixed(0);
-  const progressText = `${progress}% ${progress >= 100 ? 'Financiado' : 'financiado'}`;
+  const progress = parseFloat(project.progress_percentage || 0);
+  const progressText = progress >= 100
+    ? `${Math.round(progress)}% Financiado`
+    : `${progress.toFixed(0)}% financiado`;
+
   const isFavorite = userFavorites.includes(project.id);
+  const collected = parseFloat(project.total_collected || 0);
+  const goal = parseFloat(project.goal_amount || 0);
 
   return `
     <article class="project-card">
-      <div class="container-project-img">
+      <div class="project-card__header">
         <a href="./detail.html?id=${project.id}">
           <img src="/${project.cover_image || 'assets/img/default-project.png'}" 
-               alt="${project.title}" class="project-img" />
+               alt="${project.title}" class="project-card__image" />
         </a>
-        <div class="project-category" role="status" aria-label="Categoría: ${project.category_name}">
-          ${project.category_name}
-        </div>
+        <div class="project-category">${project.category_name}</div>
         <button class="project-like-btn" 
                 data-liked="${isFavorite}" 
                 data-project-id="${project.id}"
@@ -52,22 +55,26 @@ function createProjectCard(project) {
         </div>
         <div class="project-card__progress">
           <div class="project-card__stats">
-            <h4>${formatCurrency(project.total_collected || 0)}Bs</h4>
-            <p>de ${formatCurrency(project.goal_amount)}Bs</p>
+            <span class="project-card__amount">${formatCurrency(collected)}Bs</span>
+            <span class="project-card__goal">de ${formatCurrency(goal)}Bs</span>
           </div>
           <div class="project-card__progress-bar">
-            <progress class="project-card__progress-bar-fill" max="100" value="${progress}"></progress>
+            <div class="project-card__progress-bar-fill" style="width: ${Math.min(progress, 100)}%;"></div>
           </div>
-          <p>${progressText}</p>
+          <p class="project-card__goal">${progressText}</p>
         </div>
-        <div class="project-card__meta">
-          <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-          <p class="owner-project">Por ${project.owner_name}</p>
+        
+        <div class="project-card__stats">
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+            <p class="project-card__goal" style="margin:0;">Por ${project.owner_name}</p>
+          </div>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+            <p class="project-card__goal" style="margin:0;">${project.days_remaining || 0} días restantes</p>
+          </div>
         </div>
-        <div class="project-card__meta">
-          <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-          <p class="date-project">${project.days_remaining || 0} días restantes</p>
-        </div>
+
         <div class="project-card__footer">
           <button type="button" onclick="window.location.href='./detail.html?id=${project.id}'" class="btn">
             Ver detalles
@@ -128,7 +135,7 @@ async function loadProjects() {
       return;
     }
 
-    updateProjectsGrid(result.data);
+    updateProjectsGrid(result.data || result.projects);
 
   } catch (error) {
     console.error("Error al cargar proyectos:", error);
@@ -138,9 +145,10 @@ async function loadProjects() {
 /**
  * Actualiza la grilla de proyectos
  */
-function updateProjectsGrid(projects) {
+function updateProjectsGrid(projectsData) {
+  const projects = projectsData || [];
   const container = document.querySelector('.container-project-features-item');
-  
+
   if (!container) {
     console.error('Contenedor de proyectos no encontrado');
     return;
@@ -197,17 +205,23 @@ async function loadUserFavorites() {
  */
 function attachFavoriteListeners() {
   const favoriteButtons = document.querySelectorAll('.project-like-btn');
-  
+
   favoriteButtons.forEach(button => {
     button.addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
-      
+
       const projectId = parseInt(button.dataset.projectId);
       const isLiked = button.dataset.liked === 'true';
 
       if (!currentUserId) {
-        alert('Debes iniciar sesión para guardar favoritos');
+        mostrarModal({
+          title: 'Iniciar Sesión',
+          message: 'Debes iniciar sesión para guardar favoritos',
+          type: 'info',
+          confirmText: 'Iniciar Sesión',
+          onConfirm: () => window.location.href = './auth.html?action=login'
+        });
         return;
       }
 
@@ -274,7 +288,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("metaFinanciacion").value = "100000";
     document.getElementById("metaValue").textContent = "100000";
     document.getElementById("progresoFinanciacion").value = "todos";
-    
+
     // Recargar proyectos
     loadProjects();
   }

@@ -21,17 +21,17 @@ document.addEventListener("DOMContentLoaded", function () {
   editor = new EditorJS({
     holder: "editorjs",
     placeholder: "Comienza a escribir la historia de tu proyecto...",
-    
+
     // Callback cuando el editor esté listo
     onReady: () => {
       console.log('✅ Editor.js está listo');
     },
-    
+
     // Callback cuando haya cambios en el contenido
     onChange: (api, event) => {
       console.log('📝 Contenido modificado', event);
     },
-    
+
     // Autosave cada 10 segundos
     autosave: {
       interval: 10000,
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("✅ Borrador guardado automáticamente");
       }
     },
-    
+
     tools: {
       // Header tool - Documentación: https://github.com/editor-js/header
       header: {
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         inlineToolbar: true,
         shortcut: 'CMD+SHIFT+H'
       },
-      
+
       // List tool - Documentación: https://github.com/editor-js/list
       // IMPORTANTE: En versión 2.0+ se llama EditorjsList, no List
       list: {
@@ -66,13 +66,13 @@ document.addEventListener("DOMContentLoaded", function () {
           defaultStyle: 'unordered'
         }
       },
-      
+
       // Checklist tool - Documentación: https://github.com/editor-js/checklist
       checklist: {
         class: Checklist,
         inlineToolbar: true
       },
-      
+
       // Table tool - Documentación: https://github.com/editor-js/table
       table: {
         class: Table,
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
           withHeadings: false
         }
       },
-      
+
       // Warning tool - Documentación: https://github.com/editor-js/warning
       warning: {
         class: Warning,
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
           messagePlaceholder: 'Mensaje de la advertencia'
         }
       },
-      
+
       // Quote tool - Documentación: https://github.com/editor-js/quote
       quote: {
         class: Quote,
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
           captionPlaceholder: "Autor de la cita",
         },
       },
-      
+
       // Code tool - Documentación: https://github.com/editor-js/code
       code: {
         class: CodeTool,
@@ -111,14 +111,14 @@ document.addEventListener("DOMContentLoaded", function () {
           placeholder: 'Ingresa código aquí'
         }
       },
-      
+
       // Delimiter tool - Documentación: https://github.com/editor-js/delimiter
       delimiter: Delimiter,
-      
+
       // Inline tools
       inlineCode: InlineCode,
       marker: Marker,
-      
+
       // Embed tool - Documentación: https://github.com/editor-js/embed
       embed: {
         class: Embed,
@@ -133,13 +133,13 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         },
       },
-      
+
       // Simple Image tool - Documentación: https://github.com/editor-js/simple-image
       image: {
         class: SimpleImage,
         inlineToolbar: true
       },
-      
+
       // Link tool - Documentación: https://github.com/editor-js/link
       linkTool: {
         class: LinkTool,
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       }
     },
-    
+
     // Traducción al español
     i18n: {
       messages: {
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     },
-    
+
     logLevel: 'ERROR',
     data: loadEditorData(),
   });
@@ -240,10 +240,18 @@ document.addEventListener("DOMContentLoaded", function () {
       Object.assign(draft, projectData);
       localStorage.setItem("projectDraft", JSON.stringify(draft));
 
-      alert("✅ Borrador guardado correctamente");
+      mostrarModal({
+        title: 'Borrador guardado',
+        message: 'Borrador guardado correctamente',
+        type: 'success'
+      });
     } catch (error) {
       console.error("Error al guardar borrador:", error);
-      alert("❌ Error al guardar el borrador");
+      mostrarModal({
+        title: 'Error',
+        message: 'Error al guardar el borrador',
+        type: 'error'
+      });
     }
   });
 
@@ -254,13 +262,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Validar que haya contenido
       if (!editorData.blocks || editorData.blocks.length === 0) {
-        alert("⚠️ Por favor, agrega contenido a la descripción de tu proyecto");
+        mostrarModal({
+          title: 'Descripción requerida',
+          message: 'Por favor, agrega contenido a la descripción de tu proyecto',
+          type: 'warning'
+        });
         return;
       }
 
       // Validar mínimo de bloques
       if (editorData.blocks.length < 3) {
-        alert("⚠️ Agrega al menos 3 bloques de contenido para una descripción completa");
+        mostrarModal({
+          title: 'Contenido insuficiente',
+          message: 'Agrega al menos 3 bloques de contenido para una descripción completa',
+          type: 'warning'
+        });
         return;
       }
 
@@ -276,7 +292,11 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "./crear-proyecto-paso3.html";
     } catch (error) {
       console.error("Error al validar editor:", error);
-      alert("❌ Error al procesar el contenido");
+      mostrarModal({
+        title: 'Error',
+        message: 'Error al procesar el contenido',
+        type: 'error'
+      });
     }
   });
 

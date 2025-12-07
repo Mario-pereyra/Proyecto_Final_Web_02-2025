@@ -18,15 +18,15 @@ function formatCurrency(amount) {
  * Crea el HTML de una tarjeta de proyecto
  */
 function createProjectCard(project) {
-  const progressText = project.progress_percentage >= 100 
-    ? `${Math.round(project.progress_percentage)}% Financiado` 
+  const progressText = project.progress_percentage >= 100
+    ? `${Math.round(project.progress_percentage)}% Financiado`
     : `${project.progress_percentage}% financiado`;
 
   return `
     <article class="project-card">
-      <div class="container-project-img">
+      <div class="project-card__header">
         <a href="./detail.html?id=${project.id}">
-          <img src="/${project.cover_image}" alt="${project.title}" class="project-img" />
+          <img src="/${project.cover_image}" alt="${project.title}" class="project-card__image" />
         </a>
         <div class="project-category">${project.category_name}</div>
         <button class="project-like-btn" data-liked="false" aria-pressed="false" aria-label="Añadir a favoritos">
@@ -41,22 +41,26 @@ function createProjectCard(project) {
         </div>
         <div class="project-card__progress">
           <div class="project-card__stats">
-            <h4>${formatCurrency(project.total_collected)}Bs</h4>
-            <p>de ${formatCurrency(project.goal_amount)}Bs</p>
+            <span class="project-card__amount">${formatCurrency(project.total_collected)}Bs</span>
+            <span class="project-card__goal">de ${formatCurrency(project.goal_amount)}Bs</span>
           </div>
           <div class="project-card__progress-bar">
-            <progress class="project-card__progress-bar-fill" max="100" value="${Math.min(project.progress_percentage, 100)}"></progress>
+            <div class="project-card__progress-bar-fill" style="width: ${Math.min(project.progress_percentage, 100)}%;"></div>
           </div>
-          <p>${progressText}</p>
+          <p class="project-card__goal">${progressText}</p>
         </div>
-        <div class="project-card__meta">
-          <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
-          <p class="owner-project">Por ${project.owner_name}</p>
+        
+        <div class="project-card__stats">
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
+            <p class="project-card__goal" style="margin:0;">Por ${project.owner_name}</p>
+          </div>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
+            <p class="project-card__goal" style="margin:0;">${project.days_remaining} días restantes</p>
+          </div>
         </div>
-        <div class="project-card__meta">
-          <iconify-icon icon="ic:round-calendar-today" width="24" height="24"></iconify-icon>
-          <p class="date-project">${project.days_remaining} días restantes</p>
-        </div>
+
         <div class="project-card__footer">
           <button type="button" onclick="window.location.href='./detail.html?id=${project.id}'" class="btn">
             Ver detalles
@@ -92,7 +96,7 @@ async function loadFeaturedProjects() {
  */
 function updateFeaturedProjects(projects) {
   const container = document.querySelector('.container-project-features-item');
-  
+
   if (!container) {
     console.error('Contenedor de proyectos destacados no encontrado');
     return;
