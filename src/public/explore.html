@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./assets/css/components/cards.css" />
     <link rel="stylesheet" href="./assets/css/components/modals.css" />
     <link rel="stylesheet" href="./assets/css/components/forms.css" />
+    
 
     <!-- Page CSS -->
     <link rel="stylesheet" href="./assets/css/pages/visitor/explore/index.css" />
@@ -107,14 +108,7 @@
                     <div class="filters-container">
                         <select name="categoria" id="categoria" class="filter-select">
                             <option value="todas">Todas las categorías</option>
-                            <option value="tecnologia">Tecnología</option>
-                            <option value="musica">Música</option>
-                            <option value="arte">Arte</option>
-                            <option value="cine">Cine</option>
-                            <option value="educacion">Educación</option>
-                            <option value="comunidad">Comunidad</option>
-                            <option value="salud">Salud</option>
-                            <option value="diseno">Diseño</option>
+                            <!-- Categorías cargadas dinámicamente por FilterManager.js -->
                         </select>
 
                         <select name="orden" id="orden" class="filter-select">
@@ -184,270 +178,7 @@
             </aside>
 
             <div class="container-project-features-item grid-responsive" style="margin-bottom: var(--spacing-8);">
-                <article class="project-card">
-                    <div class="project-card__header">
-                        <a href="./detail.html"><img src="./assets/img/SmartWatch Revolucionario.png"
-                                alt="SmartWatch Revolucionario" class="project-card__image" /></a>
-                        <div class="project-category" role="status" aria-label="Categoría: Tecnología">Tecnología</div>
-                        <button class="project-like-btn" data-liked="false" aria-pressed="false"
-                            aria-label="Añadir a favoritos">
-                            <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                            <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                                style="display: none"></iconify-icon>
-                        </button>
-                    </div>
-                    <div class="project-card__content">
-                        <div class="project-card__title-container">
-                            <h3>SmartWatch Revolucionario</h3>
-                            <p>Un smartchwatch con tecnologia innovadora que monitorea tu salud 24/7</p>
-                        </div>
-                        <div class="project-card__progress">
-                            <div class="project-card__stats">
-                                <span class="project-card__amount">37.500Bs</span>
-                                <span class="project-card__goal">de 50.000Bs</span>
-                            </div>
-                            <div class="project-card__progress-bar">
-                                <div class="project-card__progress-bar-fill" style="width: 100%;"></div>
-                            </div>
-                            <p class="project-card__goal">100% Financiado</p>
-                        </div>
-                        <div class="project-card__stats">
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">Por Ana garcia</p>
-                            </div>
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">101 dias restantes</p>
-                            </div>
-                        </div>
-                        <div class="project-card__footer">
-                            <button type="button" onclick="window.location.href='./detail.html'" class="btn">
-                                Ver detalles
-                            </button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-card__header">
-                        <a href="#"><img src="./assets/img/Álbum _Sonidos del Futuro_.png"
-                                alt="Album de Sonidos del futuro" class="project-card__image" /></a>
-                        <div class="project-category" role="status" aria-label="Categoría: Música">Música</div>
-                        <button class="project-like-btn" data-liked="false" aria-pressed="false"
-                            aria-label="Añadir a favoritos">
-                            <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                            <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                                style="display: none"></iconify-icon>
-                        </button>
-                    </div>
-                    <div class="project-card__content">
-                        <div class="project-card__title-container">
-                            <h3>Álbum "Sonidos del Futuro"</h3>
-                            <p>Un álbum conceptual que fusiona música electrónica con sonidos naturales</p>
-                        </div>
-                        <div class="project-card__progress">
-                            <div class="project-card__stats">
-                                <span class="project-card__amount">8.750Bs</span>
-                                <span class="project-card__goal">de 15.000Bs</span>
-                            </div>
-                            <div class="project-card__progress-bar">
-                                <div class="project-card__progress-bar-fill" style="width: 58%;"></div>
-                            </div>
-                            <p class="project-card__goal">58% financiado</p>
-                        </div>
-                        <div class="project-card__stats">
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">por Carlos López</p>
-                            </div>
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">70 días restantes</p>
-                            </div>
-                        </div>
-                        <div class="project-card__footer">
-                            <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver
-                                detalles</button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-card__header">
-                        <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png"
-                                alt="Instalación de Arte Interactivo" class="project-card__image" /></a>
-                        <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
-                        <button class="project-like-btn" data-liked="false" aria-pressed="false"
-                            aria-label="Añadir a favoritos">
-                            <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                            <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                                style="display: none"></iconify-icon>
-                        </button>
-                    </div>
-                    <div class="project-card__content">
-                        <div class="project-card__title-container">
-                            <h3>Instalación de Arte Interactivo</h3>
-                            <p>Una experiencia artística inmersiva que responde a las emociones del espectador</p>
-                        </div>
-                        <div class="project-card__progress">
-                            <div class="project-card__stats">
-                                <span class="project-card__amount">12.300Bs</span>
-                                <span class="project-card__goal">de 25.000Bs</span>
-                            </div>
-                            <div class="project-card__progress-bar">
-                                <div class="project-card__progress-bar-fill" style="width: 49%;"></div>
-                            </div>
-                            <p class="project-card__goal">49% financiado</p>
-                        </div>
-                        <div class="project-card__stats">
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">Por Ana garcia</p>
-                            </div>
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">24 dias restantes</p>
-                            </div>
-                        </div>
-                        <div class="project-card__footer">
-                            <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver
-                                detalles</button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-card__header">
-                        <a href="#"><img src="./assets/img/SmartWatch Revolucionario.png"
-                                alt="SmartWatch Revolucionario" class="project-card__image" /></a>
-                        <div class="project-category" role="status" aria-label="Categoría: Tecnología">Tecnología</div>
-                        <button class="project-like-btn" data-liked="false" aria-pressed="false"
-                            aria-label="Añadir a favoritos">
-                            <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                            <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                                style="display: none"></iconify-icon>
-                        </button>
-                    </div>
-                    <div class="project-card__content">
-                        <div class="project-card__title-container">
-                            <h3>SmartWatch Revolucionario</h3>
-                            <p>Un smartchwatch con tecnologia innovadora que monitorea tu salud 24/7</p>
-                        </div>
-                        <div class="project-card__progress">
-                            <div class="project-card__stats">
-                                <span class="project-card__amount">37.500Bs</span>
-                                <span class="project-card__goal">de 50.000Bs</span>
-                            </div>
-                            <div class="project-card__progress-bar">
-                                <div class="project-card__progress-bar-fill" style="width: 100%;"></div>
-                            </div>
-                            <p class="project-card__goal">100% Financiado</p>
-                        </div>
-                        <div class="project-card__stats">
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">Por Ana garcia</p>
-                            </div>
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">101 dias restantes</p>
-                            </div>
-                        </div>
-                        <div class="project-card__footer">
-                            <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver
-                                detalles</button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-card__header">
-                        <a href="#"><img src="./assets/img/Álbum _Sonidos del Futuro_.png"
-                                alt="Album de Sonidos del futuro" class="project-card__image" /></a>
-                        <div class="project-category" role="status" aria-label="Categoría: Música">Música</div>
-                        <button class="project-like-btn" data-liked="false" aria-pressed="false"
-                            aria-label="Añadir a favoritos">
-                            <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                            <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                                style="display: none"></iconify-icon>
-                        </button>
-                    </div>
-                    <div class="project-card__content">
-                        <div class="project-card__title-container">
-                            <h3>Álbum "Sonidos del Futuro"</h3>
-                            <p>Un álbum conceptual que fusiona música electrónica con sonidos naturales</p>
-                        </div>
-                        <div class="project-card__progress">
-                            <div class="project-card__stats">
-                                <span class="project-card__amount">8.750Bs</span>
-                                <span class="project-card__goal">de 15.000Bs</span>
-                            </div>
-                            <div class="project-card__progress-bar">
-                                <div class="project-card__progress-bar-fill" style="width: 58%;"></div>
-                            </div>
-                            <p class="project-card__goal">58% financiado</p>
-                        </div>
-                        <div class="project-card__stats">
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">por Carlos López</p>
-                            </div>
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">70 días restantes</p>
-                            </div>
-                        </div>
-                        <div class="project-card__footer">
-                            <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver
-                                detalles</button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-card__header">
-                        <a href="#"><img src="./assets/img/Instalación de Arte Interactivo.png"
-                                alt="Instalación de Arte Interactivo" class="project-card__image" /></a>
-                        <div class="project-category" role="status" aria-label="Categoría: Arte">Arte</div>
-                        <button class="project-like-btn" data-liked="false" aria-pressed="false"
-                            aria-label="Añadir a favoritos">
-                            <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty"></iconify-icon>
-                            <iconify-icon icon="ic:round-favorite" class="heart-icon-filled"
-                                style="display: none"></iconify-icon>
-                        </button>
-                    </div>
-                    <div class="project-card__content">
-                        <div class="project-card__title-container">
-                            <h3>Instalación de Arte Interactivo</h3>
-                            <p>Una experiencia artística inmersiva que responde a las emociones del espectador</p>
-                        </div>
-                        <div class="project-card__progress">
-                            <div class="project-card__stats">
-                                <span class="project-card__amount">12.300Bs</span>
-                                <span class="project-card__goal">de 25.000Bs</span>
-                            </div>
-                            <div class="project-card__progress-bar">
-                                <div class="project-card__progress-bar-fill" style="width: 49%;"></div>
-                            </div>
-                            <p class="project-card__goal">49% financiado</p>
-                        </div>
-                        <div class="project-card__stats">
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">Por Ana garcia</p>
-                            </div>
-                            <div style="display: flex; gap: 4px; align-items: center;">
-                                <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
-                                <p class="project-card__goal" style="margin:0;">24 dias restantes</p>
-                            </div>
-                        </div>
-                        <div class="project-card__footer">
-                            <button type="button" onclick="window.location.href='./detail.html'" class="btn">Ver
-                                detalles</button>
-                        </div>
-                    </div>
-                </article>
+                <!-- Proyectos cargados dinámicamente por FilterManager.js -->
             </div>
         </section>
     </main>
@@ -470,7 +201,7 @@
     <script src="assets/js/home/menu.js"></script>
     <script src="assets/js/components/like-button.js"></script>
     <script src="assets/js/components/modal.js"></script>
-    <script src="assets/js/explore/explore.js"></script>
+    <script src="assets/js/explore/FilterManager.js"></script>
 </body>
 
 </html>

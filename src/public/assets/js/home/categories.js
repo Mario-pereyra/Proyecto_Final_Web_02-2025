@@ -38,11 +38,12 @@ function renderCategories(containerCategories, categories) {
   categories.forEach((category) => {
     const icon = CATEGORY_ICONS[category.name] || CATEGORY_ICONS.default;
     const projectText = category.project_count === 1 ? "proyecto" : "proyectos";
-    // Convertir nombre a slug simple para la URL (ej: Tecnología -> tecnologia)
-    const categorySlug = category.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
     const link = document.createElement("a");
-    link.href = `./explore.html?category=${categorySlug}`;
+    // ./explore.html es relativo al directorio actual
+    // Desde /index.html -> /explore.html
+    // Desde /user/index.html -> /user/explore.html
+    link.href = `./explore.html?category=${encodeURIComponent(category.name)}`;
     link.className = "item-categorie";
 
     link.innerHTML = `

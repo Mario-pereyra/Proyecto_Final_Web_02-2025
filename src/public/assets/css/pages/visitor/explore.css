@@ -161,6 +161,7 @@
     z-index: 100;
     transition: right 0.3s ease;
     overflow-y: auto;
+    padding: 1rem;
 }
 
 .filters-menu.active {
@@ -356,6 +357,7 @@
     z-index: 100;
     transition: right 0.3s ease;
     overflow-y: auto;
+    padding: 1rem;
 }
 
 .filters-menu.active {
