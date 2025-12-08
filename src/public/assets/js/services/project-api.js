@@ -115,5 +115,72 @@ const ProjectAPI = {
             console.error("ProjectAPI.deleteProject error:", error);
             return { success: false, message: error.message };
         }
+    },
+
+    /**
+     * Guarda un proyecto (Crear o Actualizar)
+     * @param {FormData} formData - Datos del proyecto
+     * @returns {Promise<Object>} Resultado de la operación
+     */
+    async save(formData) {
+        try {
+            const response = await fetch(`${this.baseUrl}/projects/save`, {
+                method: 'POST',
+                body: formData
+            });
+            return await response.json();
+        } catch (error) {
+            console.error("ProjectAPI.save error:", error);
+            return { success: false, message: error.message };
+        }
+    },
+
+    /**
+     * Elimina una imagen de galería del servidor
+     * @param {number|string} projectId - ID del proyecto
+     * @param {number|string} imageId - ID de la imagen
+     * @returns {Promise<Object>} Resultado de la operación
+     */
+    async deleteImage(projectId, imageId) {
+        try {
+            const response = await fetch(`${this.baseUrl}/projects/${projectId}/images/${imageId}`, {
+                method: 'DELETE'
+            });
+            return await response.json();
+        } catch (error) {
+            console.error("ProjectAPI.deleteImage error:", error);
+            return { success: false, message: error.message };
+        }
+    },
+
+    /**
+     * Obtiene todas las categorías disponibles
+     * @returns {Promise<Object>} Lista de categorías
+     */
+    async getCategories() {
+        try {
+            const response = await fetch(`${this.baseUrl}/categories`);
+            return await response.json();
+        } catch (error) {
+            console.error("ProjectAPI.getCategories error:", error);
+            return { success: false, message: error.message };
+        }
+    },
+
+    /**
+     * Obtiene los requisitos de una categoría
+     * @param {number|string} categoryId - ID de la categoría
+     * @returns {Promise<Object>} Requisitos
+     */
+    async getRequirements(categoryId) {
+        try {
+            // Ajuste para coincidir con la ruta real de tu backend si es distinta
+            // Asumo que GET /categories/:id/requirements existe
+            const response = await fetch(`${this.baseUrl}/categories/${categoryId}/requirements`);
+            return await response.json();
+        } catch (error) {
+            console.error("ProjectAPI.getRequirements error:", error);
+            return { success: false, message: error.message };
+        }
     }
 };

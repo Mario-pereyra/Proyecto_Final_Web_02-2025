@@ -1,333 +1,201 @@
 /**
- * CREAR PROYECTO - FORMULARIO UNIFICADO
- * Reemplaza la lógica de pasos fraccionados.
+ * Controlador: Orquestador del Wizard de Creación de Proyectos
+ * Usa ProjectAPI y ProjectFormUI
  */
-
 let editor; // Instancia global de Editor.js
 let uploadedGalleryFiles = []; // Archivos NUEVOS seleccionados para galería
 let existingGalleryImages = []; // Imágenes ya guardadas en DB
-let categoryRequirements = []; // Lista de requisitos activos
 let uploadedRequirementFiles = {}; // Archivos NUEVOS de requisitos { reqId: file }
+let projectId = null;
+let USER_ID = null;
 
 document.addEventListener("DOMContentLoaded", async function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get('id');
+    projectId = urlParams.get('id');
 
-    // Obtener usuario actual del storage o usar fallback 101
+    // Obtener usuario
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const USER_ID = userData.id || 101;
-    console.log("Using User ID:", USER_ID);
+    USER_ID = userData.id || 101;
 
-    // Referencias UI
+    // Referencias DOM principales
     const form = document.getElementById("projectForm");
     const categorySelect = document.getElementById("categoria");
-    const requirementsSection = document.getElementById("requirementsSection");
     const requirementsList = document.getElementById("requirementsList");
-
-    // Inputs Fechas
-    const fechaInicioInput = document.getElementById("fecha_inicio");
-    const duracionInput = document.getElementById("duracion");
-    const fechaFinTexto = document.getElementById("fechaFinTexto");
-
-    // Multimedia
-    const coverInput = document.getElementById("coverInput");
-    const coverPreview = document.getElementById("coverPreview");
-    const coverImgTag = document.getElementById("coverImgTag");
-    const removeCoverBtn = document.getElementById("removeCoverBtn");
-
-    const galleryInput = document.getElementById("galleryInput");
     const galleryGrid = document.getElementById("galleryGrid");
 
-    // Inicializar
+    // Inicializar UI General
     setupDateCalculations();
-    await loadCategories();
+    setupMultimediaEvents();
 
+    // Cargar Categorías
+    const catResult = await ProjectAPI.getCategories();
+    if (catResult.success) {
+        ProjectFormUI.renderCategories(catResult.data, categorySelect);
+    }
+
+    // Cargar Datos si es Edición
     let initialEditorData = {};
-
     if (projectId) {
         document.querySelector(".page-title").textContent = "Editar Proyecto";
         initialEditorData = await loadProjectData(projectId);
     } else {
-        // Valores por defecto
-        fechaInicioInput.value = new Date().toISOString().split('T')[0];
+        // Defaults
+        document.getElementById("fecha_inicio").value = new Date().toISOString().split('T')[0];
         calculateEndDate();
     }
 
-    initEditor(initialEditorData);
+    // Inicializar Editor
+    editor = ProjectFormUI.initEditor("editorjs", initialEditorData, '/api/upload/story-image');
 
-    // --- LOGICA DE CATEGORIAS Y REQUISITOS ---
 
-    async function loadCategories() {
-        try {
-            const res = await fetch('/api/categories');
-            const data = await res.json();
-            if (data.success) {
-                categorySelect.innerHTML = '<option value="" disabled selected>Selecciona una categoría</option>';
-                data.data.forEach(cat => {
-                    const opt = document.createElement("option");
-                    opt.value = cat.id;
-                    opt.textContent = cat.name;
-                    categorySelect.appendChild(opt);
-                });
-            }
-        } catch (e) {
-            console.error("Error cargando categorías:", e);
-        }
-    }
+    // --- EVENTOS DEL CONTROLADOR ---
 
+    // Cambio de categoría -> Cargar requisitos
     categorySelect.addEventListener("change", async () => {
         const catId = categorySelect.value;
         if (catId) await loadRequirements(catId);
     });
 
+    // Guardado
+    form.addEventListener("submit", (e) => handleFormSubmit(e, 'publicado'));
+    document.getElementById("btnGuardar").addEventListener("click", (e) => handleFormSubmit(e, 'borrador'));
+
+
+    // --- FUNCIONES LÓGICAS ---
+
     async function loadRequirements(catId, existingAnswers = []) {
-        try {
-            const res = await fetch(`/api/categories/${catId}/requirements`);
-            const data = await res.json();
-
-            requirementsList.innerHTML = "";
-            categoryRequirements = (data.data && data.data.requirements) ? data.data.requirements : [];
-
-            if (categoryRequirements.length === 0) {
-                requirementsList.innerHTML = "<p>No se requieren documentos adicionales para esta categoría.</p>";
-                return;
-            }
-
-            categoryRequirements.forEach(req => {
-                const existing = existingAnswers.find(a => a.requirement_id === req.id);
-                const isUploaded = !!existing;
-
-                const div = document.createElement("div");
-                div.className = "form-group";
-                // Fix: Prepend /uploads/files/ if path exists
-                const fileLink = isUploaded
-                    ? `<span class="text-success">✅ Archivo actual: <a href="/uploads/files/${existing.file_path}" target="_blank">${existing.original_filename}</a></span>`
-                    : '';
-
-                div.innerHTML = `
-                    <label class="form-label">${req.title} ${req.is_required ? '*' : ''}</label>
-                    <p class="form-hint">${req.description || "Sube el documento solicitado"}</p>
-                    
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <input type="file" class="form-input req-file-input" data-req-id="${req.id}" accept=".pdf,.doc,.docx,.jpg,.png" />
-                        ${fileLink}
-                    </div>
-                `;
-                requirementsList.appendChild(div);
+        const res = await ProjectAPI.getRequirements(catId);
+        if (res.success && res.data) {
+            const reqs = res.data.requirements || [];
+            ProjectFormUI.renderRequirements(reqs, requirementsList, existingAnswers, (reqId, file) => {
+                if (file) uploadedRequirementFiles[reqId] = file;
+                else delete uploadedRequirementFiles[reqId];
             });
-
-            document.querySelectorAll(".req-file-input").forEach(input => {
-                input.addEventListener("change", (e) => {
-                    const file = e.target.files[0];
-                    const reqId = e.target.getAttribute("data-req-id");
-                    if (file) {
-                        uploadedRequirementFiles[reqId] = file;
-                    } else {
-                        delete uploadedRequirementFiles[reqId];
-                    }
-                });
-            });
-
-        } catch (e) {
-            console.error(e);
         }
     }
 
-    // --- LOGICA DEL EDITOR ---
+    async function loadProjectData(id) {
+        const res = await ProjectAPI.getById(id); // Nota: getById no filtra por usuario, pero el backend debería validar
+        if (!res.success) {
+            if (window.mostrarModal) window.mostrarModal({ title: "Error", message: "Proyecto no encontrado", type: "error" });
+            return {};
+        }
 
-    function initEditor(data) {
-        editor = new EditorJS({
-            holder: "editorjs",
-            placeholder: "Escribe aquí la historia de tu proyecto...",
-            data: data,
-            tools: {
-                header: { class: window.Header, inlineToolbar: true },
-                list: { class: window.EditorjsList, inlineToolbar: true },
-                checklist: { class: window.Checklist, inlineToolbar: true },
-                image: {
-                    class: window.ImageTool,
-                    config: {
-                        endpoints: { byFile: '/api/upload/story-image' },
-                        uploader: {
-                            uploadByFile(file) {
-                                const formData = new FormData();
-                                formData.append('image', file);
-                                return fetch('/api/upload/story-image', { method: 'POST', body: formData })
-                                    .then(r => r.json()).then(d => {
-                                        if (d.success === 1) return d;
-                                        throw new Error('Error subida');
-                                    });
-                            }
-                        }
-                    }
-                },
-                embed: { class: window.Embed, inlineToolbar: true, config: { services: { youtube: true } } }
+        const p = res.data; // Ajuste según estructura de respuesta de getById
+
+        // Rellenar campos básicos
+        document.getElementById("titulo").value = p.title || "";
+        document.getElementById("descripcion").value = p.short_description || "";
+        document.getElementById("meta").value = p.goal_amount || "";
+        document.getElementById("duracion").value = p.duration_days || 30;
+
+        if (p.started_at) {
+            document.getElementById("fecha_inicio").value = new Date(p.started_at).toISOString().split('T')[0];
+        }
+        calculateEndDate();
+
+        // Categoría y Requisitos
+        if (p.category_id) {
+            categorySelect.value = p.category_id;
+            // Esperar a que se rendericen los requisitos
+            await loadRequirements(p.category_id, p.requirements_answers || []);
+        }
+
+        // Imágenes
+        if (p.images) {
+            const cover = p.images.find(i => i.is_cover);
+            if (cover) {
+                const rawPath = cover.image_path;
+                const path = rawPath.startsWith('uploads') || rawPath.startsWith('/') ? rawPath : `/uploads/img/${rawPath}`;
+                ProjectFormUI.showCoverPreview(path, document.getElementById("coverPreview"), document.getElementById("coverUploadArea"), document.getElementById("coverImgTag"));
             }
-        });
+            existingGalleryImages = p.images.filter(i => !i.is_cover);
+            updateGalleryUI();
+        }
+
+        return typeof p.story_json === 'string' ? JSON.parse(p.story_json) : p.story_json;
     }
 
-    // --- LOGICA DE FECHAS ---
-
     function setupDateCalculations() {
+        const fechaInicioInput = document.getElementById("fecha_inicio");
+        const duracionInput = document.getElementById("duracion");
+
         fechaInicioInput.addEventListener("change", calculateEndDate);
         duracionInput.addEventListener("input", calculateEndDate);
     }
 
     function calculateEndDate() {
-        const start = new Date(fechaInicioInput.value || new Date());
-        const days = parseInt(duracionInput.value) || 30;
+        const start = new Date(document.getElementById("fecha_inicio").value || new Date());
+        const days = parseInt(document.getElementById("duracion").value) || 30;
         const end = new Date(start);
         end.setDate(end.getDate() + days);
-        fechaFinTexto.textContent = `Finaliza el: ${end.toLocaleDateString("es-ES")}`;
+        document.getElementById("fechaFinTexto").textContent = `Finaliza el: ${end.toLocaleDateString("es-ES")}`;
     }
 
-    // --- LOGICA DE MULTIMEDIA ---
+    function setupMultimediaEvents() {
+        // Cover
+        const coverInput = document.getElementById("coverInput");
+        const coverPreview = document.getElementById("coverPreview");
+        const coverUploadArea = document.getElementById("coverUploadArea");
+        const coverImgTag = document.getElementById("coverImgTag");
 
-    document.getElementById("coverUploadArea").addEventListener("click", () => coverInput.click());
-
-    coverInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            coverImgTag.src = url;
-            coverPreview.style.display = "block";
-            document.getElementById("coverUploadArea").style.display = "none";
-        }
-    });
-
-    removeCoverBtn.addEventListener("click", () => {
-        coverInput.value = "";
-        coverPreview.style.display = "none";
-        document.getElementById("coverUploadArea").style.display = "block";
-    });
-
-    document.getElementById("galleryUploadArea").addEventListener("click", () => galleryInput.click());
-
-    galleryInput.addEventListener("change", (e) => {
-        const files = Array.from(e.target.files);
-        files.forEach(file => {
-            uploadedGalleryFiles.push(file);
+        coverUploadArea.addEventListener("click", () => coverInput.click());
+        coverInput.addEventListener("change", (e) => {
+            if (e.target.files[0]) {
+                const url = URL.createObjectURL(e.target.files[0]);
+                ProjectFormUI.showCoverPreview(url, coverPreview, coverUploadArea, coverImgTag);
+            }
         });
-        renderGallery();
-        galleryInput.value = "";
-    });
-
-    function renderGallery() {
-        galleryGrid.innerHTML = "";
-
-        // 1. Imágenes existentes (DB)
-        existingGalleryImages.forEach(img => {
-            const rawPath = img.image_path;
-            const path = rawPath.startsWith('uploads') || rawPath.startsWith('/') ? rawPath : `/uploads/img/${rawPath}`;
-
-            const div = document.createElement("div");
-            div.className = "image-preview-item";
-            const isCover = img.is_cover;
-
-            div.innerHTML = `
-                <img src="${path}" alt="${img.original_filename}" />
-                ${isCover ? '<span class="cover-badge">Portada Actual</span>' : ''}
-                <button type="button" class="remove-btn" title="Eliminar">×</button>
-            `;
-
-            div.querySelector(".remove-btn").addEventListener("click", () => deleteServerImage(img.id));
-            galleryGrid.appendChild(div);
+        document.getElementById("removeCoverBtn").addEventListener("click", () => {
+            ProjectFormUI.hideCoverPreview(coverPreview, coverUploadArea, coverInput);
         });
 
-        // 2. Imágenes nuevas (Local Blob)
-        uploadedGalleryFiles.forEach((file, idx) => {
-            const url = URL.createObjectURL(file);
-            const div = document.createElement("div");
-            div.className = "image-preview-item";
-            div.innerHTML = `
-                <img src="${url}" alt="Nueva" />
-                <span class="cover-badge" style="background:#4caf50;">Nueva</span>
-                <button type="button" class="remove-btn">×</button>
-            `;
+        // Gallery
+        const galleryInput = document.getElementById("galleryInput");
+        document.getElementById("galleryUploadArea").addEventListener("click", () => galleryInput.click());
 
-            div.querySelector(".remove-btn").addEventListener("click", () => {
-                uploadedGalleryFiles.splice(idx, 1);
-                renderGallery();
-            });
-
-            galleryGrid.appendChild(div);
+        galleryInput.addEventListener("change", (e) => {
+            Array.from(e.target.files).forEach(file => uploadedGalleryFiles.push(file));
+            galleryInput.value = "";
+            updateGalleryUI();
         });
     }
 
-    async function deleteServerImage(imageId) {
-        if (!confirm("¿Eliminar esta imagen permanentemente?")) return;
-        try {
-            const res = await fetch(`/api/projects/${projectId}/images/${imageId}`, { method: 'DELETE' });
-            const data = await res.json();
-            if (data.success) {
-                existingGalleryImages = existingGalleryImages.filter(i => i.id !== imageId);
-                renderGallery();
-            } else {
-                alert("Error eliminando imagen");
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    // --- CARGA DE DATOS (EDICIÓN) ---
-
-    async function loadProjectData(id) {
-        try {
-            const res = await fetch(`/api/projects/${id}?userId=${USER_ID}`);
-            const json = await res.json();
-            if (!json.success) throw new Error("Proyecto no encontrado");
-
-            const p = json.data;
-
-            document.getElementById("titulo").value = p.title || "";
-            document.getElementById("descripcion").value = p.short_description || "";
-            document.getElementById("meta").value = p.goal_amount || "";
-            document.getElementById("duracion").value = p.duration_days || 30;
-
-            if (p.started_at) {
-                document.getElementById("fecha_inicio").value = new Date(p.started_at).toISOString().split('T')[0];
-            }
-            calculateEndDate();
-
-            if (p.category_id) {
-                categorySelect.value = p.category_id;
-                await loadRequirements(p.category_id, p.requirements_answers || []);
-            }
-
-            if (p.images) {
-                const cover = p.images.find(i => i.is_cover);
-                if (cover) {
-                    const rawPath = cover.image_path;
-                    const path = rawPath.startsWith('uploads') || rawPath.startsWith('/') ? rawPath : `/uploads/img/${rawPath}`;
-                    coverImgTag.src = path;
-                    coverPreview.style.display = "block";
-                    document.getElementById("coverUploadArea").style.display = "none";
+    function updateGalleryUI() {
+        ProjectFormUI.renderGallery(existingGalleryImages, uploadedGalleryFiles, galleryGrid,
+            // On Delete Server Image
+            async (imgId) => {
+                if (!confirm("¿Eliminar imagen permanentemente?")) return;
+                const res = await ProjectAPI.deleteImage(projectId, imgId);
+                if (res.success) {
+                    existingGalleryImages = existingGalleryImages.filter(i => i.id !== imgId);
+                    updateGalleryUI();
+                } else {
+                    alert("Error eliminando imagen");
                 }
-                existingGalleryImages = p.images.filter(i => !i.is_cover);
-                renderGallery();
+            },
+            // On Delete Local File
+            (idx) => {
+                uploadedGalleryFiles.splice(idx, 1);
+                updateGalleryUI();
             }
-
-            return typeof p.story_json === 'string' ? JSON.parse(p.story_json) : p.story_json;
-
-        } catch (e) {
-            console.error(e);
-            mostrarModal({ title: "Error", message: "No se pudo cargar el proyecto.", type: "error" });
-            return {};
-        }
+        );
     }
-
-    // --- ENVÍO DEL FORMULARIO ---
-
-    form.addEventListener("submit", (e) => handleFormSubmit(e, 'publicado'));
-    document.getElementById("btnGuardar").addEventListener("click", (e) => handleFormSubmit(e, 'borrador'));
 
     async function handleFormSubmit(e, status) {
         e.preventDefault();
 
-        try {
-            const formData = new FormData();
+        // Validación básica manual (HTML5 ya hace parte)
+        if (!document.getElementById("titulo").value || !document.getElementById("meta").value) {
+            alert("Completa los campos obligatorios");
+            return;
+        }
 
+        try {
+            if (window.mostrarModal) window.mostrarModal({ title: "Guardando...", message: "Procesando cambios.", type: "info" });
+
+            const formData = new FormData();
+            // Append inputs basic
             formData.append("title", document.getElementById("titulo").value);
             formData.append("short_description", document.getElementById("descripcion").value);
             formData.append("category_id", categorySelect.value);
@@ -337,51 +205,49 @@ document.addEventListener("DOMContentLoaded", async function () {
             formData.append("approval_status", status);
             formData.append("userId", USER_ID);
 
+            // Calc deadline
             const start = new Date(document.getElementById("fecha_inicio").value);
             start.setDate(start.getDate() + parseInt(document.getElementById("duracion").value));
             formData.append("deadline_at", start.toISOString());
 
             if (projectId) formData.append("id", projectId);
 
+            // Editor Content
             const storyData = await editor.save();
             formData.append("story_json", JSON.stringify(storyData));
 
-            if (coverInput.files[0]) {
-                formData.append("cover_image", coverInput.files[0]);
-            }
+            // Files
+            const coverFile = document.getElementById("coverInput").files[0];
+            if (coverFile) formData.append("cover_image", coverFile);
 
-            uploadedGalleryFiles.forEach((file) => {
-                formData.append("gallery_images", file);
-            });
+            uploadedGalleryFiles.forEach(f => formData.append("gallery_images", f));
 
             Object.entries(uploadedRequirementFiles).forEach(([reqId, file]) => {
                 formData.append(`req_${reqId}`, file);
             });
 
-            mostrarModal({ title: "Guardando...", message: "Por favor espera.", type: "info" });
-
-            const res = await fetch('/api/projects/save', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await res.json();
+            // SEND
+            const result = await ProjectAPI.save(formData);
 
             if (result.success) {
-                mostrarModal({
-                    title: "Éxito",
-                    message: "Proyecto guardado correctamente.",
-                    type: "success",
-                    onConfirm: () => window.location.href = "../dashboard.html"
-                });
+                if (window.mostrarModal) {
+                    window.mostrarModal({
+                        title: "Éxito",
+                        message: "Proyecto guardado correctamente.",
+                        type: "success",
+                        onConfirm: () => window.location.href = "../dashboard.html"
+                    });
+                } else {
+                    window.location.href = "../dashboard.html";
+                }
             } else {
                 throw new Error(result.message);
             }
 
         } catch (error) {
             console.error(error);
-            mostrarModal({ title: "Error", message: "Error guardando: " + error.message, type: "error" });
+            if (window.mostrarModal) window.mostrarModal({ title: "Error", message: error.message, type: "error" });
+            else alert("Error: " + error.message);
         }
     }
-
 });
