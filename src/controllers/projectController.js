@@ -597,7 +597,7 @@ exports.saveProject = async (req, res) => {
       deadline_at
     } = req.body;
 
-    const userId = req.user ? req.user.id : 101;
+    const userId = req.user ? req.user.id : (req.body.userId ? parseInt(req.body.userId) : 101);
     const isUpdate = !!projectId;
 
     if (!title || title.trim() === '') {

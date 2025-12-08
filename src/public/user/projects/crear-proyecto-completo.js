@@ -12,7 +12,11 @@ let uploadedRequirementFiles = {}; // Archivos NUEVOS de requisitos { reqId: fil
 document.addEventListener("DOMContentLoaded", async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
-    const USER_ID = 101; // ID temporal hardcoded
+
+    // Obtener usuario actual del storage o usar fallback 101
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const USER_ID = userData.id || 101;
+    console.log("Using User ID:", USER_ID);
 
     // Referencias UI
     const form = document.getElementById("projectForm");
@@ -350,6 +354,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             formData.append("duration_days", document.getElementById("duracion").value);
             formData.append("started_at", document.getElementById("fecha_inicio").value);
             formData.append("approval_status", status); // 'borrador' o 'publicado'
+            formData.append("userId", USER_ID); // Enviar ID del usuario actual
 
             // Fechas calculadas
             const start = new Date(document.getElementById("fecha_inicio").value);

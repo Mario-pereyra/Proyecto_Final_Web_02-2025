@@ -75,7 +75,7 @@ function createProjectCard(project) {
               ${project.title}
             </h2>
             <p class="proj-card__subtitle muted">
-              ${project.short_description || ''}
+              ${project.category_name || 'Sin Categoría'} • ${project.short_description || 'Sin descripción'}
             </p>
           </div>
 

@@ -47,18 +47,34 @@
           </a>
         </li>
       </ul>
-      <iconify-icon icon="ic:round-assessment" width="24" height="24"></iconify-icon>
-      <p>Mis Aportes</p>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#proyectos" class="btn btn--secondary">
+        <iconify-icon icon="ic:round-assessment" width="24" height="24"></iconify-icon>
+        <p>Mis Proyectos</p>
+      </a>
+      <a href="./projects/crear-proyecto-completo.html" class="btn btn--secondary">
+        <iconify-icon icon="ic:round-add-circle" width="24" height="24"></iconify-icon>
+        <p>Crear Proyecto</p>
+      </a>
+      <a href="#favoritos" class="btn btn--secondary">
+        <iconify-icon icon="ic:round-favorite" width="24" height="24"></iconify-icon>
+        <p>Favoritos</p>
+      </a>
+      <a href="#aportes" class="btn btn--secondary">
+        <iconify-icon icon="ic:round-assessment" width="24" height="24"></iconify-icon>
+        <p>Mis Aportes</p>
       </a>
       <a href="../index.html" class="btn btn--primary">
         <iconify-icon icon="ic:round-person" width="24" height="24"></iconify-icon>
         <p>Mi Cuenta</p>
       </a>
-      </div>
+    </div>
 
-      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
-        <iconify-icon icon="ic:round-menu" width="24" height="24"></iconify-icon>
-      </button>
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+      <iconify-icon icon="ic:round-menu" width="24" height="24"></iconify-icon>
+    </button>
   </header>
 
   <div class="overlay" id="overlay"></div>
@@ -76,6 +92,20 @@
             <a href="../index.html" class="menu-link btn--primary">Inicio</a>
           </li>
           <li><a href="../explore.html" class="menu-link">Explorar</a></li>
+        </ul>
+      </div>
+
+      <div class="menu-section">
+        <h3>Cuenta</h3>
+        <div class="menu-actions">
+          <a href="./dashboard.html#proyectos" class="btn btn--secondary menu-btn">Mis Proyectos</a>
+          <a href="./projects/crear-proyecto-completo.html" class="btn btn--secondary menu-btn">Crear Proyecto</a>
+          <a href="./dashboard.html#favoritos" class="btn btn--secondary menu-btn">Favoritos</a>
+          <a href="./dashboard.html#aportes" class="btn btn--secondary menu-btn">Mis Aportes</a>
+          <a href="../index.html" class="btn btn--secondary menu-btn">Mi Cuenta</a>
+        </div>
+      </div>
+    </div>
   </nav>
   <div class="page">
     <main class="shell">
@@ -88,7 +118,7 @@
         </div>
 
         <button class="btn btn--primary btn--icon" type="button"
-          onclick="window.location.href='../CreacionDeProyectos/wizard-proyecto.html'">
+          onclick="window.location.href='./projects/crear-proyecto-completo.html'">
           <iconify-icon icon="ic:round-add-circle" class="icon icon--lg"></iconify-icon>
           <span>Nuevo Proyecto</span>
         </button>

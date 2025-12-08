@@ -222,7 +222,7 @@ module.exports = {
                    p.campaign_status, p.created_at,
                    c.name as category_name
                  FROM projects p
-                 JOIN categories c ON p.category_id = c.id
+                 LEFT JOIN categories c ON p.category_id = c.id
                  WHERE p.owner_id = $1 AND p.deleted_at IS NULL`;
 
     const values = [userId];
