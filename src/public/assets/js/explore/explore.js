@@ -1,265 +1,16 @@
 /**
- * Módulo para explorar proyectos con búsqueda y filtros
+ * Controlador Principal: Explore Module
+ * Orquesta la interacción entre ProjectAPI (Datos) y ProjectUI (Vista).
+ * Se encarga de la lógica de negocio, manejo de eventos y estado.
  */
 
-const API_URL = "http://localhost:3001/api";
-let userFavorites = []; // IDs de proyectos favoritos del usuario
-let currentUserId = null;
-
-/**
- * Formatea un monto en bolivianos
- */
-function formatCurrency(amount) {
-  return parseFloat(amount).toLocaleString('es-BO', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-}
-
-/**
- * Crea el HTML de una tarjeta de proyecto
- */
-function createProjectCard(project) {
-  const progress = parseFloat(project.progress_percentage || 0);
-  const progressText = progress >= 100
-    ? `${Math.round(progress)}% Financiado`
-    : `${progress.toFixed(0)}% financiado`;
-
-  const isFavorite = userFavorites.includes(project.id);
-  const collected = parseFloat(project.total_collected || 0);
-  const goal = parseFloat(project.goal_amount || 0);
-
-  return `
-    <article class="project-card">
-      <div class="project-card__header">
-      <a href="./detail.html?id=${project.id}">
-          <img src="${!project.cover_image ? '/assets/img/defaults/no-image.png' : (project.cover_image.startsWith('/') ? project.cover_image : (project.cover_image.startsWith('uploads') ? '/' + project.cover_image : '/uploads/img/' + project.cover_image))}" 
-               alt="${project.title}" class="project-card__image" />
-        </a>
-        <div class="project-category">${project.category_name}</div>
-        <button class="project-like-btn" 
-                data-liked="${isFavorite}" 
-                data-project-id="${project.id}"
-                aria-pressed="${isFavorite}" 
-                aria-label="${isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}">
-          <iconify-icon icon="ic:round-favorite-border" class="heart-icon-empty" 
-                        style="${isFavorite ? 'display: none' : ''}"></iconify-icon>
-          <iconify-icon icon="ic:round-favorite" class="heart-icon-filled" 
-                        style="${isFavorite ? '' : 'display: none'}"></iconify-icon>
-        </button>
-      </div>
-      <div class="project-card__content">
-        <div class="project-card__title-container">
-          <h3>${project.title}</h3>
-          <p>${project.short_description || ''}</p>
-        </div>
-        <div class="project-card__progress">
-          <div class="project-card__stats">
-            <span class="project-card__amount">${formatCurrency(collected)}Bs</span>
-            <span class="project-card__goal">de ${formatCurrency(goal)}Bs</span>
-          </div>
-          <div class="project-card__progress-bar">
-            <div class="project-card__progress-bar-fill" style="width: ${Math.min(progress, 100)}%;"></div>
-          </div>
-          <p class="project-card__goal">${progressText}</p>
-        </div>
-        
-        <div class="project-card__stats">
-          <div style="display: flex; gap: 4px; align-items: center;">
-            <iconify-icon icon="ic:round-person" width="16" height="16"></iconify-icon>
-            <p class="project-card__goal" style="margin:0;">Por ${project.owner_name}</p>
-          </div>
-          <div style="display: flex; gap: 4px; align-items: center;">
-            <iconify-icon icon="ic:round-calendar-today" width="16" height="16"></iconify-icon>
-            <p class="project-card__goal" style="margin:0;">${project.days_remaining || 0} días restantes</p>
-          </div>
-        </div>
-
-        <div class="project-card__footer">
-          <button type="button" onclick="window.location.href='./detail.html?id=${project.id}'" class="btn">
-            Ver detalles
-          </button>
-        </div>
-      </div>
-    </article>
-  `;
-}
-
-/**
- * Carga proyectos con filtros
- */
-async function loadProjects() {
-  try {
-    // Obtener valores de los filtros
-    const search = document.getElementById('busqueda').value.trim();
-    const category = document.getElementById('categoria').value;
-    const orderBy = document.getElementById('orden').value;
-    const maxGoal = document.getElementById('metaFinanciacion').value;
-    const progressFilter = document.getElementById('progresoFinanciacion').value;
-
-    // Construir parámetros de búsqueda
-    const params = new URLSearchParams();
-    if (search) params.append('search', search);
-    if (category && category !== 'todas') params.append('category', category);
-    if (orderBy) params.append('orderBy', orderBy);
-    if (maxGoal) params.append('maxGoal', maxGoal);
-
-    // Filtros de progreso
-    if (progressFilter && progressFilter !== 'todos') {
-      switch (progressFilter) {
-        case 'menos_25':
-          params.append('minProgress', '0');
-          params.append('maxProgress', '25');
-          break;
-        case 'entre_25_75':
-          params.append('minProgress', '25');
-          params.append('maxProgress', '75');
-          break;
-        case 'mas_75':
-          params.append('minProgress', '75');
-          params.append('maxProgress', '99.99');
-          break;
-        case 'completamente':
-          params.append('minProgress', '100');
-          params.append('maxProgress', '100');
-          break;
-      }
-    }
-
-    // Llamar al endpoint de búsqueda
-    const response = await fetch(`${API_URL}/projects/search?${params.toString()}`);
-    const result = await response.json();
-
-    if (!result.success) {
-      console.error("Error al buscar proyectos:", result.message);
-      return;
-    }
-
-    updateProjectsGrid(result.data || result.projects);
-
-  } catch (error) {
-    console.error("Error al cargar proyectos:", error);
-  }
-}
-
-/**
- * Actualiza la grilla de proyectos
- */
-function updateProjectsGrid(projectsData) {
-  const projects = projectsData || [];
-  const container = document.querySelector('.container-project-features-item');
-
-  if (!container) {
-    console.error('Contenedor de proyectos no encontrado');
-    return;
-  }
-
-  // Limpiar contenido actual
-  container.innerHTML = '';
-
-  // Si no hay proyectos, mostrar mensaje
-  if (projects.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <p>No se encontraron proyectos con los filtros seleccionados.</p>
-      </div>
-    `;
-    return;
-  }
-
-  // Agregar cada proyecto
-  projects.forEach(project => {
-    container.innerHTML += createProjectCard(project);
-  });
-
-  // Agregar event listeners a los botones de favoritos
-  attachFavoriteListeners();
-}
-
-/**
- * Carga los favoritos del usuario
- */
-async function loadUserFavorites() {
-  try {
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    currentUserId = userData.id;
-
-    if (!currentUserId) {
-      console.warn('No se encontró ID de usuario');
-      return;
-    }
-
-    const response = await fetch(`${API_URL}/favorites/${currentUserId}`);
-    const result = await response.json();
-
-    if (result.success) {
-      userFavorites = result.data || [];
-    }
-  } catch (error) {
-    console.error("Error al cargar favoritos:", error);
-  }
-}
-
-/**
- * Agrega event listeners a los botones de favoritos
- */
-function attachFavoriteListeners() {
-  const favoriteButtons = document.querySelectorAll('.project-like-btn');
-
-  favoriteButtons.forEach(button => {
-    button.addEventListener('click', async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const projectId = parseInt(button.dataset.projectId);
-      const isLiked = button.dataset.liked === 'true';
-
-      if (!currentUserId) {
-        mostrarModal({
-          title: 'Iniciar Sesión',
-          message: 'Debes iniciar sesión para guardar favoritos',
-          type: 'info',
-          confirmText: 'Iniciar Sesión',
-          onConfirm: () => window.location.href = './auth.html?action=login'
-        });
-        return;
-      }
-
-      try {
-        const url = `${API_URL}/favorites/${currentUserId}/${projectId}`;
-        const method = isLiked ? 'DELETE' : 'POST';
-
-        const response = await fetch(url, { method });
-        const result = await response.json();
-
-        if (result.success) {
-          // Actualizar estado del botón
-          button.dataset.liked = !isLiked;
-          button.setAttribute('aria-pressed', !isLiked);
-          button.setAttribute('aria-label', !isLiked ? 'Quitar de favoritos' : 'Añadir a favoritos');
-
-          const emptyIcon = button.querySelector('.heart-icon-empty');
-          const filledIcon = button.querySelector('.heart-icon-filled');
-
-          if (!isLiked) {
-            emptyIcon.style.display = 'none';
-            filledIcon.style.display = '';
-            userFavorites.push(projectId);
-          } else {
-            emptyIcon.style.display = '';
-            filledIcon.style.display = 'none';
-            userFavorites = userFavorites.filter(id => id !== projectId);
-          }
-        }
-      } catch (error) {
-        console.error("Error al actualizar favorito:", error);
-      }
-    });
-  });
-}
-
-// ===== UI DE FILTROS =====
 document.addEventListener("DOMContentLoaded", async function () {
+  // --- Estado de la Aplicación ---
+  let userFavorites = [];
+  let currentUserId = null;
+
+  // --- Referencias al DOM ---
+  const container = document.querySelector('.container-project-features-item');
   const filterToggleBtn = document.getElementById("filterToggleBtn");
   const closeFiltersBtn = document.getElementById("closeFiltersBtn");
   const filtersMenu = document.getElementById("filtersMenu");
@@ -268,89 +19,228 @@ document.addEventListener("DOMContentLoaded", async function () {
   const applyFiltersBtn = document.getElementById("applyFiltersBtn");
   const metaFinanciacionSlider = document.getElementById("metaFinanciacion");
   const metaValue = document.getElementById("metaValue");
+  const searchInput = document.getElementById('busqueda');
+  const categorySelect = document.getElementById('categoria');
+  const orderSelect = document.getElementById('orden');
 
-  function openFiltersMenu() {
-    filtersMenu.classList.add("active");
-    filtersOverlay.classList.add("active");
-    document.body.style.overflow = "hidden";
+  // --- Inicialización ---
+  async function init() {
+    // 1. Obtener usuario actual
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    currentUserId = userData.id;
+
+    // 2. Cargar favoritos iniciales
+    await loadUserFavorites();
+
+    // 3. Verificar parámetros URL (ej. ?category=tech)
+    checkUrlParams();
+
+    // 4. Cargar proyectos iniciales
+    await loadProjects();
+
+    // 5. Configurar listeners
+    setupEventListeners();
   }
 
-  function closeFiltersMenu() {
-    filtersMenu.classList.remove("active");
-    filtersOverlay.classList.remove("active");
-    document.body.style.overflow = "";
+  // --- Lógica de Negocio ---
+
+  /**
+   * Carga los favoritos desde el API
+   */
+  async function loadUserFavorites() {
+    if (!currentUserId) return;
+    const result = await ProjectAPI.getFavorites(currentUserId);
+    if (result.success) {
+      userFavorites = result.data || [];
+    }
+  }
+
+  /**
+   * Orquesta la búsqueda y renderizado de proyectos
+   */
+  async function loadProjects() {
+    // 1. Obtener parámetros de filtros del DOM
+    const params = getFilterParams();
+
+    // 2. Llamar al API
+    const result = await ProjectAPI.search(params);
+
+    // 3. Renderizar resultados con UI
+    if (result.success) {
+      // Asegurar que ProjectUI exista antes de usarlo
+      if (typeof ProjectUI === 'undefined') {
+        console.error("ProjectUI no está definido. Asegúrate de incluir project-ui.js en el HTML.");
+        return;
+      }
+
+      ProjectUI.renderGrid(
+        result.data || result.projects,
+        container,
+        userFavorites
+      );
+
+      // Re-adjuntar listeners a los nuevos elementos
+      attachFavoriteListeners();
+    } else {
+      console.error("Error al cargar proyectos:", result.message);
+    }
+  }
+
+  /**
+   * Recopila el estado actual de los filtros en un URLSearchParams
+   */
+  function getFilterParams() {
+    const params = new URLSearchParams();
+    const search = searchInput ? searchInput.value.trim() : '';
+    const category = categorySelect ? categorySelect.value : 'todas';
+    const orderBy = orderSelect ? orderSelect.value : 'mas_recientes';
+    const maxGoal = metaFinanciacionSlider ? metaFinanciacionSlider.value : '';
+    const progressFilter = document.getElementById('progresoFinanciacion') ? document.getElementById('progresoFinanciacion').value : 'todos';
+
+    if (search) params.append('search', search);
+    if (category && category !== 'todas') params.append('category', category);
+    if (orderBy) params.append('orderBy', orderBy);
+    if (maxGoal) params.append('maxGoal', maxGoal);
+
+    if (progressFilter && progressFilter !== 'todos') {
+      mapProgressFilter(params, progressFilter);
+    }
+    return params;
+  }
+
+  function mapProgressFilter(params, filter) {
+    switch (filter) {
+      case 'menos_25': params.append('minProgress', '0'); params.append('maxProgress', '25'); break;
+      case 'entre_25_75': params.append('minProgress', '25'); params.append('maxProgress', '75'); break;
+      case 'mas_75': params.append('minProgress', '75'); params.append('maxProgress', '99.99'); break;
+      case 'completamente': params.append('minProgress', '100'); params.append('maxProgress', '100'); break;
+    }
+  }
+
+  // --- Manejo de Eventos ---
+
+  function attachFavoriteListeners() {
+    const favoriteButtons = document.querySelectorAll('.project-like-btn');
+    favoriteButtons.forEach(button => {
+      button.addEventListener('click', handleFavoriteClick);
+    });
+  }
+
+  async function handleFavoriteClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const button = e.currentTarget;
+    const projectId = parseInt(button.dataset.projectId);
+    const isLiked = button.dataset.liked === 'true';
+
+    // Validación de sesión
+    if (!currentUserId) {
+      if (typeof mostrarModal === 'function') {
+        mostrarModal({
+          title: 'Iniciar Sesión',
+          message: 'Debes iniciar sesión para guardar favoritos',
+          type: 'info',
+          confirmText: 'Iniciar Sesión',
+          onConfirm: () => window.location.href = './auth.html?action=login'
+        });
+      } else {
+        alert("Debes iniciar sesión para guardar favoritos");
+        window.location.href = './auth.html?action=login';
+      }
+      return;
+    }
+
+    // Llamada API Optimista (podríamos actualizar UI antes, pero por seguridad esperamos)
+    const result = await ProjectAPI.toggleFavorite(currentUserId, projectId, isLiked);
+
+    if (result.success) {
+      // Actualizar estado local
+      if (isLiked) {
+        userFavorites = userFavorites.filter(id => id !== projectId);
+      } else {
+        userFavorites.push(projectId);
+      }
+      // Actualizar UI puntual
+      ProjectUI.updateFavoriteButton(button, !isLiked);
+    }
+  }
+
+  function setupEventListeners() {
+    // Mobile Filters Menu
+    filterToggleBtn?.addEventListener("click", () => toggleMenu(true));
+    closeFiltersBtn?.addEventListener("click", () => toggleMenu(false));
+    filtersOverlay?.addEventListener("click", () => toggleMenu(false));
+
+    // Filter Actions
+    clearFiltersBtn?.addEventListener("click", clearFilters);
+    applyFiltersBtn?.addEventListener("click", () => {
+      loadProjects();
+      toggleMenu(false);
+    });
+
+    // Inputs dinámicos
+    metaFinanciacionSlider?.addEventListener("input", function () {
+      if (metaValue) metaValue.textContent = this.value;
+    });
+
+    searchInput?.addEventListener('input', debounce(loadProjects, 500));
+    categorySelect?.addEventListener('change', loadProjects);
+    orderSelect?.addEventListener('change', loadProjects);
+
+    // Keyboard Accessibility
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && filtersMenu?.classList.contains("active")) {
+        toggleMenu(false);
+      }
+    });
+  }
+
+  function toggleMenu(show) {
+    if (!filtersMenu || !filtersOverlay) return;
+    if (show) {
+      filtersMenu.classList.add("active");
+      filtersOverlay.classList.add("active");
+      document.body.style.overflow = "hidden";
+    } else {
+      filtersMenu.classList.remove("active");
+      filtersOverlay.classList.remove("active");
+      document.body.style.overflow = "";
+    }
   }
 
   function clearFilters() {
-    document.getElementById("busqueda").value = "";
-    document.getElementById("categoria").value = "todas";
-    document.getElementById("orden").value = "mas_recientes";
-    document.getElementById("metaFinanciacion").value = "100000";
-    document.getElementById("metaValue").textContent = "100000";
-    document.getElementById("progresoFinanciacion").value = "todos";
+    if (searchInput) searchInput.value = "";
+    if (categorySelect) categorySelect.value = "todas";
+    if (orderSelect) orderSelect.value = "mas_recientes";
+    if (metaFinanciacionSlider) metaFinanciacionSlider.value = "100000";
+    if (metaValue) metaValue.textContent = "100000";
 
-    // Recargar proyectos
+    const progSelect = document.getElementById("progresoFinanciacion");
+    if (progSelect) progSelect.value = "todos";
+
     loadProjects();
   }
 
-  function applyFilters() {
-    loadProjects();
-    closeFiltersMenu();
-  }
-
-  metaFinanciacionSlider.addEventListener("input", function () {
-    metaValue.textContent = this.value;
-  });
-
-  filterToggleBtn.addEventListener("click", openFiltersMenu);
-  closeFiltersBtn.addEventListener("click", closeFiltersMenu);
-  filtersOverlay.addEventListener("click", closeFiltersMenu);
-  clearFiltersBtn.addEventListener("click", clearFilters);
-  applyFiltersBtn.addEventListener("click", applyFilters);
-
-  // Aplicar filtros al cambiar los selectores principales
-  document.getElementById('busqueda').addEventListener('input', debounce(loadProjects, 500));
-  document.getElementById('categoria').addEventListener('change', loadProjects);
-  document.getElementById('orden').addEventListener('change', loadProjects);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && filtersMenu.classList.contains("active")) {
-      closeFiltersMenu();
-    }
-  });
-
-  // Check for category parameter in URL and auto-select it
-  const urlParams = new URLSearchParams(window.location.search);
-  const category = urlParams.get("category");
-
-  if (category) {
-    const categorySelect = document.getElementById("categoria");
-    if (categorySelect) {
-      const option = Array.from(categorySelect.options).find(
-        opt => opt.value === category
-      );
-      if (option) {
-        categorySelect.value = category;
-      }
+  function checkUrlParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get("category");
+    if (category && categorySelect) {
+      categorySelect.value = category;
     }
   }
 
-  // Cargar favoritos y proyectos iniciales
-  await loadUserFavorites();
-  await loadProjects();
-});
-
-/**
- * Debounce helper para búsqueda
- */
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
+  /**
+   * Utilidad para evitar llamadas excesivas
+   */
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
       clearTimeout(timeout);
-      func(...args);
+      timeout = setTimeout(() => func.apply(this, args), wait);
     };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
+  }
+
+  // --- Arrancar ---
+  init();
+});
