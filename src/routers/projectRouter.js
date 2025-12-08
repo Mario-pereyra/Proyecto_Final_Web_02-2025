@@ -21,6 +21,9 @@ router.post('/', upload, projectController.createProject); // Temporal sin auth
 const uploadAny = fileUploadMiddleware.uploadProject.any(); // Acepta archivos dinámicos
 router.post('/save', uploadAny, projectController.saveProject);
 
+// POST /api/projects/draft - Guardado incremental de borradores
+router.post('/draft', projectController.saveDraft);
+
 // GET /api/projects/search - Buscar proyectos con filtros
 router.get('/search', projectController.searchProjects);
 

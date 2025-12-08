@@ -3,458 +3,247 @@
 // ============================================
 
 document.addEventListener("DOMContentLoaded", async function () {
-  // Referencias a elementos
+  // Constantes y Estado
+  const TOTAL_STEPS = 5;
+  const CURRENT_STEP = 5;
+  const urlParams = new URLSearchParams(window.location.search);
+  const projectId = urlParams.get('id');
+
+  // Referencias
   const form = document.getElementById("paso5Form");
   const requirementsContainer = document.getElementById("requirementsContainer");
   const btnAnterior = document.getElementById("btnAnterior");
   const btnGuardarBorrador = document.getElementById("btnGuardarBorrador");
 
-  // Constantes
-  const TOTAL_STEPS = 5;
-  const CURRENT_STEP = 5;
-
-  // Estado
-  let requirements = [];
-  let answers = {};
-
-  // Actualizar progreso
+  // Progreso
   updateProgress(CURRENT_STEP, TOTAL_STEPS);
 
-  // Cargar categoría del Paso 1
-  const step1Data = sessionStorage.getItem("projectStep1");
-  if (!step1Data) {
+  // Validar navegación
+  if (!projectId) {
     mostrarModal({
-      title: 'Paso 1 incompleto',
-      message: 'Debes completar el Paso 1 primero',
+      title: 'Error de navegación',
+      message: 'No se ha seleccionado ningún proyecto. Redirigiendo al inicio.',
       type: 'error',
-      onConfirm: () => {
-        window.location.href = "./crear-proyecto-paso1.html";
-      }
+      onConfirm: () => window.location.href = "./crear-proyecto-paso1.html"
     });
     return;
   }
 
-  const { categoria } = JSON.parse(step1Data);
+  // Variables de estado
+  let currentProject = null;
+  let requirements = [];
+  let existingAnswers = []; // Respuestas ya subidas
 
-  // Cargar requisitos de la categoría
-  await loadRequirements(categoria);
+  // Inicialización
+  await loadData();
 
-  // Función para cargar requisitos
-  async function loadRequirements(categoryCode) {
+  // --- FUNCIONES ---
+
+  async function loadData() {
     try {
-      // TODO: Reemplazar con llamada real a la API
-      // const response = await fetch(`/api/categories/${categoryCode}/requirements`);
-      // requirements = await response.json();
+      // 1. Cargar datos del proyecto y respuestas existentes
+      const projectResponse = await fetch(`/api/projects/${projectId}?userId=101`); // TODO: Auth real
+      const projectResult = await projectResponse.json();
 
-      // Por ahora, usar requisitos de ejemplo según categoría
-      requirements = getMockRequirements(categoryCode);
+      if (!projectResult.success || !projectResult.data) {
+        throw new Error("No se pudo cargar el proyecto");
+      }
 
-      renderRequirements();
+      currentProject = projectResult.data;
+      existingAnswers = currentProject.requirements_answers || [];
+
+      // 2. Cargar requisitos de la categoría
+      if (currentProject.category_id) {
+        const reqResponse = await fetch(`/api/categories/${currentProject.category_id}/requirements`);
+        const reqResult = await reqResponse.json();
+
+        if (reqResult.success && reqResult.data) {
+          requirements = reqResult.data;
+          renderRequirements();
+        } else {
+          requirementsContainer.innerHTML = '<p class="text-center">No hay requisitos específicos para esta categoría.</p>';
+        }
+      }
+
     } catch (error) {
-      console.error("Error al cargar requisitos:", error);
-      requirementsContainer.innerHTML = `
-        <div class="alert-box" style="background: var(--color-error-bg); border-color: var(--color-error);">
-          <iconify-icon icon="ic:round-error" class="alert-icon" style="color: var(--color-error);"></iconify-icon>
-          <p class="alert-text">Error al cargar los requisitos. Por favor, intenta nuevamente.</p>
-        </div>
-      `;
+      console.error("Error inicializando paso 5:", error);
+      mostrarModal({ title: 'Error', message: 'Hubo un problema cargando los datos del proyecto', type: 'error' });
     }
   }
 
-  // Requisitos de ejemplo (mock)
-  function getMockRequirements(categoryCode) {
-    const mockData = {
-      tecnologia: [
-        {
-          id: 1,
-          code: "ruc",
-          label: "Número de RUC",
-          type: "texto",
-          required: true,
-          validations_json: {
-            pattern: "^[0-9]{11}$",
-            message: "RUC debe tener 11 dígitos",
-          },
-        },
-        {
-          id: 2,
-          code: "licencia_software",
-          label: "Licencia de Software (si aplica)",
-          type: "archivo",
-          required: false,
-        },
-        {
-          id: 3,
-          code: "descripcion_tecnica",
-          label: "Descripción Técnica del Proyecto",
-          type: "largo",
-          required: true,
-        },
-      ],
-      salud: [
-        {
-          id: 4,
-          code: "licencia_sanitaria",
-          label: "Licencia Sanitaria",
-          type: "archivo",
-          required: true,
-        },
-        {
-          id: 5,
-          code: "certificado_profesional",
-          label: "Certificado Profesional",
-          type: "archivo",
-          required: true,
-        },
-      ],
-      educacion: [
-        {
-          id: 6,
-          code: "plan_educativo",
-          label: "Plan Educativo",
-          type: "archivo",
-          required: true,
-        },
-        {
-          id: 7,
-          code: "experiencia_docente",
-          label: "Años de Experiencia Docente",
-          type: "numero",
-          required: false,
-        },
-      ],
-      "medio-ambiente": [
-        {
-          id: 8,
-          code: "estudio_impacto",
-          label: "Estudio de Impacto Ambiental",
-          type: "archivo",
-          required: true,
-        },
-      ],
-      social: [
-        {
-          id: 9,
-          code: "beneficiarios",
-          label: "Número de Beneficiarios Estimados",
-          type: "numero",
-          required: true,
-        },
-        {
-          id: 10,
-          code: "alianzas",
-          label: "Alianzas o Convenios",
-          type: "largo",
-          required: false,
-        },
-      ],
-      "arte-cultura": [
-        {
-          id: 11,
-          code: "portafolio",
-          label: "Portafolio de Trabajos Anteriores (URL)",
-          type: "url",
-          required: false,
-        },
-      ],
-    };
-
-    return mockData[categoryCode] || [];
-  }
-
-  // Renderizar requisitos
   function renderRequirements() {
+    requirementsContainer.innerHTML = "";
+
     if (requirements.length === 0) {
-      requirementsContainer.innerHTML = `
-        <div class="alert-box">
-          <iconify-icon icon="ic:round-check-circle" class="alert-icon" style="color: var(--color-success);"></iconify-icon>
-          <p class="alert-text">No hay requisitos adicionales para esta categoría. Puedes continuar a la vista previa.</p>
-        </div>
-      `;
+      requirementsContainer.innerHTML = '<div class="alert-box success"><p>No hay requisitos adicionales.</p></div>';
       return;
     }
 
-    requirementsContainer.innerHTML = "";
-
-    requirements.forEach((req) => {
-      const fieldHTML = renderField(req);
+    requirements.forEach(req => {
+      // Buscar si ya existe respuesta para este requisito
+      const answer = existingAnswers.find(a => a.requirement_id === req.id);
+      const fieldHTML = renderField(req, answer);
       requirementsContainer.insertAdjacentHTML("beforeend", fieldHTML);
     });
 
-    // Agregar event listeners
-    attachEventListeners();
+    attachFileListeners();
   }
 
-  // Renderizar campo según tipo
-  function renderField(req) {
-    const requiredMark = req.required ? "*" : "";
-    const fieldId = `req_${req.code}`;
-    const errorId = `${fieldId}-error`;
+  function renderField(req, answer) {
+    const fieldId = `req_${req.id}`;
+    const uploadedFile = answer ? answer.original_filename : null;
+    const markRequired = req.is_required ? "*" : "";
 
-    switch (req.type) {
-      case "texto":
-        return `
-          <div class="form-group requirement-field">
-            <label class="form-label" for="${fieldId}">
-              <iconify-icon icon="ic:round-text-fields" width="20" height="20"></iconify-icon>
-              ${req.label} ${requiredMark}
-            </label>
-            <div class="container-input">
-              <input 
-                type="text" 
-                class="form-input" 
-                id="${fieldId}" 
-                name="${req.code}"
-                ${req.required ? "required" : ""}
-                data-requirement-id="${req.id}"
-              />
-              <p class="error-message" id="${errorId}"></p>
-            </div>
-          </div>
-        `;
+    return `
+      <div class="form-group requirement-field" data-req-id="${req.id}">
+             <label class="form-label" for="${fieldId}">
+               <iconify-icon icon="ic:round-upload-file" width="20" height="20"></iconify-icon>
+               ${req.title} ${markRequired}
+             </label>
+             <p class="form-hint">${req.description || "Sube el documento solicitado"}</p>
+             
+             <div class="container-input">
+               <div class="file-upload-wrapper">
+                 <label for="${fieldId}" class="file-upload-btn">
+                   <iconify-icon icon="ic:round-attach-file" width="20"></iconify-icon>
+                   <span>${uploadedFile ? 'Cambiar archivo' : 'Seleccionar archivo'}</span>
+                 </label>
+                 <input 
+                   type="file" 
+                   id="${fieldId}" 
+                   name="req_${req.id}"
+                   accept=".pdf,.doc,.docx,.jpg,.png"
+                   ${req.is_required && !uploadedFile ? "required" : ""}
+                   data-requirement-id="${req.id}"
+                   hidden
+                 />
+                 <div class="file-name" id="${fieldId}-name">
+                    ${uploadedFile
+        ? `<span style="color: var(--color-success)">✅ ${uploadedFile}</span>`
+        : 'Ningún archivo seleccionado'}
+                 </div>
+               </div>
+               <p class="error-message" id="${fieldId}-error"></p>
+             </div>
+      </div>
+    `;
+  }
 
-      case "largo":
-        return `
-          <div class="form-group requirement-field">
-            <label class="form-label" for="${fieldId}">
-              <iconify-icon icon="ic:round-notes" width="20" height="20"></iconify-icon>
-              ${req.label} ${requiredMark}
-            </label>
-            <div class="container-input">
-              <textarea 
-                class="form-textarea" 
-                id="${fieldId}" 
-                name="${req.code}"
-                rows="4"
-                ${req.required ? "required" : ""}
-                data-requirement-id="${req.id}"
-              ></textarea>
-              <p class="error-message" id="${errorId}"></p>
-            </div>
-          </div>
-        `;
+  function attachFileListeners() {
+    inputs = document.querySelectorAll('input[type="file"]');
+    inputs.forEach(input => {
+      input.addEventListener('change', async function () {
+        if (this.files && this.files[0]) {
+          const file = this.files[0];
+          const reqId = this.dataset.requirementId;
 
-      case "numero":
-        return `
-          <div class="form-group requirement-field">
-            <label class="form-label" for="${fieldId}">
-              <iconify-icon icon="ic:round-numbers" width="20" height="20"></iconify-icon>
-              ${req.label} ${requiredMark}
-            </label>
-            <div class="container-input">
-              <input 
-                type="number" 
-                class="form-input" 
-                id="${fieldId}" 
-                name="${req.code}"
-                ${req.required ? "required" : ""}
-                data-requirement-id="${req.id}"
-              />
-              <p class="error-message" id="${errorId}"></p>
-            </div>
-          </div>
-        `;
+          // Mostrar nombre provisional
+          document.getElementById(`${this.id}-name`).innerHTML = `⏳ Subiendo ${file.name}...`;
 
-      case "url":
-        return `
-          <div class="form-group requirement-field">
-            <label class="form-label" for="${fieldId}">
-              <iconify-icon icon="ic:round-link" width="20" height="20"></iconify-icon>
-              ${req.label} ${requiredMark}
-            </label>
-            <div class="container-input">
-              <input 
-                type="url" 
-                class="form-input" 
-                id="${fieldId}" 
-                name="${req.code}"
-                placeholder="https://..."
-                ${req.required ? "required" : ""}
-                data-requirement-id="${req.id}"
-              />
-              <p class="error-message" id="${errorId}"></p>
-            </div>
-          </div>
-        `;
+          // Subir inmediatamente
+          const success = await uploadRequirementFile(reqId, file);
 
-      case "archivo":
-        return `
-          <div class="form-group requirement-field">
-            <label class="form-label" for="${fieldId}">
-              <iconify-icon icon="ic:round-upload-file" width="20" height="20"></iconify-icon>
-              ${req.label} ${requiredMark}
-            </label>
-            <div class="container-input">
-              <div class="file-upload-wrapper">
-                <label for="${fieldId}" class="file-upload-btn">
-                  <iconify-icon icon="ic:round-attach-file" width="20"></iconify-icon>
-                  <span>Seleccionar archivo</span>
-                </label>
-                <input 
-                  type="file" 
-                  id="${fieldId}" 
-                  name="${req.code}"
-                  accept=".pdf,.doc,.docx"
-                  ${req.required ? "required" : ""}
-                  data-requirement-id="${req.id}"
-                  hidden
-                />
-                <div class="file-name" id="${fieldId}-name"></div>
-              </div>
-              <p class="error-message" id="${errorId}"></p>
-            </div>
-            <span class="form-hint">Formatos permitidos: PDF, DOC, DOCX (máx. 10MB)</span>
-          </div>
-        `;
+          if (success) {
+            document.getElementById(`${this.id}-name`).innerHTML = `<span style="color: var(--color-success)">✅ ${file.name}</span>`;
+            // Quitar required ya que se subió
+            this.removeAttribute('required');
+            // Actualizar estado local
+            updateLocalAnswer(reqId, file.name);
+          } else {
+            document.getElementById(`${this.id}-name`).textContent = "❌ Error al subir archivo";
+            this.value = ""; // Limpiar input
+          }
+        }
+      });
+    });
+  }
 
-      default:
-        return "";
+  function updateLocalAnswer(reqId, filename) {
+    const existingIndex = existingAnswers.findIndex(a => a.requirement_id == reqId);
+    if (existingIndex >= 0) {
+      existingAnswers[existingIndex].original_filename = filename;
+    } else {
+      existingAnswers.push({ requirement_id: parseInt(reqId), original_filename: filename });
     }
   }
 
-  // Agregar event listeners
-  function attachEventListeners() {
-    // File inputs
-    document.querySelectorAll('input[type="file"]').forEach((input) => {
-      input.addEventListener("change", function () {
-        const fileName = this.files[0]?.name || "Ningún archivo seleccionado";
-        const nameDisplay = document.getElementById(`${this.id}-name`);
-        if (nameDisplay) {
-          nameDisplay.textContent = fileName;
-        }
+  async function uploadRequirementFile(reqId, file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch(`/api/projects/${projectId}/requirements/${reqId}/file`, {
+        method: 'PATCH',
+        body: formData
       });
-    });
+      const result = await response.json();
+      return result.success;
+    } catch (error) {
+      console.error("Error subiendo archivo:", error);
+      return false;
+    }
   }
 
-  // Validar formulario
-  function validateForm() {
-    let isValid = true;
-
-    requirements.forEach((req) => {
-      if (!req.required) return;
-
-      const fieldId = `req_${req.code}`;
-      const field = document.getElementById(fieldId);
-      const errorElement = document.getElementById(`${fieldId}-error`);
-
-      // Limpiar error
-      errorElement.innerHTML = "";
-      errorElement.classList.remove("show");
-
-      // Validar campo
-      if (!field.value || field.value.trim() === "") {
-        isValid = false;
-        errorElement.innerHTML = `${req.label} es obligatorio`;
-        errorElement.classList.add("show");
-      }
-
-      // Validaciones específicas
-      if (req.validations_json && field.value) {
-        const { pattern, message } = req.validations_json;
-        if (pattern && !new RegExp(pattern).test(field.value)) {
-          isValid = false;
-          errorElement.innerHTML = message || "Formato inválido";
-          errorElement.classList.add("show");
+  // Validaciones antes de enviar
+  function validateAllRequired() {
+    let valid = true;
+    // Iterar sobre requisitos requeridos
+    requirements.forEach(req => {
+      if (req.is_required) {
+        const hasAnswer = existingAnswers.some(a => a.requirement_id === req.id && a.original_filename);
+        if (!hasAnswer) {
+          valid = false;
+          // Mostrar error visual
+          const errorEl = document.getElementById(`req_${req.id}-error`);
+          if (errorEl) {
+            errorEl.textContent = "Este documento es obligatorio.";
+            errorEl.classList.add('show');
+          }
         }
       }
     });
-
-    return isValid;
+    return valid;
   }
 
-  // Recopilar respuestas
-  function collectAnswers() {
-    const answers = {};
+  // --- BOTIONES ---
 
-    requirements.forEach((req) => {
-      const fieldId = `req_${req.code}`;
-      const field = document.getElementById(fieldId);
-
-      if (field.type === "file") {
-        // Para archivos, guardar el nombre (en producción, subirías el archivo)
-        answers[req.code] = {
-          requirement_id: req.id,
-          value_text: field.files[0]?.name || null,
-          file_url: null, // TODO: Implementar upload
-        };
-      } else {
-        answers[req.code] = {
-          requirement_id: req.id,
-          value_text: field.value,
-        };
-      }
-    });
-
-    return answers;
-  }
-
-  // Botón Anterior
   btnAnterior.addEventListener("click", () => {
-    window.location.href = "./crear-proyecto-paso4.html";
+    window.location.href = `./crear-proyecto-paso4.html?id=${projectId}`;
   });
 
-  // Guardar borrador
   btnGuardarBorrador.addEventListener("click", () => {
-    const projectData = {
-      requirements: collectAnswers(),
-      status: "draft",
-      step: CURRENT_STEP,
-      savedAt: new Date().toISOString(),
-    };
-
-    const existingDraft = localStorage.getItem("projectDraft");
-    const draft = existingDraft ? JSON.parse(existingDraft) : {};
-    Object.assign(draft, projectData);
-    localStorage.setItem("projectDraft", JSON.stringify(draft));
-
-    mostrarModal({
-      title: 'Borrador guardado',
-      message: 'Borrador guardado correctamente',
-      type: 'success'
+    // En este paso, los archivos se suben al vuelo.
+    // Solo guardamos el estado del paso "draft"
+    fetch('/api/projects/draft', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: projectId, step: CURRENT_STEP })
+    }).then(() => {
+      mostrarModal({ title: 'Guardado', message: 'Borrador y archivos guardados.', type: 'success' });
     });
   });
 
-  // Formulario submit (Vista Previa)
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      mostrarModal({
-        title: 'Campos incompletos',
-        message: 'Por favor, completa todos los campos obligatorios',
-        type: 'warning'
-      });
+    if (!validateAllRequired()) {
+      mostrarModal({ title: 'Faltan documentos', message: 'Por favor sube todos los documentos obligatorios.', type: 'warning' });
       return;
     }
 
-    // Guardar datos del paso actual
-    const projectData = {
-      requirements: collectAnswers(),
-      step: CURRENT_STEP,
-    };
+    // Guardar paso y marcar posiblemente como completado (o solo avanzar a preview)
+    // Aquí podríamos cambiar 'status' a 'review_ready' o similar si quisiéramos, 
+    // pero el plan dice que hay una vista previa.
 
-    sessionStorage.setItem("projectStep5", JSON.stringify(projectData));
+    // Guardar paso actual
+    await fetch('/api/projects/draft', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: projectId, step: CURRENT_STEP })
+    });
 
     // Navegar a vista previa
-    window.location.href = "./vista-previa.html";
+    window.location.href = `./vista-previa.html?id=${projectId}`;
   });
 
-  // Cargar datos guardados
-  function loadStepData() {
-    const stepData = sessionStorage.getItem("projectStep5");
-    if (stepData) {
-      const data = JSON.parse(stepData);
-      if (data.requirements) {
-        Object.keys(data.requirements).forEach((code) => {
-          const field = document.getElementById(`req_${code}`);
-          if (field && data.requirements[code].value_text) {
-            field.value = data.requirements[code].value_text;
-          }
-        });
-      }
-    }
-  }
-
-  // Inicialización
-  loadStepData();
 });

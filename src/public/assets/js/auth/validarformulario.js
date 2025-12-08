@@ -100,7 +100,7 @@ async function interceptarForm() {
               message: 'Has iniciado sesión correctamente.',
               type: 'success',
               onConfirm: () => {
-                window.location.href = "/index.html";
+                window.location.href = "./user/index.html";
               }
             });
           } else {

@@ -4,10 +4,23 @@
 
 let editor;
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   // Constantes
   const TOTAL_STEPS = 5;
   const CURRENT_STEP = 2;
+  const urlParams = new URLSearchParams(window.location.search);
+  const projectId = urlParams.get('id');
+
+  // Validar flujo: Si no hay ID, volver al paso 1
+  if (!projectId) {
+    mostrarModal({
+      title: 'Error de navegación',
+      message: 'No se ha seleccionado ningún proyecto. Redirigiendo al inicio.',
+      type: 'error',
+      onConfirm: () => window.location.href = "./crear-proyecto-paso1.html"
+    });
+    return;
+  }
 
   // Referencias a botones
   const btnAnterior = document.getElementById("btnAnterior");
@@ -17,326 +30,230 @@ document.addEventListener("DOMContentLoaded", function () {
   // Actualizar progreso
   updateProgress(CURRENT_STEP, TOTAL_STEPS);
 
-  // Inicializar Editor.js con configuración completa basada en documentación oficial
-  editor = new EditorJS({
-    holder: "editorjs",
-    placeholder: "Comienza a escribir la historia de tu proyecto...",
+  // Cargar datos del proyecto antes de iniciar el editor
+  let initialEditorData = {};
+  if (projectId) {
+    initialEditorData = await loadProjectData(projectId);
+  }
 
-    // Callback cuando el editor esté listo
-    onReady: () => {
-      console.log('✅ Editor.js está listo');
-    },
+  // Inicializar Editor.js
+  initEditor(initialEditorData);
 
-    // Callback cuando haya cambios en el contenido
-    onChange: (api, event) => {
-      console.log('📝 Contenido modificado', event);
-    },
+  // --- FUNCIONES ---
 
-    // Autosave cada 10 segundos
-    autosave: {
-      interval: 10000,
-      save: async (data) => {
-        const draft = JSON.parse(localStorage.getItem("projectDraft") || "{}");
-        draft.descripcionDetallada = data;
-        draft.savedAt = new Date().toISOString();
-        localStorage.setItem("projectDraft", JSON.stringify(draft));
-        console.log("✅ Borrador guardado automáticamente");
-      }
-    },
-
-    tools: {
-      // Header tool - Documentación: https://github.com/editor-js/header
-      header: {
-        class: Header,
-        config: {
-          placeholder: "Ingresa un encabezado",
-          levels: [2, 3, 4],
-          defaultLevel: 2,
-        },
-        inlineToolbar: true,
-        shortcut: 'CMD+SHIFT+H'
-      },
-
-      // List tool - Documentación: https://github.com/editor-js/list
-      // IMPORTANTE: En versión 2.0+ se llama EditorjsList, no List
-      list: {
-        class: EditorjsList,
-        inlineToolbar: true,
-        config: {
-          defaultStyle: 'unordered'
-        }
-      },
-
-      // Checklist tool - Documentación: https://github.com/editor-js/checklist
-      checklist: {
-        class: Checklist,
-        inlineToolbar: true
-      },
-
-      // Table tool - Documentación: https://github.com/editor-js/table
-      table: {
-        class: Table,
-        inlineToolbar: true,
-        config: {
-          rows: 2,
-          cols: 3,
-          withHeadings: false
-        }
-      },
-
-      // Warning tool - Documentación: https://github.com/editor-js/warning
-      warning: {
-        class: Warning,
-        inlineToolbar: true,
-        config: {
-          titlePlaceholder: 'Título de la advertencia',
-          messagePlaceholder: 'Mensaje de la advertencia'
-        }
-      },
-
-      // Quote tool - Documentación: https://github.com/editor-js/quote
-      quote: {
-        class: Quote,
-        inlineToolbar: true,
-        config: {
-          quotePlaceholder: "Ingresa una cita",
-          captionPlaceholder: "Autor de la cita",
-        },
-      },
-
-      // Code tool - Documentación: https://github.com/editor-js/code
-      code: {
-        class: CodeTool,
-        config: {
-          placeholder: 'Ingresa código aquí'
-        }
-      },
-
-      // Delimiter tool - Documentación: https://github.com/editor-js/delimiter
-      delimiter: Delimiter,
-
-      // Inline tools
-      inlineCode: InlineCode,
-      marker: Marker,
-
-      // Embed tool - Documentación: https://github.com/editor-js/embed
-      embed: {
-        class: Embed,
-        inlineToolbar: true,
-        config: {
-          services: {
-            youtube: true,
-            vimeo: true,
-            coub: true,
-            twitter: true,
-            instagram: true
-          }
-        },
-      },
-
-      // Simple Image tool - Documentación: https://github.com/editor-js/simple-image
-      image: {
-        class: SimpleImage,
-        inlineToolbar: true
-      },
-
-      // Link tool - Documentación: https://github.com/editor-js/link
-      linkTool: {
-        class: LinkTool,
-        config: {
-          endpoint: "/api/fetchUrl"
-        },
-      }
-    },
-
-    // Traducción al español
-    i18n: {
-      messages: {
-        ui: {
-          "blockTunes": {
-            "toggler": {
-              "Click to tune": "Clic para configurar",
-              "or drag to move": "o arrastra para mover"
-            }
-          },
-          "inlineToolbar": {
-            "converter": {
-              "Convert to": "Convertir a"
-            }
-          },
-          "toolbar": {
-            "toolbox": {
-              "Add": "Agregar"
-            }
-          }
-        },
-        toolNames: {
-          "Text": "Texto",
-          "Heading": "Encabezado",
-          "List": "Lista",
-          "Checklist": "Lista de tareas",
-          "Table": "Tabla",
-          "Warning": "Advertencia",
-          "Quote": "Cita",
-          "Code": "Código",
-          "Delimiter": "Delimitador",
-          "Embed": "Insertar",
-          "Image": "Imagen",
-          "Link": "Enlace",
-          "Attaches": "Archivo adjunto"
-        },
-        tools: {
-          "warning": {
-            "Title": "Título",
-            "Message": "Mensaje"
-          },
-          "link": {
-            "Add a link": "Agregar enlace"
-          },
-          "stub": {
-            "The block can not be displayed correctly.": "El bloque no se puede mostrar correctamente."
-          }
-        },
-        blockTunes: {
-          "delete": {
-            "Delete": "Eliminar"
-          },
-          "moveUp": {
-            "Move up": "Mover arriba"
-          },
-          "moveDown": {
-            "Move down": "Mover abajo"
-          }
-        }
-      }
-    },
-
-    logLevel: 'ERROR',
-    data: loadEditorData(),
-  });
-
-  // Botón Anterior
-  btnAnterior.addEventListener("click", function () {
-    // Guardar datos actuales antes de navegar
-    saveCurrentStep();
-    window.location.href = "./crear-proyecto-paso1.html";
-  });
-
-  // Guardar borrador
-  btnGuardarBorrador.addEventListener("click", async function () {
+  async function loadProjectData(id) {
     try {
-      const editorData = await editor.save();
+      const response = await fetch(`/api/projects/${id}?userId=${getUserId()}`); // userId temporal por query param si faltara auth
+      const result = await response.json();
 
-      const projectData = {
-        descripcionDetallada: editorData,
-        status: "draft",
-        step: CURRENT_STEP,
-        savedAt: new Date().toISOString(),
-      };
+      if (result.success && result.data && result.data.story_json) {
+        return result.data.story_json;
+      }
+      return {};
+    } catch (error) {
+      console.error("Error cargando datos del proyecto:", error);
+      mostrarModal({ title: 'Error', message: 'No se pudieron cargar los datos del proyecto', type: 'error' });
+      return {};
+    }
+  }
 
-      // Guardar en localStorage
-      const existingDraft = localStorage.getItem("projectDraft");
-      const draft = existingDraft ? JSON.parse(existingDraft) : {};
-      Object.assign(draft, projectData);
-      localStorage.setItem("projectDraft", JSON.stringify(draft));
+  // Helper temporal para obtener ID de usuario (simulado si no hay auth context)
+  function getUserId() {
+    // Idealmente vendría de un contexto auth, por ahora confiamos en el endpoint
+    return 101;
+  }
 
+  function initEditor(data) {
+    editor = new EditorJS({
+      holder: "editorjs",
+      placeholder: "Comienza a escribir la historia de tu proyecto...",
+      data: data, // Cargar datos recuperados de la DB
+      onReady: () => {
+        console.log('✅ Editor.js está listo');
+      },
+      onChange: (api, event) => {
+        console.log('📝 Contenido modificado', event);
+      },
+      // Autosave real a la DB cada 30 segundos
+      autosave: {
+        interval: 30000,
+        save: async (editorData) => {
+          await saveProjectDraft(editorData, true); // true = silencioso
+          console.log("✅ Borrador autoguardado en DB");
+        }
+      },
+      tools: {
+        header: {
+          class: window.Header,
+          config: { placeholder: "Ingresa un encabezado", levels: [2, 3, 4], defaultLevel: 2 },
+          inlineToolbar: true,
+          shortcut: 'CMD+SHIFT+H'
+        },
+        list: {
+          class: window.EditorjsList,
+          inlineToolbar: true,
+          config: { defaultStyle: 'unordered' }
+        },
+        checklist: {
+          class: window.Checklist,
+          inlineToolbar: true
+        },
+        table: {
+          class: window.Table,
+          inlineToolbar: true,
+          config: { rows: 2, cols: 3, withHeadings: false }
+        },
+        warning: {
+          class: window.Warning,
+          inlineToolbar: true,
+          config: { titlePlaceholder: 'Título', messagePlaceholder: 'Mensaje' }
+        },
+        quote: {
+          class: window.Quote,
+          inlineToolbar: true,
+          config: { quotePlaceholder: "Cita", captionPlaceholder: "Autor" },
+        },
+        code: {
+          class: window.CodeTool,
+          config: { placeholder: 'Código aquí' }
+        },
+        delimiter: window.Delimiter,
+        inlineCode: window.InlineCode,
+        marker: window.Marker,
+        embed: {
+          class: window.Embed,
+          inlineToolbar: true,
+          config: {
+            services: { youtube: true, vimeo: true, twitter: true }
+          },
+        },
+        image: {
+          class: window.ImageTool,
+          config: {
+            // Nota: Mantenemos upload directo. La vinculación real ocurre en saveProjectDraft
+            endpoints: {
+              byFile: '/api/upload/story-image',
+            },
+            field: 'image',
+            types: 'image/*',
+            captionPlaceholder: 'Descripción (opcional)',
+            buttonContent: 'Seleccionar imagen',
+            uploader: {
+              uploadByFile(file) {
+                const formData = new FormData();
+                formData.append('image', file);
+                return fetch('/api/upload/story-image', {
+                  method: 'POST',
+                  body: formData
+                })
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data.success === 1) return data;
+                    throw new Error(data.message || 'Error al subir');
+                  });
+              }
+            }
+          },
+          inlineToolbar: true
+        },
+        linkTool: {
+          class: window.LinkTool,
+          config: { endpoint: "/api/fetchUrl" },
+        }
+      },
+      i18n: {
+        messages: {
+          ui: {
+            "blockTunes": { "toggler": { "Click to tune": "Clic para configurar" } },
+            "inlineToolbar": { "converter": { "Convert to": "Convertir a" } },
+            "toolbar": { "toolbox": { "Add": "Agregar" } }
+          },
+          toolNames: {
+            "Text": "Texto", "Heading": "Encabezado", "List": "Lista", "Checklist": "Checklist",
+            "Table": "Tabla", "Warning": "Aviso", "Quote": "Cita", "Code": "Código",
+            "Delimiter": "Separador", "Embed": "Insertar", "Image": "Imagen", "Link": "Enlace"
+          }
+        }
+      }
+    });
+  }
+
+  async function saveProjectDraft(editorData, silent = false) {
+    if (!editorData) {
+      editorData = await editor.save();
+    }
+
+    const projectData = {
+      id: projectId,
+      step: CURRENT_STEP,
+      story_json: editorData
+    };
+
+    try {
+      const response = await fetch('/api/projects/draft', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projectData)
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+      return true;
+    } catch (error) {
+      console.error("Error guardando borrador:", error);
+      if (!silent) {
+        mostrarModal({ title: 'Error', message: 'No se pudo guardar el borrador', type: 'error' });
+      }
+      return false;
+    }
+  }
+
+  // --- EVENT LISTENERS ---
+
+  btnAnterior.addEventListener("click", function () {
+    window.location.href = `./crear-proyecto-paso1.html?id=${projectId}`;
+  });
+
+  btnGuardarBorrador.addEventListener("click", async function () {
+    const success = await saveProjectDraft();
+    if (success) {
       mostrarModal({
         title: 'Borrador guardado',
-        message: 'Borrador guardado correctamente',
+        message: 'Tu historia se ha guardado correctamente. Las imágenes están sincronizadas.',
         type: 'success'
-      });
-    } catch (error) {
-      console.error("Error al guardar borrador:", error);
-      mostrarModal({
-        title: 'Error',
-        message: 'Error al guardar el borrador',
-        type: 'error'
       });
     }
   });
 
-  // Botón Siguiente
   btnSiguiente.addEventListener("click", async function () {
     try {
       const editorData = await editor.save();
 
-      // Validar que haya contenido
+      // Validaciones mínimas
       if (!editorData.blocks || editorData.blocks.length === 0) {
-        mostrarModal({
-          title: 'Descripción requerida',
-          message: 'Por favor, agrega contenido a la descripción de tu proyecto',
-          type: 'warning'
-        });
+        mostrarModal({ title: 'Descripción requerida', message: 'Agrega contenido a tu historia', type: 'warning' });
         return;
       }
-
-      // Validar mínimo de bloques
       if (editorData.blocks.length < 3) {
-        mostrarModal({
-          title: 'Contenido insuficiente',
-          message: 'Agrega al menos 3 bloques de contenido para una descripción completa',
-          type: 'warning'
-        });
+        mostrarModal({ title: 'Contenido insuficiente', message: 'Tu historia es muy corta. Agrega más detalles.', type: 'warning' });
         return;
       }
 
-      // Guardar datos del paso actual
-      const projectData = {
-        descripcionDetallada: editorData,
-        step: CURRENT_STEP,
-      };
+      // Guardar en Backend
+      const success = await saveProjectDraft(editorData);
 
-      sessionStorage.setItem("projectStep2", JSON.stringify(projectData));
-
-      // Navegar al siguiente paso
-      window.location.href = "./crear-proyecto-paso3.html";
+      if (success) {
+        // Redundancia session
+        sessionStorage.setItem("projectId", projectId);
+        // Navegar
+        window.location.href = `./crear-proyecto-paso3.html?id=${projectId}`;
+      }
     } catch (error) {
-      console.error("Error al validar editor:", error);
-      mostrarModal({
-        title: 'Error',
-        message: 'Error al procesar el contenido',
-        type: 'error'
-      });
+      console.error("Error al procesar contenido:", error);
     }
   });
 
-  // Función para guardar paso actual
-  async function saveCurrentStep() {
-    try {
-      const editorData = await editor.save();
-      const projectData = {
-        descripcionDetallada: editorData,
-        step: CURRENT_STEP,
-      };
-      sessionStorage.setItem("projectStep2", JSON.stringify(projectData));
-    } catch (error) {
-      console.error("Error al guardar paso:", error);
-    }
-  }
-
-  // Función para cargar datos del editor
-  function loadEditorData() {
-    // Intentar cargar desde sessionStorage primero
-    const stepData = sessionStorage.getItem("projectStep2");
-    if (stepData) {
-      const data = JSON.parse(stepData);
-      if (data.descripcionDetallada) {
-        return data.descripcionDetallada;
-      }
-    }
-
-    // Intentar cargar desde localStorage (borrador)
-    const draft = localStorage.getItem("projectDraft");
-    if (draft) {
-      const data = JSON.parse(draft);
-      if (data.descripcionDetallada) {
-        return data.descripcionDetallada;
-      }
-    }
-
-    // Retornar estructura vacía
-    return {
-      blocks: [],
-    };
-  }
 });

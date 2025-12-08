@@ -19,7 +19,7 @@ exports.uploadStoryImage = (req, res) => {
         return res.json({
             success: 1,
             file: {
-                url: `uploads/img/${req.file.filename}` // Ruta relativa para el frontend
+                url: `/uploads/img/${req.file.filename}` // Ruta relativa para el frontend
             }
         });
     } catch (error) {
@@ -27,6 +27,45 @@ exports.uploadStoryImage = (req, res) => {
         return res.json({
             success: 0,
             message: 'Error al procesar la imagen'
+        });
+    }
+};
+
+/**
+ * POST /api/upload/cover
+ * Upload de portada de proyecto
+ * Retorna metadata completa: image_path (UUID) y original_name
+ */
+exports.uploadCover = (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: 'No se recibió ninguna imagen de portada'
+            });
+        }
+
+        console.log('✅ Portada subida:', {
+            original: req.file.originalname,
+            saved: req.file.filename,
+            size: req.file.size
+        });
+
+        return res.json({
+            success: true,
+            message: 'Portada subida correctamente',
+            data: {
+                url: `/uploads/img/${req.file.filename}`,
+                image_path: req.file.filename,  // UUID.ext
+                original_name: req.file.originalname,
+                size: req.file.size
+            }
+        });
+    } catch (error) {
+        console.error('Error al subir portada:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Error al procesar la portada'
         });
     }
 };
@@ -63,3 +102,4 @@ exports.uploadFile = (req, res) => {
         });
     }
 };
+

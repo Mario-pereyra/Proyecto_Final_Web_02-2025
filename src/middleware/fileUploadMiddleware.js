@@ -32,12 +32,12 @@ const projectStorage = multer.diskStorage({
     let uploadPath;
 
     // RF-REC-01: Segregación de almacenamiento
-    if (file.fieldname === 'mainImage' || file.fieldname === 'cover' || file.fieldname === 'images') {
+    if (file.fieldname === 'mainImage' || file.fieldname === 'cover' || file.fieldname === 'images' || file.fieldname === 'image' || file.fieldname === 'cover_image' || file.fieldname === 'gallery_images') {
       uploadPath = 'uploads/img'; // Imágenes: portada y contenido
-    } else if (file.fieldname === 'documents' || file.fieldname === 'file') {
+    } else if (file.fieldname === 'documents' || file.fieldname === 'file' || file.fieldname.startsWith('req_')) {
       uploadPath = 'uploads/files'; // Documentos: requisitos
     } else {
-      return cb(new Error('Campo de archivo no reconocido'));
+      return cb(new Error('Campo de archivo no reconocido: ' + file.fieldname));
     }
 
     ensureDir(uploadPath);
@@ -58,7 +58,7 @@ const projectStorage = multer.diskStorage({
  * Filtro de tipos de archivos permitidos
  */
 const fileFilter = (req, file, cb) => {
-  if (file.fieldname === 'mainImage' || file.fieldname === 'cover' || file.fieldname === 'images') {
+  if (file.fieldname === 'mainImage' || file.fieldname === 'cover' || file.fieldname === 'images' || file.fieldname === 'image' || file.fieldname === 'cover_image' || file.fieldname === 'gallery_images') {
     // Validar imágenes
     const allowedTypes = /jpeg|jpg|png|webp|gif/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -69,7 +69,7 @@ const fileFilter = (req, file, cb) => {
     }
     return cb(new Error('Solo se permiten imágenes (JPG, PNG, WEBP, GIF)'));
 
-  } else if (file.fieldname === 'documents' || file.fieldname === 'file') {
+  } else if (file.fieldname === 'documents' || file.fieldname === 'file' || file.fieldname.startsWith('req_')) {
     // Validar documentos
     const allowedTypes = /pdf|doc|docx|xls|xlsx|ppt|pptx/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());

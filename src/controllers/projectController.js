@@ -7,7 +7,7 @@ const { deleteFile, deleteFileSync } = require('../utils/fileHelper');
  */
 exports.createProject = async (req, res) => {
   try {
-    const userId = req.user ? req.user.id : 1; // Temporal: hardcoded user
+    const userId = req.user ? req.user.id : 101; // Temporal: hardcoded user (Sofia)
     const {
       title,
       summary,
@@ -198,7 +198,15 @@ exports.searchProjects = async (req, res) => {
 exports.getProjectById = async (req, res) => {
   try {
     const { id } = req.params;
-    const project = await projectRepository.getPublicById(id);
+    const userId = req.user ? req.user.id : (req.query.userId ? parseInt(req.query.userId) : 101); // Temporal: default 101
+
+    // 1. Intentar buscar como propietario (para editar borradores)
+    let project = await projectRepository.getById(id, userId);
+
+    // 2. Si no es propietario, buscar como público
+    if (!project) {
+      project = await projectRepository.getPublicById(id);
+    }
 
     if (!project) {
       return res.status(404).json({
@@ -227,7 +235,7 @@ exports.getProjectById = async (req, res) => {
 exports.updateProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user ? req.user.id : 1;
+    const userId = req.user ? req.user.id : 101;
     const {
       title,
       summary,
@@ -294,7 +302,7 @@ const categoryRepository = require('../repositories/categoryRepository');
 exports.submitProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user ? req.user.id : 1;
+    const userId = req.user ? req.user.id : 101;
 
     // 1. Obtener proyecto completo
     const project = await projectRepository.getById(id, userId);
@@ -353,7 +361,7 @@ exports.submitProject = async (req, res) => {
 exports.uploadProjectImages = async (req, res) => {
   try {
     const { id: projectId } = req.params;
-    const userId = req.user ? req.user.id : 1;
+    const userId = req.user ? req.user.id : 101;
 
     if (!req.files || !req.files.images || req.files.images.length === 0) {
       return res.status(400).json({
@@ -398,7 +406,7 @@ exports.uploadProjectImages = async (req, res) => {
 exports.deleteProjectImage = async (req, res) => {
   try {
     const { id: projectId, imageId } = req.params;
-    const userId = req.user ? req.user.id : 1;
+    const userId = req.user ? req.user.id : 101;
 
     const imageData = await projectRepository.deleteImage(projectId, imageId, userId);
 
@@ -522,7 +530,7 @@ exports.updateRequirementFile = async (req, res) => {
 exports.deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user ? req.user.id : 1;
+    const userId = req.user ? req.user.id : 101;
 
     const result = await projectRepository.softDelete(id, userId);
 
@@ -589,7 +597,7 @@ exports.saveProject = async (req, res) => {
       deadline_at
     } = req.body;
 
-    const userId = req.user ? req.user.id : 1;
+    const userId = req.user ? req.user.id : 101;
     const isUpdate = !!projectId;
 
     if (!title || title.trim() === '') {
@@ -620,6 +628,7 @@ exports.saveProject = async (req, res) => {
 
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
+        // 1. Portada (Single)
         if (file.fieldname === 'cover_image') {
           images.push({
             image_path: `uploads/img/${file.filename}`,
@@ -627,14 +636,25 @@ exports.saveProject = async (req, res) => {
             is_cover: true
           });
         }
-        if (file.fieldname.startsWith('req_')) {
-          const requirementId = parseInt(file.fieldname.split('_')[1]);
-          requirements.push({
-            requirement_id: requirementId,
-            file_path: `uploads/files/${file.filename}`,
+        // 2. Galería (Multiple)
+        else if (file.fieldname === 'gallery_images') {
+          images.push({
+            image_path: `uploads/img/${file.filename}`,
             original_filename: file.originalname,
-            mime_type: file.mimetype
+            is_cover: false // Explícitamente no es portada
           });
+        }
+        // 3. Requisitos (Dinámicos parreq_{id})
+        else if (file.fieldname.startsWith('req_')) {
+          const requirementId = parseInt(file.fieldname.split('_')[1]);
+          if (!isNaN(requirementId)) {
+            requirements.push({
+              requirement_id: requirementId,
+              file_path: `uploads/files/${file.filename}`,
+              original_filename: file.originalname,
+              mime_type: file.mimetype
+            });
+          }
         }
       }
     }
@@ -659,9 +679,12 @@ exports.saveProject = async (req, res) => {
     // Limpieza de archivos en caso de error
     if (req.files && req.files.length > 0) {
       req.files.forEach(file => {
-        const filePath = file.fieldname === 'cover_image'
-          ? `uploads/img/${file.filename}`
-          : `uploads/files/${file.filename}`;
+        // Use file.path if available (from multer), otherwise fallback to manual path construction
+        const filePath = file.path || (
+          ['cover_image', 'gallery_images', 'mainImage', 'image'].includes(file.fieldname)
+            ? `uploads/img/${file.filename}`
+            : `uploads/files/${file.filename}`
+        );
         deleteFileSync(filePath);
       });
     }
@@ -672,6 +695,67 @@ exports.saveProject = async (req, res) => {
     return res.status(statusCode).json({
       success: false,
       message: message,
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+/**
+ * POST /api/projects/draft
+ * Guardado incremental de borradores
+ * Maneja lógica por pasos y sincronización de imágenes
+ */
+exports.saveDraft = async (req, res) => {
+  try {
+    const userId = req.user ? req.user.id : 101;
+    const {
+      id: projectId, // Opcional (si es edición)
+      step,          // Opcional (para validaciones futuras)
+      title,
+      short_description,
+      category_id,
+      story_json,    // JSON de Editor.js
+      goal_amount,
+      deadline_at,
+      cover_image    // Ruta de la imagen de portada ya subida
+    } = req.body;
+
+    // Preparar objeto de datos
+    const draftData = {
+      id: projectId,
+      title,
+      short_description,
+      category_id: category_id ? parseInt(category_id) : undefined,
+      story_json,
+      goal_amount: goal_amount ? parseFloat(goal_amount) : undefined,
+      deadline_at,
+      cover_image
+    };
+
+    // Llamar al repositorio (Maneja UPSERT y Diff de Imágenes)
+    const savedProjectId = await projectRepository.upsertDraft(userId, draftData);
+
+    res.json({
+      success: true,
+      message: 'Borrador guardado correctamente',
+      data: {
+        project_id: savedProjectId
+      }
+    });
+
+  } catch (error) {
+    console.error('Error al guardar borrador:', error);
+
+    // Si fue error de "Proyecto no encontrado" (404)
+    if (error.message === "PROYECTO_NO_ENCONTRADO") {
+      return res.status(404).json({
+        success: false,
+        message: 'Proyecto no encontrado o no tienes permisos'
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Error al guardar el borrador',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }

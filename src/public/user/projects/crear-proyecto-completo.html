@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crear Proyecto - Completo - Impulsa.me</title>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="../../assets/css/global/reset.css" />
+    <link rel="stylesheet" href="../../assets/css/global/variables.css" />
+    <link rel="stylesheet" href="../../assets/css/global/typography.css" />
+
+    <!-- Components CSS -->
+    <link rel="stylesheet" href="../../assets/css/components/buttons.css" />
+    <link rel="stylesheet" href="../../assets/css/components/navbar.css" />
+    <link rel="stylesheet" href="../../assets/css/components/forms.css" />
+    <link rel="stylesheet" href="../../assets/css/components/cards.css" />
+    <link rel="stylesheet" href="../../assets/css/components/modals.css" />
+    <link rel="stylesheet" href="../../assets/css/projects/create-project.css" />
+
+    <!-- Editor.js & Tools CSS -->
+    <style>
+        /* Estilos específicos para la unificación */
+        .form-section-block {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 0.5rem;
+        }
+
+        .sticky-footer {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 1rem 2rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+
+        /* Ajustes Editor.js */
+        #editorjs {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 300px;
+        }
+
+        /* Ajustes Galería */
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cover-badge {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        /* Requisitos */
+        .requirements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="create-project-container">
+    <!-- Header Principal -->
+    <header class="main-header">
+        <div class="logo-container">
+            <figure class="logo-figure">
+                <a href="../index.html" class="logo-link">
+                    <img src="../../assets/img/Logo final.png" alt="Logo Impulsa.me" class="logo-img" />
+                </a>
+                <figcaption class="logo-caption">Impulsa.me</figcaption>
+            </figure>
+        </div>
+        <div class="header-actions">
+            <a href="../dashboard.html" class="btn btn--secondary">
+                <iconify-icon icon="ic:round-dashboard"></iconify-icon> Dashboard
+            </a>
+        </div>
+    </header>
+
+    <main class="create-project-main" style="max-width: 1000px; margin: 2rem auto;">
+        <h1 class="page-title">Gestión de Proyecto</h1>
+
+        <form id="projectForm">
+
+            <!-- SECCIÓN 1: INFO BÁSICA -->
+            <section class="form-section-block">
+                <h2 class="form-section-title">1. Información Básica</h2>
+
+                <div class="form-group">
+                    <label class="form-label" for="titulo">Título del Proyecto *</label>
+                    <input type="text" class="form-input" id="titulo" name="titulo" required maxlength="100"
+                        placeholder="Ej: Café Orgánico de Altura" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="descripcion">Descripción Corta *</label>
+                    <textarea class="form-textarea" id="descripcion" name="descripcion" required maxlength="200"
+                        placeholder="Resumen breve para la tarjeta..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="categoria">Categoría *</label>
+                    <div class="form-select-wrapper">
+                        <select class="form-select" id="categoria" name="categoria" required>
+                            <option value="" disabled selected>Cargando categorías...</option>
+                        </select>
+                        <iconify-icon icon="ic:round-expand-more" class="select-arrow"></iconify-icon>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 2: HISTORIA -->
+            <section class="form-section-block">
+                <h2 class="form-section-title">2. Historia Detallada</h2>
+                <div id="editorjs"></div>
+                <p class="form-hint">Cuenta tu historia. Puedes incluir títulos, listas e imágenes incrustadas.</p>
+            </section>
+
+            <!-- SECCIÓN 3: FINANCIACIÓN -->
+            <section class="form-section-block">
+                <h2 class="form-section-title">3. Metas y Plazos</h2>
+
+                <div class="form-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="meta">Meta de Financiación (Bs) *</label>
+                        <input type="number" class="form-input" id="meta" name="meta" required min="100"
+                            placeholder="0.00" />
+                    </div>
+
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="fecha_inicio">Fecha de Inicio</label>
+                        <input type="date" class="form-input" id="fecha_inicio" name="fecha_inicio" />
+                    </div>
+
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label" for="duracion">Duración (días) *</label>
+                        <input type="number" class="form-input" id="duracion" name="duracion" required min="7" max="90"
+                            value="30" />
+                    </div>
+                </div>
+                <p id="fechaFinTexto" style="color: var(--primary-color); font-weight: 500; font-size: 0.9rem;"></p>
+            </section>
+
+            <!-- SECCIÓN 4: MULTIMEDIA -->
+            <section class="form-section-block">
+                <h2 class="form-section-title">4. Multimedia</h2>
+
+                <!-- Portada -->
+                <div class="form-group">
+                    <label class="form-label">Imagen de Portada *</label>
+                    <div id="coverUploadArea" class="file-upload-area"
+                        style="padding: 1rem; border: 2px dashed var(--border-color); text-align: center; cursor: pointer;">
+                        <iconify-icon icon="ic:round-image" width="32"></iconify-icon>
+                        <p>Clic para seleccionar portada</p>
+                        <input type="file" id="coverInput" accept="image/*" hidden />
+                    </div>
+                    <div id="coverPreview" style="margin-top: 1rem; max-width: 300px; display: none;">
+                        <img id="coverImgTag" src="" style="width: 100%; border-radius: 8px;" />
+                        <button type="button" id="removeCoverBtn" class="btn btn--text btn--sm"
+                            style="color: var(--error-color);">Quitar portada</button>
+                    </div>
+                </div>
+
+                <!-- Galería -->
+                <div class="form-group" style="margin-top: 2rem;">
+                    <label class="form-label">Galería de Imágenes</label>
+                    <div id="galleryUploadArea" class="file-upload-area"
+                        style="padding: 1rem; border: 2px dashed var(--border-color); text-align: center; cursor: pointer;">
+                        <iconify-icon icon="ic:round-collections" width="32"></iconify-icon>
+                        <p>Clic para agregar fotos a la galería</p>
+                        <input type="file" id="galleryInput" accept="image/*" multiple hidden />
+                    </div>
+                    <div id="galleryGrid" class="image-preview-grid">
+                        <!-- Las imágenes se renderizan aquí -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 5: REQUISITOS -->
+            <section class="form-section-block" id="requirementsSection">
+                <h2 class="form-section-title">5. Documentación y Requisitos</h2>
+                <div id="requirementsList" class="requirements-list">
+                    <p class="text-secondary">Selecciona una categoría para ver los requisitos específicos.</p>
+                </div>
+            </section>
+
+            <!-- FOOTER CON ACCIONES -->
+            <footer class="sticky-footer">
+                <button type="button" class="btn btn--secondary" id="btnGuardar">
+                    <iconify-icon icon="ic:round-save"></iconify-icon>
+                    Guardar Borrador
+                </button>
+                <button type="submit" class="btn btn--primary" id="btnPublicar">
+                    <iconify-icon icon="ic:round-send"></iconify-icon>
+                    Publicar Proyecto
+                </button>
+            </footer>
+
+        </form>
+    </main>
+
+    <!-- Scripts Editor.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@latest"></script>
+
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="../../assets/js/common/ui-components.js"></script>
+    <script src="../../assets/js/components/modal.js"></script>
+
+    <!-- Script Principal Unificado -->
+    <script src="./crear-proyecto-completo.js"></script>
+</body>
+
+</html>
