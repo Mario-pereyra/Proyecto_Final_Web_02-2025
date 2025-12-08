@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # PostgreSQL - Base de datos de Impulsa.me
+  postgres:
+    image: postgres:15
+    container_name: impulsame_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: impulsame
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/db_impulsames.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - impulsame_network
+
+  # PostgreSQL - Base de datos del Payment Gateway
+  postgres-gateway:
+    image: postgres:15
+    container_name: payment_gateway_postgres
+    ports:
+      - "5433:5432"  # Puerto externo 5433 para evitar conflicto
+    environment:
+      POSTGRES_DB: payment_gateway
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${GATEWAY_DB_PASSWORD}
+    volumes:
+      - postgres_gateway_data:/var/lib/postgresql/data
+      - ./payment-gateway/Database/database.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - impulsame_network
+
+  # Impulsa.me - Backend + Frontend (Puerto 3001)
+  impulsa-api:
+    build: .
+    container_name: impulsame_app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - payment-gateway
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD}@postgres:5432/impulsame
+      PAYMENT_GATEWAY_URL: http://payment-gateway:3002
+      APP_URL: ${APP_URL}
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - impulsame_network
+    restart: unless-stopped
+
+  # Payment Gateway (Puerto 3002)
+  payment-gateway:
+    build: ./payment-gateway/Gateway
+    container_name: payment_gateway_app
+    ports:
+      - "3002:3002"
+    depends_on:
+      - postgres-gateway
+    environment:
+      PORT: 3002
+      DB_HOST: postgres-gateway
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: ${GATEWAY_DB_PASSWORD}
+      DB_NAME: payment_gateway
+      PUBLIC_URL: ${PUBLIC_URL}
+    networks:
+      - impulsame_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  postgres_gateway_data:
+
+
+networks:
+  impulsame_network:
+    driver: bridge

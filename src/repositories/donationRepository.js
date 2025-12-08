@@ -1,24 +1,24 @@
-const pool = require("../db/dbConnection");
+const pool = require('../db/dbConnection');
 
-const getConnection = () => {
-    return pool;
-};
-
-/**
- * Repositorio para gestionar donaciones
- */
 module.exports = {
+    /**
+     * Obtener todas las donaciones
+     */
+    async getAllDonations() {
+        const result = await pool.query('SELECT * FROM donations');
+        return result.rows;
+    },
+
     /**
      * Crear una nueva donación (estado inicial: pendiente)
      */
-    async createDonation(userId, projectId, amount, paymentMethod = 'external') {
+    async createDonation(userId, projectId, amount) {
         try {
-            const connection = await getConnection();
-            const query = `INSERT INTO donations (user_id, project_id, amount, status, payment_method, created_at)
-                     VALUES ($1, $2, $3, 'pendiente', $4, NOW())
+            const query = `INSERT INTO donations (user_id, project_id, amount, status, created_at)
+                     VALUES ($1, $2, $3, 'pendiente', NOW())
                      RETURNING id, user_id, project_id, amount, status, created_at`;
 
-            const result = await connection.query(query, [userId, projectId, amount, paymentMethod]);
+            const result = await pool.query(query, [userId, projectId, amount]);
             return result.rows[0];
         } catch (error) {
             console.error("Error al crear donación:", error);
@@ -29,17 +29,20 @@ module.exports = {
     /**
      * Actualizar estado de la donación
      */
-    async updateStatus(donationId, status, externalId = null) {
+    async updateStatus(donationId, status) {
         try {
-            const connection = await getConnection();
             const query = `UPDATE donations 
-                     SET status = $1, 
-                         external_transaction_id = COALESCE($2, external_transaction_id),
-                         updated_at = NOW()
-                     WHERE id = $3
-                     RETURNING id, status, updated_at`;
+                     SET status = $1
+                     WHERE id = $2
+                     RETURNING *`;
 
-            const result = await connection.query(query, [status, externalId, donationId]);
+            const result = await pool.query(query, [status, donationId]);
+
+            if (result.rows.length === 0) {
+                throw new Error(`Donación con ID ${donationId} no encontrada`);
+            }
+
+            console.log(`✅ Donación ${donationId} actualizada a estado '${status}'`);
             return result.rows[0];
         } catch (error) {
             console.error("Error al actualizar estado de donación:", error);
@@ -48,43 +51,34 @@ module.exports = {
     },
 
     /**
-     * Obtener donación por ID
+     * Obtener una donación por ID
      */
-    async getById(donationId) {
-        try {
-            const connection = await getConnection();
-            const query = `SELECT * FROM donations WHERE id = $1`;
-            const result = await connection.query(query, [donationId]);
-            return result.rows[0];
-        } catch (error) {
-            console.error("Error al obtener donación:", error);
-            throw error;
-        }
+    async getDonationById(id) {
+        const result = await pool.query('SELECT * FROM donations WHERE id = $1', [id]);
+        return result.rows[0];
     },
 
     /**
-     * Obtener historial de donaciones de un usuario
+     * Obtener donaciones por usuario
      */
-    async getByUserId(userId) {
-        try {
-            const connection = await getConnection();
-            const query = `SELECT 
-                       d.id,
-                       d.amount,
-                       d.status,
-                       d.created_at,
-                       p.title as project_title,
-                       p.id as project_id
-                     FROM donations d
-                     JOIN projects p ON d.project_id = p.id
-                     WHERE d.user_id = $1
-                     ORDER BY d.created_at DESC`;
+    async getDonationsByUser(userId) {
+        const result = await pool.query('SELECT * FROM donations WHERE user_id = $1', [userId]);
+        return result.rows;
+    },
 
-            const result = await connection.query(query, [userId]);
-            return result.rows;
-        } catch (error) {
-            console.error("Error al obtener donaciones del usuario:", error);
-            throw error;
-        }
+    /**
+     * Obtener donaciones por proyecto
+     */
+    async getDonationsByProject(projectId) {
+        const result = await pool.query('SELECT * FROM donations WHERE project_id = $1', [projectId]);
+        return result.rows;
+    },
+
+    /**
+     * Eliminar una donación
+     */
+    async deleteDonation(id) {
+        const result = await pool.query('DELETE FROM donations WHERE id = $1 RETURNING *', [id]);
+        return result.rows[0];
     }
 };
