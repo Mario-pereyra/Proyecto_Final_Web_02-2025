@@ -151,40 +151,8 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="table-project-info">
-                                            <img src="../../assets/img/SmartWatch Revolucionario.png" alt="SmartWatch"
-                                                class="project-image" />
-                                            <div>
-                                                <div class="project-title" style="font-weight: 500;">SmartWatch
-                                                    Revolucionario</div>
-                                                <div class="project-description"
-                                                    style="color: var(--text-secondary); font-size: 0.875rem;">Un
-                                                    smartwatch con tecnología innovadora...</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="table-creator">
-                                            <div class="creator-avatar">A</div>
-                                            <span>Ana García</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="category-tag">Tecnología</span></td>
-                                    <td>50.000 €</td>
-                                    <td><span class="status-badge status-published">✅ Publicado</span></td>
-                                    <td>14/1/2025</td>
-                                    <td>
-                                        <div class="project-actions">
-                                            <!-- Use standard button classes? Or keep inline? keeping inline as per css -->
-                                            <button class="btn btn--sm btn--secondary" title="Ver detalle">
-                                                <iconify-icon icon="ic:round-visibility"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody id="projects-table-body">
+                                <!-- Populated by JS -->
                             </tbody>
                         </table>
                     </div>
@@ -230,29 +198,8 @@
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="table-admin-info">
-                                            <div class="table-admin-avatar">A</div>
-                                            <span>Ana García</span>
-                                        </div>
-                                    </td>
-                                    <td>ana.garcia@impulsa.me</td>
-                                    <td>•••••••••••</td>
-                                    <td>
-                                        <div class="admin-actions">
-                                            <button class="admin-action-btn" title="Editar">
-                                                <iconify-icon icon="ic:round-edit"
-                                                    class="admin-action-icon"></iconify-icon>
-                                            </button>
-                                            <button class="admin-action-btn" title="Eliminar">
-                                                <iconify-icon icon="ic:round-delete"
-                                                    class="admin-action-icon"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody id="admins-table-body">
+                                <!-- Populated by JS -->
                             </tbody>
                         </table>
                     </div>
@@ -265,33 +212,15 @@
 
     <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
     <script>
-        // Tab functionality
-        document.addEventListener("DOMContentLoaded", function () {
-            const tabButtons = document.querySelectorAll(".tab-button");
-            const projectsSection = document.querySelector(".projects-section");
-            const adminTabContent = document.querySelector(".admin-tab-content");
-
-            tabButtons.forEach((button) => {
-                button.addEventListener("click", function () {
-                    // Remove active class from all tabs
-                    tabButtons.forEach((tab) => tab.classList.remove("active"));
-                    // Add active class to clicked tab
-                    this.classList.add("active");
-
-                    const tabText = this.textContent.trim();
-
-                    // Show/hide content based on tab
-                    if (tabText === "Proyectos") {
-                        projectsSection.style.display = "block";
-                        if (adminTabContent) adminTabContent.classList.remove("active");
-                    } else if (tabText === "Administradores") {
-                        projectsSection.style.display = "none";
-                        if (adminTabContent) adminTabContent.classList.add("active");
-                    }
-                });
-            });
-        });
+        // Tab functionality is now handled by admin-dashboard.js and AdminUI
     </script>
+
+    <!-- Services & UI -->
+    <script src="../../assets/js/services/admin-api.js"></script>
+    <script src="../../assets/js/admin/admin-ui.js"></script>
+
+    <!-- Main Controller -->
+    <script src="../../assets/js/admin/admin-dashboard.js"></script>
 </body>
 
 </html>
