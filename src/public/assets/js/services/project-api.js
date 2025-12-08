@@ -182,5 +182,19 @@ const ProjectAPI = {
             console.error("ProjectAPI.getRequirements error:", error);
             return { success: false, message: error.message };
         }
+    },
+
+    /**
+     * Obtiene estadísticas globales de la plataforma
+     * @returns {Promise<Object>} Estadísticas globales
+     */
+    async getGlobalStats() {
+        try {
+            const response = await fetch(`${this.baseUrl}/projects/stats/global`);
+            return await response.json();
+        } catch (error) {
+            console.error("ProjectAPI.getGlobalStats error:", error);
+            return { success: false, message: error.message };
+        }
     }
 };
