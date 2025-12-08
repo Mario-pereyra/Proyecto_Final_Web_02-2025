@@ -101,7 +101,7 @@ module.exports = {
 
     if (filters.category) {
       values.push(filters.category);
-      query += ` AND category_name ILIKE $${values.length}`;
+      query += ` AND category_id = $${values.length}`;
     }
 
     if (filters.maxGoal) {
@@ -355,6 +355,24 @@ module.exports = {
                    VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING id`;
     const result = await db.query(query, [project_id, requirement_id || null, data.file_path, data.original_filename, data.mime_type]);
     return result.rows[0];
+  },
+
+  async getGlobalStats() {
+    const query = `
+      SELECT 
+        COUNT(*) as total_projects,
+        COUNT(DISTINCT owner_id) as total_creators,
+        COALESCE(SUM(total_collected), 0) as total_raised
+      FROM project_details_view
+      WHERE approval_status = 'publicado'
+    `;
+    const result = await pool.query(query);
+    const row = result.rows[0];
+    return {
+      totalProjects: parseInt(row.total_projects || 0),
+      totalBackers: parseInt(row.total_creators || 0),
+      totalRaised: parseFloat(row.total_raised || 0)
+    };
   }
 
 };

@@ -5,49 +5,49 @@
  */
 const HomeUI = {
 
-    // --- Utilidades ---
-    formatCurrency(amount) {
-        return parseFloat(amount).toLocaleString('es-BO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    },
+  // --- Utilidades ---
+  formatCurrency(amount) {
+    return parseFloat(amount).toLocaleString('es-BO', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  },
 
-    formatCompactNumber(num) {
-        return Intl.NumberFormat('es-BO', { notation: "compact", maximumFractionDigits: 1 }).format(num);
-    },
+  formatCompactNumber(num) {
+    return Intl.NumberFormat('es-BO', { notation: "compact", maximumFractionDigits: 1 }).format(num);
+  },
 
-    // --- Sección Hero (Stats Globales) ---
+  // --- Sección Hero (Stats Globales) ---
 
-    renderHero(stats) {
-        const update = (id, val) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = val;
-        };
+  renderHero(stats) {
+    const update = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    };
 
-        // Asumimos que stats trae { totalProjects, totalBackers, totalRaised }
-        update('projects-funded', stats.totalProjects || 0);
-        update('supported-creators', stats.totalBackers || 0); // O totalCreators
-        update('total-raised', this.formatCurrency(stats.totalRaised || 0));
-    },
+    // Asumimos que stats trae { totalProjects, totalBackers, totalRaised }
+    update('projects-funded', stats.totalProjects || 0);
+    update('supported-creators', stats.totalBackers || 0); // O totalCreators
+    update('total-raised', this.formatCurrency(stats.totalRaised || 0));
+  },
 
-    // --- Sección Proyectos Destacados ---
+  // --- Sección Proyectos Destacados ---
 
-    createProjectCard(project) {
-        const progress = parseFloat(project.progress_percentage || 0);
-        const progressText = progress >= 100
-            ? `${Math.round(progress)}% Financiado`
-            : `${progress.toFixed(0)}% financiado`;
+  createProjectCard(project) {
+    const progress = parseFloat(project.progress_percentage || 0);
+    const progressText = progress >= 100
+      ? `${Math.round(progress)}% Financiado`
+      : `${progress.toFixed(0)}% financiado`;
 
-        const imagePath = project.cover_image
-            ? (project.cover_image.startsWith('/')
-                ? project.cover_image
-                : (project.cover_image.startsWith('uploads')
-                    ? '/' + project.cover_image
-                    : '/uploads/img/' + project.cover_image))
-            : '/assets/img/defaults/no-image.png';
+    const imagePath = project.cover_image
+      ? (project.cover_image.startsWith('/')
+        ? project.cover_image
+        : (project.cover_image.startsWith('uploads')
+          ? '/' + project.cover_image
+          : '/uploads/img/' + project.cover_image))
+      : '/assets/img/defaults/no-image.png';
 
-        return `
+    return `
         <article class="project-card">
           <div class="project-card__header">
             <a href="./detail.html?id=${project.id}">
@@ -97,50 +97,50 @@ const HomeUI = {
           </div>
         </article>
       `;
-    },
+  },
 
-    renderFeaturedProjects(projects) {
-        const container = document.querySelector('.container-project-features-item');
-        if (!container) return;
+  renderFeaturedProjects(projects) {
+    const container = document.querySelector('.container-project-features-item');
+    if (!container) return;
 
-        container.innerHTML = '';
+    container.innerHTML = '';
 
-        if (!projects || projects.length === 0) {
-            container.innerHTML = '<p>No hay proyectos destacados en este momento.</p>';
-            return;
-        }
+    if (!projects || projects.length === 0) {
+      container.innerHTML = '<p>No hay proyectos destacados en este momento.</p>';
+      return;
+    }
 
-        projects.forEach(p => {
-            container.innerHTML += this.createProjectCard(p);
-        });
-    },
+    projects.forEach(p => {
+      container.innerHTML += this.createProjectCard(p);
+    });
+  },
 
-    // --- Sección Categorías ---
+  // --- Sección Categorías ---
 
-    renderCategories(categories) {
-        const container = document.querySelector('.container-categories');
-        if (!container) return;
+  renderCategories(categories) {
+    const container = document.querySelector('.container-categories');
+    if (!container) return;
 
-        container.innerHTML = '';
+    container.innerHTML = '';
 
-        categories.forEach(cat => {
-            // Asumiendo que category tiene { id, name, icon, description, count }
-            // Si no tiene icono, usamos uno genérico
-            const icon = cat.icon || 'ic:round-category';
+    categories.forEach(cat => {
+      // Asumiendo que category tiene { id, name, icon, description, count }
+      // Si no tiene icono, usamos uno genérico
+      const icon = cat.icon || 'ic:round-category';
 
-            const article = document.createElement('article');
-            article.className = 'category-card';
-            // Hacer clickeable
-            article.onclick = () => window.location.href = `./explore.html?category=${cat.id}`;
+      const article = document.createElement('article');
+      article.className = 'item-categorie';
+      // Hacer clickeable
+      article.onclick = () => window.location.href = `./explore.html?category=${cat.id}`;
 
-            article.innerHTML = `
+      article.innerHTML = `
                 <div class="category-icon">
                      <iconify-icon icon="${icon}" width="32" height="32"></iconify-icon>
                 </div>
                 <h3>${cat.name}</h3>
-                <p>${cat.projects_count || 0} proyectos</p>
+                <p>${cat.project_count || 0} proyectos</p>
             `;
-            container.appendChild(article);
-        });
-    }
+      container.appendChild(article);
+    });
+  }
 };

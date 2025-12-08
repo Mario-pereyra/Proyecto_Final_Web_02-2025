@@ -106,7 +106,6 @@ class SideMenu {
 
 class LikeButton {
   constructor() {
-    this.buttons = document.querySelectorAll(".project-like-btn, .heart-icon");
     this.init();
   }
 
@@ -115,33 +114,73 @@ class LikeButton {
   }
 
   setupEventListeners() {
-    this.buttons.forEach((button) => {
-      button.addEventListener("click", (e) => {
+    // Delegación de eventos para manejar botones dinámicos
+    document.body.addEventListener("click", (e) => {
+      const button = e.target.closest(".project-like-btn");
+      if (button) {
         e.preventDefault();
+        e.stopPropagation(); // Evitar que el click se propague a la tarjeta
         this.toggleLike(button);
-      });
+      }
     });
   }
 
-  toggleLike(button) {
+  async toggleLike(button) {
+    const projectId = button.getAttribute("data-id");
     const isLiked = button.getAttribute("data-liked") === "true";
+
+    if (!projectId) {
+      console.error("No se encontró el ID del proyecto");
+      return;
+    }
+
+    // Obtener userId del sessionStorage (asumiendo que auth-guard.js lo guarda)
+    const userDataStr = sessionStorage.getItem("user");
+    if (!userDataStr) {
+      console.warn("Usuario no autenticado");
+      // Opcional: redirigir a login o mostrar modal
+      window.location.href = "../auth.html";
+      return;
+    }
+
+    const userData = JSON.parse(userDataStr);
+    const userId = userData.id;
+
     const emptyIcon = button.querySelector(
       ".heart-icon-empty, .heart-icon-border"
     );
     const filledIcon = button.querySelector(".heart-icon-filled, .heart-icon");
 
-    if (isLiked) {
-      button.setAttribute("data-liked", "false");
-      button.setAttribute("aria-pressed", "false");
-      if (emptyIcon) emptyIcon.style.display = "block";
-      if (filledIcon) filledIcon.style.display = "none";
-    } else {
-      button.setAttribute("data-liked", "true");
-      button.setAttribute("aria-pressed", "true");
-      if (emptyIcon) emptyIcon.style.display = "none";
-      if (filledIcon) filledIcon.style.display = "block";
+    // Deshabilitar botón durante la petición
+    button.disabled = true;
+
+    try {
+      // Llamar a la API
+      const result = await ProjectAPI.toggleFavorite(userId, projectId, isLiked);
+
+      if (result.success) {
+        // Actualizar estado visual solo si la API respondió exitosamente
+        if (isLiked) {
+          button.setAttribute("data-liked", "false");
+          button.setAttribute("aria-pressed", "false");
+          if (emptyIcon) emptyIcon.style.display = "block";
+          if (filledIcon) filledIcon.style.display = "none";
+        } else {
+          button.setAttribute("data-liked", "true");
+          button.setAttribute("aria-pressed", "true");
+          if (emptyIcon) emptyIcon.style.display = "none";
+          if (filledIcon) filledIcon.style.display = "block";
+        }
+      } else {
+        console.error("Error al actualizar favorito:", result.message);
+      }
+    } catch (error) {
+      console.error("Error en toggleLike:", error);
+    } finally {
+      button.disabled = false;
     }
   }
+
 }
 
 class TabSystem {
@@ -221,9 +260,8 @@ document.addEventListener("DOMContentLoaded", () => {
     new SideMenu();
   }
 
-  if (document.querySelector(".project-like-btn, .heart-icon")) {
-    new LikeButton();
-  }
+  // Siempre inicializar LikeButton para soportar contenido dinámico
+  new LikeButton();
 
   if (document.querySelector(".tab")) {
     new TabSystem();

@@ -41,14 +41,58 @@ async function loadFeaturedProjects() {
 
     const result = await ProjectAPI.search(params);
 
-    if (result.success && result.projects) {
+    if (result.success && result.data) {
         if (typeof HomeUI !== 'undefined') {
-            HomeUI.renderFeaturedProjects(result.projects);
+            HomeUI.renderFeaturedProjects(result.data);
+
+            // Sincronizar estado de favoritos
+            await syncFavoriteStates();
         }
     } else {
         console.error("Error cargando destacados:", result.message);
     }
 }
+
+async function syncFavoriteStates() {
+    // Obtener userId del sessionStorage
+    const userDataStr = sessionStorage.getItem("user");
+    if (!userDataStr) {
+        // Usuario no autenticado, todos los botones quedan en estado "no liked"
+        return;
+    }
+
+    const userData = JSON.parse(userDataStr);
+    const userId = userData.id;
+
+    // Obtener favoritos del usuario
+    const favResult = await ProjectAPI.getFavorites(userId);
+
+    if (favResult.success && favResult.data) {
+        const favoriteIds = favResult.data; // Array de IDs
+
+        // Actualizar todos los botones de like
+        const likeButtons = document.querySelectorAll('.project-like-btn');
+        likeButtons.forEach(button => {
+            const projectId = parseInt(button.getAttribute('data-id'));
+            const isLiked = favoriteIds.includes(projectId);
+
+            button.setAttribute('data-liked', isLiked ? 'true' : 'false');
+            button.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
+
+            const emptyIcon = button.querySelector('.heart-icon-empty, .heart-icon-border');
+            const filledIcon = button.querySelector('.heart-icon-filled, .heart-icon');
+
+            if (isLiked) {
+                if (emptyIcon) emptyIcon.style.display = 'none';
+                if (filledIcon) filledIcon.style.display = 'block';
+            } else {
+                if (emptyIcon) emptyIcon.style.display = 'block';
+                if (filledIcon) filledIcon.style.display = 'none';
+            }
+        });
+    }
+}
+
 
 async function loadCategories() {
     const result = await ProjectAPI.getCategories();

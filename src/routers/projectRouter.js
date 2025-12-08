@@ -27,6 +27,9 @@ router.post('/draft', projectController.saveDraft);
 // GET /api/projects/search - Buscar proyectos con filtros
 router.get('/search', projectController.searchProjects);
 
+// GET /api/projects/stats/global - Estadísticas globales (RF-HOME-01)
+router.get('/stats/global', projectController.getGlobalStats);
+
 // GET /api/projects - Listar proyectos del usuario
 // router.get('/', authMiddleware, projectController.getAllProjects);
 router.get('/', projectController.getAllProjects); // Temporal sin auth

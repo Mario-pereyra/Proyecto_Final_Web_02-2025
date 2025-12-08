@@ -75,8 +75,8 @@ function createFavoriteCard(project) {
  */
 async function loadUserFavorites() {
   try {
-    // Obtener datos del usuario desde localStorage
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    // Obtener datos del usuario desde sessionStorage (consistente con auth-guard.js)
+    const userData = JSON.parse(sessionStorage.getItem('user') || '{}');
     const userId = userData.id;
 
     if (!userId) {

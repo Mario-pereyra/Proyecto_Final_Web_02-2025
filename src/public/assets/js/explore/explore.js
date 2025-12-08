@@ -25,20 +25,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // --- Inicialización ---
   async function init() {
-    // 1. Obtener usuario actual
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    // 1. Obtener usuario actual (usando sessionStorage como en auth-guard.js)
+    const userData = JSON.parse(sessionStorage.getItem('user') || '{}');
     currentUserId = userData.id;
 
-    // 2. Cargar favoritos iniciales
+    // 2. Cargar categorías en el dropdown
+    await loadCategories();
+
+    // 3. Cargar favoritos iniciales
     await loadUserFavorites();
 
-    // 3. Verificar parámetros URL (ej. ?category=tech)
+    // 4. Verificar parámetros URL (ej. ?category=tech)
     checkUrlParams();
 
-    // 4. Cargar proyectos iniciales
+    // 5. Cargar proyectos iniciales
     await loadProjects();
 
-    // 5. Configurar listeners
+    // 6. Configurar listeners
     setupEventListeners();
   }
 
@@ -79,12 +82,82 @@ document.addEventListener("DOMContentLoaded", async function () {
         userFavorites
       );
 
-      // Re-adjuntar listeners a los nuevos elementos
-      attachFavoriteListeners();
+      // 4. Sincronizar estado de favoritos (ui-components.js maneja los clicks)
+      await syncFavoriteStates();
     } else {
       console.error("Error al cargar proyectos:", result.message);
     }
   }
+
+  /**
+   * Sincroniza el estado visual de los botones de favoritos
+   */
+  async function syncFavoriteStates() {
+    if (!currentUserId) return;
+
+    const likeButtons = document.querySelectorAll('.project-like-btn');
+    likeButtons.forEach(button => {
+      const projectId = parseInt(button.getAttribute('data-id') || button.getAttribute('data-project-id'));
+      const isLiked = userFavorites.includes(projectId);
+
+      button.setAttribute('data-liked', isLiked ? 'true' : 'false');
+      button.setAttribute('aria-pressed', isLiked ? 'true' : 'false');
+
+      const emptyIcon = button.querySelector('.heart-icon-empty, .heart-icon-border');
+      const filledIcon = button.querySelector('.heart-icon-filled, .heart-icon');
+
+      if (isLiked) {
+        if (emptyIcon) emptyIcon.style.display = 'none';
+        if (filledIcon) filledIcon.style.display = 'block';
+      } else {
+        if (emptyIcon) emptyIcon.style.display = 'block';
+        if (filledIcon) filledIcon.style.display = 'none';
+      }
+    });
+  }
+
+
+  /**
+   * Carga las categorías en el dropdown
+   */
+  async function loadCategories() {
+    console.log('🔍 loadCategories() iniciando...');
+    console.log('categorySelect:', categorySelect);
+    
+    try {
+      const result = await ProjectAPI.getCategories();
+      console.log('📦 Resultado de getCategories():', result);
+      
+      if (result.success && result.data) {
+        const categories = result.data;
+        console.log('✅ Categorías recibidas:', categories.length);
+        
+        // Poblar el select de categorías
+        if (categorySelect) {
+          // Mantener la opción "Todas las categorías"
+          categorySelect.innerHTML = '<option value="todas">Todas las categorías</option>';
+          
+          // Agregar cada categoría
+          categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = cat.name;
+            categorySelect.appendChild(option);
+            console.log(`  ➕ Agregada categoría: ${cat.name} (ID: ${cat.id})`);
+          });
+          
+          console.log('✅ Categorías cargadas exitosamente');
+        } else {
+          console.error('❌ categorySelect es null');
+        }
+      } else {
+        console.error('❌ result.success es false o result.data está vacío');
+      }
+    } catch (error) {
+      console.error("❌ Error cargando categorías:", error);
+    }
+  }
+
 
   /**
    * Recopila el estado actual de los filtros en un URLSearchParams
@@ -118,53 +191,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // --- Manejo de Eventos ---
+  // NOTA: Los clicks en botones de favoritos son manejados por ui-components.js
+  // que usa delegación de eventos y llama a ProjectAPI.toggleFavorite()
 
-  function attachFavoriteListeners() {
-    const favoriteButtons = document.querySelectorAll('.project-like-btn');
-    favoriteButtons.forEach(button => {
-      button.addEventListener('click', handleFavoriteClick);
-    });
-  }
-
-  async function handleFavoriteClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const button = e.currentTarget;
-    const projectId = parseInt(button.dataset.projectId);
-    const isLiked = button.dataset.liked === 'true';
-
-    // Validación de sesión
-    if (!currentUserId) {
-      if (typeof mostrarModal === 'function') {
-        mostrarModal({
-          title: 'Iniciar Sesión',
-          message: 'Debes iniciar sesión para guardar favoritos',
-          type: 'info',
-          confirmText: 'Iniciar Sesión',
-          onConfirm: () => window.location.href = './auth.html?action=login'
-        });
-      } else {
-        alert("Debes iniciar sesión para guardar favoritos");
-        window.location.href = './auth.html?action=login';
-      }
-      return;
-    }
-
-    // Llamada API Optimista (podríamos actualizar UI antes, pero por seguridad esperamos)
-    const result = await ProjectAPI.toggleFavorite(currentUserId, projectId, isLiked);
-
-    if (result.success) {
-      // Actualizar estado local
-      if (isLiked) {
-        userFavorites = userFavorites.filter(id => id !== projectId);
-      } else {
-        userFavorites.push(projectId);
-      }
-      // Actualizar UI puntual
-      ProjectUI.updateFavoriteButton(button, !isLiked);
-    }
-  }
 
   function setupEventListeners() {
     // Mobile Filters Menu

@@ -319,6 +319,10 @@ class ProjectService {
         return await projectRepository.searchProjects(filters);
     }
 
+    async getGlobalStats() {
+        return await projectRepository.getGlobalStats();
+    }
+
     async submitProject(projectId, userId) {
         const project = await projectRepository.getById(projectId, userId);
         if (!project) throw new Error("PROYECTO_NO_ENCONTRADO");

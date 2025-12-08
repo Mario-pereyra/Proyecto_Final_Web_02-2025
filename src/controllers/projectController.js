@@ -124,6 +124,25 @@ exports.searchProjects = async (req, res) => {
 };
 
 /**
+ * GET /api/projects/stats/global
+ */
+exports.getGlobalStats = async (req, res) => {
+  try {
+    const stats = await projectService.getGlobalStats();
+    res.json({
+      success: true,
+      data: stats
+    });
+  } catch (error) {
+    console.error('Error al obtener estadísticas globales:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al obtener estadísticas'
+    });
+  }
+};
+
+/**
  * GET /api/projects/:id
  */
 exports.getProjectById = async (req, res) => {
