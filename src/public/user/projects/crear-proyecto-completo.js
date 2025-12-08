@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             const data = await res.json();
 
             requirementsList.innerHTML = "";
-            // Fix: Acceder a data.data.requirements
             categoryRequirements = (data.data && data.data.requirements) ? data.data.requirements : [];
 
             if (categoryRequirements.length === 0) {
@@ -95,25 +94,28 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             categoryRequirements.forEach(req => {
-                // Verificar si ya hay respuesta subida
                 const existing = existingAnswers.find(a => a.requirement_id === req.id);
                 const isUploaded = !!existing;
 
                 const div = document.createElement("div");
                 div.className = "form-group";
+                // Fix: Prepend /uploads/files/ if path exists
+                const fileLink = isUploaded
+                    ? `<span class="text-success">✅ Archivo actual: <a href="/uploads/files/${existing.file_path}" target="_blank">${existing.original_filename}</a></span>`
+                    : '';
+
                 div.innerHTML = `
                     <label class="form-label">${req.title} ${req.is_required ? '*' : ''}</label>
                     <p class="form-hint">${req.description || "Sube el documento solicitado"}</p>
                     
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <input type="file" class="form-input req-file-input" data-req-id="${req.id}" accept=".pdf,.doc,.docx,.jpg,.png" />
-                        ${isUploaded ? `<span class="text-success">✅ Archivo actual: <a href="/${existing.file_path}" target="_blank">${existing.original_filename}</a></span>` : ''}
+                        ${fileLink}
                     </div>
                 `;
                 requirementsList.appendChild(div);
             });
 
-            // Listeners para inputs de requisitos
             document.querySelectorAll(".req-file-input").forEach(input => {
                 input.addEventListener("change", (e) => {
                     const file = e.target.files[0];
@@ -181,7 +183,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // --- LOGICA DE MULTIMEDIA ---
 
-    // Portada
     document.getElementById("coverUploadArea").addEventListener("click", () => coverInput.click());
 
     coverInput.addEventListener("change", (e) => {
@@ -198,12 +199,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         coverInput.value = "";
         coverPreview.style.display = "none";
         document.getElementById("coverUploadArea").style.display = "block";
-        // Nota: Si es edición, esto NO borra la portada del servidor hasta guardar, 
-        // pero visualmente indicamos que se quitará.
-        // TODO: Manejar borrado explícito en backend si se desea.
     });
 
-    // Galería
     document.getElementById("galleryUploadArea").addEventListener("click", () => galleryInput.click());
 
     galleryInput.addEventListener("change", (e) => {
@@ -212,7 +209,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             uploadedGalleryFiles.push(file);
         });
         renderGallery();
-        // Limpiamos input para permitir seleccionar mismos archivos de nuevo (acumulativo)
         galleryInput.value = "";
     });
 
@@ -221,10 +217,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // 1. Imágenes existentes (DB)
         existingGalleryImages.forEach(img => {
-            const path = img.image_path.startsWith('/') ? img.image_path : '/' + img.image_path;
+            const rawPath = img.image_path;
+            const path = rawPath.startsWith('uploads') || rawPath.startsWith('/') ? rawPath : `/uploads/img/${rawPath}`;
+
             const div = document.createElement("div");
             div.className = "image-preview-item";
-            // Si es portada existente y no se ha subido una nueva, la mostramos marcada
             const isCover = img.is_cover;
 
             div.innerHTML = `
@@ -233,9 +230,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 <button type="button" class="remove-btn" title="Eliminar">×</button>
             `;
 
-            // Botón eliminar (acción inmediata contra API)
             div.querySelector(".remove-btn").addEventListener("click", () => deleteServerImage(img.id));
-
             galleryGrid.appendChild(div);
         });
 
@@ -262,12 +257,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function deleteServerImage(imageId) {
         if (!confirm("¿Eliminar esta imagen permanentemente?")) return;
         try {
-            const res = await fetch(`/api/projects/${projectId}/images/${imageId}`, {
-                method: 'DELETE'
-            });
+            const res = await fetch(`/api/projects/${projectId}/images/${imageId}`, { method: 'DELETE' });
             const data = await res.json();
             if (data.success) {
-                // Eliminar del array local
                 existingGalleryImages = existingGalleryImages.filter(i => i.id !== imageId);
                 renderGallery();
             } else {
@@ -277,7 +269,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error(e);
         }
     }
-
 
     // --- CARGA DE DATOS (EDICIÓN) ---
 
@@ -289,7 +280,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const p = json.data;
 
-            // Llenar campos
             document.getElementById("titulo").value = p.title || "";
             document.getElementById("descripcion").value = p.short_description || "";
             document.getElementById("meta").value = p.goal_amount || "";
@@ -298,29 +288,22 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (p.started_at) {
                 document.getElementById("fecha_inicio").value = new Date(p.started_at).toISOString().split('T')[0];
             }
-            calculateEndDate(); // Recalcular texto fin
+            calculateEndDate();
 
-            // Categoría y Requisitos
             if (p.category_id) {
                 categorySelect.value = p.category_id;
-                // Cargar requisitos con respuestas prellenadas
                 await loadRequirements(p.category_id, p.requirements_answers || []);
             }
 
-            // Imágenes
             if (p.images) {
-                // Separar portada y galería
                 const cover = p.images.find(i => i.is_cover);
-
                 if (cover) {
-                    const path = cover.image_path.startsWith('/') ? cover.image_path : '/' + cover.image_path;
+                    const rawPath = cover.image_path;
+                    const path = rawPath.startsWith('uploads') || rawPath.startsWith('/') ? rawPath : `/uploads/img/${rawPath}`;
                     coverImgTag.src = path;
                     coverPreview.style.display = "block";
                     document.getElementById("coverUploadArea").style.display = "none";
                 }
-
-                // Filtrar galería (todas excepto cover, OJO: si queremos ver todas, dejar todas)
-                // El usuario pidió diferenciar. Vamos a mostrar en galería las que NO son cover actual.
                 existingGalleryImages = p.images.filter(i => !i.is_cover);
                 renderGallery();
             }
@@ -334,7 +317,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-
     // --- ENVÍO DEL FORMULARIO ---
 
     form.addEventListener("submit", (e) => handleFormSubmit(e, 'publicado'));
@@ -346,49 +328,41 @@ document.addEventListener("DOMContentLoaded", async function () {
         try {
             const formData = new FormData();
 
-            // Campos Texto
             formData.append("title", document.getElementById("titulo").value);
             formData.append("short_description", document.getElementById("descripcion").value);
             formData.append("category_id", categorySelect.value);
             formData.append("goal_amount", document.getElementById("meta").value);
             formData.append("duration_days", document.getElementById("duracion").value);
             formData.append("started_at", document.getElementById("fecha_inicio").value);
-            formData.append("approval_status", status); // 'borrador' o 'publicado'
-            formData.append("userId", USER_ID); // Enviar ID del usuario actual
+            formData.append("approval_status", status);
+            formData.append("userId", USER_ID);
 
-            // Fechas calculadas
             const start = new Date(document.getElementById("fecha_inicio").value);
             start.setDate(start.getDate() + parseInt(document.getElementById("duracion").value));
             formData.append("deadline_at", start.toISOString());
 
-            // ID (Edición)
             if (projectId) formData.append("id", projectId);
 
-            // Historia Editor.js
             const storyData = await editor.save();
             formData.append("story_json", JSON.stringify(storyData));
 
-            // Archivos: Portada (Solo si hay nueva)
             if (coverInput.files[0]) {
                 formData.append("cover_image", coverInput.files[0]);
             }
 
-            // Archivos: Galería (Nuevos)
             uploadedGalleryFiles.forEach((file) => {
                 formData.append("gallery_images", file);
             });
 
-            // Archivos: Requisitos
             Object.entries(uploadedRequirementFiles).forEach(([reqId, file]) => {
                 formData.append(`req_${reqId}`, file);
             });
 
-            // Enviar
             mostrarModal({ title: "Guardando...", message: "Por favor espera.", type: "info" });
 
             const res = await fetch('/api/projects/save', {
                 method: 'POST',
-                body: formData // No poner Content-Type, browser lo pone
+                body: formData
             });
 
             const result = await res.json();

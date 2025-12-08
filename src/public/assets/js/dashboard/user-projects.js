@@ -48,6 +48,59 @@ function translateCampaignStatus(status) {
 }
 
 /**
+ * Elimina un proyecto (Soft Delete)
+ */
+async function deleteProject(projectId) {
+  // Usar el sistema de modales existente si está disponible, sino confirm nativo
+  if (window.mostrarModal) {
+    window.mostrarModal({
+      title: '¿Eliminar proyecto?',
+      message: 'Esta acción moverá el proyecto a la papelera. ¿Estás seguro?',
+      type: 'warning',
+      confirmText: 'Sí, eliminar',
+      onConfirm: async () => await executeDelete(projectId)
+    });
+  } else {
+    if (confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
+      await executeDelete(projectId);
+    }
+  }
+}
+
+/**
+ * Ejecuta la eliminación contra la API
+ */
+async function executeDelete(projectId) {
+  try {
+    const response = await fetch(`${API_URL}/projects/${projectId}`, {
+      method: 'DELETE'
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Recargar la lista
+      loadUserProjects();
+
+      // Mostrar feedback si existe el modal system
+      if (window.mostrarModal) {
+        window.mostrarModal({
+          title: 'Proyecto eliminado',
+          message: 'El proyecto ha sido eliminado correctamente.',
+          type: 'success'
+        });
+      }
+    } else {
+      console.error('Error al eliminar:', result.message);
+      alert('Error al eliminar el proyecto: ' + result.message);
+    }
+  } catch (error) {
+    console.error('Error de red al eliminar:', error);
+    alert('Error de conexión al intentar eliminar.');
+  }
+}
+
+/**
  * Crea el HTML de una tarjeta de proyecto para el dashboard
  */
 function createProjectCard(project) {
@@ -61,10 +114,69 @@ function createProjectCard(project) {
 
   const progressText = `${progress}% ${progress >= 100 ? 'Financiado' : 'financiado'}`;
 
+  // Fix path resolution: Ensure absolute path for nested pages (e.g. /user/dashboard)
+  const imagePath = project.cover_image
+    ? (project.cover_image.startsWith('/')
+      ? project.cover_image
+      : (project.cover_image.startsWith('uploads')
+        ? '/' + project.cover_image
+        : `/uploads/img/${project.cover_image}`))
+    : '/assets/img/defaults/no-image.png';
+
+  // Lógica de visualización de botones y estados
+  const isEditable = project.approval_status === 'borrador' || project.approval_status === 'observado';
+  const isPublished = project.approval_status === 'publicado';
+  const isObserved = project.approval_status === 'observado';
+  const isRejected = project.approval_status === 'rechazado';
+
+  // Badge de estado de campaña (solo si está publicado)
+  let campaignStatusBadge = '';
+  if (isPublished) {
+    let chipClass = 'chip--muted';
+    if (project.campaign_status === 'en_progreso') chipClass = 'chip--success';
+    if (project.campaign_status === 'finalizada') chipClass = 'chip--dark';
+    campaignStatusBadge = `<span class="chip ${chipClass}">${campaignStatus}</span>`;
+  }
+
+  // Alerta de observación
+  let observationAlert = '';
+  if ((isObserved || isRejected) && project.rejection_reason) {
+    const alertClass = isRejected ? 'error' : 'warning';
+    const icon = isRejected ? 'ic:round-error' : 'ic:round-warning';
+    const title = isRejected ? 'Motivo del rechazo:' : 'Observaciones del administrador:';
+
+    observationAlert = `
+      <div class="alert alert--${alertClass} alert--sm" style="margin-top: 1rem;">
+        <iconify-icon icon="${icon}"></iconify-icon>
+        <div>
+          <strong>${title}</strong>
+          <p class="small">${project.rejection_reason}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  // Botones de acción
+  const editBtn = isEditable ? `
+    <button class="btn btn--ghost btn--icon" type="button"
+      onclick="window.location.href='./projects/crear-proyecto-completo.html?id=${project.id}'" aria-label="Editar proyecto">
+      <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
+      <span>Editar</span>
+    </button>
+  ` : '';
+
+  const deleteBtn = `
+    <button class="btn btn--ghost btn--icon text-danger" type="button"
+      onclick="deleteProject(${project.id})" aria-label="Eliminar proyecto">
+      <iconify-icon icon="ic:round-delete" width="16" height="16"></iconify-icon>
+      <span>Eliminar</span>
+    </button>
+  `;
+
   return `
     <li class="proj-card card">
       <figure class="proj-card__media">
-        <img class="proj-card__thumb" src="/${project.cover_image || 'assets/img/default-project.png'}"
+        <img class="proj-card__thumb" src="${imagePath}"
           alt="${project.title}" width="96" height="96" />
       </figure>
 
@@ -81,9 +193,12 @@ function createProjectCard(project) {
 
           <div class="proj-card__status">
             <span class="chip chip--dark">${approvalStatus}</span>
-            <span class="chip chip--muted">${progressText}</span>
+            ${campaignStatusBadge}
+            ${!isPublished && !campaignStatusBadge ? `<span class="chip chip--muted">${progressText}</span>` : ''}
           </div>
         </header>
+        
+        ${observationAlert}
 
         <div class="proj-card__stats">
           <span class="small">${formatCurrency(project.total_collected || 0)}&nbsp;Bs recaudado</span>
@@ -107,23 +222,21 @@ function createProjectCard(project) {
         </div>
 
         <div class="proj-card__actions">
+          ${editBtn}
+
           <button class="btn btn--ghost btn--icon" type="button"
             onclick="window.location.href='./detail.html?id=${project.id}'" aria-label="Ver detalles del proyecto">
             <iconify-icon icon="ic:round-visibility" width="16" height="16"></iconify-icon>
             <span>Ver</span>
           </button>
-
+          
           <button class="btn btn--ghost btn--icon" type="button"
-            onclick="alert('Función de editar próximamente')" aria-label="Editar proyecto">
-            <iconify-icon icon="ic:round-edit" width="16" height="16"></iconify-icon>
-            <span>Editar</span>
-          </button>
-
-          <button class="btn btn--ghost btn--icon" type="button"
-            onclick="alert('Función de recaudación próximamente')" aria-label="Ver recaudación del proyecto">
+            onclick="window.location.href='./detail.html?id=${project.id}#donations'" aria-label="Ver recaudación del proyecto">
             <iconify-icon icon="ic:round-assessment" width="16" height="16"></iconify-icon>
-            <span>Ver Recaudación</span>
+            <span>Recaudación</span>
           </button>
+          
+          ${deleteBtn}
         </div>
       </div>
     </li>

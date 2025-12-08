@@ -47,11 +47,11 @@ exports.createProject = async (req, res) => {
     // 2. Guardar imagen principal con metadata
     if (req.files && req.files.mainImage && req.files.mainImage[0]) {
       const imageFile = req.files.mainImage[0];
-      const imageUrl = `uploads/img/${imageFile.filename}`; // RF-REC-01
+      const imageFilename = imageFile.filename; // Solo filename
 
       await projectRepository.saveImage({
         project_id: projectId,
-        image_path: imageUrl,
+        image_path: imageFilename,
         original_filename: imageFile.originalname,
         is_cover: true
       });
@@ -60,12 +60,12 @@ exports.createProject = async (req, res) => {
     // 3. Guardar documentos con metadata
     if (req.files && req.files.documents) {
       for (const doc of req.files.documents) {
-        const fileUrl = `uploads/files/${doc.filename}`; // RF-REC-01
+        const fileFilename = doc.filename; // Solo filename
 
         await projectRepository.saveDocument({
           project_id: projectId,
           requirement_id: null,
-          file_path: fileUrl,
+          file_path: fileFilename,
           original_filename: doc.originalname,
           mime_type: doc.mimetype
         });
@@ -419,7 +419,11 @@ exports.deleteProjectImage = async (req, res) => {
 
     // RF-REC-01: Garbage collection - eliminar archivo físico
     if (imageData.image_path) {
-      deleteFile(imageData.image_path);
+      // Reconstruct path for file system deletion
+      const fullPath = imageData.image_path.startsWith('uploads')
+        ? imageData.image_path
+        : `uploads/img/${imageData.image_path}`;
+      deleteFile(fullPath);
     }
 
     res.json({
@@ -449,17 +453,22 @@ exports.updateProjectCover = async (req, res) => {
     });
   }
 
-  const newFilePath = `uploads/img/${req.file.filename}`;
+  // RF-Storage-Refactor: Store only filename
+  const newFilename = req.file.filename;
   const originalName = req.file.originalname;
 
   try {
     const result = await projectRepository.updateCoverImage(id, {
-      image_path: newFilePath,
+      image_path: newFilename,
       original_filename: originalName
     });
 
     if (result.oldPath) {
-      deleteFile(result.oldPath);
+      // Reconstruct path for file system deletion
+      const oldFullPath = result.oldPath.startsWith('uploads')
+        ? result.oldPath
+        : `uploads/img/${result.oldPath}`;
+      deleteFile(oldFullPath);
     }
 
     return res.json({
@@ -469,7 +478,8 @@ exports.updateProjectCover = async (req, res) => {
     });
   } catch (error) {
     console.error("Error al actualizar portada:", error);
-    deleteFileSync(newFilePath);
+    // Cleanup new file on error
+    deleteFileSync(`uploads/img/${newFilename}`);
 
     return res.status(500).json({
       success: false,
@@ -492,19 +502,24 @@ exports.updateRequirementFile = async (req, res) => {
     });
   }
 
-  const newFilePath = `uploads/files/${req.file.filename}`;
+  // RF-Storage-Refactor: Store only filename
+  const newFilename = req.file.filename;
   const originalName = req.file.originalname;
   const mimeType = req.file.mimetype;
 
   try {
     const result = await projectRepository.updateRequirementAnswer(projectId, requirementId, {
-      file_path: newFilePath,
+      file_path: newFilename,
       original_filename: originalName,
       mime_type: mimeType
     });
 
     if (result.oldPath) {
-      deleteFile(result.oldPath);
+      // Reconstruct path for file system deletion
+      const oldFullPath = result.oldPath.startsWith('uploads')
+        ? result.oldPath
+        : `uploads/files/${result.oldPath}`;
+      deleteFile(oldFullPath);
     }
 
     return res.json({
@@ -514,7 +529,7 @@ exports.updateRequirementFile = async (req, res) => {
     });
   } catch (error) {
     console.error("Error al actualizar archivo de requisito:", error);
-    deleteFileSync(newFilePath);
+    deleteFileSync(`uploads/files/${newFilename}`);
 
     return res.status(500).json({
       success: false,
@@ -561,7 +576,7 @@ exports.deleteProject = async (req, res) => {
 exports.getProjectDonations = async (req, res) => {
   try {
     const { projectId } = req.params;
-    const donations = await projectRepository.getDonationsByProjectId(projectId);
+    const donations = await projectRepository.getProjectDonations(projectId);
 
     res.json({
       success: true,
@@ -619,7 +634,7 @@ exports.saveProject = async (req, res) => {
       duration_days: duration_days ? parseInt(duration_days) : null,
       started_at: started_at || null,
       deadline_at: deadline_at || null,
-      approval_status: 'borrador'
+      approval_status: req.body.approval_status || 'borrador'
     };
 
     // Procesar imágenes y archivos para pasarlos limpios al repositorio
@@ -631,7 +646,7 @@ exports.saveProject = async (req, res) => {
         // 1. Portada (Single)
         if (file.fieldname === 'cover_image') {
           images.push({
-            image_path: `uploads/img/${file.filename}`,
+            image_path: file.filename, // Solo filename (RF-Storage-Refactor)
             original_filename: file.originalname,
             is_cover: true
           });
@@ -639,7 +654,7 @@ exports.saveProject = async (req, res) => {
         // 2. Galería (Multiple)
         else if (file.fieldname === 'gallery_images') {
           images.push({
-            image_path: `uploads/img/${file.filename}`,
+            image_path: file.filename, // Solo filename
             original_filename: file.originalname,
             is_cover: false // Explícitamente no es portada
           });
@@ -650,7 +665,7 @@ exports.saveProject = async (req, res) => {
           if (!isNaN(requirementId)) {
             requirements.push({
               requirement_id: requirementId,
-              file_path: `uploads/files/${file.filename}`,
+              file_path: file.filename, // Solo filename
               original_filename: file.originalname,
               mime_type: file.mimetype
             });

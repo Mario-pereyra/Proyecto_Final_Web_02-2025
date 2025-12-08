@@ -25,7 +25,7 @@ function createFavoriteCard(project) {
     <article class="project-card">
       <div class="container-project-img">
         <a href="./detail.html?id=${project.id}">
-          <img src="/${project.cover_image || 'assets/img/default-project.png'}" 
+          <img src="${!project.cover_image ? '/assets/img/defaults/no-image.png' : (project.cover_image.startsWith('/') ? project.cover_image : (project.cover_image.startsWith('uploads') ? '/' + project.cover_image : '/uploads/img/' + project.cover_image))}" 
                alt="${project.title}" class="project-img" />
         </a>
         <div class="project-category" role="status" aria-label="Categoría: ${project.category_name}">
@@ -111,7 +111,7 @@ async function loadUserFavorites() {
  */
 function updateFavoritesList(favorites) {
   const container = document.querySelector('#favoritos .container-project-features-item');
-  
+
   if (!container) {
     console.error('Contenedor de favoritos no encontrado');
     return;

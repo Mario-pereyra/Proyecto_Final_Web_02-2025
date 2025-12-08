@@ -219,8 +219,9 @@ module.exports = {
     const connection = await getConnection();
     let query = `SELECT 
                    p.id, p.title, p.short_description, p.goal_amount, p.approval_status,
-                   p.campaign_status, p.created_at,
-                   c.name as category_name
+                   p.campaign_status, p.created_at, p.rejection_reason,
+                   c.name as category_name,
+                   (SELECT image_path FROM project_images WHERE project_id = p.id AND is_cover = TRUE LIMIT 1) as cover_image
                  FROM projects p
                  LEFT JOIN categories c ON p.category_id = c.id
                  WHERE p.owner_id = $1 AND p.deleted_at IS NULL`;
@@ -604,13 +605,15 @@ module.exports = {
           duration_days = COALESCE($6, duration_days),
           started_at = COALESCE($7, started_at),
           deadline_at = COALESCE($8, deadline_at),
+          approval_status = COALESCE($9, approval_status),
           updated_at = NOW()
-        WHERE id = $9 AND owner_id = $10`;
+        WHERE id = $10 AND owner_id = $11`;
 
       await client.query(updateQuery, [
         category_id, title, short_description,
         typeof story_json === 'string' ? story_json : (story_json ? JSON.stringify(story_json) : null),
         goal_amount, duration_days, started_at, deadline_at,
+        projectData.approval_status, // Add approval_status value
         projectId, userId
       ]);
 
@@ -743,7 +746,11 @@ module.exports = {
         }
 
         for (const img of data.images) {
-          const path = img.url || img.image_path;
+          // RF-Storage-Refactor: Sanitize path to store only filename
+          let path = img.url || img.image_path;
+          if (path) {
+            path = path.replace(/^(\/)?uploads\/img\//, '').replace(/^\//, '');
+          }
           const name = img.name || img.original_filename;
           const isCover = img.isCover || img.is_cover || false;
 

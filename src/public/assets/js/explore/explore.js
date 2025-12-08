@@ -32,8 +32,8 @@ function createProjectCard(project) {
   return `
     <article class="project-card">
       <div class="project-card__header">
-        <a href="./detail.html?id=${project.id}">
-          <img src="/${project.cover_image || 'assets/img/default-project.png'}" 
+      <a href="./detail.html?id=${project.id}">
+          <img src="${!project.cover_image ? '/assets/img/defaults/no-image.png' : (project.cover_image.startsWith('/') ? project.cover_image : (project.cover_image.startsWith('uploads') ? '/' + project.cover_image : '/uploads/img/' + project.cover_image))}" 
                alt="${project.title}" class="project-card__image" />
         </a>
         <div class="project-category">${project.category_name}</div>
