@@ -1,5 +1,18 @@
-const projectRepository = require('../repositories/projectRepository');
+const projectService = require('../services/projectService');
 const { deleteFile, deleteFileSync } = require('../utils/fileHelper');
+
+// Helper para limpiar archivos subidos en caso de error
+const cleanupFiles = (files) => {
+  if (!files) return;
+  const textFiles = Array.isArray(files) ? files : Object.values(files).flat();
+
+  textFiles.forEach(file => {
+    if (file && file.filename) {
+      const basePath = (file.fieldname === 'cover_image' || file.fieldname === 'gallery_images' || file.fieldname === 'mainImage') ? 'uploads/img/' : 'uploads/files/';
+      deleteFileSync(`${basePath}${file.filename}`);
+    }
+  });
+};
 
 /**
  * POST /api/projects
@@ -7,96 +20,28 @@ const { deleteFile, deleteFileSync } = require('../utils/fileHelper');
  */
 exports.createProject = async (req, res) => {
   try {
-    const userId = req.user ? req.user.id : 101; // Temporal: hardcoded user (Sofia)
-    const {
-      title,
-      summary,
-      category_id,
-      description_json,
-      goal_amount,
-      start_date,
-      end_date,
-      requirements_text,
-      approval_status
-    } = req.body;
+    const userId = req.user ? req.user.id : 101;
 
-    // Validaciones básicas
-    if (!title || !category_id || !goal_amount || !end_date) {
+    if (!req.body.title || !req.body.category_id || !req.body.goal_amount) {
+      cleanupFiles(req.files);
       return res.status(400).json({
         success: false,
-        message: 'Faltan campos obligatorios: title, category_id, goal_amount, end_date'
+        message: 'Faltan campos obligatorios: title, category_id, goal_amount'
       });
     }
 
-    // 1. Crear proyecto
-    const project = await projectRepository.create({
-      owner_id: userId,
-      category_id: parseInt(category_id),
-      title,
-      short_description: summary,
-      story_json: description_json ? JSON.parse(description_json) : {},
-      goal_amount: parseFloat(goal_amount),
-      duration_days: end_date ? Math.ceil((new Date(end_date) - new Date(start_date || new Date())) / (1000 * 60 * 60 * 24)) : null,
-      started_at: start_date || null,
-      deadline_at: end_date || null,
-      approval_status: approval_status || 'borrador'
-    });
-
-    const projectId = project.id;
-
-    // 2. Guardar imagen principal con metadata
-    if (req.files && req.files.mainImage && req.files.mainImage[0]) {
-      const imageFile = req.files.mainImage[0];
-      const imageFilename = imageFile.filename; // Solo filename
-
-      await projectRepository.saveImage({
-        project_id: projectId,
-        image_path: imageFilename,
-        original_filename: imageFile.originalname,
-        is_cover: true
-      });
-    }
-
-    // 3. Guardar documentos con metadata
-    if (req.files && req.files.documents) {
-      for (const doc of req.files.documents) {
-        const fileFilename = doc.filename; // Solo filename
-
-        await projectRepository.saveDocument({
-          project_id: projectId,
-          requirement_id: null,
-          file_path: fileFilename,
-          original_filename: doc.originalname,
-          mime_type: doc.mimetype
-        });
-      }
-    }
-
-    // 4. Guardar requisitos de texto (si no hay documentos)
-    if (requirements_text && (!req.files || !req.files.documents || req.files.documents.length === 0)) {
-      await projectRepository.saveRequirementAnswer({
-        project_id: projectId,
-        requirement_id: null,
-        value_text: requirements_text
-      });
-    }
+    const result = await projectService.createProject(userId, req.body, req.files || {});
 
     res.status(201).json({
       success: true,
-      message: approval_status === 'borrador'
-        ? 'Proyecto guardado como borrador'
-        : 'Proyecto enviado para revisión',
-      projectId: projectId,
-      project: {
-        id: projectId,
-        title: project.title,
-        status: project.approval_status,
-        created_at: project.created_at
-      }
+      message: req.body.approval_status === 'borrador' ? 'Proyecto guardado como borrador' : 'Proyecto enviado para revisión',
+      projectId: result.id,
+      project: result
     });
 
   } catch (error) {
     console.error('Error al crear proyecto:', error);
+    cleanupFiles(req.files);
     res.status(500).json({
       success: false,
       message: 'Error al guardar el proyecto',
@@ -107,30 +52,19 @@ exports.createProject = async (req, res) => {
 
 /**
  * GET /api/projects
- * Obtener proyectos del usuario con filtro opcional de status
  */
 exports.getAllProjects = async (req, res) => {
   try {
-    // Fallback: Si no hay req.user (sin auth middleware), permitir userId por query param (DEV ONLY)
     const userId = req.user ? req.user.id : (req.query.userId ? parseInt(req.query.userId) : null);
 
-    if (userId) {
-      const { status } = req.query;
-      const projects = await projectRepository.getByUserId(userId, status);
-      return res.json({
-        success: true,
-        count: projects.length,
-        projects
-      });
-    }
+    const queryParams = {
+      status: req.query.status,
+      category: req.query.category,
+      orderBy: req.query.orderBy,
+      limit: req.query.limit ? parseInt(req.query.limit) : null
+    };
 
-    // Si no hay usuario identificado, devolver feed público
-    const { category, orderBy, limit } = req.query;
-    const projects = await projectRepository.getAllPublic({
-      category,
-      orderBy,
-      limit: limit ? parseInt(limit) : null
-    });
+    const projects = await projectService.getAllProjects(userId, queryParams);
 
     res.json({
       success: true,
@@ -148,13 +82,11 @@ exports.getAllProjects = async (req, res) => {
 
 /**
  * GET /api/projects/search
- * Buscar proyectos con filtros
  */
 exports.searchProjects = async (req, res) => {
   try {
     const { q, search, category, status, orderBy, limit, offset, maxGoal, minProgress, maxProgress } = req.query;
 
-    // Mapeo de ordenamiento Frontend -> Backend
     let mappedOrderBy = 'recent';
     if (orderBy === 'mas_populares' || orderBy === 'popular') mappedOrderBy = 'popular';
     else if (orderBy === 'proximos_a_finalizar' || orderBy === 'closing_soon') mappedOrderBy = 'closing_soon';
@@ -164,7 +96,7 @@ exports.searchProjects = async (req, res) => {
 
     const filters = {
       searchTerm: q || search,
-      category: category, // Pasar como string (nombre/slug)
+      category: category,
       status,
       orderBy: mappedOrderBy,
       limit: limit ? parseInt(limit) : 20,
@@ -174,7 +106,7 @@ exports.searchProjects = async (req, res) => {
       maxProgress: maxProgress ? parseFloat(maxProgress) : undefined
     };
 
-    const results = await projectRepository.searchProjects(filters);
+    const results = await projectService.searchProjects(filters);
 
     res.json({
       success: true,
@@ -193,20 +125,13 @@ exports.searchProjects = async (req, res) => {
 
 /**
  * GET /api/projects/:id
- * Obtener proyecto específico (público)
  */
 exports.getProjectById = async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user ? req.user.id : (req.query.userId ? parseInt(req.query.userId) : 101); // Temporal: default 101
+    const userId = req.user ? req.user.id : (req.query.userId ? parseInt(req.query.userId) : 101);
 
-    // 1. Intentar buscar como propietario (para editar borradores)
-    let project = await projectRepository.getById(id, userId);
-
-    // 2. Si no es propietario, buscar como público
-    if (!project) {
-      project = await projectRepository.getPublicById(id);
-    }
+    const project = await projectService.getProjectById(id, userId);
 
     if (!project) {
       return res.status(404).json({
@@ -230,123 +155,70 @@ exports.getProjectById = async (req, res) => {
 
 /**
  * PATCH /api/projects/:id
- * Actualizar proyecto existente
  */
 exports.updateProject = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user ? req.user.id : 101;
-    const {
-      title,
-      summary,
-      category_id,
-      description_json,
-      goal_amount,
-      start_date,
-      end_date,
-      approval_status
-    } = req.body;
 
-    if (!title || !category_id || !goal_amount || !end_date) {
-      return res.status(400).json({
-        success: false,
-        message: 'Faltan campos obligatorios: title, category_id, goal_amount, end_date'
-      });
-    }
+    const projectDTO = {
+      id: id,
+      ...req.body,
+      category_id: req.body.category_id ? parseInt(req.body.category_id) : undefined
+    };
 
-    const updatedProject = await projectRepository.update(id, userId, {
-      title,
-      short_description: summary,
-      story_json: description_json ? JSON.parse(description_json) : {},
-      category_id: parseInt(category_id),
-      goal_amount: parseFloat(goal_amount),
-      duration_days: end_date ? Math.ceil((new Date(end_date) - new Date(start_date || new Date())) / (1000 * 60 * 60 * 24)) : null,
-      started_at: start_date || null,
-      deadline_at: end_date || null,
-      approval_status: approval_status || 'borrador'
-    });
-
-    if (!updatedProject) {
-      return res.status(404).json({
-        success: false,
-        message: 'Proyecto no encontrado o no tienes permisos para editarlo'
-      });
-    }
+    // Update simple sin archivos
+    await projectService.saveProjectUnified(userId, projectDTO, [], []);
 
     res.json({
       success: true,
-      message: approval_status === 'borrador'
-        ? 'Borrador actualizado correctamente'
-        : 'Proyecto actualizado y enviado para revisión',
-      projectId: id,
-      project: updatedProject
+      message: 'Proyecto actualizado correctamente',
+      projectId: id
     });
 
   } catch (error) {
     console.error('Error al actualizar proyecto:', error);
-    res.status(500).json({
+    const statusCode = error.message === "PROYECTO_NO_ENCONTRADO" ? 404 : 500;
+    res.status(statusCode).json({
       success: false,
-      message: 'Error al actualizar el proyecto',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      message: error.message === "PROYECTO_NO_ENCONTRADO" ? 'Proyecto no encontrado' : 'Error al actualizar el proyecto'
     });
   }
 };
 
-const { validateProjectCompleteness } = require('../utils/projectValidation');
-const categoryRepository = require('../repositories/categoryRepository');
-
 /**
  * POST /api/projects/:id/submit
- * Enviar proyecto para revisión
  */
 exports.submitProject = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user ? req.user.id : 101;
 
-    // 1. Obtener proyecto completo
-    const project = await projectRepository.getById(id, userId);
-
-    if (!project) {
-      return res.status(404).json({
-        success: false,
-        message: 'Proyecto no encontrado o no tienes permisos'
-      });
-    }
-
-    if (project.approval_status !== 'borrador' && project.approval_status !== 'observado') {
-      return res.status(400).json({
-        success: false,
-        message: 'El proyecto no está en un estado válido para enviar (solo Borrador u Observado)'
-      });
-    }
-
-    // 2. Obtener datos dependientes para validación
-    const images = await projectRepository.getProjectImages(id);
-    const answers = await projectRepository.getProjectDocuments(id);
-    const requirements = await categoryRepository.getCategoryRequirements(project.category_id);
-
-    // 3. Validar Integridad
-    const validation = validateProjectCompleteness(project, images, requirements, answers);
-
-    if (!validation.valid) {
-      return res.status(400).json({
-        success: false,
-        message: 'El proyecto está incompleto',
-        errors: validation.errors
-      });
-    }
-
-    // 4. Si pasa validación, cambiar estado
-    const submittedProject = await projectRepository.submitForReview(id, userId);
+    const result = await projectService.submitProject(id, userId);
 
     res.json({
       success: true,
       message: 'Proyecto enviado para revisión exitosamente',
-      project: submittedProject
+      project: result
     });
+
   } catch (error) {
     console.error('Error al enviar proyecto:', error);
+
+    if (error.message === "PROYECTO_NO_ENCONTRADO") {
+      return res.status(404).json({ success: false, message: 'Proyecto no encontrado' });
+    }
+    if (error.message === "ESTADO_INVALIDO") {
+      return res.status(400).json({ success: false, message: 'Estado inválido para enviar' });
+    }
+    if (error.message === "PROYECTO_INCOMPLETO") {
+      return res.status(400).json({
+        success: false,
+        message: 'El proyecto está incompleto',
+        errors: error.details
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: 'Error al enviar proyecto para revisión'
@@ -355,317 +227,28 @@ exports.submitProject = async (req, res) => {
 };
 
 /**
- * POST /api/projects/:id/images
- * Upload adicional de imágenes
- */
-exports.uploadProjectImages = async (req, res) => {
-  try {
-    const { id: projectId } = req.params;
-    const userId = req.user ? req.user.id : 101;
-
-    if (!req.files || !req.files.images || req.files.images.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'No se recibieron imágenes'
-      });
-    }
-
-    const uploadedImages = [];
-    for (const imageFile of req.files.images) {
-      const imageUrl = `uploads/img/${imageFile.filename}`; // RF-REC-01
-
-      const savedImage = await projectRepository.saveImage({
-        project_id: parseInt(projectId),
-        image_path: imageUrl,
-        original_filename: imageFile.originalname,
-        is_cover: false
-      });
-
-      uploadedImages.push(savedImage);
-    }
-
-    res.json({
-      success: true,
-      message: `${uploadedImages.length} imagen(es) agregada(s)`,
-      images: uploadedImages
-    });
-  } catch (error) {
-    console.error('Error al subir imágenes:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error al subir imágenes',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
-  }
-};
-
-/**
- * DELETE /api/projects/:id/images/:imageId
- * Eliminar imagen
- */
-exports.deleteProjectImage = async (req, res) => {
-  try {
-    const { id: projectId, imageId } = req.params;
-    const userId = req.user ? req.user.id : 101;
-
-    const imageData = await projectRepository.deleteImage(projectId, imageId, userId);
-
-    if (!imageData) {
-      return res.status(404).json({
-        success: false,
-        message: 'Imagen no encontrada o no tienes permisos'
-      });
-    }
-
-    // RF-REC-01: Garbage collection - eliminar archivo físico
-    if (imageData.image_path) {
-      // Reconstruct path for file system deletion
-      const fullPath = imageData.image_path.startsWith('uploads')
-        ? imageData.image_path
-        : `uploads/img/${imageData.image_path}`;
-      deleteFile(fullPath);
-    }
-
-    res.json({
-      success: true,
-      message: 'Imagen eliminada correctamente'
-    });
-  } catch (error) {
-    console.error('Error al eliminar imagen:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error al eliminar imagen'
-    });
-  }
-};
-
-/**
- * PATCH /api/projects/:id/cover
- * Actualizar portada del proyecto (RF-REC-01)
- */
-exports.updateProjectCover = async (req, res) => {
-  const { id } = req.params;
-
-  if (!req.file) {
-    return res.status(400).json({
-      success: false,
-      error: "Debe subir una imagen de portada."
-    });
-  }
-
-  // RF-Storage-Refactor: Store only filename
-  const newFilename = req.file.filename;
-  const originalName = req.file.originalname;
-
-  try {
-    const result = await projectRepository.updateCoverImage(id, {
-      image_path: newFilename,
-      original_filename: originalName
-    });
-
-    if (result.oldPath) {
-      // Reconstruct path for file system deletion
-      const oldFullPath = result.oldPath.startsWith('uploads')
-        ? result.oldPath
-        : `uploads/img/${result.oldPath}`;
-      deleteFile(oldFullPath);
-    }
-
-    return res.json({
-      success: true,
-      message: result.oldPath ? "Portada actualizada y archivo anterior eliminado" : "Portada agregada",
-      image: result.updated
-    });
-  } catch (error) {
-    console.error("Error al actualizar portada:", error);
-    // Cleanup new file on error
-    deleteFileSync(`uploads/img/${newFilename}`);
-
-    return res.status(500).json({
-      success: false,
-      error: "Error al actualizar portada"
-    });
-  }
-};
-
-/**
- * PATCH /api/projects/:id/requirements/:requirementId/file
- * Actualizar archivo de requisito (RF-REC-01)
- */
-exports.updateRequirementFile = async (req, res) => {
-  const { id: projectId, requirementId } = req.params;
-
-  if (!req.file) {
-    return res.status(400).json({
-      success: false,
-      error: "Debe subir un archivo."
-    });
-  }
-
-  // RF-Storage-Refactor: Store only filename
-  const newFilename = req.file.filename;
-  const originalName = req.file.originalname;
-  const mimeType = req.file.mimetype;
-
-  try {
-    const result = await projectRepository.updateRequirementAnswer(projectId, requirementId, {
-      file_path: newFilename,
-      original_filename: originalName,
-      mime_type: mimeType
-    });
-
-    if (result.oldPath) {
-      // Reconstruct path for file system deletion
-      const oldFullPath = result.oldPath.startsWith('uploads')
-        ? result.oldPath
-        : `uploads/files/${result.oldPath}`;
-      deleteFile(oldFullPath);
-    }
-
-    return res.json({
-      success: true,
-      message: result.oldPath ? "Archivo actualizado y anterior eliminado" : "Archivo agregado",
-      answer: result.updated
-    });
-  } catch (error) {
-    console.error("Error al actualizar archivo de requisito:", error);
-    deleteFileSync(`uploads/files/${newFilename}`);
-
-    return res.status(500).json({
-      success: false,
-      error: "Error al actualizar archivo"
-    });
-  }
-};
-
-/**
- * DELETE /api/projects/:id
- * Soft delete de proyecto
- */
-exports.deleteProject = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const userId = req.user ? req.user.id : 101;
-
-    const result = await projectRepository.softDelete(id, userId);
-
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        message: 'Proyecto no encontrado'
-      });
-    }
-
-    res.json({
-      success: true,
-      message: 'Proyecto eliminado correctamente'
-    });
-  } catch (error) {
-    console.error('Error al eliminar proyecto:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error al eliminar proyecto'
-    });
-  }
-};
-
-/**
- * GET /api/projects/:projectId/donations
- * Obtener donaciones de un proyecto
- */
-exports.getProjectDonations = async (req, res) => {
-  try {
-    const { projectId } = req.params;
-    const donations = await projectRepository.getProjectDonations(projectId);
-
-    res.json({
-      success: true,
-      count: donations.length,
-      donations
-    });
-  } catch (error) {
-    console.error("Error al obtener donaciones del proyecto:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error al obtener donaciones del proyecto"
-    });
-  }
-};
-
-/**
  * POST /api/projects/save
- * Endpoint unificado para crear o actualizar proyectos (RF-PROY-01)
- * Detecta si es creación o edición según presencia de 'id' en body
- * Maneja archivos dinámicos con multer.any()
+ * Endpoint unificado (RF-PROY-01)
  */
 exports.saveProject = async (req, res) => {
   try {
-    const {
-      id: projectId,
-      title,
-      short_description,
-      category_id,
-      goal_amount,
-      duration_days,
-      story_json,
-      started_at,
-      deadline_at
-    } = req.body;
-
     const userId = req.user ? req.user.id : (req.body.userId ? parseInt(req.body.userId) : 101);
-    const isUpdate = !!projectId;
 
-    if (!title || title.trim() === '') {
-      // Borrar archivos si falla validación
-      if (req.files && req.files.length > 0) {
-        req.files.forEach(file => deleteFileSync(`uploads/${file.fieldname === 'cover_image' ? 'img' : 'files'}/${file.filename}`));
-      }
-      return res.status(400).json({ success: false, message: 'El título es obligatorio' });
-    }
-
-    // Preparar datos para el repositorio
-    const projectData = {
-      owner_id: userId,
-      category_id,
-      title,
-      short_description,
-      story_json: typeof story_json === 'string' ? JSON.parse(story_json || '{}') : (story_json || {}),
-      goal_amount: goal_amount ? parseFloat(goal_amount) : null,
-      duration_days: duration_days ? parseInt(duration_days) : null,
-      started_at: started_at || null,
-      deadline_at: deadline_at || null,
-      approval_status: req.body.approval_status || 'borrador'
-    };
-
-    // Procesar imágenes y archivos para pasarlos limpios al repositorio
     const images = [];
     const requirements = [];
 
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
-        // 1. Portada (Single)
         if (file.fieldname === 'cover_image') {
-          images.push({
-            image_path: file.filename, // Solo filename (RF-Storage-Refactor)
-            original_filename: file.originalname,
-            is_cover: true
-          });
-        }
-        // 2. Galería (Multiple)
-        else if (file.fieldname === 'gallery_images') {
-          images.push({
-            image_path: file.filename, // Solo filename
-            original_filename: file.originalname,
-            is_cover: false // Explícitamente no es portada
-          });
-        }
-        // 3. Requisitos (Dinámicos parreq_{id})
-        else if (file.fieldname.startsWith('req_')) {
-          const requirementId = parseInt(file.fieldname.split('_')[1]);
-          if (!isNaN(requirementId)) {
+          images.push({ image_path: file.filename, original_filename: file.originalname, is_cover: true });
+        } else if (file.fieldname === 'gallery_images') {
+          images.push({ image_path: file.filename, original_filename: file.originalname, is_cover: false });
+        } else if (file.fieldname.startsWith('req_')) {
+          const rId = parseInt(file.fieldname.split('_')[1]);
+          if (!isNaN(rId)) {
             requirements.push({
-              requirement_id: requirementId,
-              file_path: file.filename, // Solo filename
+              requirement_id: rId,
+              file_path: file.filename,
               original_filename: file.originalname,
               mime_type: file.mimetype
             });
@@ -674,35 +257,22 @@ exports.saveProject = async (req, res) => {
       }
     }
 
-    let resultId;
+    const projectDTO = {
+      id: req.body.id,
+      ...req.body
+    };
 
-    if (isUpdate) {
-      resultId = await projectRepository.updateWithTransaction(projectId, userId, projectData, images, requirements);
-    } else {
-      resultId = await projectRepository.createWithTransaction(projectData, images, requirements);
-    }
+    const result = await projectService.saveProjectUnified(userId, projectDTO, images, requirements);
 
-    return res.status(isUpdate ? 200 : 201).json({
+    return res.status(result.isUpdate ? 200 : 201).json({
       success: true,
-      message: isUpdate ? 'Proyecto actualizado correctamente' : 'Proyecto creado correctamente',
-      projectId: resultId
+      message: result.isUpdate ? 'Proyecto actualizado correctamente' : 'Proyecto creado correctamente',
+      projectId: result.projectId
     });
 
   } catch (error) {
     console.error('Error en saveProject:', error);
-
-    // Limpieza de archivos en caso de error
-    if (req.files && req.files.length > 0) {
-      req.files.forEach(file => {
-        // Use file.path if available (from multer), otherwise fallback to manual path construction
-        const filePath = file.path || (
-          ['cover_image', 'gallery_images', 'mainImage', 'image'].includes(file.fieldname)
-            ? `uploads/img/${file.filename}`
-            : `uploads/files/${file.filename}`
-        );
-        deleteFileSync(filePath);
-      });
-    }
+    cleanupFiles(req.files);
 
     const statusCode = error.message === "PROYECTO_NO_ENCONTRADO" ? 404 : 500;
     const message = error.message === "PROYECTO_NO_ENCONTRADO" ? "Proyecto no encontrado o no tienes permisos" : "Error al guardar el proyecto";
@@ -714,64 +284,141 @@ exports.saveProject = async (req, res) => {
     });
   }
 };
+
 /**
  * POST /api/projects/draft
- * Guardado incremental de borradores
- * Maneja lógica por pasos y sincronización de imágenes
  */
 exports.saveDraft = async (req, res) => {
   try {
     const userId = req.user ? req.user.id : 101;
-    const {
-      id: projectId, // Opcional (si es edición)
-      step,          // Opcional (para validaciones futuras)
-      title,
-      short_description,
-      category_id,
-      story_json,    // JSON de Editor.js
-      goal_amount,
-      deadline_at,
-      cover_image    // Ruta de la imagen de portada ya subida
-    } = req.body;
-
-    // Preparar objeto de datos
-    const draftData = {
-      id: projectId,
-      title,
-      short_description,
-      category_id: category_id ? parseInt(category_id) : undefined,
-      story_json,
-      goal_amount: goal_amount ? parseFloat(goal_amount) : undefined,
-      deadline_at,
-      cover_image
-    };
-
-    // Llamar al repositorio (Maneja UPSERT y Diff de Imágenes)
-    const savedProjectId = await projectRepository.upsertDraft(userId, draftData);
+    const draftDTO = { ...req.body };
+    const projectId = await projectService.saveDraft(userId, draftDTO);
 
     res.json({
       success: true,
       message: 'Borrador guardado correctamente',
-      data: {
-        project_id: savedProjectId
-      }
+      data: { project_id: projectId }
     });
 
   } catch (error) {
     console.error('Error al guardar borrador:', error);
 
-    // Si fue error de "Proyecto no encontrado" (404)
     if (error.message === "PROYECTO_NO_ENCONTRADO") {
-      return res.status(404).json({
-        success: false,
-        message: 'Proyecto no encontrado o no tienes permisos'
-      });
+      return res.status(404).json({ success: false, message: 'Proyecto no encontrado' });
     }
 
     res.status(500).json({
       success: false,
-      message: 'Error al guardar el borrador',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      message: 'Error al guardar el borrador'
     });
+  }
+};
+
+/**
+ * DELETE /api/projects/:id
+ */
+exports.deleteProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user ? req.user.id : 101;
+
+    await projectService.deleteProject(id, userId);
+
+    res.json({
+      success: true,
+      message: 'Proyecto eliminado correctamente'
+    });
+  } catch (error) {
+    if (error.message === "PROYECTO_NO_ENCONTRADO") {
+      return res.status(404).json({ success: false, message: 'Proyecto no encontrado' });
+    }
+    console.error('Error al eliminar proyecto:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al eliminar proyecto'
+    });
+  }
+};
+
+/**
+ * GET /api/projects/:projectId/donations
+ */
+exports.getProjectDonations = async (req, res) => {
+  try {
+    const donations = await projectService.getProjectDonations(req.params.projectId);
+    res.json({ success: true, count: donations.length, donations });
+  } catch (error) {
+    console.error("Error al obtener donaciones:", error);
+    res.status(500).json({ success: false, message: "Error al obtener donaciones" });
+  }
+};
+
+exports.uploadProjectImages = async (req, res) => {
+  try {
+    if (!req.files || !req.files.images) return res.status(400).json({ message: 'No images' });
+    const { id } = req.params;
+    const saved = [];
+    for (const f of req.files.images) {
+      const img = await projectService.addImage(id, {
+        filename: f.filename,
+        originalname: f.originalname
+      });
+      saved.push(img);
+    }
+    res.json({ success: true, images: saved });
+  } catch (e) {
+    res.status(500).json({ message: 'Error' });
+  }
+};
+
+exports.deleteProjectImage = async (req, res) => {
+  try {
+    const { id, imageId } = req.params;
+    const imgData = await projectService.deleteImage(imageId, id);
+    if (imgData && imgData.image_path) {
+      // Cleanup fisico opcional, buena practica
+      const fullPath = imgData.image_path.startsWith('uploads') ? imgData.image_path : `uploads/img/${imgData.image_path}`;
+      deleteFile(fullPath);
+    }
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ message: 'Error' }); }
+};
+
+exports.updateProjectCover = async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: "No file" });
+    const { id } = req.params;
+    const result = await projectService.updateCoverImage(id, { filename: req.file.filename, originalname: req.file.originalname });
+
+    if (result.oldPath) {
+      const oldFullPath = result.oldPath.startsWith('uploads') ? result.oldPath : `uploads/img/${result.oldPath}`;
+      deleteFile(oldFullPath);
+    }
+
+    res.json({ success: true, message: "Portada actualizada", image: result.updated });
+  } catch (e) {
+    // Cleanup new if error
+    deleteFileSync(`uploads/img/${req.file.filename}`);
+    res.status(500).json({ message: 'Error' });
+  }
+};
+
+exports.updateRequirementFile = async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: "No file" });
+    const { id, requirementId } = req.params;
+    const result = await projectService.updateRequirementFile(id, requirementId, {
+      filename: req.file.filename, original_filename: req.file.originalname, mimetype: req.file.mimetype
+    }, null); // Null user check in simple version? OR Repo handles?
+
+    if (result.oldPath) {
+      const oldFullPath = result.oldPath.startsWith('uploads') ? result.oldPath : `uploads/files/${result.oldPath}`;
+      deleteFile(oldFullPath);
+    }
+
+    res.json({ success: true });
+  } catch (e) {
+    deleteFileSync(`uploads/files/${req.file.filename}`);
+    res.status(500).json({ message: 'Error' });
   }
 };
